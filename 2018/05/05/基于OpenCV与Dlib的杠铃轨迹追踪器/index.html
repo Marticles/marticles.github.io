@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OpenCV," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;最近想看看自己的深蹲硬拉时的杠铃轨迹，顺便检测下动作。搜了搜Iron Path可以实现，但是iOS独占，没有Android版本。怎么办？那就自己写一个吧。&amp;emsp;&amp;emsp;用了OpenCV3.2预置的6种Tracker(BOOSTING,MIL,KCF,TLD,MEDIANFLOW,GOTURN),Dlib预置的Tracker，以及CamShift与Template_">
+<meta name="keywords" content="OpenCV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于OpenCV与Dlib的杠铃轨迹追踪器">
+<meta property="og:url" content="http://yoursite.com/2018/05/05/基于OpenCV与Dlib的杠铃轨迹追踪器/index.html">
+<meta property="og:site_name" content="Marticles&#39;s Blog">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;最近想看看自己的深蹲硬拉时的杠铃轨迹，顺便检测下动作。搜了搜Iron Path可以实现，但是iOS独占，没有Android版本。怎么办？那就自己写一个吧。&amp;emsp;&amp;emsp;用了OpenCV3.2预置的6种Tracker(BOOSTING,MIL,KCF,TLD,MEDIANFLOW,GOTURN),Dlib预置的Tracker，以及CamShift与Template_">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images//images/基于OpenCV与Dlib的杠铃轨迹追踪器/luxiaojun.gif">
+<meta property="og:image" content="http://yoursite.com/images//images/基于OpenCV与Dlib的杠铃轨迹追踪器/luxiaojun.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/myself.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/multi-object.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/camshift1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/camshift2.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/template_error.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/lk1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/lk2.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/lk3.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/lk4.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/LK.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/traffic.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/avg_fps.svg">
+<meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/fps.svg">
+<meta property="og:updated_time" content="2018-06-11T05:05:48.214Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于OpenCV与Dlib的杠铃轨迹追踪器">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;最近想看看自己的深蹲硬拉时的杠铃轨迹，顺便检测下动作。搜了搜Iron Path可以实现，但是iOS独占，没有Android版本。怎么办？那就自己写一个吧。&amp;emsp;&amp;emsp;用了OpenCV3.2预置的6种Tracker(BOOSTING,MIL,KCF,TLD,MEDIANFLOW,GOTURN),Dlib预置的Tracker，以及CamShift与Template_">
+<meta name="twitter:image" content="http://yoursite.com/images//images/基于OpenCV与Dlib的杠铃轨迹追踪器/luxiaojun.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/05/基于OpenCV与Dlib的杠铃轨迹追踪器/"/>
+
+
+
+
+
+  <title>基于OpenCV与Dlib的杠铃轨迹追踪器 | Marticles's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Marticles's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Just for fun</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/05/基于OpenCV与Dlib的杠铃轨迹追踪器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marticles's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于OpenCV与Dlib的杠铃轨迹追踪器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-05T12:03:21+08:00">
+                2018-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/05/基于OpenCV与Dlib的杠铃轨迹追踪器/" class="leancloud_visitors" data-flag-title="基于OpenCV与Dlib的杠铃轨迹追踪器">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                   字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;最近想看看自己的深蹲硬拉时的杠铃轨迹，顺便检测下动作。搜了搜Iron Path可以实现，但是iOS独占，没有Android版本。怎么办？那就自己写一个吧。<br>&emsp;&emsp;用了OpenCV3.2预置的6种Tracker(BOOSTING,MIL,KCF,TLD,MEDIANFLOW,GOTURN),Dlib预置的Tracker，以及CamShift与Template_Match总共9种追踪器实现了杠铃轨迹实时追踪(追踪目标当然不限于杠铃，其他目标也同样可以)。<br>&emsp;&emsp;最后比较了一下以上9种追踪器的追踪效率。      </p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p><img src="/images//images/基于OpenCV与Dlib的杠铃轨迹追踪器/luxiaojun.gif" alt="Image"><br><img src="/images//images/基于OpenCV与Dlib的杠铃轨迹追踪器/luxiaojun.jpg" alt="Image"></p>
+<blockquote>
+<p><em>以军神的全蹲为例</em>     </p>
+</blockquote>
+<a id="more"></a>
+<p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/myself.jpg" alt="Image">       </p>
+<blockquote>
+<p><em>自己的渣蹲</em></p>
+</blockquote>
+<p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/multi-object.jpg" alt="Image">     </p>
+<blockquote>
+<p><em>多目标追踪</em></p>
+</blockquote>
+<h2 id="跟踪器"><a href="#跟踪器" class="headerlink" title="跟踪器"></a>跟踪器</h2><h3 id="BOOSTING"><a href="#BOOSTING" class="headerlink" title="BOOSTING"></a>BOOSTING</h3><p>此跟踪器基于AdaBoost的在线版本 - 基于HAAR级联的面部检测器在内部使用的算法。 这个分类器需要在运行时用对象的正和负例子训练。 由用户提供的初始边界框（或由另一个对象检测算法）作为对象的正例，并且边界框外部的许多图像补片被当作背景。 给定新帧，对先前位置的邻域中的每个像素运行分类器，并记录分类器的得分。 对象的新位置是得分最大的位置。 所以现在我们有一个更积极的例子为分类器。 随着更多的帧进入，分类器用该附加数据更新。</p>
+<p>优点：无。 这个算法是十年前并且可以运用，但我找不到一个很好的理由使用它，特别是当其他高级跟踪器（MIL，KCF）基于类似的原理可用。</p>
+<p>缺点：跟踪性能平庸。</p>
+<h3 id="MIL"><a href="#MIL" class="headerlink" title="MIL"></a>MIL</h3><p>此跟踪器在概念上类似于上述的BOOSTING跟踪器。 最大的区别在于，代替仅考虑对象的当前位置作为积极示例，它在当前位置周围的小邻域中查找以生成若干潜在的正例子。你可能认为这是一个坏主意，因为在大多数这些“积极”的例子中，对象不是中心。</p>
+<p>在MIL中，你没有指定正和负例子，但是有正和负“包”。 正包中的图像集合并不都是积极的例子。 相反，只有一个图像在积极的包里需要一个积极的例子。在我们的示例中，正包包含以对象的当前位置为中心的补丁，以及在其周围的小邻域中的补丁。 即使被跟踪对象的当前位置不准确，当来自当前位置的邻域的样本被放入正包中时，很有可能这个包包含至少一个图像，其中对象被良好地置于居中。</p>
+<p>优点：性能相当不错。它不像BOOSTING跟踪器那样漂移，它在部分遮挡下合理地工作。如果你使用OpenCV 3.0，这可能是你可用的最好的跟踪。 但是如果你使用更高版本，考虑KCF。</p>
+<p>缺点：跟踪失败报告不可靠。不能从完全闭塞恢复。</p>
+<h3 id="KCF"><a href="#KCF" class="headerlink" title="KCF"></a>KCF</h3><p>KFC代表内核化相关滤波器。 这个跟踪器建立在前两个跟踪器提出的想法。该跟踪器利用了这样的事实，即在MIL跟踪器中使用的多个正样本具有大的重叠区域。这种重叠的数据导致一些良好的数学特性，利用这个跟踪器，使跟踪更快，同时更准确。</p>
+<p>优点：准确度和速度都比MIL更好，它报告跟踪失败比BOOSTING和MIL更好。 </p>
+<p>缺点：不能从完全闭塞恢复。</p>
+<h3 id="TLD"><a href="#TLD" class="headerlink" title="TLD"></a>TLD</h3><p>TLD代表跟踪，学习和检测。顾名思义，该跟踪器将长期跟踪任务分解为三个组件-（短期）跟踪，学习和检测。从作者的论文，“跟踪器跟踪对象从一帧到帧。检测器定位到目前为止观察到的所有外观，并在必要时校正跟踪器。学习估计检测器的错误并更新它以避免未来的这些错误。“这个跟踪器的输出往往会跳一下。例如，如果你正在跟踪行人，并且场景中还有其他行人，则该跟踪器有时可以临时跟踪与您要跟踪的行人不同的行人。在积极的一面，这条轨道似乎在更大的规模，运动和遮挡下跟踪物体。如果你有一个视频序列，其中的对象隐藏在另一个对象后面，这个跟踪器可能是一个不错的选择。</p>
+<p>优点：在多个帧的遮挡下工作最好。此外，跟踪最佳的规模变化。</p>
+<p>缺点：很多误报，使它几乎不可用。</p>
+<h3 id="MEDIANFLOW"><a href="#MEDIANFLOW" class="headerlink" title="MEDIANFLOW"></a>MEDIANFLOW</h3><p>在内部，该跟踪器在时间上向前和向后方向上跟踪对象，并且测量这两个轨迹之间的差异。最小化该ForwardBackward错误使它们能够可靠地检测跟踪失败并在视频序列中选择可靠的轨迹。在我的测试中，我发现这个跟踪器在运动是可预测和小规模的时候效果最好。与其他跟踪器不同，即使跟踪明显失败，该跟踪器知道跟踪失败的时间。</p>
+<p>优点：优秀的跟踪失败报告。 当运动是可预测的并且没有遮挡时工作得很好。</p>
+<p>缺点：在大规模运动下失败。</p>
+<h3 id="GOTURN"><a href="#GOTURN" class="headerlink" title="GOTURN"></a>GOTURN</h3><p>在跟踪器类中的所有跟踪算法中，这是基于卷积神经网络（CNN）的唯一一种。它也是唯一一个使用离线训练模型，因为它比其他跟踪器更快。从OpenCV文档，我们知道它“对视点变化，照明变化和变形是强大的”。但它不能很好地处理遮挡。</p>
+<p>Bug警告：在使用Goturn时OpenCV 3.2会报错，无法实现。(个人实现的确如此)</p>
+<h3 id="Dlib-Tracker"><a href="#Dlib-Tracker" class="headerlink" title="Dlib_Tracker"></a>Dlib_Tracker</h3><blockquote>
+<p>This is a tool for tracking moving objects in a video stream. You give it the bounding box of an object in the first frame and it attempts to track the object in the box from frame to frame.<br>This tool is an implementation of the method described in the following paper:<br>Danelljan, Martin, et al. “Accurate scale estimation for robust visual tracking.” Proceedings of the British Machine Vision Conference BMVC. 2014.      </p>
+</blockquote>
+<blockquote>
+<p>引自Dlib官方文档: <a href="http://dlib.net/imaging.html#correlation_tracker" target="_blank" rel="noopener">http://dlib.net/imaging.html#correlation_tracker</a></p>
+</blockquote>
+<p>Dlib内置的追踪器背后算法来自于2014年Martin Danelljan于BMCV发表的一篇paper,”Accurate Scale Estimation for Robust Visual Tracking”，论文中主要描述了一种在视觉跟踪中精准的尺度估计的方法，基于此尺度估计方法提出了DSST（Discriminatiive Scale Space Tracker）算法。Martin Danelljan也凭此算法拿下2014 VOT(Visual-Object-Tracking) Challenge的冠军,VOT Challenge是视觉跟踪领域的国际顶级赛事。看了下历年数据，2015年深度学习开始冲击tracking领域，此后赛事的冠军再也没有使用纯传统算法的，最近的2017年冠军使用的则是传统滤波结合深度学习的混合模型，可谓历史潮流浩浩汤汤了。     </p>
+<p>DSST是一种基于相关滤波的跟踪算法，其最初的代表作可以追溯到2010年CVPR的”Visual object tracking using adaptive correlation filters”，这篇paper提出了一种MOSSE correlation filter，并将其应用于视觉跟踪当中，取得了较好的效果。     </p>
+<p>MOSSE(Visual Object Tracking using Adaptive Correlation Filters )在求解滤波器时，其输入项是图像本身（灰度图），也就是图像的灰度特征。对于灰度特征，其特征较为简单，不能很好的描述目标的纹理、边缘等形状信息，因此DSST的作者将灰度特征替换为在跟踪和识别领域较为常用的HOG特征。</p>
+<p>DSST作者将跟踪分为两个部分，位置变化（translation）和尺度变化（scale estimation）。在跟踪的实现过程中，作者定义了两个correlation filter，一个滤波器（translation filter）专门用于确定新的目标所处的位置，另一个滤波器（scale filter）专门用于尺度评估。</p>
+<p>在translation filter方面，作者的方法与MOSSE的方法是一样的，只不过其获取最佳模板H的准则有了些许变化。根据translation filter可以获取当前帧目标所处的位置，然后在当前目标位置获取不同尺度的候选框，经过scale filter之后，确定新的目标尺度。</p>
+<h3 id="CamShift"><a href="#CamShift" class="headerlink" title="CamShift"></a>CamShift</h3><p>实现了前面几个Tracker后，已经能满足我最初的杠铃轨迹追踪需求。但是在追踪车辆时，遇到了一个问题。当框选完车辆后，因为车辆从远到近驶来，车辆的大小是由小变大的，但是追踪框只能保持最初框选的大小。当车辆由近处驶向远处时，因为车辆越来越小，追踪器很容易失去目标。为了解决这个问题，引入CamShift算法。    </p>
+<p>CamShift算法的全称是”Continuously Adaptive Mean-SHIFT”，即：连续自适应的MeanShift算法。其基本思想是对视频序列的所有图像帧都作MeanShift运算，并将上一帧的结果（即搜索窗口的中心位置和窗口大小）作为下一帧MeanShift算法的搜索窗口的初始值，如此迭代下去。      </p>
+<p>简单点说，MeanShift是针对单张图片寻找最优迭代结果，而CamShift则是针对视频序列来处理，并对该序列中的每一帧图片都调用MeanShift来寻找最优迭代结果。正是由于CamShift针对一个视频序列进行处理，从而保证其可以不断调整窗口的大小，如此一来，当目标的大小发生变化的时候，该算法就可以自适应地调整目标区域继续跟踪。     </p>
+<p>在OpenCV给出的CamShift Demo当中，是通过计算目标在HSV空间下的H分量直方图，通过直方图反向投影得到目标像素的概率分布，然后通过调用OpenCV的CAMSHIFT算法，自动跟踪并调整目标窗口的中心位置与大小。该算法对于简单背景下的单目标跟踪效果较好，但如果被跟踪目标与背景颜色或周围其它目标颜色比较接近，则跟踪效果较差。另外，由于采用颜色特征，所以它对被跟踪目标的形状变化有一定的抵抗能力。</p>
+<p><figure class="half"><br>    <img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/camshift1.jpg" width="400"><br>    <img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/camshift2.jpg" width="400"><br></figure></p>
+<blockquote>
+<p><em>追踪框会自适应缩放</em></p>
+</blockquote>
+<h3 id="Template-Match"><a href="#Template-Match" class="headerlink" title="Template Match"></a>Template Match</h3><p>Template Match应该是最简单的追踪算法了，原理就是遍历图像中的每一个可能的位置，比较各处与模板是否“相似”，当相似度足够高时，就认为找到了我们的目标。     </p>
+<p>首先确定一个模板T，在视频目标追踪中模板即为我们最初选定的追踪目标，然后用模板在当前帧的图像I上滑动，一次移动一个像素(从左往右,从上往下)，在每一个位置,都进行一次度量计算来表明它是 “好” 或 “坏” 地与那个位置匹配，或者说块图像和原图像的特定区域有多么相似。对于T的每个位置超过I，则存储在该度量结果矩阵R，R中的每个位置(x,y)都包含匹配度量。OpenCV中的TM_CCORR_NORMED方法将返回矩阵R中匹配值最高(或最小，这取决于你使用何种相似度方法)的区域，该区域的长宽和模板图像的一致。</p>
+<p>OpenCV 提供了6种计算两幅图像相似度的方法:</p>
+<ul>
+<li>差值平方和匹配 CV_TM_SQDIFF</li>
+<li>标准化差值平方和匹配 CV_TM_SQDIFF_NORMED</li>
+<li>相关匹配 CV_TM_CCORR</li>
+<li>标准相关匹配 CV_TM_CCORR_NORMED</li>
+<li>相关匹配 CV_TM_CCOEFF</li>
+<li>标准相关匹配 CV_TM_CCOEFF_NORMED</li>
+</ul>
+<p>注意，平方差匹配CV_TM_SQDIFF与标准平方差匹配TM_SQDIFF_NORMED最佳匹配为最小值 0，匹配值越大匹配越差，其余则相反。     </p>
+<p>缺点：OpenCV中的模板匹配使用的是灰度匹配，灰度匹配的特长就是精度高，因为是一个个像素点在比较。但缺点就是计算时间长，因为要计算的点多，一个个比较花费很长时间。     </p>
+<p>此外，当图像中出现了其他与模板相似的目标时，很可能会匹配到错误的目标。      </p>
+<p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/template_error.jpg" alt="Image">     </p>
+<blockquote>
+<p><em>选定前面的白色小车为模板，但却追踪到了后面的白色小车，因为前后两辆白色小车十分相似</em></p>
+</blockquote>
+<h3 id="Lukas-Kanade-光流法"><a href="#Lukas-Kanade-光流法" class="headerlink" title="Lukas-Kanade 光流法"></a>Lukas-Kanade 光流法</h3><p>很可惜因为能力有限最终没有将LK光流法加进来，只是稍微了解了一下这个算法。</p>
+<p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/lk1.jpg" alt="Image"><br><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/lk2.jpg" alt="Image"><br><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/lk3.jpg" alt="Image"><br><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/lk4.jpg" alt="Image"></p>
+<blockquote>
+<p><em>摘自Python计算机视觉编程 10.4追踪</em>    </p>
+</blockquote>
+<p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/LK.jpg" alt="Image"></p>
+<blockquote>
+<p><em>LK光流法的一个Demo</em></p>
+</blockquote>
+<h2 id="比较结果"><a href="#比较结果" class="headerlink" title="比较结果"></a>比较结果</h2><p>以单目标追踪为例：       </p>
+<p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/traffic.jpg" alt="Image">      </p>
+<p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/avg_fps.svg">      </p>
+<p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/fps.svg">      </p>
+<p>可见，KCF、CamShift、MEDIANFLOW、Dlib_Tracker表现的都不错，GOTURN报错跑不通，暂时还没找到原因，Template_Matching追踪到后面同样颜色的小车，这两个判定为追踪失败。但KCF、CamShift、MEDIANFLOW帧数上下波动幅度很大，不稳定，Dlib则十分稳定。实际使用中Dlib已经足以满足一般性的需求。        </p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>鼠标左键拖选一个追踪的目标，然后按 <kbd>Enter</kbd> 开始追踪，结束追踪只需按<kbd>Esc</kbd>。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> dlib</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">pathTracker</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, windowName = <span class="string">'default window'</span>, videoName = <span class="string">"default video"</span>)</span>:</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#自定义追踪属性</span></span><br><span class="line">        self.selection = <span class="keyword">None</span>                           <span class="comment">#框选追踪目标状态</span></span><br><span class="line">        self.track_window = <span class="keyword">None</span>                        <span class="comment">#追踪窗口状态   </span></span><br><span class="line">        self.drag_start = <span class="keyword">None</span>                          <span class="comment">#鼠标拖动状态</span></span><br><span class="line">        self.speed = <span class="number">50</span>                                 <span class="comment">#视频播放速度</span></span><br><span class="line">        self.video_size = (<span class="number">960</span>,<span class="number">540</span>)                     <span class="comment">#视频大小</span></span><br><span class="line">        self.box_color = (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)                  <span class="comment">#跟踪器外框颜色</span></span><br><span class="line">        self.path_color = (<span class="number">0</span>,<span class="number">0</span>,<span class="number">255</span>)                     <span class="comment">#路径颜色</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">        <span class="comment">#选择追踪器类型</span></span><br><span class="line">        <span class="comment">#                          0        1     2      3         4           5            6              7              8       </span></span><br><span class="line">        self.tracker_types = [<span class="string">'BOOSTING'</span>, <span class="string">'MIL'</span>,<span class="string">'KCF'</span>, <span class="string">'TLD'</span>, <span class="string">'MEDIANFLOW'</span>, <span class="string">'GOTURN'</span>, <span class="string">'Dlib_Tracker'</span>, <span class="string">'CamShift'</span>,<span class="string">'Template_Matching'</span>]</span><br><span class="line">        self.tracker_type = self.tracker_types[<span class="number">6</span>] </span><br><span class="line"></span><br><span class="line">        <span class="comment">#创建视频窗口</span></span><br><span class="line">        cv2.namedWindow(windowName,cv2.WINDOW_AUTOSIZE)</span><br><span class="line">        cv2.setMouseCallback(windowName,self.onmouse)</span><br><span class="line">        self.windowName = windowName</span><br><span class="line"></span><br><span class="line">        <span class="comment">#打开视频</span></span><br><span class="line">        self.cap = cv2.VideoCapture(videoName)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.cap.isOpened():</span><br><span class="line">            print(<span class="string">"Video doesn't exit!"</span>, videoName)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#定义一些视频的相关属性</span></span><br><span class="line">        self.frames_count = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT)) <span class="comment">#视频总帧数</span></span><br><span class="line">        self.points = deque(maxlen = self.frames_count) <span class="comment">#存放每一帧中追踪目标的中心点</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#判定所选追踪器类型并初始化追踪器</span></span><br><span class="line">        <span class="keyword">if</span> self.tracker_type == <span class="string">'BOOSTING'</span>:</span><br><span class="line">            self.tracker = cv2.TrackerBoosting_create()</span><br><span class="line">        <span class="keyword">elif</span> self.tracker_type == <span class="string">'MIL'</span>:</span><br><span class="line">            self.tracker = cv2.TrackerMIL_create() </span><br><span class="line">        <span class="keyword">elif</span> self.tracker_type == <span class="string">'KCF'</span>:</span><br><span class="line">            self.tracker = cv2.TrackerKCF_create() </span><br><span class="line">        <span class="keyword">elif</span> self.tracker_type == <span class="string">'TLD'</span>:</span><br><span class="line">            self.tracker = cv2.TrackerTLD_create()  </span><br><span class="line">        <span class="keyword">elif</span> self.tracker_type == <span class="string">'MEDIANFLOW'</span>:</span><br><span class="line">            self.tracker = cv2.TrackerMedianFlow_create()   </span><br><span class="line">        <span class="keyword">elif</span> self.tracker_type == <span class="string">'GOTURN'</span>:</span><br><span class="line">            self.tracker = cv2.TrackerGOTURN_create()  </span><br><span class="line">        <span class="keyword">elif</span> self.tracker_type == <span class="string">'Dlib_Tracker'</span>:</span><br><span class="line">            self.tracker = dlib.correlation_tracker()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">#处理鼠标点击函数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">onmouse</span><span class="params">(self,event, x, y, flags, param)</span>:</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> event == cv2.EVENT_LBUTTONDOWN:</span><br><span class="line">            self.drag_start = (x, y)</span><br><span class="line">            self.track_window = <span class="keyword">None</span></span><br><span class="line">        <span class="keyword">if</span> self.drag_start:</span><br><span class="line">            xmin = min(x, self.drag_start[<span class="number">0</span>])</span><br><span class="line">            ymin = min(y, self.drag_start[<span class="number">1</span>])</span><br><span class="line">            xmax = max(x, self.drag_start[<span class="number">0</span>])</span><br><span class="line">            ymax = max(y, self.drag_start[<span class="number">1</span>])</span><br><span class="line">            self.selection = (xmin, ymin, xmax, ymax)</span><br><span class="line">        <span class="keyword">if</span> event == cv2.EVENT_LBUTTONUP:</span><br><span class="line">            self.drag_start = <span class="keyword">None</span></span><br><span class="line">            self.track_window = self.selection</span><br><span class="line">            self.selection = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#实时绘制追踪器轮廓,中心点与轨迹函数          </span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">drawing</span><span class="params">(self,image,x,y,w,h,timer)</span>:</span></span><br><span class="line"></span><br><span class="line">        center_point_x = int(x+ <span class="number">0.5</span>*w)</span><br><span class="line">        center_point_y = int(y + <span class="number">0.5</span>*h)</span><br><span class="line">        center = (center_point_x,center_point_y)</span><br><span class="line">        fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)</span><br><span class="line">        self.points.appendleft(center)</span><br><span class="line">        cv2.rectangle(image, (int(x),int(y)), (int(x+w),int(y+h)), self.box_color, <span class="number">2</span>) <span class="comment">#画出追踪目标矩形</span></span><br><span class="line">        cv2.circle(image, center, <span class="number">2</span>, self.path_color, <span class="number">-1</span>) <span class="comment">#中心点</span></span><br><span class="line">        cv2.putText(image,<span class="string">"(X="</span> + str(center_point_x) + <span class="string">",Y="</span> + str(center_point_y) + <span class="string">")"</span>, (int(x),int(y)),cv2.FONT_HERSHEY_SIMPLEX, <span class="number">0.6</span>, self.path_color, <span class="number">2</span>)     </span><br><span class="line">        cv2.putText(image,<span class="string">"FPS="</span> + str(int(fps)), (<span class="number">40</span>,<span class="number">20</span>),cv2.FONT_HERSHEY_SIMPLEX, <span class="number">0.75</span>, self.path_color, <span class="number">2</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(self.points)):</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> self.points[i<span class="number">-1</span>] <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">or</span> self.points[i] <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            cv2.line(image, self.points[i<span class="number">-1</span>], self.points[i], self.path_color,<span class="number">2</span>) <span class="comment">#绘制中心点轨迹</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">#目标追踪函数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_tracking</span><span class="params">(self)</span>:</span></span><br><span class="line">        i = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> f <span class="keyword">in</span> range(self.frames_count):</span><br><span class="line">            timer = cv2.getTickCount()</span><br><span class="line">            ret, self.frame = self.cap.read()</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> ret:</span><br><span class="line">                print(<span class="string">"End!"</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            print(<span class="string">"Processing Frame &#123;&#125;"</span>.format(i))</span><br><span class="line">            img_raw = self.frame</span><br><span class="line">            image = cv2.resize(img_raw.copy(), self.video_size, interpolation = cv2.INTER_CUBIC)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> i == <span class="number">0</span>: <span class="comment">#只有在第一帧时才需要框选目标</span></span><br><span class="line">                <span class="keyword">while</span>(<span class="keyword">True</span>):</span><br><span class="line">                    img_first = image.copy()</span><br><span class="line">                    <span class="keyword">if</span> self.track_window:</span><br><span class="line">                        cv2.rectangle(img_first, (self.track_window[<span class="number">0</span>],self.track_window[<span class="number">1</span>]), (self.track_window[<span class="number">2</span>], self.track_window[<span class="number">3</span>]), self.box_color, <span class="number">1</span>)</span><br><span class="line">                    <span class="keyword">elif</span> self.selection:</span><br><span class="line">                        cv2.rectangle(img_first, (self.selection[<span class="number">0</span>],self.selection[<span class="number">1</span>]), (self.selection[<span class="number">2</span>], self.selection[<span class="number">3</span>]), self.box_color, <span class="number">1</span>)</span><br><span class="line">                    cv2.imshow(self.windowName, img_first)</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> cv2.waitKey(self.speed) == <span class="number">13</span>: <span class="comment">#Enter开始追踪</span></span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> self.tracker_type == <span class="string">'Dlib_Tracker'</span>:</span><br><span class="line"></span><br><span class="line">                        self.tracker.start_track(image, dlib.rectangle(self.track_window[<span class="number">0</span>], self.track_window[<span class="number">1</span>], self.track_window[<span class="number">2</span>], self.track_window[<span class="number">3</span>]))</span><br><span class="line">            </span><br><span class="line">                <span class="keyword">elif</span> self.tracker_type == <span class="string">'CamShift'</span>:</span><br><span class="line"></span><br><span class="line">                    tracker_box = (self.track_window[<span class="number">0</span>], self.track_window[<span class="number">1</span>], self.track_window[<span class="number">2</span>]-self.track_window[<span class="number">0</span>] , self.track_window[<span class="number">3</span>]-self.track_window[<span class="number">1</span>])</span><br><span class="line">                    roi = image[self.track_window[<span class="number">1</span>]:self.track_window[<span class="number">3</span>],self.track_window[<span class="number">0</span>]:self.track_window[<span class="number">2</span>]]</span><br><span class="line">                    hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)</span><br><span class="line">                    mask = cv2.inRange(hsv_roi, np.array((<span class="number">0.</span>, <span class="number">60.</span>,<span class="number">32.</span>)), np.array((<span class="number">180.</span>,<span class="number">255.</span>,<span class="number">255.</span>)))</span><br><span class="line">                    roi_hist = cv2.calcHist([hsv_roi],[<span class="number">0</span>],mask,[<span class="number">180</span>],[<span class="number">0</span>,<span class="number">180</span>])</span><br><span class="line">                    cv2.normalize(roi_hist,roi_hist,<span class="number">0</span>,<span class="number">255</span>,cv2.NORM_MINMAX)</span><br><span class="line">                    term_crit = ( cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, <span class="number">10</span>, <span class="number">1</span> )</span><br><span class="line"></span><br><span class="line">                <span class="keyword">elif</span> self.tracker_type == <span class="string">'Template_Matching'</span>:</span><br><span class="line"></span><br><span class="line">                    <span class="string">'''</span></span><br><span class="line"><span class="string">                        1.平方差匹配 method = CV_TM_SQDIFF</span></span><br><span class="line"><span class="string">                        2.标准平方差匹配 method = CV_TM_SQDIFF_NORMED</span></span><br><span class="line"><span class="string">                        3.相关匹配 method = CV_TM_CCORR</span></span><br><span class="line"><span class="string">                        4.标准相关匹配 method = CV_TM_CCORR_NORMED</span></span><br><span class="line"><span class="string">                        5.相关匹配 method = CV_TM_CCOEFF</span></span><br><span class="line"><span class="string">                        6.标准相关匹配 method = CV_TM_CCOEFF_NORMED</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                        cv2.matchTemplate()方法严格要求模板与背景为同一数据类型(CV_8U or CV_32F)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                    '''</span></span><br><span class="line">                    method = cv2.TM_CCOEFF_NORMED</span><br><span class="line">                    template = image[self.track_window[<span class="number">1</span>]:self.track_window[<span class="number">3</span>],self.track_window[<span class="number">0</span>]:self.track_window[<span class="number">2</span>]]</span><br><span class="line">                    template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY) </span><br><span class="line">                    template = template.astype(np.float32)</span><br><span class="line">            </span><br><span class="line">                <span class="keyword">else</span> : <span class="comment">#OpenCV预置的五种追踪器</span></span><br><span class="line">                    ret = self.tracker.init(image, (self.track_window[<span class="number">0</span>], self.track_window[<span class="number">1</span>], self.track_window[<span class="number">2</span>]-self.track_window[<span class="number">0</span>] , self.track_window[<span class="number">3</span>]-self.track_window[<span class="number">1</span>]))</span><br><span class="line"></span><br><span class="line">            <span class="comment">#框选完目标后，第一帧结束就开始追踪目标</span></span><br><span class="line">            <span class="keyword">if</span> self.tracker_type == <span class="string">'Dlib_Tracker'</span>:</span><br><span class="line"></span><br><span class="line">                self.tracker.update(image)</span><br><span class="line">                tracker_box = self.tracker.get_position()</span><br><span class="line">                x,y,w,h = tracker_box.left(),tracker_box.top(),tracker_box.width(),tracker_box.height()</span><br><span class="line">        </span><br><span class="line">            <span class="keyword">elif</span> self.tracker_type == <span class="string">'CamShift'</span>:</span><br><span class="line"></span><br><span class="line">                hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)</span><br><span class="line">                dst = cv2.calcBackProject([hsv],[<span class="number">0</span>],roi_hist,[<span class="number">0</span>,<span class="number">180</span>],<span class="number">1</span>)</span><br><span class="line">                ret, tracker_box = cv2.CamShift(dst, tracker_box, term_crit)        </span><br><span class="line">                x,y,w,h = tracker_box</span><br><span class="line"></span><br><span class="line">            <span class="keyword">elif</span> self.tracker_type == <span class="string">'Template_Matching'</span>:</span><br><span class="line"></span><br><span class="line">                gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)</span><br><span class="line">                gray = gray.astype(np.float32)</span><br><span class="line">                res = cv2.matchTemplate(gray, template, method)</span><br><span class="line">                min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)</span><br><span class="line">                w,h = template.shape[::<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">                <span class="comment">#平方差匹配CV_TM_SQDIFF与标准平方差匹配TM_SQDIFF_NORMED最佳匹配为最小值 0，匹配值越大匹配越差，其余则相反</span></span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> method <span class="keyword">in</span> [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:</span><br><span class="line">                    x = min_loc[<span class="number">0</span>]</span><br><span class="line">                    y = min_loc[<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    x = max_loc[<span class="number">0</span>]</span><br><span class="line">                    y = max_loc[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">            <span class="keyword">else</span>: <span class="comment">#OpenCV预置的五种追踪器</span></span><br><span class="line">              </span><br><span class="line">                ret,tracker_box = self.tracker.update(image)</span><br><span class="line">                x,y,w,h = tracker_box</span><br><span class="line">            </span><br><span class="line">            self.drawing(image,x,y,w,h,timer)</span><br><span class="line">            cv2.imshow(self.windowName,image)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> cv2.waitKey(self.speed) == <span class="number">27</span>: <span class="comment">#Esc结束</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> i == self.frames_count:</span><br><span class="line">                cv2.imwrite(<span class="string">'Video/track_result.jpg'</span>,image)</span><br><span class="line"></span><br><span class="line">        cv2.destroyAllWindows()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    myTracker = pathTracker(windowName = <span class="string">'myTracker'</span>,videoName = <span class="string">"Video/LuXiaojun.mp4"</span>)</span><br><span class="line">    myTracker.start_tracking()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OpenCV/" rel="tag"><i class="fa fa-tag"></i> OpenCV</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/01/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/31/云计算下大数据挖掘的成本效益-以K-means算法为例/" rel="prev" title="云计算下大数据挖掘的成本效益:以K-means算法为例">
+                云计算下大数据挖掘的成本效益:以K-means算法为例 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Marticles" />
+            
+              <p class="site-author-name" itemprop="name">Marticles</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Marticles" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跟踪器"><span class="nav-number">2.</span> <span class="nav-text">跟踪器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BOOSTING"><span class="nav-number">2.1.</span> <span class="nav-text">BOOSTING</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIL"><span class="nav-number">2.2.</span> <span class="nav-text">MIL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KCF"><span class="nav-number">2.3.</span> <span class="nav-text">KCF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TLD"><span class="nav-number">2.4.</span> <span class="nav-text">TLD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MEDIANFLOW"><span class="nav-number">2.5.</span> <span class="nav-text">MEDIANFLOW</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GOTURN"><span class="nav-number">2.6.</span> <span class="nav-text">GOTURN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dlib-Tracker"><span class="nav-number">2.7.</span> <span class="nav-text">Dlib_Tracker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CamShift"><span class="nav-number">2.8.</span> <span class="nav-text">CamShift</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Template-Match"><span class="nav-number">2.9.</span> <span class="nav-text">Template Match</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lukas-Kanade-光流法"><span class="nav-number">2.10.</span> <span class="nav-text">Lukas-Kanade 光流法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较结果"><span class="nav-number">3.</span> <span class="nav-text">比较结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">4.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">5.</span> <span class="nav-text">代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-expand -user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Marticles</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("WWYRssyv4PsGmuhPJs6JS4Ly-gzGzoHsz", "yATXYz2OPn34ndpe7M3l14IS");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
