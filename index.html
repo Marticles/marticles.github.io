@@ -293,6 +293,198 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/16/基于概率论的分类方法-朴素贝叶斯/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marticles's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/16/基于概率论的分类方法-朴素贝叶斯/" itemprop="url">基于概率论的分类方法：朴素贝叶斯</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-16T21:28:25+08:00">
+                2018-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/16/基于概率论的分类方法-朴素贝叶斯/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/07/16/基于概率论的分类方法-朴素贝叶斯/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/07/16/基于概率论的分类方法-朴素贝叶斯/" class="leancloud_visitors" data-flag-title="基于概率论的分类方法：朴素贝叶斯">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,296 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是基于《机器学习实战》中第4章《基于概率论的分类方法：朴素贝叶斯》的个人笔记兼回顾，代码与部分公式皆来自此书，在这里向无私的作者致以最真诚的敬意。<br>由于原书代码用Python2.7写成，下面的代码已用Python3重写了一遍，代码地址请<a href="https://github.com/Marticles/ML-In-Action/tree/master/NaiveBayes" target="_blank" rel="noopener">点击这里</a>。</p>
+<h2 id="贝叶斯决策理论"><a href="#贝叶斯决策理论" class="headerlink" title="贝叶斯决策理论"></a>贝叶斯决策理论</h2><p><img src="/images/基于概率论的分类方法-朴素贝叶斯/朴素贝叶斯示例数据分布.png" alt=""><br>在上述数据集中，我们可以简单地用下面的规则来对数据集进行分类：</p>
+<ol>
+<li>如果 p1(x,y) &gt; p2(x,y) ，那么类别为1</li>
+<li>如果 p2(x,y) &gt; p1(x,y) ，那么类别为2</li>
+</ol>
+<p>也就是说，我们会选择高概率对应的类别。这就是贝叶斯决策理论的核心思想，即<strong>选择具有最高概率的决策</strong>。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/16/基于概率论的分类方法-朴素贝叶斯/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -312,7 +504,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/" itemprop="url">系统动力学视角下基于巴斯模型的视频传播机制探究:以AnyLogic仿真为例</a></h1>
+                <a class="post-title-link" href="/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/" itemprop="url">系统动力学视角下基于巴斯模型的视频传播机制探究：以AnyLogic仿真为例</a></h1>
         
 
         <div class="post-meta">
@@ -374,7 +566,7 @@
 
           
           
-             <span id="/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/" class="leancloud_visitors" data-flag-title="系统动力学视角下基于巴斯模型的视频传播机制探究:以AnyLogic仿真为例">
+             <span id="/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/" class="leancloud_visitors" data-flag-title="系统动力学视角下基于巴斯模型的视频传播机制探究：以AnyLogic仿真为例">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -692,7 +884,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/11/书漂网-一个基于Flask开发的图书交换网站/" itemprop="url">书漂网:一个基于Flask开发的图书交换网站</a></h1>
+                <a class="post-title-link" href="/2018/06/11/书漂网-一个基于Flask开发的图书交换网站/" itemprop="url">书漂网：一个基于Flask开发的图书交换网站</a></h1>
         
 
         <div class="post-meta">
@@ -754,7 +946,7 @@
 
           
           
-             <span id="/2018/06/11/书漂网-一个基于Flask开发的图书交换网站/" class="leancloud_visitors" data-flag-title="书漂网:一个基于Flask开发的图书交换网站">
+             <span id="/2018/06/11/书漂网-一个基于Flask开发的图书交换网站/" class="leancloud_visitors" data-flag-title="书漂网：一个基于Flask开发的图书交换网站">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -888,7 +1080,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/31/云计算下大数据挖掘的成本效益-以K-means算法为例/" itemprop="url">云计算下大数据挖掘的成本效益:以K-means算法为例</a></h1>
+                <a class="post-title-link" href="/2018/05/31/云计算下大数据挖掘的成本效益-以K-means算法为例/" itemprop="url">云计算下大数据挖掘的成本效益：以K-means算法为例</a></h1>
         
 
         <div class="post-meta">
@@ -950,7 +1142,7 @@
 
           
           
-             <span id="/2018/05/31/云计算下大数据挖掘的成本效益-以K-means算法为例/" class="leancloud_visitors" data-flag-title="云计算下大数据挖掘的成本效益:以K-means算法为例">
+             <span id="/2018/05/31/云计算下大数据挖掘的成本效益-以K-means算法为例/" class="leancloud_visitors" data-flag-title="云计算下大数据挖掘的成本效益：以K-means算法为例">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1444,7 +1636,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1455,7 +1647,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1466,7 +1658,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1527,7 +1719,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">8.4k</span>
+    <span title="Site words total count">11.7k</span>
   
 </div>
 
