@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="RNN,LSTM," />
 
 
 
@@ -79,14 +79,24 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+<meta name="description" content="《研究方法与论文写作》短学期课程作业利用Tensorflow搭建了一个seq2seq模型来预测上海市未来PM2.5。数据集来自UCI机器学习数据库中的中国五大城市PM2.5，共包括：PM2.5、露点、湿度、气压、气温、组合风向、累计风速、每小时降雨量、累计降雨量。只使用了气象数据对PM2.5进行预测，未来可能会考虑加入污染物数据。">
+<meta name="keywords" content="RNN,LSTM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于LSTM的空气污染预测模型研究：以上海市PM2.5预测为例">
+<meta property="og:url" content="http://yoursite.com/2018/07/17/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/index.html">
 <meta property="og:site_name" content="Marticles&#39;s Blog">
+<meta property="og:description" content="《研究方法与论文写作》短学期课程作业利用Tensorflow搭建了一个seq2seq模型来预测上海市未来PM2.5。数据集来自UCI机器学习数据库中的中国五大城市PM2.5，共包括：PM2.5、露点、湿度、气压、气温、组合风向、累计风速、每小时降雨量、累计降雨量。只使用了气象数据对PM2.5进行预测，未来可能会考虑加入污染物数据。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-05T07:45:16.552Z">
+<meta property="og:image" content="http://yoursite.com/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0001.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0002.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0003.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0004.jpg">
+<meta property="og:image" content="http://yoursite.com/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0005.jpg">
+<meta property="og:updated_time" content="2018-07-17T11:31:29.412Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tags">
+<meta name="twitter:title" content="基于LSTM的空气污染预测模型研究：以上海市PM2.5预测为例">
+<meta name="twitter:description" content="《研究方法与论文写作》短学期课程作业利用Tensorflow搭建了一个seq2seq模型来预测上海市未来PM2.5。数据集来自UCI机器学习数据库中的中国五大城市PM2.5，共包括：PM2.5、露点、湿度、气压、气温、组合风向、累计风速、每小时降雨量、累计降雨量。只使用了气象数据对PM2.5进行预测，未来可能会考虑加入污染物数据。">
+<meta name="twitter:image" content="http://yoursite.com/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0001.jpg">
 
 
 
@@ -116,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/17/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/"/>
 
 
 
 
 
-  <title>Tags | Marticles's Blog</title>
+  <title>基于LSTM的空气污染预测模型研究：以上海市PM2.5预测为例 | Marticles's Blog</title>
   
 
 
@@ -281,40 +291,209 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/17/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marticles's Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">Tags</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-                目前共计 7 个标签
+          <h1 class="post-title" itemprop="name headline">基于LSTM的空气污染预测模型研究：以上海市PM2.5预测为例</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-17T19:19:34+08:00">
+                2018-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/17/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/07/17/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/07/17/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/" class="leancloud_visitors" data-flag-title="基于LSTM的空气污染预测模型研究：以上海市PM2.5预测为例">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  118 字
+                </span>
+              
+
+              
+
+              
             </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/LSTM/" style="font-size: 12px; color: #ccc">LSTM</a> <a href="/tags/MachineLearning/" style="font-size: 12px; color: #ccc">MachineLearning</a> <a href="/tags/OpenCV/" style="font-size: 12px; color: #ccc">OpenCV</a> <a href="/tags/RNN/" style="font-size: 12px; color: #ccc">RNN</a> <a href="/tags/Web开发/" style="font-size: 30px; color: #111">Web开发</a> <a href="/tags/数据挖掘/" style="font-size: 12px; color: #ccc">数据挖掘</a> <a href="/tags/系统动力学/" style="font-size: 12px; color: #ccc">系统动力学</a>
-            </div>
-          </div>
-        
-      </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h4 id="《研究方法与论文写作》短学期课程作业"><a href="#《研究方法与论文写作》短学期课程作业" class="headerlink" title="《研究方法与论文写作》短学期课程作业"></a>《研究方法与论文写作》短学期课程作业</h4><p>利用Tensorflow搭建了一个seq2seq模型来预测上海市未来PM2.5。<br>数据集来自UCI机器学习数据库中的中国五大城市PM2.5，共包括：PM2.5、露点、湿度、气压、气温、组合风向、累计风速、每小时降雨量、累计降雨量。<br>只使用了气象数据对PM2.5进行预测，未来可能会考虑加入污染物数据。</p>
+<p><img src="/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0001.jpg" alt="Image"><br><a id="more"></a><br><img src="/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0002.jpg" alt="Image"><br><img src="/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0003.jpg" alt="Image"><br><img src="/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0004.jpg" alt="Image"><br><img src="/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0005.jpg" alt="Image"></p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RNN/" rel="tag"><i class="fa fa-tag"></i> RNN</a>
+          
+            <a href="/tags/LSTM/" rel="tag"><i class="fa fa-tag"></i> LSTM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/16/基于概率论的分类方法-朴素贝叶斯/" rel="next" title="基于概率论的分类方法：朴素贝叶斯">
+                <i class="fa fa-chevron-left"></i> 基于概率论的分类方法：朴素贝叶斯
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -350,8 +529,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -425,6 +613,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#《研究方法与论文写作》短学期课程作业"><span class="nav-number">1.</span> <span class="nav-text">《研究方法与论文写作》短学期课程作业</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
