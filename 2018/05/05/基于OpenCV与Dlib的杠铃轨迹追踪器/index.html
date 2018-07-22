@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -142,7 +142,7 @@
 
 
 
-  <title>基于OpenCV与Dlib的杠铃轨迹追踪器 | Marticles's Blog</title>
+  <title>基于OpenCV与Dlib的杠铃轨迹追踪器 | Marticles's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -161,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -455,8 +455,8 @@
 <p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/multi-object.jpg" alt="Image">     </p>
 <blockquote>
 <p><em>多目标追踪</em></p>
-</blockquote>
 <h2 id="跟踪器"><a href="#跟踪器" class="headerlink" title="跟踪器"></a>跟踪器</h2><h3 id="BOOSTING"><a href="#BOOSTING" class="headerlink" title="BOOSTING"></a>BOOSTING</h3><p>此跟踪器基于AdaBoost的在线版本 - 基于HAAR级联的面部检测器在内部使用的算法。 这个分类器需要在运行时用对象的正和负例子训练。 由用户提供的初始边界框（或由另一个对象检测算法）作为对象的正例，并且边界框外部的许多图像补片被当作背景。 给定新帧，对先前位置的邻域中的每个像素运行分类器，并记录分类器的得分。 对象的新位置是得分最大的位置。 所以现在我们有一个更积极的例子为分类器。 随着更多的帧进入，分类器用该附加数据更新。</p>
+</blockquote>
 <p>优点：无。 这个算法是十年前并且可以运用，但我找不到一个很好的理由使用它，特别是当其他高级跟踪器（MIL，KCF）基于类似的原理可用。</p>
 <p>缺点：跟踪性能平庸。</p>
 <h3 id="MIL"><a href="#MIL" class="headerlink" title="MIL"></a>MIL</h3><p>此跟踪器在概念上类似于上述的BOOSTING跟踪器。 最大的区别在于，代替仅考虑对象的当前位置作为积极示例，它在当前位置周围的小邻域中查找以生成若干潜在的正例子。你可能认为这是一个坏主意，因为在大多数这些“积极”的例子中，对象不是中心。</p>
@@ -476,8 +476,6 @@
 <p>Bug警告：在使用Goturn时OpenCV 3.2会报错，无法实现。(个人实现的确如此)</p>
 <h3 id="Dlib-Tracker"><a href="#Dlib-Tracker" class="headerlink" title="Dlib_Tracker"></a>Dlib_Tracker</h3><blockquote>
 <p>This is a tool for tracking moving objects in a video stream. You give it the bounding box of an object in the first frame and it attempts to track the object in the box from frame to frame.<br>This tool is an implementation of the method described in the following paper:<br>Danelljan, Martin, et al. “Accurate scale estimation for robust visual tracking.” Proceedings of the British Machine Vision Conference BMVC. 2014.      </p>
-</blockquote>
-<blockquote>
 <p>引自Dlib官方文档: <a href="http://dlib.net/imaging.html#correlation_tracker" target="_blank" rel="noopener">http://dlib.net/imaging.html#correlation_tracker</a></p>
 </blockquote>
 <p>Dlib内置的追踪器背后算法来自于2014年Martin Danelljan于BMCV发表的一篇paper,”Accurate Scale Estimation for Robust Visual Tracking”，论文中主要描述了一种在视觉跟踪中精准的尺度估计的方法，基于此尺度估计方法提出了DSST（Discriminatiive Scale Space Tracker）算法。Martin Danelljan也凭此算法拿下2014 VOT(Visual-Object-Tracking) Challenge的冠军,VOT Challenge是视觉跟踪领域的国际顶级赛事。看了下历年数据，2015年深度学习开始冲击tracking领域，此后赛事的冠军再也没有使用纯传统算法的，最近的2017年冠军使用的则是传统滤波结合深度学习的混合模型，可谓历史潮流浩浩汤汤了。     </p>
@@ -489,11 +487,14 @@
 <p>CamShift算法的全称是”Continuously Adaptive Mean-SHIFT”，即：连续自适应的MeanShift算法。其基本思想是对视频序列的所有图像帧都作MeanShift运算，并将上一帧的结果（即搜索窗口的中心位置和窗口大小）作为下一帧MeanShift算法的搜索窗口的初始值，如此迭代下去。      </p>
 <p>简单点说，MeanShift是针对单张图片寻找最优迭代结果，而CamShift则是针对视频序列来处理，并对该序列中的每一帧图片都调用MeanShift来寻找最优迭代结果。正是由于CamShift针对一个视频序列进行处理，从而保证其可以不断调整窗口的大小，如此一来，当目标的大小发生变化的时候，该算法就可以自适应地调整目标区域继续跟踪。     </p>
 <p>在OpenCV给出的CamShift Demo当中，是通过计算目标在HSV空间下的H分量直方图，通过直方图反向投影得到目标像素的概率分布，然后通过调用OpenCV的CAMSHIFT算法，自动跟踪并调整目标窗口的中心位置与大小。该算法对于简单背景下的单目标跟踪效果较好，但如果被跟踪目标与背景颜色或周围其它目标颜色比较接近，则跟踪效果较差。另外，由于采用颜色特征，所以它对被跟踪目标的形状变化有一定的抵抗能力。</p>
-<p><figure class="half"><br>    <img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/camshift1.jpg" width="400"><br>    <img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/camshift2.jpg" width="400"><br></figure></p>
+<p><figure class="half">
+    <img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/camshift1.jpg" width="400">  
+    <img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/camshift2.jpg" width="400">
+</figure></p>
 <blockquote>
 <p><em>追踪框会自适应缩放</em></p>
-</blockquote>
 <h3 id="Template-Match"><a href="#Template-Match" class="headerlink" title="Template Match"></a>Template Match</h3><p>Template Match应该是最简单的追踪算法了，原理就是遍历图像中的每一个可能的位置，比较各处与模板是否“相似”，当相似度足够高时，就认为找到了我们的目标。     </p>
+</blockquote>
 <p>首先确定一个模板T，在视频目标追踪中模板即为我们最初选定的追踪目标，然后用模板在当前帧的图像I上滑动，一次移动一个像素(从左往右,从上往下)，在每一个位置,都进行一次度量计算来表明它是 “好” 或 “坏” 地与那个位置匹配，或者说块图像和原图像的特定区域有多么相似。对于T的每个位置超过I，则存储在该度量结果矩阵R，R中的每个位置(x,y)都包含匹配度量。OpenCV中的TM_CCORR_NORMED方法将返回矩阵R中匹配值最高(或最小，这取决于你使用何种相似度方法)的区域，该区域的长宽和模板图像的一致。</p>
 <p>OpenCV 提供了6种计算两幅图像相似度的方法:</p>
 <ul>
@@ -519,8 +520,8 @@
 <p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/LK.jpg" alt="Image"></p>
 <blockquote>
 <p><em>LK光流法的一个Demo</em></p>
-</blockquote>
 <h2 id="比较结果"><a href="#比较结果" class="headerlink" title="比较结果"></a>比较结果</h2><p>以单目标追踪为例：       </p>
+</blockquote>
 <p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/traffic.jpg" alt="Image">      </p>
 <p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/avg_fps.svg">      </p>
 <p><img src="/images/基于OpenCV与Dlib的杠铃轨迹追踪器/fps.svg">      </p>
@@ -652,7 +653,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -751,7 +752,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">12.0k</span>
+    <span title="Site words total count">12.4k</span>
   
 </div>
 
@@ -1388,7 +1389,7 @@
         showTime(Counter);
       }
     });
-  </script>
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 

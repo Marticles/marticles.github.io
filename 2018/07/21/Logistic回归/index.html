@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="MachineLearning," />
 
 
 
@@ -79,14 +79,21 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="前言本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。 Sigmoid函数定义：  y=\frac{1}{1+e^{-z}}下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmoid函数看起来很像">
+<meta name="keywords" content="MachineLearning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Logistic回归">
+<meta property="og:url" content="http://yoursite.com/2018/07/21/Logistic回归/index.html">
 <meta property="og:site_name" content="Marticles&#39;s Blog">
+<meta property="og:description" content="前言本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。 Sigmoid函数定义：  y=\frac{1}{1+e^{-z}}下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmoid函数看起来很像">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-05T07:45:09.125Z">
+<meta property="og:image" content="http://yoursite.com/images/Logistic回归/lr.png">
+<meta property="og:image" content="http://yoursite.com/images/Logistic回归/cost.png">
+<meta property="og:updated_time" content="2018-07-22T15:22:11.214Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Categories">
+<meta name="twitter:title" content="Logistic回归">
+<meta name="twitter:description" content="前言本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。 Sigmoid函数定义：  y=\frac{1}{1+e^{-z}}下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmoid函数看起来很像">
+<meta name="twitter:image" content="http://yoursite.com/images/Logistic回归/lr.png">
 
 
 
@@ -116,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/21/Logistic回归/"/>
 
 
 
 
 
-  <title>Categories | Marticles's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>Logistic回归 | Marticles's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -281,40 +288,258 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/21/Logistic回归/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marticles's Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">Categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                目前共计 6 个分类
+          <h1 class="post-title" itemprop="name headline">Logistic回归</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-21T12:21:35+08:00">
+                2018-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/21/Logistic回归/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/07/21/Logistic回归/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/07/21/Logistic回归/" class="leancloud_visitors" data-flag-title="Logistic回归">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  371 字
+                </span>
+              
+
+              
+
+              
             </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统模拟/">系统模拟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读论文/">读论文</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/踩坑/">踩坑</a><span class="category-list-count">1</span></li></ul>
-            </div>
-          </div>
-        
-      </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。</p>
+<h2 id="Sigmoid函数"><a href="#Sigmoid函数" class="headerlink" title="Sigmoid函数"></a>Sigmoid函数</h2><p>定义：</p>
+<script type="math/tex; mode=display">
+y=\frac{1}{1+e^{-z}}</script><p>下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmoid函数看起来很像一个阶跃函数。<br><img src="/images/Logistic回归/lr.png" alt=""><br>向量形式如下：</p>
+<script type="math/tex; mode=display">
+y=\frac{1}{1+e^{-\theta^{T}x}}\\</script><a id="more"></a>
+<h2 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h2><p>不同于线性回归，如果我们简单地使用以下MSE(均方误差)作为loss函数，在Logistic回归中Sigmoid函数是一个非线性函数，这回导致损失函数变得非凸，在应用梯度下降法时容易陷入局部最优解。</p>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{2m}\sum_{i=1}^m(h_\theta(x^{(i)}))-y^{(i)})^{2}</script><p><img src="/images/Logistic回归/cost.png" alt=""><br>Andrew Ng在公开课中直接给出了如下的损失函数，但并没给出具体推导过程：</p>
+<script type="math/tex; mode=display">
+Cost(h_{\theta}(x),y) = \begin{cases}  -log(h_{\theta}(x))  & \text {if y=1} \\ -log(1-h_{\theta}(x))  & \text{if y=0} \end{cases}</script><script type="math/tex; mode=display">
+\begin{eqnarray*}
+J(\theta) &=& \frac{1}{2m}\sum_{i=1}^{m}Cost(h_\theta(x^{(i)}), y^{(i)})\\
+&=&-\frac{1}{m} \displaystyle \sum_{i=1}^m \left(y^{(i)}\log (h_\theta (x^{(i)})) + (1 - y^{(i)})\log (1 - h_\theta(x^{(i)}))\right)
+\end{eqnarray*}</script><p>下面是推导过程：<br>对于输入x分类结果为类别1和类别0的概率分别为：</p>
+<script type="math/tex; mode=display">
+\begin{eqnarray*}
+h_{\theta}(x)&=&P(y=1|x;\theta)\\
+1-h_{\theta}(x)&=&P(y=0|x;\theta)
+\end{eqnarray*}</script><p>综合上述二式，可以写成：</p>
+<script type="math/tex; mode=display">
+P(y|x;\theta)=(h_{\theta}(x))^y\cdot (1-h_{\theta}(x))^{1-y}</script><p>构造似然函数：</p>
+<script type="math/tex; mode=display">
+L(\theta)=\prod_{i=1}^{m}P(y^{(i)}|x^{(i)};\theta)
+=\prod_{i=1}^{m}(h_{\theta}(x^{(i)}))^{y^{(i)}}\cdot (1-(h_{\theta}(x^{(i)}))^{1-y^{(i)}}</script><p>对似然函数取对数：</p>
+<script type="math/tex; mode=display">
+\begin{eqnarray*}
+logL(\theta)&=&log(\prod_{i=1}^{m}(h_{\theta}(x^{(i)}))^{y^{(i)}}\cdot (1-(h_{\theta}(x^{(i)}))^{1-y^{(i)}})\\
+&=&\sum_{i=1}^m\left(y^{(i)}log \ h_{\theta}(x^{(i)})+(1-y^{(i)})log\ (1-h_{\theta}(x^{(i)}))\right)
+\end{eqnarray*}</script><p>取负数求均值即可得到损失函数：</p>
+<script type="math/tex; mode=display">
+\begin{eqnarray*}
+J(\theta) &=& -\frac{1}{m}logL(\theta)\\
+&=&-\frac{1}{m}\sum_{i=1}^m\left(y^{(i)}log \ h_{\theta}(x^{(i)})+(1-y^{(i)})log\ (1-h_{\theta}(x^{(i)}))\right)
+\end{eqnarray*}</script><p>其中:</p>
+<script type="math/tex; mode=display">
+h_\theta (x^{(i)}) = \frac{1}{1+e^{-\theta^\mathrm {T} x}}</script><h2 id="应用梯度下降法"><a href="#应用梯度下降法" class="headerlink" title="应用梯度下降法"></a>应用梯度下降法</h2><p>Sigmoid函数求导过程如下，这一步将在下面求解梯度时用到：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+y' & = \frac{d}{dz}\left(\frac{1}{1+e^{-z}} \right)\\
+& = \frac{e^{-z}}{(1+e^{-z})^2} \\
+& = \frac{1+e^{-z}-1}{(1+e^{-z})^2} \\
+& = \frac{1}{(1+e^{-z})} - \frac{1}{(1+e^{-z})^2}\\
+& = \frac{1}{(1+e^{-z})} \cdot \left (1 - \frac{1}{(1+e^{-z})} \right) \\
+& = y(1-y)
+\end{align}</script><p>梯度下降法法的一般形式如下，α为学习率：</p>
+<script type="math/tex; mode=display">
+\theta_j := \theta_j - \alpha \dfrac{\partial}{\partial \theta_j}J(\theta)</script><p>求偏导过程如下，比较麻烦，一步步来吧：</p>
+<script type="math/tex; mode=display">
+\begin{eqnarray*}
+\dfrac{\partial}{\partial \theta_j}J(\theta)&=&-\frac{1}{m}\sum_{i=1}^m\left(y^{(i)}log \ h_{\theta}(x^{(i)})+(1-y^{(i)})log\ (1-h_{\theta}(x^{(i)}))\right)'\\
+&=&-\frac{1}{m}\sum_{i=1}^m \left(  y^{(i)} \frac{1}{h_\theta(x^{(i)})} \dfrac{\partial}{\partial \theta_j} h_\theta(x^{(i)})-(1-y^{(i)})\frac{1}{1-h_\theta(x^{(i)})}\dfrac{\partial}{\partial \theta_j}h_\theta(x^{(i)})\right)\\
+&=&
+\end{eqnarray*}</script>
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MachineLearning/" rel="tag"><i class="fa fa-tag"></i> MachineLearning</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/17/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/" rel="next" title="基于LSTM的空气污染预测模型研究：以上海市PM2.5预测为例">
+                <i class="fa fa-chevron-left"></i> 基于LSTM的空气污染预测模型研究：以上海市PM2.5预测为例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -350,8 +575,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -425,6 +659,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sigmoid函数"><span class="nav-number">2.</span> <span class="nav-text">Sigmoid函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#损失函数"><span class="nav-number">3.</span> <span class="nav-text">损失函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用梯度下降法"><span class="nav-number">4.</span> <span class="nav-text">应用梯度下降法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1090,7 +1340,7 @@
         showTime(Counter);
       }
     });
-  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </script>
 
 
 
@@ -1102,6 +1352,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 

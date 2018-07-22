@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://yoursite.com/images/Flask开发与网站部署踩坑/stack.PNG">
 <meta property="og:image" content="http://yoursite.com/images/Flask开发与网站部署踩坑/thr.PNG">
 <meta property="og:image" content="http://yoursite.com/images/Flask开发与网站部署踩坑/viewmodels.PNG">
-<meta property="og:updated_time" content="2018-06-12T13:35:21.710Z">
+<meta property="og:updated_time" content="2018-07-18T03:23:44.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flask开发与网站部署踩坑">
 <meta name="twitter:description" content="Flask中的上下文与出入栈  当一个请求进入Flask框架，首先会实例化一个Request Context，这个上下文封装了请求的信息在Request中，并将这个上下文推入到一个栈(_request_ctx_stack/_app_ctx_strack)的结构中 RequestContext在入_request_ctx_stack之前，首先会检查全局变量_app_ctx_strack是否为空，如果">
@@ -130,7 +130,7 @@
 
 
 
-  <title>Flask开发与网站部署踩坑 | Marticles's Blog</title>
+  <title>Flask开发与网站部署踩坑 | Marticles's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -149,7 +149,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -448,7 +448,7 @@
 <p>线程隔离的意义就在于使当前线程能够正确引用到自己所创建的对象，而不是引用到其他线程所创建的对象</p>
 <p><img src="/images/Flask开发与网站部署踩坑/thr.PNG" alt=""></p>
 <h3 id="EndPoint"><a href="#EndPoint" class="headerlink" title="EndPoint"></a>EndPoint</h3><p>首先，举一个最简单的例子:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@web.route(&apos;/hello&apos;)</span><br><span class="line">def hello():</span><br><span class="line">    return &apos;hello&apos;</span><br></pre></td></tr></table></figure></p>
-<p>这是一个十分典型的由URL映射到视图函数方法。虽然Flask的路由表面上是使用了<code>route</code>这个装饰器，实际上内部也是调用<code>app</code>对象中的<code>add_url_rule</code>方法来实现。下面的代码同上面的是等价的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def hello():</span><br><span class="line">    return &apos;hello&apos;</span><br><span class="line">app.add_url_rule(&apos;/hello&apos;, &apos;hello&apos;, hello)</span><br></pre></td></tr></table></figure></p>
+<p>这是一个十分典型的由URL映射到视图函数方法。虽然Flask的路由表面上是使用了<code>route</code>这个装饰器，实际上内部也是调用<code>app</code>对象中的<code>add_url_rule</code>方法来实现。下面的代码同上面的是等价的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def hello():</span><br><span class="line">    return &apos;hello&apos;</span><br><span class="line">    app.add_url_rule(&apos;/hello&apos;, &apos;hello&apos;, hello)</span><br></pre></td></tr></table></figure></p>
 <p>实际上，Flask并不是直接由URL映射至视图函数上，Flask在这过程中隐藏了一些细节。真正的过程是这样的：<code>URL--&gt;endpoint--&gt;viewfunction</code>。<code>app.add_url_rule(&#39;/hello&#39;, &#39;hello&#39;, hello)</code>中最后的hello参数即是<code>endpoint</code>。下面看一下Flask的源码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">self.url_map.add(rule)</span><br><span class="line">	if view_func is not None:</span><br><span class="line">	old_func = self.view_functions.get(endpoint)</span><br><span class="line">	if old_func is not None and old_func != view_func:</span><br><span class="line">	raise AssertionError(&apos;View function mapping is overwriting an &apos;</span><br><span class="line">                          &apos;existing endpoint function: %s&apos; % endpoint)</span><br><span class="line">    self.view_functions[endpoint] = view_func</span><br></pre></td></tr></table></figure></p>
 <p>注意到最后一段代码，Flask是通过<code>endpoint</code>作为key来找到<code>view_func</code>的。当Flask的核心对象<code>app</code>初始化前，Flask都向<code>view_functions</code>添加好<code>endpoint-view——func</code>的key-value对，所以<code>view_functions</code>的实质就是一个字典。<br>那么，Flask为何要”多此一举”呢？答案就在于反向构建URL。如果没有<code>endpoint</code>，就无法通过视图函数来反向查找到URL地址时。这个刚好过程和上面相反：<code>viewfunction--&gt;endpoint--&gt;URL</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/&apos;)</span><br><span class="line">def index():</span><br><span class="line">    print url_for(&apos;hello&apos;, name=&apos;user&apos;) #会跳转到/user/hello</span><br></pre></td></tr></table></figure></p>
 <p>在实际中，当需要在一个视图中跳转到另一个视图中的时候，通常使用的是<code>url_for()</code>，而不是html地址。<br>再举一个多蓝图的例子可以更好的理解<code>endpoint</code>的作用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#user.py</span><br><span class="line">user = Blueprint(&apos;user&apos;, __name__)</span><br><span class="line">@user.route(&apos;/hello&apos;)</span><br><span class="line">def hello():</span><br><span class="line">    return &apos;Hello,User!&apos;</span><br></pre></td></tr></table></figure></p>
@@ -584,7 +584,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -683,7 +683,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">12.0k</span>
+    <span title="Site words total count">12.4k</span>
   
 </div>
 
@@ -1320,7 +1320,7 @@
         showTime(Counter);
       }
     });
-  </script>
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
