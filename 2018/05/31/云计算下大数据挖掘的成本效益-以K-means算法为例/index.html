@@ -91,10 +91,13 @@
 <meta property="og:image" content="http://yoursite.com/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-3-small.gif">
 <meta property="og:image" content="http://yoursite.com/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-table-1-small.gif">
 <meta property="og:image" content="http://yoursite.com/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-table-2-small.gif">
+<meta property="og:image" content="http://yoursite.com/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-4-small.gif">
+<meta property="og:image" content="http://yoursite.com/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-5-small.gif">
+<meta property="og:image" content="http://yoursite.com/images/云计算下大数据挖掘的成本效益-以K-means算法为例/dataset.png">
 <meta property="og:image" content="http://yoursite.com/images/云计算下大数据挖掘的成本效益-以K-means算法为例/LP1.PNG">
 <meta property="og:image" content="http://yoursite.com/images/云计算下大数据挖掘的成本效益-以K-means算法为例/result.PNG">
 <meta property="og:image" content="http://yoursite.com/images/云计算下大数据挖掘的成本效益-以K-means算法为例/percent.PNG">
-<meta property="og:updated_time" content="2018-07-16T16:17:47.444Z">
+<meta property="og:updated_time" content="2018-07-22T16:39:32.920Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="云计算下大数据挖掘的成本效益：以K-means算法为例">
 <meta name="twitter:description" content="原论文Q. He, X. Zhu, D. Li, et al., “Cost-effective Big Data Mining in the Cloud: A Case Study with K-means,” in Cloud Computing (CLOUD), 2017 IEEE 10th International Conference on, 2017, pp. 74-81. (EI:">
@@ -409,7 +412,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,004 字
+                  1,926 字
                 </span>
               
 
@@ -505,28 +508,15 @@
 
 <p>从上述两个表格不难发现，为了从准确率99%达到接近100%，这1%的准确率耗费了大量的计算时间。这再次表明，在牺牲极少的准确率下，在适合的时间点停下迭代算法，可以为用户省下大量的费用。</p>
 <h3 id="长尾效应"><a href="#长尾效应" class="headerlink" title="长尾效应"></a>长尾效应</h3><p>通过其他实验，论文还发现选择不好的初始中心点导致了十分明显的长尾效应。</p>
-<div align="center">
-
-![](/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-4-small.gif)
-
-
-
-图3:高斯数据集上K-means的准确率与耗时，k=20，随机初始化中心点
-
-</div>
-
+<p><img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-4-small.gif" alt=""></p>
+<center>图3:高斯数据集上K-means的准确率与耗时，k=20，随机初始化中心点</center>
 
 
 <p>与图1所不同，图3的长尾效应要明显得多。内部图放大了外部图中准确率超过0.99的部分。k=20下K-means用了总计算时间的2.23%，达到0.99的准确率（精确值为0.9927）。为了达到0.999的准确率和0.9999的准确率，耗时分别只占总计算时间的3.79%和6.50%。这种情况下比较极端，即最后为了增加0.0001的准确率，耗费了93.50%的总时间，这显然是十分荒谬的。</p>
-<div align="center">
-
-![](/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-5-small.gif)
-
+<p><img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-5-small.gif" alt=""></p>
+<center>图4:道路网络数据集上K-means的准确率与耗时，k=10，随机初始化中心点</center>
 
 
-图4:道路网络数据集上K-means的准确率与耗时，k=10，随机初始化中心点
-
-</div>
 
 
 
@@ -536,19 +526,13 @@
 <h3 id="多变量线性回归下的实验"><a href="#多变量线性回归下的实验" class="headerlink" title="多变量线性回归下的实验"></a>多变量线性回归下的实验</h3><p>下面是自己用线性回归做的一个很简单的实验验证</p>
 <h3 id="算法-1"><a href="#算法-1" class="headerlink" title="算法"></a>算法</h3><p>采用梯度下降法进行线性回归</p>
 <h3 id="评价指标-1"><a href="#评价指标-1" class="headerlink" title="评价指标"></a>评价指标</h3><p>采用均方误差（mean-square error, MSE)</p>
-<script type="math/tex; mode=display">J(\theta_0, \theta_1) = \frac{ 1 }{ 2m } \displaystyle \sum_{ i = 1 }^{ m } (\hat{ y }^{(i)} - y^{(i)})^2 = \frac{ 1 }{ 2m } \displaystyle \sum_{ i = 1 }^{ m } (h_\theta(x^{(i)}) - y^{(i)})^2</script><p>其中:</p>
+<script type="math/tex; mode=display">J(\theta_0) = \frac{ 1 }{ 2m } \displaystyle \sum_{ i = 1 }^{ m } (\hat{ y }^{(i)} - y^{(i)})^2 = \frac{ 1 }{ 2m } \displaystyle \sum_{ i = 1 }^{ m } (h_\theta(x^{(i)}) - y^{(i)})^2</script><p>其中:</p>
 <p>m：训练样本的个数；</p>
 <p>hθ(x)：用参数θ和x预测出来的y值</p>
 <p>y：原训练样本中的y值</p>
 <h3 id="数据集-1"><a href="#数据集-1" class="headerlink" title="数据集"></a>数据集</h3><p>采用的数据集格式如下图所示，共有47个样本(面积单位为平方英尺，价格单位为美元):</p>
-<div align="center">
-
-![](/images/云计算下大数据挖掘的成本效益-以K-means算法为例/dataset.png)
-
-图5:(from Linear Regression: Housing Prices by Andrew Ng)
-
-</div>
-
+<p><img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/dataset.png" alt=""></p>
+<center>图5:(from Linear Regression: Housing Prices by Andrew Ng)</center>
 
 
 <h3 id="实验结果-1"><a href="#实验结果-1" class="headerlink" title="实验结果"></a>实验结果</h3><p><img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/LP1.PNG" alt="Image"></p>
@@ -605,8 +589,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/11/书漂网-一个基于Flask开发的图书交换网站/" rel="prev" title="书漂网：一个基于Flask开发的图书交换网站">
-                书漂网：一个基于Flask开发的图书交换网站 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/11/书漂网-一个基于Flask开发的图书交换网站/" rel="prev" title="书漂网：一个基于Flask开发的书籍交换网站">
+                书漂网：一个基于Flask开发的书籍交换网站 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

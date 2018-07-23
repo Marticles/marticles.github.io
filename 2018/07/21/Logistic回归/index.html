@@ -79,20 +79,22 @@
 
 
 
-<meta name="description" content="前言本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。 Sigmoid函数定义：  y=\frac{1}{1+e^{-z}}下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmoid函数看起来很像">
+<meta name="description" content="前言本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。LaTeX大法好！ Sigmoid函数定义：  y=\frac{1}{1+e^{-z}}下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmo">
 <meta name="keywords" content="MachineLearning">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Logistic回归">
 <meta property="og:url" content="http://yoursite.com/2018/07/21/Logistic回归/index.html">
 <meta property="og:site_name" content="Marticles&#39;s Blog">
-<meta property="og:description" content="前言本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。 Sigmoid函数定义：  y=\frac{1}{1+e^{-z}}下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmoid函数看起来很像">
+<meta property="og:description" content="前言本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。LaTeX大法好！ Sigmoid函数定义：  y=\frac{1}{1+e^{-z}}下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmo">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/Logistic回归/lr.png">
 <meta property="og:image" content="http://yoursite.com/images/Logistic回归/cost.png">
-<meta property="og:updated_time" content="2018-07-22T15:38:45.198Z">
+<meta property="og:image" content="http://yoursite.com/images/Logistic回归/1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Logistic回归/2.jpg">
+<meta property="og:updated_time" content="2018-07-23T14:16:54.406Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Logistic回归">
-<meta name="twitter:description" content="前言本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。 Sigmoid函数定义：  y=\frac{1}{1+e^{-z}}下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmoid函数看起来很像">
+<meta name="twitter:description" content="前言本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。LaTeX大法好！ Sigmoid函数定义：  y=\frac{1}{1+e^{-z}}下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmo">
 <meta name="twitter:image" content="http://yoursite.com/images/Logistic回归/lr.png">
 
 
@@ -404,7 +406,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  370 字
+                  503 字
                 </span>
               
 
@@ -429,7 +431,7 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。LaTeX大法好！</p>
 <h2 id="Sigmoid函数"><a href="#Sigmoid函数" class="headerlink" title="Sigmoid函数"></a>Sigmoid函数</h2><p>定义：</p>
 <script type="math/tex; mode=display">
 y=\frac{1}{1+e^{-z}}</script><p>下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmoid函数看起来很像一个阶跃函数。<br><img src="/images/Logistic回归/lr.png" alt=""><br><a id="more"></a><br>向量形式如下：</p>
@@ -438,11 +440,12 @@ y=\frac{1}{1+e^{-\theta^{T}x}}\\</script><h2 id="损失函数"><a href="#损失�
 <script type="math/tex; mode=display">
 J(\theta)=\frac{1}{2m}\sum_{i=1}^m(h_\theta(x^{(i)}))-y^{(i)})^{2}</script><p><img src="/images/Logistic回归/cost.png" alt=""><br>Andrew Ng在公开课中直接给出了如下的损失函数，但并没给出具体推导过程：</p>
 <script type="math/tex; mode=display">
-Cost(h_{\theta}(x),y) = \begin{cases}  -log(h_{\theta}(x))  & \text {if y=1} \\ -log(1-h_{\theta}(x))  & \text{if y=0} \end{cases}</script><script type="math/tex; mode=display">
+Cost(h_{\theta}(x),y) = \begin{cases}  -log(h_{\theta}(x))  & \text {if y=1} \\ -log(1-h_{\theta}(x))  & \text{if y=0} \end{cases}</script><p>其中$Cost(h_{\theta}(x),y)=-log(h_\theta(x))$图像为:<br><img src="/images/Logistic回归/1.jpg" alt=""><br>可以看出当$y=1$时，$Cost=0$，而当预测值$h_\theta(x)=0$时，我们将对损失函数施加一个很大的惩罚，即$Cost=\infty$。<br>当$Cost(h_{\theta}(x),y)=-log(1-h_\theta(x))$时同理。<br><img src="/images/Logistic回归/2.jpg" alt=""></p>
+<script type="math/tex; mode=display">
 \begin{eqnarray*}
 J(\theta) &=& \frac{1}{2m}\sum_{i=1}^{m}Cost(h_\theta(x^{(i)}), y^{(i)})\\
 &=&-\frac{1}{m} \displaystyle \sum_{i=1}^m \left(y^{(i)}\log (h_\theta (x^{(i)})) + (1 - y^{(i)})\log (1 - h_\theta(x^{(i)}))\right)
-\end{eqnarray*}</script><p>下面是推导过程：<br>对于输入x分类结果为类别1和类别0的概率分别为：</p>
+\end{eqnarray*}</script><p>下面是推导过程：<br>对于输入$x$分类结果为类别$1$和类别$0$的概率分别为：</p>
 <script type="math/tex; mode=display">
 \begin{eqnarray*}
 h_{\theta}(x)&=&P(y=1|x;\theta)\\
@@ -467,21 +470,33 @@ J(\theta) &=& -\frac{1}{m}logL(\theta)\\
 h_\theta (x^{(i)}) = \frac{1}{1+e^{-\theta^\mathrm {T} x}}</script><h2 id="应用梯度下降法"><a href="#应用梯度下降法" class="headerlink" title="应用梯度下降法"></a>应用梯度下降法</h2><p>Sigmoid函数求导过程如下，这一步将在下面求解梯度时用到：</p>
 <script type="math/tex; mode=display">
 \begin{align}
-y' & = \frac{d}{dz}\left(\frac{1}{1+e^{-z}} \right)\\
+y' & =\left(\frac{1}{1+e^{-z}} \right)'\\
 & = \frac{e^{-z}}{(1+e^{-z})^2} \\
 & = \frac{1+e^{-z}-1}{(1+e^{-z})^2} \\
 & = \frac{1}{(1+e^{-z})} - \frac{1}{(1+e^{-z})^2}\\
 & = \frac{1}{(1+e^{-z})} \cdot \left (1 - \frac{1}{(1+e^{-z})} \right) \\
 & = y(1-y)
-\end{align}</script><p>梯度下降法法的一般形式如下，α为学习率：</p>
+\end{align}</script><p>向量形式：</p>
+<script type="math/tex; mode=display">
+\begin{eqnarray*}
+h_\theta (x){}' &=& \left( \frac{1}{1+e^{-\theta^\mathrm {T} x}} \right){}'\\
+&=&-\frac{(1+e^{-\theta^\mathrm {T} x}){}'}{(1+e^{-\theta^\mathrm {T} x})^{2}} \\&=& \frac{e^{-\theta^\mathrm {T}x}(\theta^\mathrm {T} x){}'}{(1+e^{-\theta^\mathrm {T} x})^{2}} \\&=& \left(\frac{1}{1+e^{-\theta^\mathrm{T}x}}(1-\frac{1}{1+e^{-\theta^\mathrm{T}x}})\right)\cdot(\theta^\mathrm{T}x){}' \\&=& h_\theta(x)(1-h_\theta(x))(\theta^\mathrm{T}x){}'
+\end{eqnarray*}</script><p>梯度下降法的一般形式如下，α为学习率：</p>
 <script type="math/tex; mode=display">
 \theta_j := \theta_j - \alpha \dfrac{\partial}{\partial \theta_j}J(\theta)</script><p>求偏导过程如下，比较麻烦，一步步来吧：</p>
 <script type="math/tex; mode=display">
 \begin{eqnarray*}
 \dfrac{\partial}{\partial \theta_j}J(\theta)&=&-\frac{1}{m}\sum_{i=1}^m\left(y^{(i)}log \ h_{\theta}(x^{(i)})+(1-y^{(i)})log\ (1-h_{\theta}(x^{(i)}))\right)'\\
-&=&-\frac{1}{m}\sum_{i=1}^m \left(  y^{(i)} \frac{1}{h_\theta(x^{(i)})} \dfrac{\partial}{\partial \theta_j} h_\theta(x^{(i)})-(1-y^{(i)})\frac{1}{1-h_\theta(x^{(i)})}\dfrac{\partial}{\partial \theta_j}h_\theta(x^{(i)})\right)\\
-&=&
-\end{eqnarray*}</script>
+&=&-\frac{1}{m}\sum_{i=1}^m\left(y^{(i)}\frac{1}{h_\theta(x^{(i)})}h_\theta^\prime(x^{(i)})-(1-y^{(i)})\frac{1}{1-h_\theta(x^{(i)})}h_\theta^\prime(x^{(i)})\right)\\
+&=&-\frac{1}{m}\sum_{i=1}^m\left(y^{(i)}(1-h_\theta({x^{(i)}})) \cdot(\theta^\mathrm{T}x){}'- (1-y^{(i)})\cdot(h_\theta(x^{(i)}))\cdot(\theta^\mathrm{T}x){}'\right)\\
+&=&-\frac{1}{m}\sum_{i=1}^m\left(y^{(i)}-h_\theta(x^{(i)})\right)\cdot(\theta^{T}x)'\\
+&=&\frac{1}{m}\sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}
+
+\end{eqnarray*}</script><p>其中$(\theta^\mathrm{T}x){}’$为对第$j$个$\theta$求偏导，即$x_j^{(i)}$</p>
+<p>由于α与$\frac{1}{m}$连乘得到还是常量，将$\frac{1}{m}$省略，最后得到梯度更新公式为：</p>
+<script type="math/tex; mode=display">
+\theta_j := \theta_j - \alpha \sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}</script><p>至此，推导完成。</p>
+
       
     </div>
     
