@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/images/Logistic回归/cost.png">
 <meta property="og:image" content="http://yoursite.com/images/Logistic回归/1.jpg">
 <meta property="og:image" content="http://yoursite.com/images/Logistic回归/2.jpg">
-<meta property="og:updated_time" content="2018-07-23T14:19:56.716Z">
+<meta property="og:updated_time" content="2018-07-23T16:04:37.520Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Logistic回归">
 <meta name="twitter:description" content="前言本文是以《机器学习实战》、周志华《机器学习》、吴恩达《机器学习》Course公开课为基础的个人笔记。LaTeX大法好！ Sigmoid函数定义：  y=\frac{1}{1+e^{-z}}下图给出了Sigmoid函数在不同坐标尺度下的两条曲线图。当x为0时，Sigmoid函数值为0.5。显然，Sigmoid函数将前一级的线性输出映射到[0，1]之间的数值概率上。如果横坐标刻度足够大，Sigmo">
@@ -440,12 +440,12 @@ y=\frac{1}{1+e^{-\theta^{T}x}}\\</script><h2 id="损失函数"><a href="#损失�
 <script type="math/tex; mode=display">
 J(\theta)=\frac{1}{2m}\sum_{i=1}^m(h_\theta(x^{(i)}))-y^{(i)})^{2}</script><p><img src="/images/Logistic回归/cost.png" alt=""><br>Andrew Ng在公开课中直接给出了如下的损失函数，但并没给出具体推导过程：</p>
 <script type="math/tex; mode=display">
-Cost(h_{\theta}(x),y) = \begin{cases}  -log(h_{\theta}(x))  & \text {if y=1} \\ -log(1-h_{\theta}(x))  & \text{if y=0} \end{cases}</script><p>其中$Cost(h_{\theta}(x),y)=-log(h_\theta(x))$图像为:<br><img src="/images/Logistic回归/1.jpg" alt=""><br>可以看出当$y=1$时，$Cost=0$，而当预测值$h_\theta(x)=0$时，我们将对损失函数施加一个很大的惩罚，即$Cost=\infty$。<br>当$Cost(h_{\theta}(x),y)=-log(1-h_\theta(x))$时同理。<br><img src="/images/Logistic回归/2.jpg" alt=""></p>
-<script type="math/tex; mode=display">
+Cost(h_{\theta}(x),y) = \begin{cases}  -log(h_{\theta}(x))  & \text {if y=1} \\ -log(1-h_{\theta}(x))  & \text{if y=0} \end{cases}</script><script type="math/tex; mode=display">
 \begin{eqnarray*}
 J(\theta) &=& \frac{1}{2m}\sum_{i=1}^{m}Cost(h_\theta(x^{(i)}), y^{(i)})\\
 &=&-\frac{1}{m} \displaystyle \sum_{i=1}^m \left(y^{(i)}\log (h_\theta (x^{(i)})) + (1 - y^{(i)})\log (1 - h_\theta(x^{(i)}))\right)
-\end{eqnarray*}</script><p>下面是推导过程：<br>对于输入$x$分类结果为类别$1$和类别$0$的概率分别为：</p>
+\end{eqnarray*}</script><p>其中$Cost(h_{\theta}(x),y)=-log(h_\theta(x))$图像为:<br><img src="/images/Logistic回归/1.jpg" alt=""><br>可以看出当$y=1$时，$Cost=0$，而当预测值$h_\theta(x)=0$时，我们将对损失函数施加一个很大的惩罚，即$Cost=\infty$。<br>当$Cost(h_{\theta}(x),y)=-log(1-h_\theta(x))$时同理。<br><img src="/images/Logistic回归/2.jpg" alt=""></p>
+<p>下面是推导过程：<br>对于输入$x$分类结果为类别$1$和类别$0$的概率分别为：</p>
 <script type="math/tex; mode=display">
 \begin{eqnarray*}
 h_{\theta}(x)&=&P(y=1|x;\theta)\\
