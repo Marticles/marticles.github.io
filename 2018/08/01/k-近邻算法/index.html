@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="系统动力学," />
+  <meta name="keywords" content="MachineLearning," />
 
 
 
@@ -79,25 +79,27 @@
 
 
 
-<meta name="description" content="《系统模拟》期末课程作业运用SPSS与Anylogic对Bilibili网的视频传播机制进行了模拟与分析，纯兴趣驱动。习得技巧：论文写作+1，lol。">
-<meta name="keywords" content="系统动力学">
+<meta name="description" content="前言k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。k值选择、距离度量、决策规则是k近邻算法的三个基本要素。k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最">
+<meta name="keywords" content="MachineLearning">
 <meta property="og:type" content="article">
-<meta property="og:title" content="系统动力学视角下基于巴斯模型的视频传播机制探究：以AnyLogic仿真为例">
-<meta property="og:url" content="http://yoursite.com/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/index.html">
+<meta property="og:title" content="k-近邻算法">
+<meta property="og:url" content="http://yoursite.com/2018/08/01/k-近邻算法/index.html">
 <meta property="og:site_name" content="Marticles&#39;s Blog">
-<meta property="og:description" content="《系统模拟》期末课程作业运用SPSS与Anylogic对Bilibili网的视频传播机制进行了模拟与分析，纯兴趣驱动。习得技巧：论文写作+1，lol。">
+<meta property="og:description" content="前言k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。k值选择、距离度量、决策规则是k近邻算法的三个基本要素。k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0001.jpg">
-<meta property="og:image" content="http://yoursite.com/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0002.jpg">
-<meta property="og:image" content="http://yoursite.com/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0003.jpg">
-<meta property="og:image" content="http://yoursite.com/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0004.jpg">
-<meta property="og:image" content="http://yoursite.com/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0005.jpg">
-<meta property="og:image" content="http://yoursite.com/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0006.jpg">
-<meta property="og:updated_time" content="2018-07-16T16:17:58.661Z">
+<meta property="og:image" content="http://yoursite.com/2018/08/01/k-近邻算法/images/k-近邻算法/2d.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/01/k-近邻算法/images/k-近邻算法/3d.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/01/k-近邻算法/images/k-近邻算法/kdtree.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/08/01/k-近邻算法/images/k-近邻算法/kd-tree-building.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/01/k-近邻算法/images/k-近邻算法/kd.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/08/01/k-近邻算法/images/k-近邻算法/kd2.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/08/01/k-近邻算法/images/k-近邻算法/balltree.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/08/01/k-近邻算法/images/k-近邻算法/balltree.png">
+<meta property="og:updated_time" content="2018-08-02T06:31:11.169Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="系统动力学视角下基于巴斯模型的视频传播机制探究：以AnyLogic仿真为例">
-<meta name="twitter:description" content="《系统模拟》期末课程作业运用SPSS与Anylogic对Bilibili网的视频传播机制进行了模拟与分析，纯兴趣驱动。习得技巧：论文写作+1，lol。">
-<meta name="twitter:image" content="http://yoursite.com/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0001.jpg">
+<meta name="twitter:title" content="k-近邻算法">
+<meta name="twitter:description" content="前言k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。k值选择、距离度量、决策规则是k近邻算法的三个基本要素。k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/01/k-近邻算法/images/k-近邻算法/2d.png">
 
 
 
@@ -127,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/01/k-近邻算法/"/>
 
 
 
 
 
-  <title>系统动力学视角下基于巴斯模型的视频传播机制探究：以AnyLogic仿真为例 | Marticles's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>k-近邻算法 | Marticles's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -304,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/01/k-近邻算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Marticles">
@@ -321,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">系统动力学视角下基于巴斯模型的视频传播机制探究：以AnyLogic仿真为例</h1>
+          <h1 class="post-title" itemprop="name headline">k-近邻算法</h1>
         
 
         <div class="post-meta">
@@ -333,8 +335,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-28T20:28:34+08:00">
-                2018-06-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T15:37:35+08:00">
+                2018-08-01
               </time>
             
 
@@ -356,8 +358,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/系统模拟/" itemprop="url" rel="index">
-                    <span itemprop="name">系统模拟</span>
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
                   </a>
                 </span>
 
@@ -374,8 +376,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/" itemprop="commentCount"></span>
+                <a href="/2018/08/01/k-近邻算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/08/01/k-近邻算法/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -383,7 +385,7 @@
 
           
           
-             <span id="/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/" class="leancloud_visitors" data-flag-title="系统动力学视角下基于巴斯模型的视频传播机制探究：以AnyLogic仿真为例">
+             <span id="/2018/08/01/k-近邻算法/" class="leancloud_visitors" data-flag-title="k-近邻算法">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -408,7 +410,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  46 字
+                  3,756 字
                 </span>
               
 
@@ -433,8 +435,62 @@
       
 
       
-        <h4 id="《系统模拟》期末课程作业"><a href="#《系统模拟》期末课程作业" class="headerlink" title="《系统模拟》期末课程作业"></a>《系统模拟》期末课程作业</h4><p>运用SPSS与Anylogic对Bilibili网的视频传播机制进行了模拟与分析，纯兴趣驱动。<br>习得技巧：论文写作+1，lol。</p>
-<p><img src="/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0001.jpg" alt="Image"><br><a id="more"></a><br><img src="/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0002.jpg" alt="Image"><br><img src="/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0003.jpg" alt="Image"><br><img src="/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0004.jpg" alt="Image"><br><img src="/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0005.jpg" alt="Image"><br><img src="/images/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/0006.jpg" alt="Image"></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。<br><strong>k值选择</strong>、<strong>距离度量</strong>、<strong>决策规则</strong>是k近邻算法的三个基本要素。<br>k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最多类别数的类别。而做回归时，一般是选择平均法，即最近的k个样本的样本输出的平均值作为回归预测值。<br>对于原始kNN计算量大的缺点，主要有<strong>KD</strong>树与<strong>球树</strong>两种改进算法。<br><a id="more"></a></p>
+<h2 id="k值选择"><a href="#k值选择" class="headerlink" title="k值选择"></a>k值选择</h2><p>k值越小，偏差越小、方差越大，容易过拟合，不抗噪声。<br>k值越大，偏差越大、方差越小，容易欠拟合。<br>通常采用经验值或交叉验证选取合适的k值。</p>
+<h2 id="计算距离"><a href="#计算距离" class="headerlink" title="计算距离"></a>计算距离</h2><p>欧式距离：</p>
+<script type="math/tex; mode=display">
+D(x,y) = \sqrt{(x_1-y_1)^2 + (x_2-y_2)^2 + ... + (x_n-y_n)^2} = \sqrt{\sum\limits_{i=1}^{n}(x_i-y_i)^2}</script><p>曼哈顿距离：</p>
+<script type="math/tex; mode=display">
+D(x,y) =|x_1-y_1| + |x_2-y_2| + ... + |x_n-y_n| =\sum\limits_{i=1}^{n}|x_i-y_i|</script><p>闵可夫斯基距离：</p>
+<script type="math/tex; mode=display">
+D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{\sum\limits_{i=1}^{n}(|x_i-y_i|)^p}</script><p>当$p=1$时，就是曼哈顿距离；当$p=2$时，就是欧氏距离。</p>
+<h2 id="KD树"><a href="#KD树" class="headerlink" title="KD树"></a>KD树</h2><p>原始的kNN算法在找近邻时采取的是Brute Force算法，暴力对所有训练集样本进行搜索，有两个明显的缺点：<br>1.需要存储全部训练集<br>2.计算量太大<br>一种有效的改进方法是事先将训练集按近邻关系分解成组，算出每组质心的位置，以质心作为代表点，和未知样本计算距离，选出距离最近的一个或若干个组，再在组的范围内应用原始的kNN算法。由于并不是将未知样本与所有样本计算距离，故该改进算法可以减少计算量，但并不能减少存储量。<br>实现k-近邻法时，主要考虑的问题是如何对训练数据进行快速k近邻搜索，为了减少计算量，可以考虑使用特殊的结构存储训练数据，以减小计算距离的次数。</p>
+<p>KD树(K-dimension tree)是一种对k维空间中的实例点进行存储以便对其进行快速检索的树形数据结构。KD树是是一种二叉树，表示对k维空间的一个划分，构造KD树相当于不断地用垂直于坐标轴的超平面将K维空间切分，构成一系列的K维超矩形区域。KD树的每个结点对应于一个K维超矩形区域。利用KD树可以省去对大部分数据点的搜索，从而减少搜索的计算量。<br><img src="images/k-近邻算法/2d.png" alt=""><br>下面是三维空间下KD树的构建及空间划分过程。<br>首先，边框为红色的竖直平面将整个空间划分为两部分，此两部分又分别被边框为绿色的水平平面划分为上下两部分。最后此4个子空间又分别被边框为蓝色的竖直平面分割为两部分，变为8个子空间，此8个子空间即为叶子节点。<br><img src="images/k-近邻算法/3d.png" alt=""></p>
+<h3 id="KD树的建立"><a href="#KD树的建立" class="headerlink" title="KD树的建立"></a>KD树的建立</h3><p>KD树建树采用的是从$m$个样本的$n$维特征中，分别计算$n$个特征的取值的方差，用方差最大的第$k$维特征$n_k$来作为根节点。对于这个特征，选择特征$n_k$的取值的中位数$n_kv$对应的样本作为划分点，对于所有第$k$维特征的取值小于$n_kv$的样本，划入左子树，对于第$k$维特征的取值大于等于$n_kv$的样本，划入右子树，对于左子树和右子树，采用和刚才同样的办法来找方差最大的特征来做根节点，递归生成KD树。<br><img src="images/k-近邻算法/kdtree.jpg" alt=""><br>比如现在有$6$个二维样本，$(2,3),(5,4),(9,6),(4,7),(8,1),(7,2)$，构建KD树的具体步骤为：</p>
+<ol>
+<li>找到划分的特征。$6$个数据点在$x$，$y$维度上的数据方差分别为$6.97$，$5.37$，所以在$x$轴上方差更大，用第$1$维特征建树。</li>
+<li>确定划分点$（7,2）$。根据$x$维上的值将数据排序，$6$个数据的中值为$7$，所以划分点的数据是$（7,2）$。这样该节点的分割超平面就是通过$（7,2）$并垂直于划分点维度的直线$x=7$；</li>
+<li>确定左子空间和右子空间。分割超平面$x=7$将整个空间分为两部分：$x&lt;=7$的部分为左子空间，包含$3$个节点${(2,3),(5,4),(4,7)}$；另一部分为右子空间，包含$2$个节点${(9,6),(8,1)}$。</li>
+<li>构建$(7,2)$节点的左子树时，点集合$(2,3),(4,7),(5,4)$。$3$个数据点在$x$，$y$维度上的数据方差分别为$2.33$，$4.33$，此时的切分维度为$y$。中值为$(5,4)$作为分割平面，$(2,3)$挂在其左子树，$(4,7)$挂在其右子树。</li>
+<li>构建$(7,2)$节点的左子树同理。</li>
+</ol>
+<p>最后得到的KD树如下：<br><img src="images/k-近邻算法/kd-tree-building.png" alt=""></p>
+<h3 id="最近邻搜索"><a href="#最近邻搜索" class="headerlink" title="最近邻搜索"></a>最近邻搜索</h3><p>以上述建立的KD树来寻找$(2,4.5)$的最近邻。</p>
+<ol>
+<li><strong>二叉搜索</strong>：首先从根节点$(7,2)$出发，由于目标点$x=2 &lt; 7$，进入左子树$(5,4)$。由于目标点$y=4.5&gt;4$,进入右子树$(4,7)$，形成搜索路径${(7,2)-(5,4)-(4,7)}$。</li>
+<li><strong>回溯</strong>：节点$(4,7)$与目标查找点距离为$3.202$，回溯到父节点$(5,4)$与目标查找点之间距离为$3.041$，所以$(5,4)$为查询点的最近邻。以目标点(2,4.5)为圆心，以3.041为半径作圆。</li>
+<li><strong>更新最近邻</strong>：该圆和$y = 4$超平面交割，所以需要进入$(5,4)$左子树进行查找。回溯至节点$(2,3)$，$(2,4.5)$到$(2,3)$的距离比到$(5,4)$要近，所以最近邻点更新为$(2,3)$，最近距离更新为$1.5$。回溯至$(7,2)$，以$(2,4.5)$为圆心，$1.5$为半径作圆，发现并不和$x = 7$分割超平面交割，至此搜索路径回溯完成，完成更新最近邻操作，返回最近邻点$(2,3)$。</li>
+</ol>
+<p><img src="images/k-近邻算法/kd.jpg" alt=""></p>
+<p>根据KD树搜索最近邻的方法，可以得到第一个最近邻样本点，将它置为已选。然后忽略置为已选的样本，重新选择最近邻，这样运行k次，就可以得到k个最近邻。</p>
+<p>如果样本点是随机分布的，KD树搜索的平均计算复杂度是$O(logN)$，这里$N$是训练实例数。KD树更适用于训练实例数远大于空间维数时的k近邻搜索。当空间维数接近训练实例数时，它的效率会迅速下降，几乎接近线性扫描。</p>
+<h2 id="球树"><a href="#球树" class="headerlink" title="球树"></a>球树</h2><p>KD树算法能够提高kNN搜索效率，但在某些时候效率并不高，比如处理不均匀分布的数据集时。<br>如下图所示，如果黑色的实例点离目标点(星点)再远一点，那么虚线会像红线那样扩大，导致与左上方矩形的右下角相交。既然相交那就要检查左上方矩形，而实际上最近的点离目标点(星点)很近，检查左上方矩形区域已是多余。因此KD树把二维平面划分成矩形会带来无效搜索的问题。<br><img src="images/k-近邻算法/kd2.jpg" alt=""><br>为了优化超矩形体导致的搜索效率的问题，引入球树。</p>
+<h3 id="球树的建立"><a href="#球树的建立" class="headerlink" title="球树的建立"></a>球树的建立</h3><p>球树的每个分割块都是超球体，而非KD树中的超矩形体。球树的构建过程如下：</p>
+<ol>
+<li><strong>构建超球体</strong>：超球体是可以包含所有样本的最小球体。</li>
+<li><strong>划分子超球体</strong>：从超球体中选择一个离超球体中心最远的点，然后选择第二个点离第一个点最远，将球中所有的点分配到离这两个聚类中心最近的一个。然后计算每个聚类的中心，以及聚类能够包含它所有数据点所需的最小半径，这样我们便得到两个子超球体，和KD树中的左右子树对应。</li>
+<li><strong>递归</strong>：对上述两个子超球体，递归执行步骤2，最终得到球树。</li>
+</ol>
+<p><img src="images/k-近邻算法/balltree.jpg" alt=""><br>可以看出球树和KD树类似，主要区别在于球树得到的是节点样本组成的最小超球体，而KD得到的是节点样本组成的超矩形体，这个超球体要与对应的KD树的超矩形体小，这样在做最近邻搜索的时候，可以避免一些无效的搜索。</p>
+<h3 id="球树搜索最近邻"><a href="#球树搜索最近邻" class="headerlink" title="球树搜索最近邻"></a>球树搜索最近邻</h3><p>KD树在搜索路径优化时使用的是两点之间的距离来判断，而球树使用的是两边之和与第三边大小来判断，即$|x+y|\leq|x|+|y|$。<br>以下图为例搜索点$q$的半径为$r$内的最近邻，即满足$||q-x||\leq r$：</p>
+<ol>
+<li>从根节点$q$开始从上至下递归遍历每个可能包含最终近邻的子空间$p_i$。</li>
+<li>如果子空间的半径$radius{(p_i)}$与$r$之和小于$p_i$中心点$center(p_i)$到目标点$q$的距离，即$(radius(p_i)+r)\leq ||center(p_i)-q||$，接着在满足这样条件的子空间样本点内递归搜索满足$||q-x||\leq r$的点就是我们想要的最近邻点了。换句简单的话来说，对于目标空间$(q, r)$，所有被该超球体截断的子超球体内的所有子空间都将被遍历搜索。</li>
+<li>由于子超球体$a$与$b$被$q$所截，而对于$a$与$b$内的子空间，$d,h,f$又被$q$所截，所以接下来就会在$d,h,f$内进行线性搜索。诸如$c,e,g$这些距离太远的子空间将被舍去。最后$[x_4,x_7]$就是最终得到最近邻。</li>
+</ol>
+<p><img src="images/k-近邻算法/balltree.png" alt=""><br>球树中的每个结点对应一个圆，结点的数字表示该区域保含的观测点数，但不一定就是图中该区域囊括的点数，因为有重叠的情况，并且一个观测点只能属于一个区域。实际的ball tree的结点保存圆心和半径。叶子结点保存它包含的观测点。</p>
+<h2 id="kNN实现手写数字分类"><a href="#kNN实现手写数字分类" class="headerlink" title="kNN实现手写数字分类"></a>kNN实现手写数字分类</h2><p>代码来自于《机器学习实战》第2章。</p>
+<p>思路:</p>
+<ol>
+<li>将每个$32<em>32$的图像数据转换为$1</em>1024$的向量<br>再将每个单列向量分别存入一个矩阵$A$中<br>矩阵$A$中每一列对应一张图片信息，$m$张图片对应的矩阵$A$的大小即为$m*1024$</li>
+<li>将测试图片也转换为$1*1024$的向量后与矩阵$A$中每一列求欧式距离<br>将一一对应的距离存入一个数组中，取出距离数组中最小的$k$个训练集索引</li>
+<li>索引出现次数最多的值就是预测数值</li>
+</ol>
+<p>先处理图像数据<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">img2vector</span><span class="params">(filename)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    将32*32的图像数据转换为1*1024的向量</span></span><br><span class="line"><span class="string">    循环读出文件的前32行，并将每行的前32个值存储在1*1024的numpy数组中</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    returnVect = np.zeros((<span class="number">1</span>,<span class="number">1024</span>))</span><br><span class="line">    fr = open(filename)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">        lineStr = fr.readline()</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">            returnVect[<span class="number">0</span>,<span class="number">32</span>*i+j] = int(lineStr[j])</span><br><span class="line">    <span class="keyword">return</span> returnVect</span><br></pre></td></tr></table></figure></p>
+<p>构造分类器<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classify0</span><span class="params">(inX, dataSet, labels, k)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    利用k-近邻算法实现分类，采用欧式距离</span></span><br><span class="line"><span class="string">    inX: 用于分类的输入向量</span></span><br><span class="line"><span class="string">    dataSet: 训练集</span></span><br><span class="line"><span class="string">    labels: 标签向量</span></span><br><span class="line"><span class="string">    k: 选择最近邻数目</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    dataSetSize = dataSet.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 将输入向量按行复制，与训练集相减得到差值</span></span><br><span class="line">    diffMat = np.tile(inX, (dataSetSize, <span class="number">1</span>)) - dataSet</span><br><span class="line">    <span class="comment"># 各个差值分别平方</span></span><br><span class="line">    sqDiffMat = diffMat ** <span class="number">2</span></span><br><span class="line">    <span class="comment"># 按行对结果求和</span></span><br><span class="line">    sqDistances = sqDiffMat.sum(axis = <span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 再开方即可得到距离</span></span><br><span class="line">    distances = sqDistances ** <span class="number">0.5</span></span><br><span class="line">    <span class="comment"># argsort()方法将向量中每个元素进行排序，结果是元素的索引形成的向量</span></span><br><span class="line">    <span class="comment"># 如argsort([1,3,2]) -&gt; ([0,2,1])</span></span><br><span class="line">    sortedDistIndicies = distances.argsort()</span><br><span class="line">    classCount = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i  <span class="keyword">in</span> range(k):</span><br><span class="line">        <span class="comment"># 找到该样本的类型</span></span><br><span class="line">        voteIlabel = labels[sortedDistIndicies[i]]</span><br><span class="line">        <span class="comment"># 在字典中将该类型+1</span></span><br><span class="line">        <span class="comment"># 字典的get()方法</span></span><br><span class="line">        <span class="comment"># 如：list.get(k,d)get相当于一条if...else...语句</span></span><br><span class="line">        <span class="comment"># 参数k在字典中，字典将返回list[k]</span></span><br><span class="line">        <span class="comment"># 如果参数k不在字典中则返回参数d,如果K在字典中则返回k对应的value值</span></span><br><span class="line">        classCount[voteIlabel] = classCount.get(voteIlabel, <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">    <span class="comment"># 字典的 items()方法，以列表返回可遍历的(key，value)元组</span></span><br><span class="line">    <span class="comment"># sorted()中的第2个参数key=operator.itemgetter(1)表示按第2个元素进行排序</span></span><br><span class="line">    sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="keyword">True</span>)</span><br><span class="line">    <span class="comment"># 返回第0个tuple的第0个参数，由于是逆序排序所以返回的是出现次数最多的类型</span></span><br><span class="line">    <span class="keyword">return</span> sortedClassCount[<span class="number">0</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure></p>
+<p>测试分类器正确率<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handwritingClassTest</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    kNN手写数字识别测试</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 导入训练集</span></span><br><span class="line">    hwLabels = []</span><br><span class="line">    trainingFileList = listdir(<span class="string">'trainingDigits'</span>)</span><br><span class="line">    m = len(trainingFileList)</span><br><span class="line">    trainingMat = np.zeros((m, <span class="number">1024</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        fileNameStr = trainingFileList[i]</span><br><span class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">        classNumStr = int(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</span><br><span class="line">        hwLabels.append(classNumStr)</span><br><span class="line">        trainingMat[i, :] = img2vector(<span class="string">'trainingDigits/%s'</span> % fileNameStr)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 导入测试集</span></span><br><span class="line">    testFileList = listdir(<span class="string">'testDigits'</span>)</span><br><span class="line">    errorCount = <span class="number">0.0</span></span><br><span class="line">    mTest = len(testFileList)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(mTest):</span><br><span class="line">        fileNameStr = testFileList[i]</span><br><span class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">        classNumStr = int(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</span><br><span class="line">        vectorUnderTest = img2vector(<span class="string">'testDigits/%s'</span> % fileNameStr)</span><br><span class="line">        classifierResult = classify0(vectorUnderTest, trainingMat, hwLabels, <span class="number">3</span>)</span><br><span class="line">        print(<span class="string">"the classifier came back with: %d, the real answer is: %d"</span> % (classifierResult, classNumStr))</span><br><span class="line">        <span class="keyword">if</span> (classifierResult != classNumStr): errorCount += <span class="number">1.0</span></span><br><span class="line">    print(<span class="string">"\nthe total number of errors is: %d"</span> % errorCount)</span><br><span class="line">    print(<span class="string">"\nthe total correct rate is: %f"</span> % (<span class="number">1</span>-(errorCount / float(mTest))))</span><br></pre></td></tr></table></figure></p>
+<p>结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line"></span><br><span class="line">the total number of errors is: 10</span><br><span class="line">the total correct rate is: 0.989429</span><br></pre></td></tr></table></figure></p>
+<p>原始的kNN要做分类的话每张图片都得和每个训练集样本两两计算距离，如上述例子就是如此。时间复杂度就是O(M*N)，虽然简单但是遇到数据集很大时会变得效率非常低，所以一般采用的是KD树或球树等改进型的kNN算法。scikit-learn中提供了kNN算法的三种实现，第一种是Brute Force(暴力)实现，第二种是KD树实现，第三种是球树实现。<br>kNN做回归比较简单，就是取k个近邻的平均值作为预测值，当有多个特征时可以为特征设置不同权重，或者给近点加大权重，远点减小权重，都可以提高预测准确率。</p>
 
       
     </div>
@@ -452,7 +508,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/系统动力学/" rel="tag"><i class="fa fa-tag"></i> 系统动力学</a>
+            <a href="/tags/MachineLearning/" rel="tag"><i class="fa fa-tag"></i> MachineLearning</a>
           
         </div>
       
@@ -465,8 +521,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/11/Flask开发与网站部署踩坑/" rel="next" title="Flask开发与网站部署踩坑">
-                <i class="fa fa-chevron-left"></i> Flask开发与网站部署踩坑
+              <a href="/2018/07/29/个人翻译-推荐系统概述/" rel="next" title="个人翻译：推荐系统概述">
+                <i class="fa fa-chevron-left"></i> 个人翻译：推荐系统概述
               </a>
             
           </div>
@@ -474,10 +530,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/07/16/基于概率论的分类方法-朴素贝叶斯/" rel="prev" title="基于概率论的分类方法：朴素贝叶斯">
-                基于概率论的分类方法：朴素贝叶斯 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -626,7 +678,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#《系统模拟》期末课程作业"><span class="nav-number">1.</span> <span class="nav-text">《系统模拟》期末课程作业</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k值选择"><span class="nav-number">2.</span> <span class="nav-text">k值选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算距离"><span class="nav-number">3.</span> <span class="nav-text">计算距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KD树"><span class="nav-number">4.</span> <span class="nav-text">KD树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#KD树的建立"><span class="nav-number">4.1.</span> <span class="nav-text">KD树的建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最近邻搜索"><span class="nav-number">4.2.</span> <span class="nav-text">最近邻搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#球树"><span class="nav-number">5.</span> <span class="nav-text">球树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#球树的建立"><span class="nav-number">5.1.</span> <span class="nav-text">球树的建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#球树搜索最近邻"><span class="nav-number">5.2.</span> <span class="nav-text">球树搜索最近邻</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kNN实现手写数字分类"><span class="nav-number">6.</span> <span class="nav-text">kNN实现手写数字分类</span></a></li></ol></div>
             
 
           </div>
@@ -1297,7 +1349,7 @@
         showTime(Counter);
       }
     });
-  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </script>
 
 
 
@@ -1309,6 +1361,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
