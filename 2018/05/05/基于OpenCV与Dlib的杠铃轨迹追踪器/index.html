@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/traffic.jpg">
 <meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/avg_fps.svg">
 <meta property="og:image" content="http://yoursite.com/images/基于OpenCV与Dlib的杠铃轨迹追踪器/fps.svg">
-<meta property="og:updated_time" content="2018-07-22T15:49:29.561Z">
+<meta property="og:updated_time" content="2018-08-21T05:39:37.541Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于OpenCV与Dlib的杠铃轨迹追踪器">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;最近想看看自己的深蹲硬拉时的杠铃轨迹，顺便检测下动作。搜了搜Iron Path可以实现，但是iOS独占，没有Android版本。怎么办？那就自己写一个吧。&amp;emsp;&amp;emsp;用了OpenCV3.2预置的6种Tracker(BOOSTING,MIL,KCF,TLD,MEDIANFLOW,GOTURN),Dlib预置的Tracker，以及CamShift与Template_">
@@ -484,7 +484,7 @@
 <p>MOSSE(Visual Object Tracking using Adaptive Correlation Filters )在求解滤波器时，其输入项是图像本身（灰度图），也就是图像的灰度特征。对于灰度特征，其特征较为简单，不能很好的描述目标的纹理、边缘等形状信息，因此DSST的作者将灰度特征替换为在跟踪和识别领域较为常用的HOG特征。</p>
 <p>DSST作者将跟踪分为两个部分，位置变化（translation）和尺度变化（scale estimation）。在跟踪的实现过程中，作者定义了两个correlation filter，一个滤波器（translation filter）专门用于确定新的目标所处的位置，另一个滤波器（scale filter）专门用于尺度评估。</p>
 <p>在translation filter方面，作者的方法与MOSSE的方法是一样的，只不过其获取最佳模板H的准则有了些许变化。根据translation filter可以获取当前帧目标所处的位置，然后在当前目标位置获取不同尺度的候选框，经过scale filter之后，确定新的目标尺度。</p>
-<h3 id="CamShift"><a href="#CamShift" class="headerlink" title="CamShift"></a>CamShift</h3><p>实现了前面几个Tracker后，已经能满足我最初的杠铃轨迹追踪需求。但是在追踪车辆时，遇到了一个问题。当框选完车辆后，因为车辆从远到近驶来，车辆的大小是由小变大的，但是追踪框只能保持最初框选的大小。当车辆由近处驶向远处时，因为车辆越来越小，追踪器很容易失去目标。为了解决这个问题，引入CamShift算法。    </p>
+<h3 id="CamShift"><a href="#CamShift" class="headerlink" title="CamShift"></a>CamShift</h3><p>实现了前面几个Tracker后，已经能满足我最初的杠铃轨迹追踪需求。<strong>但是在追踪车辆时，遇到了一个问题。当框选完车辆后，因为车辆从远到近驶来，车辆的大小是由小变大的，但是追踪框只能保持最初框选的大小。</strong>当车辆由近处驶向远处时，因为车辆越来越小，追踪器很容易失去目标。为了解决这个问题，引入CamShift算法。    </p>
 <p>CamShift算法的全称是”Continuously Adaptive Mean-SHIFT”，即：连续自适应的MeanShift算法。其基本思想是对视频序列的所有图像帧都作MeanShift运算，并将上一帧的结果（即搜索窗口的中心位置和窗口大小）作为下一帧MeanShift算法的搜索窗口的初始值，如此迭代下去。      </p>
 <p>简单点说，MeanShift是针对单张图片寻找最优迭代结果，而CamShift则是针对视频序列来处理，并对该序列中的每一帧图片都调用MeanShift来寻找最优迭代结果。正是由于CamShift针对一个视频序列进行处理，从而保证其可以不断调整窗口的大小，如此一来，当目标的大小发生变化的时候，该算法就可以自适应地调整目标区域继续跟踪。     </p>
 <p>在OpenCV给出的CamShift Demo当中，是通过计算目标在HSV空间下的H分量直方图，通过直方图反向投影得到目标像素的概率分布，然后通过调用OpenCV的CAMSHIFT算法，自动跟踪并调整目标窗口的中心位置与大小。该算法对于简单背景下的单目标跟踪效果较好，但如果被跟踪目标与背景颜色或周围其它目标颜色比较接近，则跟踪效果较差。另外，由于采用颜色特征，所以它对被跟踪目标的形状变化有一定的抵抗能力。</p>
@@ -654,7 +654,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -676,7 +676,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -753,7 +753,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">19.8k</span>
+    <span title="Site words total count">22.9k</span>
   
 </div>
 
