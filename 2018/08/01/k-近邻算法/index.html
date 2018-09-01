@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://yoursite.com/images/k-近邻算法/kd2.jpg">
 <meta property="og:image" content="http://yoursite.com/images/k-近邻算法/balltree.jpg">
 <meta property="og:image" content="http://yoursite.com/images/k-近邻算法/balltree.png">
-<meta property="og:updated_time" content="2018-08-13T14:54:37.324Z">
+<meta property="og:updated_time" content="2018-09-01T07:24:00.477Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="k-近邻算法">
 <meta name="twitter:description" content="前言k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。k值选择、距离度量、决策规则是k近邻算法的三个基本要素。k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最">
@@ -410,7 +410,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,808 字
+                  3,804 字
                 </span>
               
 
@@ -483,8 +483,8 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
 <h2 id="kNN实现手写数字分类"><a href="#kNN实现手写数字分类" class="headerlink" title="kNN实现手写数字分类"></a>kNN实现手写数字分类</h2><p>代码来自于《机器学习实战》第2章。</p>
 <p>思路:</p>
 <ol>
-<li>将每个32<em>32的图像数据转换成1</em>1024的向量<br>再将每个单列向量分别存入一个矩阵$A$中<br>矩阵$A$中每一列对应一张图片信息，$m$张图片对应的矩阵$A$的大小即为m*1024</li>
-<li>将测试图片也转换为1*1024的向量后与矩阵$A$中每一列求欧式距离<br>将一一对应的距离存入一个数组中，取出距离数组中最小的$k$个训练集索引</li>
+<li>将每个32x32的图像数据转换成1x1024的向量<br>再将每个单列向量分别存入一个矩阵A中<br>矩阵A中每一列对应一张图片信息，m张图片对应的矩阵A的大小即为m*1024</li>
+<li>将测试图片也转换为1x1024的向量后与矩阵A中每一列求欧式距离<br>将一一对应的距离存入一个数组中，取出距离数组中最小的k个训练集索引</li>
 <li>索引出现次数最多的值就是预测数值</li>
 </ol>
 <p>先处理图像数据<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">img2vector</span><span class="params">(filename)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    将32*32的图像数据转换为1*1024的向量</span></span><br><span class="line"><span class="string">    循环读出文件的前32行，并将每行的前32个值存储在1*1024的numpy数组中</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    returnVect = np.zeros((<span class="number">1</span>,<span class="number">1024</span>))</span><br><span class="line">    fr = open(filename)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">        lineStr = fr.readline()</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">            returnVect[<span class="number">0</span>,<span class="number">32</span>*i+j] = int(lineStr[j])</span><br><span class="line">    <span class="keyword">return</span> returnVect</span><br></pre></td></tr></table></figure></p>
@@ -618,7 +618,7 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -640,7 +640,7 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -717,7 +717,7 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">22.9k</span>
+    <span title="Site words total count">25.4k</span>
   
 </div>
 
