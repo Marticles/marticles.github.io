@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="深度学习," />
+  <meta name="keywords" content="RNN,LSTM,深度学习," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="原论文Yuxuan Liang, Songyu Ke, Junbo Zhang, Xiuwen Yi, Yu Zheng, “GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction”, In International Joint Conference on Artificial Intellige">
-<meta name="keywords" content="深度学习">
+<meta name="keywords" content="RNN,LSTM,深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GeoMAN:基于多层注意力机制的地理传感器时间序列预测模型">
 <meta property="og:url" content="http://yoursite.com/2018/09/01/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/index.html">
@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/images/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/2.png">
 <meta property="og:image" content="http://yoursite.com/images/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/3.png">
 <meta property="og:image" content="http://yoursite.com/images/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/4.png">
-<meta property="og:updated_time" content="2018-09-01T11:37:13.002Z">
+<meta property="og:updated_time" content="2018-09-01T12:03:44.101Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GeoMAN:基于多层注意力机制的地理传感器时间序列预测模型">
 <meta name="twitter:description" content="原论文Yuxuan Liang, Songyu Ke, Junbo Zhang, Xiuwen Yi, Yu Zheng, “GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction”, In International Joint Conference on Artificial Intellige">
@@ -406,7 +406,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,452 字
+                  2,458 字
                 </span>
               
 
@@ -432,7 +432,7 @@
 
       
         <h2 id="原论文"><a href="#原论文" class="headerlink" title="原论文"></a>原论文</h2><p>Yuxuan Liang, Songyu Ke, Junbo Zhang, Xiuwen Yi, Yu Zheng, “GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction”, In International Joint Conference on Artificial Intelligence (IJCAI), 2018.</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前都没关注过城市计算这个领域的问题，在看用LSTM对PM2.5进行预测的相关工作的时候偶然发现这篇paper，觉得这领域的一些内容也是十分具有前沿性与挑战性的，做的工作也非常有现实价值，此文作者是原微软亚洲研究院研究员、现京东金融集团副总裁、首席数据科学家郑宇。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前都没关注过城市计算这个领域的问题，在搜索基于LSTM的PM2.5预测相关工作的时候偶然发现这篇来自AI顶会之一的paper，觉得这领域的一些内容也是十分具有前沿性与挑战性的，做的工作也非常有现实价值，此文作者是原微软亚洲研究院研究员、现京东金融集团副总裁、首席数据科学家郑宇。</p>
 <p>据了解，京东的城市计算业务部已经部署了基于这个模型的自来水质预测系统，以期能够指导自来水工厂更科学地进行投氯消毒，保证居民饮用水质。还可以及时发现水管健康状态，并在第一时间进行维护、修理，为政府的城市建设决策提供参考。</p>
 <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>城市中的传感器每天都源源不断不断地产生大量随着时间变化的数据，这些有着独立地理位置的传感器产生的时间序列数据之间往往存在着空间上的联系，论文将这些数据称为“地理传感器时间序列”(Geosensory Time Series)。如何对这些具有时空关联性的地理传感器时间序列数据进行预测是一个十分具有挑战性的问题。</p>
 <p>这篇paper提出了一种GeoMAN(Multi-level Attention Network)结构的预测模型，该模型基于Encoder-Decoder结构，在时空数据预测问题上首次引入了多层注意力机制，对各传感器之间的动态时空关联性进行建模，并通过在Decoder阶段融合传感器对应的兴趣点(POI)信息、传感器ID和天气预报数据等外部因素显著提升了模型的性能。</p>
@@ -534,6 +534,10 @@ $$
     <footer class="post-footer">
       
         <div class="post-tags">
+          
+            <a href="/tags/RNN/" rel="tag"><i class="fa fa-tag"></i> RNN</a>
+          
+            <a href="/tags/LSTM/" rel="tag"><i class="fa fa-tag"></i> LSTM</a>
           
             <a href="/tags/深度学习/" rel="tag"><i class="fa fa-tag"></i> 深度学习</a>
           
