@@ -82,7 +82,7 @@
 <meta name="description" content="原论文Yuxuan Liang, Songyu Ke, Junbo Zhang, Xiuwen Yi, Yu Zheng, “GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction”, In International Joint Conference on Artificial Intellige">
 <meta name="keywords" content="RNN,LSTM,深度学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GeoMAN:基于多层注意力机制的地理传感器时间序列预测模型">
+<meta property="og:title" content="GeoMAN:基于多层注意力机制网络的地理传感器时间序列预测模型">
 <meta property="og:url" content="http://yoursite.com/2018/09/01/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/index.html">
 <meta property="og:site_name" content="Marticles&#39;s Blog">
 <meta property="og:description" content="原论文Yuxuan Liang, Songyu Ke, Junbo Zhang, Xiuwen Yi, Yu Zheng, “GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction”, In International Joint Conference on Artificial Intellige">
@@ -91,9 +91,9 @@
 <meta property="og:image" content="http://yoursite.com/images/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/2.png">
 <meta property="og:image" content="http://yoursite.com/images/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/3.png">
 <meta property="og:image" content="http://yoursite.com/images/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/4.png">
-<meta property="og:updated_time" content="2018-09-01T12:03:44.101Z">
+<meta property="og:updated_time" content="2018-09-01T12:51:05.575Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GeoMAN:基于多层注意力机制的地理传感器时间序列预测模型">
+<meta name="twitter:title" content="GeoMAN:基于多层注意力机制网络的地理传感器时间序列预测模型">
 <meta name="twitter:description" content="原论文Yuxuan Liang, Songyu Ke, Junbo Zhang, Xiuwen Yi, Yu Zheng, “GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction”, In International Joint Conference on Artificial Intellige">
 <meta name="twitter:image" content="http://yoursite.com/images/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/1.png">
 
@@ -131,7 +131,7 @@
 
 
 
-  <title>GeoMAN:基于多层注意力机制的地理传感器时间序列预测模型 | Marticles's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>GeoMAN:基于多层注意力机制网络的地理传感器时间序列预测模型 | Marticles's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -319,7 +319,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">GeoMAN:基于多层注意力机制的地理传感器时间序列预测模型</h1>
+          <h1 class="post-title" itemprop="name headline">GeoMAN:基于多层注意力机制网络的地理传感器时间序列预测模型</h1>
         
 
         <div class="post-meta">
@@ -381,7 +381,7 @@
 
           
           
-             <span id="/2018/09/01/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/" class="leancloud_visitors" data-flag-title="GeoMAN:基于多层注意力机制的地理传感器时间序列预测模型">
+             <span id="/2018/09/01/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/" class="leancloud_visitors" data-flag-title="GeoMAN:基于多层注意力机制网络的地理传感器时间序列预测模型">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -466,9 +466,9 @@ $$
 </p>
 <h3 id="Global-Spatial-Attention"><a href="#Global-Spatial-Attention" class="headerlink" title="Global Spatial Attention"></a>Global Spatial Attention</h3><p>这个attention机制是建立在各个传感器之间的时空序列数据都互有关联的前提上。直接使用全部传感器数据序列会导致计算花费过高、降低模型表现，因为可能存在许多不相关联的序列，所以在这个阶段需要先算出各个传感器之间的关联性。<br>
 $$
-g_t^l=v_g^Ttanh(W_g[h_{t-1};s_{t-1}]+U_gy^l+W^{\#}_gX^lu_g+b_g])
+g_t^l=v_g^Ttanh(W_g[h_{t-1};s_{t-1}]+U_gy^l+W^{'}_gX^lu_g+b_g])
 $$
-<br>其中$v_g,u_g,b_g \in R^T, W_g \in R^{T*2m}, U_g \in R^{T*T}, W_g^{\#} \in R^{T*N_l}$是需要学习的参数，这种attention机制可以自适应地选择合适的的相关传感器数据序列。attention权重的计算方式如下。<br>
+<br>其中$v_g,u_g,b_g \in R^T, W_g \in R^{T*2m}, U_g \in R^{T*T}, W_g^{'} \in R^{T*N_l}$是需要学习的参数，这种attention机制可以自适应地选择合适的的相关传感器数据序列。attention权重的计算方式如下。<br>
 $$
 \beta_t^l=\frac{exp((1-\lambda)g_t^l+\lambda P_{i,l})}{\sum_{j=1}^{N_g}exp((1-\lambda)g_t^l+\lambda P_{i,j})}
 $$
@@ -480,7 +480,7 @@ $$
 </p>
 <h3 id="Temporal-Attention"><a href="#Temporal-Attention" class="headerlink" title="Temporal Attention"></a>Temporal Attention</h3><p>Cho等人在On the properties of neural machine translation: Encoder-decoder approaches一文指出Encoder-Decoder结构的性能会随着Encoder长度的增长而迅速下降，所以需要在Decoder中也需要引入attention机制来解决这个问题。attention机制可以使Decoder自适应地选取Encoder中的应着重关注隐藏层状态。Decoder中t时刻的attention权重计算如下。<br>
 $$
-u_t^o=v_d^T tanh(W_d^{\#} [d_{t-1};s^\#_{t-1}]+W_dh_o+b_d)
+u_t^o=v_d^T tanh(W_d^{'} [d_{t-1};s^{'}_{t-1}]+W_dh_o+b_d)
 $$
 
 $$
@@ -490,7 +490,7 @@ $$
 $$
 c_t=\sum_{o=1}^T\lambda_t^oh_o
 $$
-<br>其中$W_d \in R^{m*m} , W_d^\# \in R^{m*2n} , v_d,b_d \in R^{m}$是需要学习的参数。</p>
+<br>其中$W_d \in R^{m*m} , W_d^{'} \in R^{m*2n} , v_d,b_d \in R^{m}$是需要学习的参数。</p>
 <h3 id="External-Factor-Fusion"><a href="#External-Factor-Fusion" class="headerlink" title="External Factor Fusion"></a>External Factor Fusion</h3><p>这一步是在Decoder中融合外部因素，这些因素包括time features, meteorological features, SensorID, POIs&amp;Sensor networks，需要注意的是这些外部因素中的大部分都是离散的，所以作者将这些特征映射为低维向量分别送入不同的embedding层中。作者还使用了POIs密度作为POIs的特征，Sensor networks采用的是比较简单的传感器网络结构特征(例如十字路口数量与邻近传感器数量)。由于未来的天气信息难以获取，所以作者采用的是天气预报信息。</p>
 <h3 id="Encoder-decoder-amp-Model-Training"><a href="#Encoder-decoder-amp-Model-Training" class="headerlink" title="Encoder-decoder &amp; Model Training"></a>Encoder-decoder &amp; Model Training</h3><p>对于$t$时刻，Encoder的输入为<br>
 $$
