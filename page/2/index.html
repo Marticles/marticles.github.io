@@ -293,6 +293,199 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/11/Flask开发与网站部署踩坑/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marticles's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/11/Flask开发与网站部署踩坑/" itemprop="url">Flask开发与网站部署踩坑</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-11T16:28:25+08:00">
+                2018-06-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/踩坑/" itemprop="url" rel="index">
+                    <span itemprop="name">踩坑</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/11/Flask开发与网站部署踩坑/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/11/Flask开发与网站部署踩坑/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/06/11/Flask开发与网站部署踩坑/" class="leancloud_visitors" data-flag-title="Flask开发与网站部署踩坑">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,483 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="Flask中的上下文与出入栈"><a href="#Flask中的上下文与出入栈" class="headerlink" title="Flask中的上下文与出入栈"></a>Flask中的上下文与出入栈</h3><p><img src="/images/Flask开发与网站部署踩坑/stack.PNG" alt=""></p>
+<ol>
+<li>当一个请求进入Flask框架，首先会实例化一个<code>Request Context</code>，这个上下文封装了请求的信息在<code>Request</code>中，并将这个上下文推入到一个栈(<code>_request_ctx_stack/_app_ctx_strack</code>)的结构中</li>
+<li><code>RequestContext</code>在入<code>_request_ctx_stack</code>之前，首先会检查全局变量<code>_app_ctx_strack</code>是否为空，如果为空，则会把一个<code>AppContext</code>的对象入栈，然后再将这个请求入栈到全局变量<code>_request_ctx_stack</code>中</li>
+<li><code>current_app</code>和<code>request</code>对象都是永远指向<code>_app_ctx_strack/_request_ctx_stack</code>的栈顶元素，也就是分别指向了两个上下文，如果这两个值是空的，那么<code>LocalProxy</code>就会出现unbound的状态</li>
+<li>当请求结束的时候，这个请求会pop出栈</li>
+</ol>
+<p>简单来说，每一个请求到来之后，flask都会为它新建一个<code>RequestContext</code>对象，并且将这个对象push进全局变量<code>_request_ctx_stack</code>中，在push前还要检查<code>_app_ctx_stack</code>，如果<code>_app_ctx_stack</code>的栈顶元素不存在或是与当前的应用不一致，则首先<code>push appcontext</code>到<code>_app_ctx_stack</code>中，再push <code>requestcontext</code>。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/11/Flask开发与网站部署踩坑/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/11/书漂网-一个基于Flask开发的图书交换网站/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1068,7 +1261,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1090,7 +1283,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1151,7 +1344,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">26.1k</span>
+    <span title="Site words total count">32.6k</span>
   
 </div>
 
