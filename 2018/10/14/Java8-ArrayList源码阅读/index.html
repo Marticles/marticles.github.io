@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="定义12public class ArrayList&amp;lt;E&amp;gt; extends AbstractList&amp;lt;E&amp;gt;          implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.io.Serializable ArrayList继承于AbstractList，实现了List接口，是一个长度可变的集合，实现了Rand">
+<meta name="description" content="概述12public class ArrayList&amp;lt;E&amp;gt; extends AbstractList&amp;lt;E&amp;gt;          implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.io.Serializable ArrayList继承于AbstractList，实现了List接口，是一个长度可变的集合，实现了Rand">
 <meta name="keywords" content="Java源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java8 ArrayList源码阅读">
 <meta property="og:url" content="http://marticles.github.io/2018/10/14/Java8-ArrayList源码阅读/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="定义12public class ArrayList&amp;lt;E&amp;gt; extends AbstractList&amp;lt;E&amp;gt;          implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.io.Serializable ArrayList继承于AbstractList，实现了List接口，是一个长度可变的集合，实现了Rand">
+<meta property="og:description" content="概述12public class ArrayList&amp;lt;E&amp;gt; extends AbstractList&amp;lt;E&amp;gt;          implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.io.Serializable ArrayList继承于AbstractList，实现了List接口，是一个长度可变的集合，实现了Rand">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-06T10:30:50.926Z">
+<meta property="og:updated_time" content="2018-11-15T17:21:20.260Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8 ArrayList源码阅读">
-<meta name="twitter:description" content="定义12public class ArrayList&amp;lt;E&amp;gt; extends AbstractList&amp;lt;E&amp;gt;          implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.io.Serializable ArrayList继承于AbstractList，实现了List接口，是一个长度可变的集合，实现了Rand">
+<meta name="twitter:description" content="概述12public class ArrayList&amp;lt;E&amp;gt; extends AbstractList&amp;lt;E&amp;gt;          implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.io.Serializable ArrayList继承于AbstractList，实现了List接口，是一个长度可变的集合，实现了Rand">
 
 
 
@@ -426,7 +426,7 @@
       
 
       
-        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">          <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">          <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
 <p>ArrayList继承于AbstractList，实现了List接口，是一个长度可变的集合，实现了RandomAccess接口，Serializable接口，Cloneable接口，即ArrayList支持随机访问、可序列化、可克隆。ArrayList中允许存在null值，此外，和Vector不同的是，ArrayList不是线程安全的，所有的方法均不是同步方法也没有加锁。</p>
 <h2 id="fail-fast机制"><a href="#fail-fast机制" class="headerlink" title="fail-fast机制"></a>fail-fast机制</h2><p>fail-fast机制也被称为”快速失败”机制，是Java集合中的一种错误检测机制。在对集合进行迭代过程中，除了迭代器可以对集合进行修改(add,set,remove操作)，其他的对集合进行修改(同上)，都会抛出<code>ConcurrentModificationException</code>错误。</p>
 <p>该机制是基于一个变量——modCount实现的，每次对ArrayList进行add，set，remove等操作，都会执行modCount++。在获取ArrayList的迭代器时，会将ArrayList中的modCount保存在迭代中，每次执行add,set,remove等操作，都会执行一次检查，调用<code>checkForComodification</code>方法，对modCount进行比较。如果迭代器中的modCount和List中的modCount不同，则抛出<code>ConcurrentModificationException</code></p>
@@ -558,7 +558,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -580,7 +580,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -623,7 +623,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fail-fast机制"><span class="nav-number">2.</span> <span class="nav-text">fail-fast机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#elementData被transient修饰的原因"><span class="nav-number">3.</span> <span class="nav-text">elementData被transient修饰的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList源码阅读笔记"><span class="nav-number">4.</span> <span class="nav-text">ArrayList源码阅读笔记</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fail-fast机制"><span class="nav-number">2.</span> <span class="nav-text">fail-fast机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#elementData被transient修饰的原因"><span class="nav-number">3.</span> <span class="nav-text">elementData被transient修饰的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList源码阅读笔记"><span class="nav-number">4.</span> <span class="nav-text">ArrayList源码阅读笔记</span></a></li></ol></div>
             
 
           </div>
@@ -657,7 +657,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">44.2k</span>
+    <span title="Site words total count">47.5k</span>
   
 </div>
 

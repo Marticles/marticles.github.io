@@ -293,6 +293,194 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/11/15/Python并发编程之concurrent.futures/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/15/Python并发编程之concurrent.futures/" itemprop="url">Python并发编程之concurrent.futures</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-15T19:23:12+08:00">
+                2018-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/15/Python并发编程之concurrent.futures/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/15/Python并发编程之concurrent.futures/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/11/15/Python并发编程之concurrent.futures/" class="leancloud_visitors" data-flag-title="Python并发编程之concurrent.futures">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,961 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="一次请求超时问题所引申出的笔记"><a href="#一次请求超时问题所引申出的笔记" class="headerlink" title="一次请求超时问题所引申出的笔记"></a>一次请求超时问题所引申出的笔记</h2><p>最近项目中遇到了一个问题，一个模块中的任务是计算密集型的，服务器的响应要十几到几十分钟不等（VPS是单核1G的学生机，没办法呀´･_･`），用户过来的请求自然会出现连接超时的问题。</p>
+<p>初步想到的解决办法是把这个任务挂到后台去异步处理，然后先返回给用户一个任务已提交的提示就OK了。一开始用的是线程池 <code>ThreadPoolExecutor</code>，后来了解到 <code>GIL</code> 全局解释器锁这个神奇的存在，对于这种计算密集型任务必然会引起十分频繁的上下文切换，大大降低效率，所以最后的解决办法又换成了进程池 <code>ProcessPoolExecutor</code>。</p>
+<p>本文使用的是 Python3 中自带的 <code>concurrent.futures</code> 并发模块。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/15/Python并发编程之concurrent.futures/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/11/09/设计模式学习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -399,7 +587,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,918 字
+                  3,242 字
                 </span>
               
 
@@ -428,8 +616,10 @@
           <h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>单例模式 ( Singleton pattern ) 确保一个类只有一个实例，并提供全局访问点。在 Java 中实现单例模式需要私有的构造器、一个静态方法和一个静态变量。</p>
 <p>一般在以下两种场景中会考虑使用单例模式：</p>
 <ul>
-<li>产生某对象会消耗过多的资源，为避免频繁地创建与销毁对象对资源的浪费。如：对数据库的操作、访问 IO、线程池、网络请求等。</li>
-<li>某种类型的对象应该有且只有一个。如果制造出多个这样的实例，可能导致：程序行为异常、资源使用过量、结果不一致等问题。比如一个系统只能有：一个窗口管理器或文件系统等。</li>
+<li><p>产生某对象会消耗过多的资源，为避免频繁地创建与销毁对象对资源的浪费。如：对数据库的操作、访问 IO、线程池、网络请求等。</p>
+</li>
+<li><p>某种类型的对象应该有且只有一个。如果制造出多个这样的实例，可能导致：程序行为异常、资源使用过量、结果不一致等问题。比如一个系统只能有：一个窗口管理器或文件系统等。</p>
+</li>
 </ul>
 <p>单例模式按加载时机可以分为：懒汉式和饿汉式；按实现的方式则可以分为：双重检查锁，内部类方式和枚举方式等等。</p>
           <!--noindex-->
@@ -591,7 +781,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  6,728 字
+                  7,742 字
                 </span>
               
 
@@ -617,7 +807,7 @@
 
       
         
-          <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneablejava</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneablejava</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
 <p>ArrayList继承于AbstractSequentialList，实现了List接口、Deque接口、Cloneable接口(浅拷贝)、Serializable接口。总的来说，LinkedList是线程不安全的，允许元素为null的双向链表，它也可以被当作栈、队列或双向队列进行操作。</p>
 <h2 id="与ArrayList的比较"><a href="#与ArrayList的比较" class="headerlink" title="与ArrayList的比较"></a>与ArrayList的比较</h2><p>LinkedList与ArrayList相比，ArrayList的增删效率低(O(n))，但是改查效率高(O(1))。而LinkedList正好相反，由于其底层是链表实现的，增删(O(1))只需要修改链表节点指针，所以增删效率较高，而改查都需要先定位到目标节点(O(n))，故改查效率较低。同时，LinkedList不需要ArrayList中的批量扩容，也不需要预留空间，所以空间效率也比ArrayList高。</p>
 <p>但是和ArrayList比，LinkedList没有实现RandomAccess接口，所以随机访问元素速度较慢。虽然作者做了折半查找的优化(根据index判断目标节点在链表的前半段还是后半段，然后决定是从头部开始尾部开始查找)，但查找的时间效率仍然比较低。</p>
@@ -1000,7 +1190,7 @@
 
       
         
-          <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">          <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">          <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
 <p>ArrayList继承于AbstractList，实现了List接口，是一个长度可变的集合，实现了RandomAccess接口，Serializable接口，Cloneable接口，即ArrayList支持随机访问、可序列化、可克隆。ArrayList中允许存在null值，此外，和Vector不同的是，ArrayList不是线程安全的，所有的方法均不是同步方法也没有加锁。</p>
 <h2 id="fail-fast机制"><a href="#fail-fast机制" class="headerlink" title="fail-fast机制"></a>fail-fast机制</h2><p>fail-fast机制也被称为”快速失败”机制，是Java集合中的一种错误检测机制。在对集合进行迭代过程中，除了迭代器可以对集合进行修改(add,set,remove操作)，其他的对集合进行修改(同上)，都会抛出<code>ConcurrentModificationException</code>错误。</p>
 <p>该机制是基于一个变量——modCount实现的，每次对ArrayList进行add，set，remove等操作，都会执行modCount++。在获取ArrayList的迭代器时，会将ArrayList中的modCount保存在迭代中，每次执行add,set,remove等操作，都会执行一次检查，调用<code>checkForComodification</code>方法，对modCount进行比较。如果迭代器中的modCount和List中的modCount不同，则抛出<code>ConcurrentModificationException</code></p>
@@ -2043,193 +2233,6 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/" itemprop="url">基于LSTM的空气污染预测模型研究：以上海市PM2.5预测为例</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-27T19:19:34+08:00">
-                2018-07-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/" class="leancloud_visitors" data-flag-title="基于LSTM的空气污染预测模型研究：以上海市PM2.5预测为例">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  118 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="《研究方法与论文写作》短学期课程作业"><a href="#《研究方法与论文写作》短学期课程作业" class="headerlink" title="《研究方法与论文写作》短学期课程作业"></a>《研究方法与论文写作》短学期课程作业</h4><p>利用Tensorflow搭建了一个seq2seq模型来预测上海市未来PM2.5。<br>数据集来自UCI机器学习数据库中的中国五大城市PM2.5，共包括：PM2.5、露点、湿度、气压、气温、组合风向、累计风速、每小时降雨量、累计降雨量。<br>只使用了气象数据对PM2.5进行预测，未来可能会考虑加入污染物数据。</p>
-<p><img src="/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0001.jpg" alt="Image"><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2284,7 +2287,7 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2306,7 +2309,7 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2367,7 +2370,7 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">44.2k</span>
+    <span title="Site words total count">47.5k</span>
   
 </div>
 

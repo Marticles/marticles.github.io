@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="MachineLearning," />
+  <meta name="keywords" content="并发编程," />
 
 
 
@@ -79,27 +79,18 @@
 
 
 
-<meta name="description" content="前言k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。k值选择、距离度量、决策规则是k近邻算法的三个基本要素。k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最">
-<meta name="keywords" content="MachineLearning">
+<meta name="description" content="一次请求超时问题所引申出的笔记最近项目中遇到了一个问题，一个模块中的任务是计算密集型的，服务器的响应要十几到几十分钟不等（VPS是单核1G的学生机，没办法呀´･_･`），用户过来的请求自然会出现连接超时的问题。 初步想到的解决办法是把这个任务挂到后台去异步处理，然后先返回给用户一个任务已提交的提示就OK了。一开始用的是线程池 ThreadPoolExecutor，后来了解到 GIL 全局解释器锁这">
+<meta name="keywords" content="并发编程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="k-近邻算法">
-<meta property="og:url" content="http://marticles.github.io/2018/08/01/k-近邻算法/index.html">
+<meta property="og:title" content="Python并发编程之concurrent.futures">
+<meta property="og:url" content="http://marticles.github.io/2018/11/15/Python并发编程之concurrent.futures/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="前言k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。k值选择、距离度量、决策规则是k近邻算法的三个基本要素。k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最">
+<meta property="og:description" content="一次请求超时问题所引申出的笔记最近项目中遇到了一个问题，一个模块中的任务是计算密集型的，服务器的响应要十几到几十分钟不等（VPS是单核1G的学生机，没办法呀´･_･`），用户过来的请求自然会出现连接超时的问题。 初步想到的解决办法是把这个任务挂到后台去异步处理，然后先返回给用户一个任务已提交的提示就OK了。一开始用的是线程池 ThreadPoolExecutor，后来了解到 GIL 全局解释器锁这">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/2d.png">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/3d.png">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/kdtree.jpg">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/kd-tree-building.png">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/kd.jpg">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/kd2.jpg">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/balltree.jpg">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/balltree.png">
-<meta property="og:updated_time" content="2018-09-01T07:24:00.477Z">
+<meta property="og:updated_time" content="2018-11-16T15:33:24.315Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="k-近邻算法">
-<meta name="twitter:description" content="前言k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。k值选择、距离度量、决策规则是k近邻算法的三个基本要素。k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最">
-<meta name="twitter:image" content="http://marticles.github.io/images/k-近邻算法/2d.png">
+<meta name="twitter:title" content="Python并发编程之concurrent.futures">
+<meta name="twitter:description" content="一次请求超时问题所引申出的笔记最近项目中遇到了一个问题，一个模块中的任务是计算密集型的，服务器的响应要十几到几十分钟不等（VPS是单核1G的学生机，没办法呀´･_･`），用户过来的请求自然会出现连接超时的问题。 初步想到的解决办法是把这个任务挂到后台去异步处理，然后先返回给用户一个任务已提交的提示就OK了。一开始用的是线程池 ThreadPoolExecutor，后来了解到 GIL 全局解释器锁这">
 
 
 
@@ -129,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://marticles.github.io/2018/08/01/k-近邻算法/"/>
+  <link rel="canonical" href="http://marticles.github.io/2018/11/15/Python并发编程之concurrent.futures/"/>
 
 
 
 
 
-  <title>k-近邻算法 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>Python并发编程之concurrent.futures | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -306,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/08/01/k-近邻算法/">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/11/15/Python并发编程之concurrent.futures/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Marticles">
@@ -323,7 +314,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">k-近邻算法</h1>
+          <h1 class="post-title" itemprop="name headline">Python并发编程之concurrent.futures</h1>
         
 
         <div class="post-meta">
@@ -335,8 +326,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T15:37:35+08:00">
-                2018-08-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-15T19:23:12+08:00">
+                2018-11-15
               </time>
             
 
@@ -358,8 +349,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -376,8 +367,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/01/k-近邻算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/08/01/k-近邻算法/" itemprop="commentCount"></span>
+                <a href="/2018/11/15/Python并发编程之concurrent.futures/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/15/Python并发编程之concurrent.futures/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -385,7 +376,7 @@
 
           
           
-             <span id="/2018/08/01/k-近邻算法/" class="leancloud_visitors" data-flag-title="k-近邻算法">
+             <span id="/2018/11/15/Python并发编程之concurrent.futures/" class="leancloud_visitors" data-flag-title="Python并发编程之concurrent.futures">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -410,7 +401,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,804 字
+                  1,961 字
                 </span>
               
 
@@ -435,63 +426,50 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。<br><strong>k值选择</strong>、<strong>距离度量</strong>、<strong>决策规则</strong>是k近邻算法的三个基本要素。<br>k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最多类别数的类别。而做回归时，一般是选择平均法，即最近的k个样本的样本输出的平均值作为回归预测值。<br>对于原始kNN计算量大的缺点，主要有<strong>KD</strong>树与<strong>球树</strong>两种改进算法。</p>
-<p>参考：周志华-《机器学习》&amp;Peter Harrington-《机器学习实战》<br>Mohamad Dolatshah, Ali Hadian, Behrouz Minaei-Bidgoli, “Ball-tree: Efficient spatial indexing for constrained nearest-neighbor search in metric spaces”, <em>ArXiv e-prints</em>, Nov 2015.</p>
-<h2 id="k值选择"><a href="#k值选择" class="headerlink" title="k值选择"></a>k值选择</h2><p>k值越小，偏差越小、方差越大，容易过拟合，不抗噪声。<br>k值越大，偏差越大、方差越小，容易欠拟合。<br>通常采用经验值或交叉验证选取合适的k值。</p>
-<h2 id="计算距离"><a href="#计算距离" class="headerlink" title="计算距离"></a>计算距离</h2><p>欧式距离：</p>
-<script type="math/tex; mode=display">
-D(x,y) = \sqrt{(x_1-y_1)^2 + (x_2-y_2)^2 + ... + (x_n-y_n)^2} = \sqrt{\sum\limits_{i=1}^{n}(x_i-y_i)^2}</script><p>曼哈顿距离：</p>
-<script type="math/tex; mode=display">
-D(x,y) =|x_1-y_1| + |x_2-y_2| + ... + |x_n-y_n| =\sum\limits_{i=1}^{n}|x_i-y_i|</script><p>闵可夫斯基距离：</p>
-<script type="math/tex; mode=display">
-D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{\sum\limits_{i=1}^{n}(|x_i-y_i|)^p}</script><p>当$p=1$时，就是曼哈顿距离；当$p=2$时，就是欧氏距离。</p>
-<h2 id="原始kNN-Brute-Force"><a href="#原始kNN-Brute-Force" class="headerlink" title="原始kNN(Brute Force)"></a>原始kNN(Brute Force)</h2><p>原始的kNN算法在找近邻时采取的是Brute Force算法，暴力对所有训练集样本进行搜索，有两个明显的缺点：<br>1.需要存储全部训练集<br>2.计算量太大<br>一种有效的改进方法是事先将训练集按近邻关系分解成组，算出每组质心的位置，以质心作为代表点，和未知样本计算距离，选出距离最近的一个或若干个组，再在组的范围内应用原始的kNN算法。由于并不是将未知样本与所有样本计算距离，故该改进算法可以减少计算量，但并不能减少存储量。<br>实现k-近邻法时，主要考虑的问题是如何对训练数据进行快速k近邻搜索，为了减少计算量，可以考虑使用特殊的结构存储训练数据，以减小计算距离的次数，比如引入树结构。<br><a id="more"></a></p>
-<h2 id="KD树"><a href="#KD树" class="headerlink" title="KD树"></a>KD树</h2><p>KD树(K-dimension tree)是一种对k维空间中的实例点进行存储以便对其进行快速检索的树形数据结构。KD树是是一种二叉树，表示对k维空间的一个划分，构造KD树相当于不断地用垂直于坐标轴的超平面将K维空间切分，构成一系列的K维超矩形区域。KD树的每个结点对应于一个K维超矩形区域。利用KD树可以省去对大部分数据点的搜索，从而减少搜索的计算量。<br><img src="/images/k-近邻算法/2d.png" alt=""><br>下面是三维空间下KD树的构建及空间划分过程。<br>首先，边框为红色的竖直平面将整个空间划分为两部分，此两部分又分别被边框为绿色的水平平面划分为上下两部分。最后此4个子空间又分别被边框为蓝色的竖直平面分割为两部分，变为8个子空间，此8个子空间即为叶子节点。<br><img src="/images/k-近邻算法/3d.png" alt=""></p>
-<h3 id="KD树的建立"><a href="#KD树的建立" class="headerlink" title="KD树的建立"></a>KD树的建立</h3><p>KD树建树采用的是从$m$个样本的$n$维特征中，分别计算$n$个特征的取值的方差，用方差最大的第$k$维特征$n_k$来作为根节点。对于这个特征，选择特征$n_k$的取值的中位数$n_kv$对应的样本作为划分点，对于所有第$k$维特征的取值小于$n_kv$的样本，划入左子树，对于第$k$维特征的取值大于等于$n_kv$的样本，划入右子树，对于左子树和右子树，采用和刚才同样的办法来找方差最大的特征来做根节点，递归生成KD树。<br><img src="/images/k-近邻算法/kdtree.jpg" alt=""><br>比如现在有$6$个二维样本，$(2,3),(5,4),(9,6),(4,7),(8,1),(7,2)$，构建KD树的具体步骤为：</p>
+        <h2 id="一次请求超时问题所引申出的笔记"><a href="#一次请求超时问题所引申出的笔记" class="headerlink" title="一次请求超时问题所引申出的笔记"></a>一次请求超时问题所引申出的笔记</h2><p>最近项目中遇到了一个问题，一个模块中的任务是计算密集型的，服务器的响应要十几到几十分钟不等（VPS是单核1G的学生机，没办法呀´･_･`），用户过来的请求自然会出现连接超时的问题。</p>
+<p>初步想到的解决办法是把这个任务挂到后台去异步处理，然后先返回给用户一个任务已提交的提示就OK了。一开始用的是线程池 <code>ThreadPoolExecutor</code>，后来了解到 <code>GIL</code> 全局解释器锁这个神奇的存在，对于这种计算密集型任务必然会引起十分频繁的上下文切换，大大降低效率，所以最后的解决办法又换成了进程池 <code>ProcessPoolExecutor</code>。</p>
+<p>本文使用的是 Python3 中自带的 <code>concurrent.futures</code> 并发模块。</p>
+<a id="more"></a>
+<h2 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h2><p><code>Executor</code> 是一个抽象类，它提供了异步执行调用的方法。它不能直接使用，但可以通过它的两个子类<code>ThreadPoolExecutor</code> 或者<code>ProcessPoolExecutor</code> 进行调用。<code>ThreadPoolExecutor</code> 和 <code>ProcessPoolExecutor</code> 都继承了 <code>Lib/concurrent/futures/_base.py</code> 中的 <code>Executor</code> 类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Executor</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""This is an abstract base class for concrete asynchronous executors."""</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">submit</span><span class="params">(self, fn, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="string">"""Submits a callable to be executed with the given arguments.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Schedules the callable to be executed as fn(*args, **kwargs) and returns</span></span><br><span class="line"><span class="string">        a Future instance representing the execution of the callable.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">            A Future representing the given call.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">map</span><span class="params">(self, fn, *iterables, timeout=None, chunksize=<span class="number">1</span>)</span>:</span></span><br><span class="line">        <span class="string">"""Returns an iterator equivalent to map(fn, iter).</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            fn: A callable that will take as many arguments as there are</span></span><br><span class="line"><span class="string">                passed iterables.</span></span><br><span class="line"><span class="string">            timeout: The maximum number of seconds to wait. If None, then there</span></span><br><span class="line"><span class="string">                is no limit on the wait time.</span></span><br><span class="line"><span class="string">            chunksize: The size of the chunks the iterable will be broken into</span></span><br><span class="line"><span class="string">                before being passed to a child process. This argument is only</span></span><br><span class="line"><span class="string">                used by ProcessPoolExecutor; it is ignored by</span></span><br><span class="line"><span class="string">                ThreadPoolExecutor.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">            An iterator equivalent to: map(func, *iterables) but the calls may</span></span><br><span class="line"><span class="string">            be evaluated out-of-order.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Raises:</span></span><br><span class="line"><span class="string">            TimeoutError: If the entire result iterator could not be generated</span></span><br><span class="line"><span class="string">                before the given timeout.</span></span><br><span class="line"><span class="string">            Exception: If fn(*args) raises for any values.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> timeout <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            end_time = timeout + time.time()</span><br><span class="line"></span><br><span class="line">        fs = [self.submit(fn, *args) <span class="keyword">for</span> args <span class="keyword">in</span> zip(*iterables)]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Yield must be hidden in closure so that the futures are submitted</span></span><br><span class="line">        <span class="comment"># before the first iterator value is required.</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">result_iterator</span><span class="params">()</span>:</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="comment"># reverse to keep finishing order</span></span><br><span class="line">                fs.reverse()</span><br><span class="line">                <span class="keyword">while</span> fs:</span><br><span class="line">                    <span class="comment"># Careful not to keep a reference to the popped future</span></span><br><span class="line">                    <span class="keyword">if</span> timeout <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">                        <span class="keyword">yield</span> fs.pop().result()</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="keyword">yield</span> fs.pop().result(end_time - time.time())</span><br><span class="line">            <span class="keyword">finally</span>:</span><br><span class="line">                <span class="keyword">for</span> future <span class="keyword">in</span> fs:</span><br><span class="line">                    future.cancel()</span><br><span class="line">        <span class="keyword">return</span> result_iterator()</span><br></pre></td></tr></table></figure>
+<h2 id="ProcessPoolExecutor"><a href="#ProcessPoolExecutor" class="headerlink" title="ProcessPoolExecutor"></a>ProcessPoolExecutor</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>先来看看整个流程吧，作者的源码注释很贴心，还有图解。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""Implements ProcessPoolExecutor.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">The follow diagram and text describe the data-flow through the system:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">|======================= In-process =====================|== Out-of-process ==|</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">+----------+     +----------+       +--------+     +-----------+    +---------+</span></span><br><span class="line"><span class="string">|          |  =&gt; | Work Ids |    =&gt; |        |  =&gt; | Call Q    | =&gt; |         |</span></span><br><span class="line"><span class="string">|          |     +----------+       |        |     +-----------+    |         |</span></span><br><span class="line"><span class="string">|          |     | ...      |       |        |     | ...       |    |         |</span></span><br><span class="line"><span class="string">|          |     | 6        |       |        |     | 5, call() |    |         |</span></span><br><span class="line"><span class="string">|          |     | 7        |       |        |     | ...       |    |         |</span></span><br><span class="line"><span class="string">| Process  |     | ...      |       | Local  |     +-----------+    | Process |</span></span><br><span class="line"><span class="string">|  Pool    |     +----------+       | Worker |                      |  #1..n  |</span></span><br><span class="line"><span class="string">| Executor |                        | Thread |                      |         |</span></span><br><span class="line"><span class="string">|          |     +----------- +     |        |     +-----------+    |         |</span></span><br><span class="line"><span class="string">|          | &lt;=&gt; | Work Items | &lt;=&gt; |        | &lt;=  | Result Q  | &lt;= |         |</span></span><br><span class="line"><span class="string">|          |     +------------+     |        |     +-----------+    |         |</span></span><br><span class="line"><span class="string">|          |     | 6: call()  |     |        |     | ...       |    |         |</span></span><br><span class="line"><span class="string">|          |     |    future  |     |        |     | 4, result |    |         |</span></span><br><span class="line"><span class="string">|          |     | ...        |     |        |     | 3, except |    |         |</span></span><br><span class="line"><span class="string">+----------+     +------------+     +--------+     +-----------+    +---------+</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Executor.submit() called:</span></span><br><span class="line"><span class="string">- creates a uniquely numbered _WorkItem and adds it to the "Work Items" dict</span></span><br><span class="line"><span class="string">- adds the id of the _WorkItem to the "Work Ids" queue</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Local worker thread:</span></span><br><span class="line"><span class="string">- reads work ids from the "Work Ids" queue and looks up the corresponding</span></span><br><span class="line"><span class="string">  WorkItem from the "Work Items" dict: if the work item has been cancelled then</span></span><br><span class="line"><span class="string">  it is simply removed from the dict, otherwise it is repackaged as a</span></span><br><span class="line"><span class="string">  _CallItem and put in the "Call Q". New _CallItems are put in the "Call Q"</span></span><br><span class="line"><span class="string">  until "Call Q" is full. NOTE: the size of the "Call Q" is kept small because</span></span><br><span class="line"><span class="string">  calls placed in the "Call Q" can no longer be cancelled with Future.cancel().</span></span><br><span class="line"><span class="string">- reads _ResultItems from "Result Q", updates the future stored in the</span></span><br><span class="line"><span class="string">  "Work Items" dict and deletes the dict entry</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Process #1..n:</span></span><br><span class="line"><span class="string">- reads _CallItems from "Call Q", executes the calls, and puts the resulting</span></span><br><span class="line"><span class="string">  _ResultItems in "Result Q"</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></p>
 <ol>
-<li>找到划分的特征。$6$个数据点在$x$，$y$维度上的数据方差分别为$6.97$，$5.37$，所以在$x$轴上方差更大，用第$1$维特征建树。</li>
-<li>确定划分点$（7,2）$。根据$x$维上的值将数据排序，$6$个数据的中值为$7$，所以划分点的数据是$（7,2）$。这样该节点的分割超平面就是通过$（7,2）$并垂直于划分点维度的直线$x=7$；</li>
-<li>确定左子空间和右子空间。分割超平面$x=7$将整个空间分为两部分：$x&lt;=7$的部分为左子空间，包含$3$个节点${(2,3),(5,4),(4,7)}$；另一部分为右子空间，包含$2$个节点${(9,6),(8,1)}$。</li>
-<li>构建$(7,2)$节点的左子树时，点集合$(2,3),(4,7),(5,4)$。$3$个数据点在$x$，$y$维度上的数据方差分别为$2.33$，$4.33$，此时的切分维度为$y$。中值为$(5,4)$作为分割平面，$(2,3)$挂在其左子树，$(4,7)$挂在其右子树。</li>
-<li>构建$(7,2)$节点的左子树同理。</li>
+<li><p>调用 <code>Executor.submit()</code>后会创建一个唯一ID的 <code>_WorkItem</code> 对象，然后加入到 <code>Work Items</code> 字典中，然后将 <code>_WorkItem</code> 的唯一ID加入至 <code>Work Ids</code> 队列中。</p>
+</li>
+<li><p><code>Local worker thread</code> 会先从 <code>Work Ids</code> 队列读取 work ids 并以此来查找对应的 <code>Work Items</code> 字典。如果 work item 被取消了，就把它从字典中删除，没被取消的话就重新打包成一个 <code>_CallItem</code> 对象放入新队列 <code>Call Q</code> 中。</p>
+</li>
+<li><p>ProcessPool 中的进程会从 <code>Call Q</code> 队列中取 <code>_CallItem</code> 执行，并把结果封装成 <code>_ResultItems</code> 放入 <code>Result Q</code> 队列中。</p>
+</li>
+<li><p><code>Local worker thread</code> 接着从 <code>Result Q</code> 队列读取 <code>_ResultItems</code>，然后更新 <code>_WorkItem</code> 中的 <code>Future</code> 并删除 <code>dict entry</code> 。</p>
+</li>
+<li><p>可以看出，整个进程池的任务处理与结果回调都要依靠一个十分重要的中介 <code>Local worker thread</code> 来完成。</p>
+</li>
 </ol>
-<p>最后得到的KD树如下：<br><img src="/images/k-近邻算法/kd-tree-building.png" alt=""></p>
-<h3 id="最近邻搜索"><a href="#最近邻搜索" class="headerlink" title="最近邻搜索"></a>最近邻搜索</h3><p>以上述建立的KD树来寻找$(2,4.5)$的最近邻。</p>
-<ol>
-<li><strong>二叉搜索</strong>：首先从根节点$(7,2)$出发，由于目标点$x=2 &lt; 7$，进入左子树$(5,4)$。由于目标点$y=4.5&gt;4$,进入右子树$(4,7)$，形成搜索路径${(7,2)-(5,4)-(4,7)}$。</li>
-<li><strong>回溯</strong>：节点$(4,7)$与目标查找点距离为$3.202$，回溯到父节点$(5,4)$与目标查找点之间距离为$3.041$，所以$(5,4)$为查询点的最近邻。以目标点(2,4.5)为圆心，以3.041为半径作圆。</li>
-<li><strong>更新最近邻</strong>：该圆和$y = 4$超平面交割，所以需要进入$(5,4)$左子树进行查找。回溯至节点$(2,3)$，$(2,4.5)$到$(2,3)$的距离比到$(5,4)$要近，所以最近邻点更新为$(2,3)$，最近距离更新为$1.5$。回溯至$(7,2)$，以$(2,4.5)$为圆心，$1.5$为半径作圆，发现并不和$x = 7$分割超平面交割，至此搜索路径回溯完成，完成更新最近邻操作，返回最近邻点$(2,3)$。</li>
-</ol>
-<p><img src="/images/k-近邻算法/kd.jpg" alt=""></p>
-<p>根据KD树搜索最近邻的方法，可以得到第一个最近邻样本点，将它置为已选。然后忽略置为已选的样本，重新选择最近邻，这样运行k次，就可以得到k个最近邻。</p>
-<p>如果样本点是随机分布的，KD树搜索的平均计算复杂度是$O(logN)$，这里$N$是训练实例数。KD树更适用于训练实例数远大于空间维数时的k近邻搜索。当空间维数接近训练实例数时，它的效率会迅速下降，几乎接近线性扫描。</p>
-<h2 id="球树"><a href="#球树" class="headerlink" title="球树"></a>球树</h2><p>KD树算法能够提高kNN搜索效率，但在某些时候效率并不高，比如处理不均匀分布的数据集时。<br>如下图所示，如果黑色的实例点离目标点(星点)再远一点，那么虚线会像红线那样扩大，导致与左上方矩形的右下角相交。既然相交那就要检查左上方矩形，而实际上最近的点离目标点(星点)很近，检查左上方矩形区域已是多余。因此KD树把二维平面划分成矩形会带来无效搜索的问题。<br><img src="/images/k-近邻算法/kd2.jpg" alt=""><br>为了优化超矩形体导致的搜索效率的问题，引入球树。</p>
-<h3 id="球树的建立"><a href="#球树的建立" class="headerlink" title="球树的建立"></a>球树的建立</h3><p>球树的每个分割块都是超球体，而非KD树中的超矩形体。球树的构建过程如下：</p>
-<ol>
-<li><strong>构建超球体</strong>：超球体是可以包含所有样本的最小球体。</li>
-<li><strong>划分子超球体</strong>：从超球体中选择一个离超球体中心最远的点，然后选择第二个点离第一个点最远，将球中所有的点分配到离这两个聚类中心最近的一个。然后计算每个聚类的中心，以及聚类能够包含它所有数据点所需的最小半径，这样我们便得到两个子超球体，和KD树中的左右子树对应。</li>
-<li><strong>递归</strong>：对上述两个子超球体，递归执行步骤2，最终得到球树。</li>
-</ol>
-<p><img src="/images/k-近邻算法/balltree.jpg" alt=""><br>可以看出球树和KD树类似，主要区别在于球树得到的是节点样本组成的最小超球体，而KD得到的是节点样本组成的超矩形体，这个超球体要与对应的KD树的超矩形体小，这样在做最近邻搜索的时候，可以避免一些无效的搜索。</p>
-<h3 id="球树搜索最近邻"><a href="#球树搜索最近邻" class="headerlink" title="球树搜索最近邻"></a>球树搜索最近邻</h3><p>KD树在搜索路径优化时使用的是两点之间的距离来判断，而球树使用的是两边之和与第三边大小来判断，即$|x+y|\leq|x|+|y|$。<br>以下图为例搜索点$q$的半径为$r$内的最近邻，即满足$||q-x||\leq r$：</p>
-<ol>
-<li>从根节点$q$开始从上至下递归遍历每个可能包含最终近邻的子空间$p_i$。</li>
-<li>如果子空间的半径$radius{(p_i)}$与$r$之和小于$p_i$中心点$center(p_i)$到目标点$q$的距离，即$(radius(p_i)+r)\leq ||center(p_i)-q||$，接着在满足这样条件的子空间样本点内递归搜索满足$||q-x||\leq r$的点就是我们想要的最近邻点了。换句简单的话来说，对于目标空间$(q, r)$，所有被该超球体截断的子超球体内的所有子空间都将被遍历搜索。</li>
-<li>由于子超球体$a$与$b$被$q$所截，而对于$a$与$b$内的子空间，$d,h,f$又被$q$所截，所以接下来就会在$d,h,f$内进行线性搜索。诸如$c,e,g$这些距离太远的子空间将被舍去。最后$[x_4,x_7]$就是最终得到最近邻。</li>
-</ol>
-<p><img src="/images/k-近邻算法/balltree.png" alt=""><br>球树中的每个结点对应一个圆，结点的数字表示该区域保含的观测点数，但不一定就是图中该区域囊括的点数，因为有重叠的情况，并且一个观测点只能属于一个区域。实际的球树结点保存圆心和半径。叶子结点保存它包含的观测点。</p>
-<h2 id="kNN实现手写数字分类"><a href="#kNN实现手写数字分类" class="headerlink" title="kNN实现手写数字分类"></a>kNN实现手写数字分类</h2><p>代码来自于《机器学习实战》第2章。</p>
-<p>思路:</p>
-<ol>
-<li>将每个32x32的图像数据转换成1x1024的向量<br>再将每个单列向量分别存入一个矩阵A中<br>矩阵A中每一列对应一张图片信息，m张图片对应的矩阵A的大小即为m*1024</li>
-<li>将测试图片也转换为1x1024的向量后与矩阵A中每一列求欧式距离<br>将一一对应的距离存入一个数组中，取出距离数组中最小的k个训练集索引</li>
-<li>索引出现次数最多的值就是预测数值</li>
-</ol>
-<p>先处理图像数据<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">img2vector</span><span class="params">(filename)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    将32*32的图像数据转换为1*1024的向量</span></span><br><span class="line"><span class="string">    循环读出文件的前32行，并将每行的前32个值存储在1*1024的numpy数组中</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    returnVect = np.zeros((<span class="number">1</span>,<span class="number">1024</span>))</span><br><span class="line">    fr = open(filename)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">        lineStr = fr.readline()</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">            returnVect[<span class="number">0</span>,<span class="number">32</span>*i+j] = int(lineStr[j])</span><br><span class="line">    <span class="keyword">return</span> returnVect</span><br></pre></td></tr></table></figure></p>
-<p>构造分类器<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classify0</span><span class="params">(inX, dataSet, labels, k)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    利用k-近邻算法实现分类，采用欧式距离</span></span><br><span class="line"><span class="string">    inX: 用于分类的输入向量</span></span><br><span class="line"><span class="string">    dataSet: 训练集</span></span><br><span class="line"><span class="string">    labels: 标签向量</span></span><br><span class="line"><span class="string">    k: 选择最近邻数目</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    dataSetSize = dataSet.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 将输入向量按行复制，与训练集相减得到差值</span></span><br><span class="line">    diffMat = np.tile(inX, (dataSetSize, <span class="number">1</span>)) - dataSet</span><br><span class="line">    <span class="comment"># 各个差值分别平方</span></span><br><span class="line">    sqDiffMat = diffMat ** <span class="number">2</span></span><br><span class="line">    <span class="comment"># 按行对结果求和</span></span><br><span class="line">    sqDistances = sqDiffMat.sum(axis = <span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 再开方即可得到距离</span></span><br><span class="line">    distances = sqDistances ** <span class="number">0.5</span></span><br><span class="line">    <span class="comment"># argsort()方法将向量中每个元素进行排序，结果是元素的索引形成的向量</span></span><br><span class="line">    <span class="comment"># 如argsort([1,3,2]) -&gt; ([0,2,1])</span></span><br><span class="line">    sortedDistIndicies = distances.argsort()</span><br><span class="line">    classCount = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i  <span class="keyword">in</span> range(k):</span><br><span class="line">        <span class="comment"># 找到该样本的类型</span></span><br><span class="line">        voteIlabel = labels[sortedDistIndicies[i]]</span><br><span class="line">        <span class="comment"># 在字典中将该类型+1</span></span><br><span class="line">        <span class="comment"># 字典的get()方法</span></span><br><span class="line">        <span class="comment"># 如：list.get(k,d)get相当于一条if...else...语句</span></span><br><span class="line">        <span class="comment"># 参数k在字典中，字典将返回list[k]</span></span><br><span class="line">        <span class="comment"># 如果参数k不在字典中则返回参数d,如果K在字典中则返回k对应的value值</span></span><br><span class="line">        classCount[voteIlabel] = classCount.get(voteIlabel, <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">    <span class="comment"># 字典的 items()方法，以列表返回可遍历的(key，value)元组</span></span><br><span class="line">    <span class="comment"># sorted()中的第2个参数key=operator.itemgetter(1)表示按第2个元素进行排序</span></span><br><span class="line">    sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="keyword">True</span>)</span><br><span class="line">    <span class="comment"># 返回第0个tuple的第0个参数，由于是逆序排序所以返回的是出现次数最多的类型</span></span><br><span class="line">    <span class="keyword">return</span> sortedClassCount[<span class="number">0</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure></p>
-<p>测试分类器正确率<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handwritingClassTest</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    kNN手写数字识别测试</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 导入训练集</span></span><br><span class="line">    hwLabels = []</span><br><span class="line">    trainingFileList = listdir(<span class="string">'trainingDigits'</span>)</span><br><span class="line">    m = len(trainingFileList)</span><br><span class="line">    trainingMat = np.zeros((m, <span class="number">1024</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        fileNameStr = trainingFileList[i]</span><br><span class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">        classNumStr = int(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</span><br><span class="line">        hwLabels.append(classNumStr)</span><br><span class="line">        trainingMat[i, :] = img2vector(<span class="string">'trainingDigits/%s'</span> % fileNameStr)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 导入测试集</span></span><br><span class="line">    testFileList = listdir(<span class="string">'testDigits'</span>)</span><br><span class="line">    errorCount = <span class="number">0.0</span></span><br><span class="line">    mTest = len(testFileList)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(mTest):</span><br><span class="line">        fileNameStr = testFileList[i]</span><br><span class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">        classNumStr = int(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</span><br><span class="line">        vectorUnderTest = img2vector(<span class="string">'testDigits/%s'</span> % fileNameStr)</span><br><span class="line">        classifierResult = classify0(vectorUnderTest, trainingMat, hwLabels, <span class="number">3</span>)</span><br><span class="line">        print(<span class="string">"the classifier came back with: %d, the real answer is: %d"</span> % (classifierResult, classNumStr))</span><br><span class="line">        <span class="keyword">if</span> (classifierResult != classNumStr): errorCount += <span class="number">1.0</span></span><br><span class="line">    print(<span class="string">"\nthe total number of errors is: %d"</span> % errorCount)</span><br><span class="line">    print(<span class="string">"\nthe total correct rate is: %f"</span> % (<span class="number">1</span>-(errorCount / float(mTest))))</span><br></pre></td></tr></table></figure></p>
-<p>结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line"></span><br><span class="line">the total number of errors is: 10</span><br><span class="line">the total correct rate is: 0.989429</span><br></pre></td></tr></table></figure></p>
-<p>原始的kNN要做分类的话每张图片都得和每个训练集样本两两计算距离，如上述例子就是如此。时间复杂度就是O(M*N)，虽然简单但是遇到数据集很大时会变得效率非常低，所以一般采用的是KD树或球树等改进型的kNN算法。scikit-learn中提供了kNN算法的三种实现，第一种是Brute Force(暴力)实现，第二种是KD树实现，第三种是球树实现。<br>kNN做回归比较简单，就是取k个近邻的平均值作为预测值，当有多个特征时可以为特征设置不同权重，或者给近点加大权重，远点减小权重，都可以提高预测准确率。</p>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>接着来看看具体方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Executor = ProcessPoolExecutor(max_workers=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<p>开启一个容量为 <code>max_workers</code> 进程池，如果 <code>max_workers</code> 为 <code>None</code> 则默认使用CPU的核数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Executor.submit(fn, *args, **kwargs)</span><br></pre></td></tr></table></figure>
+<p>其中：<code>fn</code>：需要执行的方法；<code>*args</code>, <code>**kwargs</code>：<code>fn</code> 参数<br>该方法会返回一个 <code>future</code> 对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Executor.map(fn, *iterables, timeout=<span class="keyword">None</span>, chunksize=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>其中：<code>fn</code>：需要执行的方法；<code>*iterables</code>：可迭代对象，如列表等，每一次<code>fn</code>执行，都会从<code>iterables</code>中取参数；<code>timeout</code>：超时值(int or float)，如果操作超时，会返回<code>raisesTimeoutError</code>,如果不指定<code>timeout</code>参数，则默认没有超时时间；<code>chunksize</code>：如果大于1，则将可迭代对象切分成<code>chunksize</code>块提交至进程池中，默认为1，对于很大的 <code>iterables</code> ，设置较大 <code>chunksize</code> 可以提高性能。<br>该方法会返回一个类似 <code>map(func, *iterables)</code> 的迭代器。</p>
+<h2 id="future对象"><a href="#future对象" class="headerlink" title="future对象"></a>future对象</h2><p><code>future</code> 对象表示未来已经完成或未完成的异步操作，以下是比较重要的方法：</p>
+<ul>
+<li><code>future.done()</code>：返回一个布尔值，表示任务是否执行完毕</li>
+<li><code>future.add_done_callback()</code>：这个方法只有一个参数，类型是可调用对象，任务结束后会回调这个对象。</li>
+<li><code>future.result()</code>：如果任务结束后调用result(), 会返回方法执行结果，如果任务没有结束时调用该方法，这时会阻塞调用方所在的线程，直到有结果返回。此时该方法还可以接收 <code>timeout</code> 参数，如果在指定的 <code>timeout</code> 时间内任务没有执行完毕，会抛出 <code>TimeoutError</code> 异常。</li>
+<li><code>future.cancel()</code>：取消提交的任务，如果任务处于阻塞中，可以被取消，但如果任务已经在线程/进程池中运行了，就无法取消。</li>
+<li><code>future.result()</code>：获取任务的返回值</li>
+</ul>
+<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><p><code>ThreadPoolExecutor</code> 在使用上和 <code>ProcessPoolExecutor</code> 大致是一样的，方法也是相同的，但是对于 <code>map()</code> 方法 <code>ProcessPoolExecutor</code> 会少一个参数 <code>chunksize</code>。</p>
+<h2 id="GIL"><a href="#GIL" class="headerlink" title="GIL"></a>GIL</h2><p><code>GIL (Global Interpreter Lock)</code>即全局解释器锁，由于 CPython 解释器的内存管理不是线程安全的，因此解释器被一个 GIL 保护着，它确保任何时候都只有一个 Python 线程执行。首先需要明确的一点是 GIL 并不是 Python 的特性，它是在实现 Python 解析器(CPython)时所引入的一个概念，像 JPython 、IronPython 等就没有 GIL 。</p>
+<p>官方对GIL的定义如下：</p>
+<blockquote>
+<p>In CPython, the global interpreter lock, or GIL, is a mutex that prevents multiple native threads from executing Python bytecodes at once. This lock is necessary mainly because CPython’s memory management is not thread-safe. (However, since the GIL exists, other features have grown to depend on the guarantees that it enforces.)</p>
+</blockquote>
+<p>根据官方定义可以看出，GIL 本质上来说就是一把一把全局排他锁。</p>
+<p>在 Python2.x 里，GIL 的释放逻辑是当前线程遇见 IO 操作或者 ticks 计数达到100进行释放。ticks 可以看作是 Python 自身的一个计数器，专门做用于 GIL，每次释放后归零，这个计数可以通过 sys.setcheckinterval 来调整。</p>
+<p>在Python3.x 中，GIL 不使用 ticks 计数，改为使用计时器，即执行时间达到阈值后，当前线程释放 GIL，这样对计算密集型程序更加友好，但依然没有解决 GIL 导致的同一时间只能执行一个线程的问题，所以效率依然不尽如人意。</p>
+<p>虽然由于 GIL 的缘故，Python 中的多线程显得有些鸡肋，但在 IO 密集型任务下还是有用的。</p>
 
       
     </div>
@@ -509,7 +487,7 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
       
         <div class="post-tags">
           
-            <a href="/tags/MachineLearning/" rel="tag"><i class="fa fa-tag"></i> MachineLearning</a>
+            <a href="/tags/并发编程/" rel="tag"><i class="fa fa-tag"></i> 并发编程</a>
           
         </div>
       
@@ -522,8 +500,8 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/29/个人翻译-推荐系统概述/" rel="next" title="个人翻译：推荐系统概述">
-                <i class="fa fa-chevron-left"></i> 个人翻译：推荐系统概述
+              <a href="/2018/11/09/设计模式学习/" rel="next" title="设计模式学习">
+                <i class="fa fa-chevron-left"></i> 设计模式学习
               </a>
             
           </div>
@@ -531,10 +509,6 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/30/个人翻译-Java异常处理的9个最佳实践/" rel="prev" title="个人翻译：Java异常处理的9个最佳实践">
-                个人翻译：Java异常处理的9个最佳实践 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -683,7 +657,7 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k值选择"><span class="nav-number">2.</span> <span class="nav-text">k值选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算距离"><span class="nav-number">3.</span> <span class="nav-text">计算距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原始kNN-Brute-Force"><span class="nav-number">4.</span> <span class="nav-text">原始kNN(Brute Force)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KD树"><span class="nav-number">5.</span> <span class="nav-text">KD树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#KD树的建立"><span class="nav-number">5.1.</span> <span class="nav-text">KD树的建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最近邻搜索"><span class="nav-number">5.2.</span> <span class="nav-text">最近邻搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#球树"><span class="nav-number">6.</span> <span class="nav-text">球树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#球树的建立"><span class="nav-number">6.1.</span> <span class="nav-text">球树的建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#球树搜索最近邻"><span class="nav-number">6.2.</span> <span class="nav-text">球树搜索最近邻</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kNN实现手写数字分类"><span class="nav-number">7.</span> <span class="nav-text">kNN实现手写数字分类</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一次请求超时问题所引申出的笔记"><span class="nav-number">1.</span> <span class="nav-text">一次请求超时问题所引申出的笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Executor"><span class="nav-number">2.</span> <span class="nav-text">Executor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ProcessPoolExecutor"><span class="nav-number">3.</span> <span class="nav-text">ProcessPoolExecutor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流程"><span class="nav-number">3.1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">3.2.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#future对象"><span class="nav-number">4.</span> <span class="nav-text">future对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadPoolExecutor"><span class="nav-number">5.</span> <span class="nav-text">ThreadPoolExecutor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIL"><span class="nav-number">6.</span> <span class="nav-text">GIL</span></a></li></ol></div>
             
 
           </div>
@@ -1354,7 +1328,7 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
         showTime(Counter);
       }
     });
-  </script>
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
@@ -1366,26 +1340,6 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
