@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="0xCAFEBABE">
 <meta property="og:description" content="一次请求超时问题所引申出的笔记最近项目中遇到了一个问题，一个模块中的任务是计算密集型的，服务器的响应要十几到几十分钟不等（VPS是单核1G的学生机，没办法呀´･_･`），用户过来的请求自然会出现连接超时的问题。 初步想到的解决办法是把这个任务挂到后台去异步处理，然后先返回给用户一个任务已提交的提示就OK了。一开始用的是线程池 ThreadPoolExecutor，后来了解到 GIL 全局解释器锁这">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-16T15:33:24.315Z">
+<meta property="og:updated_time" content="2018-11-16T15:41:45.192Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python并发编程之concurrent.futures">
 <meta name="twitter:description" content="一次请求超时问题所引申出的笔记最近项目中遇到了一个问题，一个模块中的任务是计算密集型的，服务器的响应要十几到几十分钟不等（VPS是单核1G的学生机，没办法呀´･_･`），用户过来的请求自然会出现连接超时的问题。 初步想到的解决办法是把这个任务挂到后台去异步处理，然后先返回给用户一个任务已提交的提示就OK了。一开始用的是线程池 ThreadPoolExecutor，后来了解到 GIL 全局解释器锁这">
@@ -401,7 +401,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,961 字
+                  1,957 字
                 </span>
               
 
@@ -460,15 +460,15 @@
 <li><code>future.cancel()</code>：取消提交的任务，如果任务处于阻塞中，可以被取消，但如果任务已经在线程/进程池中运行了，就无法取消。</li>
 <li><code>future.result()</code>：获取任务的返回值</li>
 </ul>
-<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><p><code>ThreadPoolExecutor</code> 在使用上和 <code>ProcessPoolExecutor</code> 大致是一样的，方法也是相同的，但是对于 <code>map()</code> 方法 <code>ProcessPoolExecutor</code> 会少一个参数 <code>chunksize</code>。</p>
+<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><p><code>ThreadPoolExecutor</code> 在使用上和 <code>ProcessPoolExecutor</code> 大致是一样的，方法也是相同的，但是对于 <code>map()</code> 方法 <code>ThreadPoolExecutor</code> 会少一个参数 <code>chunksize</code>。</p>
 <h2 id="GIL"><a href="#GIL" class="headerlink" title="GIL"></a>GIL</h2><p><code>GIL (Global Interpreter Lock)</code>即全局解释器锁，由于 CPython 解释器的内存管理不是线程安全的，因此解释器被一个 GIL 保护着，它确保任何时候都只有一个 Python 线程执行。首先需要明确的一点是 GIL 并不是 Python 的特性，它是在实现 Python 解析器(CPython)时所引入的一个概念，像 JPython 、IronPython 等就没有 GIL 。</p>
 <p>官方对GIL的定义如下：</p>
 <blockquote>
 <p>In CPython, the global interpreter lock, or GIL, is a mutex that prevents multiple native threads from executing Python bytecodes at once. This lock is necessary mainly because CPython’s memory management is not thread-safe. (However, since the GIL exists, other features have grown to depend on the guarantees that it enforces.)</p>
 </blockquote>
-<p>根据官方定义可以看出，GIL 本质上来说就是一把一把全局排他锁。</p>
-<p>在 Python2.x 里，GIL 的释放逻辑是当前线程遇见 IO 操作或者 ticks 计数达到100进行释放。ticks 可以看作是 Python 自身的一个计数器，专门做用于 GIL，每次释放后归零，这个计数可以通过 sys.setcheckinterval 来调整。</p>
-<p>在Python3.x 中，GIL 不使用 ticks 计数，改为使用计时器，即执行时间达到阈值后，当前线程释放 GIL，这样对计算密集型程序更加友好，但依然没有解决 GIL 导致的同一时间只能执行一个线程的问题，所以效率依然不尽如人意。</p>
+<p>根据官方定义可以看出，GIL 本质上来说就是一把全局排他锁。</p>
+<p>在 Python2 中，GIL 的释放逻辑是当前线程遇见 IO 操作或者 ticks 计数达到100进行释放。ticks 可以看作是 Python 自身的一个计数器，专门做用于 GIL，每次释放后归零，这个计数可以通过 sys.setcheckinterval 来调整。</p>
+<p>在Python3 中，GIL 不使用 ticks 计数，改为使用计时器，即执行时间达到阈值后，当前线程释放 GIL，这样对计算密集型程序更加友好，但依然没有解决 GIL 导致的同一时间只能执行一个线程的问题，所以效率依然不尽如人意。</p>
 <p>虽然由于 GIL 的缘故，Python 中的多线程显得有些鸡肋，但在 IO 密集型任务下还是有用的。</p>
 
       
@@ -509,6 +509,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/17/决策树算法之ID3-C4.5/" rel="prev" title="决策树算法之ID3/C4.5">
+                决策树算法之ID3/C4.5 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -592,7 +596,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -691,7 +695,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">47.5k</span>
+    <span title="Site words total count">49.1k</span>
   
 </div>
 
