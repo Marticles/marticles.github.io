@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://marticles.github.io/images/Nginx流量控制配合Fail2ban抵御流量攻击/google.png">
 <meta property="og:image" content="http://marticles.github.io/images/Nginx流量控制配合Fail2ban抵御流量攻击/baidu.png">
-<meta property="og:updated_time" content="2018-11-17T14:57:47.672Z">
+<meta property="og:updated_time" content="2018-11-18T06:17:21.837Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx流量控制配合Fail2ban抵御流量攻击">
 <meta name="twitter:description" content="前言最近查看网站 Nginx 日志时，发现了很多恶意试探与攻击请求，最后是用 Nginx 自带的流量控制与 Fail2ban 动态黑名单解决了，效果不错，当有 IP 被 Ban 时还会有邮件通知，挺方便的。 Nginx log file分析 Nginx 日志内容，其中既有尝试攻击 Struts2 远程执行漏洞的： 12178.128.122.170 - - [16/Nov/2018:23:50:0">
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,761 字
+                  1,762 字
                 </span>
               
 
@@ -451,7 +451,7 @@
 <h3 id="手动禁-IP"><a href="#手动禁-IP" class="headerlink" title="手动禁 IP"></a>手动禁 IP</h3><p>先新建一个<code>blockips.conf</code>专门用来存放要禁的IP，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deny xxx.xxx.xxx.xxx.xxx;</span><br></pre></td></tr></table></figure></p>
 <p>在<code>http</code>段内配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include blockips.conf;</span><br></pre></td></tr></table></figure></p>
 <h2 id="Fail2ban-实现动态黑名单与邮件通知"><a href="#Fail2ban-实现动态黑名单与邮件通知" class="headerlink" title="Fail2ban 实现动态黑名单与邮件通知"></a>Fail2ban 实现动态黑名单与邮件通知</h2><h3 id="动态黑名单"><a href="#动态黑名单" class="headerlink" title="动态黑名单"></a>动态黑名单</h3><p>VPS用的是 Ubuntu16.04，以下操作都是在该环境下完成。</p>
-<p>首先在<code>/etc/fail2ban/filter</code>新建<code>nginx-cc.conf</code>，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[Definition]</span><br><span class="line">failregex = -.*- .*HTTP/1.* .* .*$</span><br><span class="line">ignoreregex =</span><br></pre></td></tr></table></figure></p>
+<p>首先在<code>/etc/fail2ban/filter</code>新建<code>nginx-cc.conf</code>，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[Definition]</span><br><span class="line">failregex = &lt;HOST&gt; -.*- .*HTTP/1.* .* .*$</span><br><span class="line">ignoreregex =</span><br></pre></td></tr></table></figure></p>
 <p>在<code>/etc/fail2ban</code>新建<code>jail.local</code>，内容如下：<br>注：不建议修改默认的<code>jail.conf</code>，Fail2ban 会动态加载<code>jail.local</code>内的配置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 使用ufw而不是iptables</span><br><span class="line">banaction = ufw</span><br><span class="line"></span><br><span class="line">[http-cc]</span><br><span class="line">enabled = true</span><br><span class="line">port = http,https</span><br><span class="line">filter = nginx-cc</span><br><span class="line">logpath = /var/log/nginx/access.log</span><br><span class="line">maxretry = 10</span><br><span class="line">findtime = 5</span><br><span class="line">bantime = -1 # 默认为秒，-1代表永久</span><br><span class="line"># 每5秒内发出超过10次请求的IP将被永久封禁</span><br></pre></td></tr></table></figure></p>
 <p>重启服务：<code>systemctl restart fail2ban</code></p>
 <p>日志文件在：<code>/var/log/fail2ban.log</code></p>
@@ -508,6 +508,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/20/StrongFriends开发笔记/" rel="prev" title="StrongFriends开发笔记">
+                StrongFriends开发笔记 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -591,7 +595,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -690,7 +694,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">50.9k</span>
+    <span title="Site words total count">57.2k</span>
   
 </div>
 

@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Web开发," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言StrongFriends，又称壮壮朋友(๑•̀ㅂ•́)و✧，是我开发的一个举铁爱好者论坛。主要功能包括：发帖、评论、赞踩、私信、RM 计算器、维京系数计算器、力量排行榜、帖子 / 评论 / 用户管理。 前端：BootStraps 后端：SpringBoot / Mybatis DB: MySQL / Redis 以下是个人在实现一些重点功能所做的笔记。 Spring 接收参数的几种方式1.">
+<meta name="keywords" content="Web开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="StrongFriends开发笔记">
+<meta property="og:url" content="http://marticles.github.io/2018/11/20/StrongFriends开发笔记/index.html">
+<meta property="og:site_name" content="0xCAFEBABE">
+<meta property="og:description" content="前言StrongFriends，又称壮壮朋友(๑•̀ㅂ•́)و✧，是我开发的一个举铁爱好者论坛。主要功能包括：发帖、评论、赞踩、私信、RM 计算器、维京系数计算器、力量排行榜、帖子 / 评论 / 用户管理。 前端：BootStraps 后端：SpringBoot / Mybatis DB: MySQL / Redis 以下是个人在实现一些重点功能所做的笔记。 Spring 接收参数的几种方式1.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://marticles.github.io/images/StrongFriends开发笔记/Interceptor.png">
+<meta property="og:image" content="http://marticles.github.io/images/StrongFriends开发笔记/InterceptorsOrder.png">
+<meta property="og:image" content="http://marticles.github.io/images/StrongFriends开发笔记/async.png">
+<meta property="og:image" content="http://marticles.github.io/images/StrongFriends开发笔记/fb.jpg">
+<meta property="og:updated_time" content="2018-11-22T17:18:21.319Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="StrongFriends开发笔记">
+<meta name="twitter:description" content="前言StrongFriends，又称壮壮朋友(๑•̀ㅂ•́)و✧，是我开发的一个举铁爱好者论坛。主要功能包括：发帖、评论、赞踩、私信、RM 计算器、维京系数计算器、力量排行榜、帖子 / 评论 / 用户管理。 前端：BootStraps 后端：SpringBoot / Mybatis DB: MySQL / Redis 以下是个人在实现一些重点功能所做的笔记。 Spring 接收参数的几种方式1.">
+<meta name="twitter:image" content="http://marticles.github.io/images/StrongFriends开发笔记/Interceptor.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://marticles.github.io/2018/11/20/StrongFriends开发笔记/"/>
+
+
+
+
+
+  <title>StrongFriends开发笔记 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xCAFEBABE</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Just for fun</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/11/20/StrongFriends开发笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">StrongFriends开发笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-20T12:38:26+08:00">
+                2018-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/20/StrongFriends开发笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/20/StrongFriends开发笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/11/20/StrongFriends开发笔记/" class="leancloud_visitors" data-flag-title="StrongFriends开发笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  6,388 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>StrongFriends，又称壮壮朋友(๑•̀ㅂ•́)و✧，是我开发的一个举铁爱好者论坛。主要功能包括：发帖、评论、赞踩、私信、RM 计算器、维京系数计算器、力量排行榜、帖子 / 评论 / 用户管理。</p>
+<p>前端：BootStraps 后端：SpringBoot / Mybatis DB: MySQL / Redis</p>
+<p>以下是个人在实现一些重点功能所做的笔记。</p>
+<h2 id="Spring-接收参数的几种方式"><a href="#Spring-接收参数的几种方式" class="headerlink" title="Spring 接收参数的几种方式"></a>Spring 接收参数的几种方式</h2><h3 id="1-通过-RequestParam-获取请求参数"><a href="#1-通过-RequestParam-获取请求参数" class="headerlink" title="1. 通过 @RequestParam 获取请求参数"></a>1. 通过 <code>@RequestParam</code> 获取请求参数</h3><p>用注解<code>@RequestParam</code>绑定请求参数 <code>param</code> 到变量 <code>testParam</code>，当请求参数 <code>param</code> 不存在时会有异常发生,可以通过设置属性 <code>required=false</code> 解决，例如 <code>@RequestParam(value=&quot;a&quot;, required=false)</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/test"</span>, method = RequestMethod.GET, RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(@RequestParam(<span class="string">"param"</span>)</span> String testParam) </span>&#123;</span><br><span class="line">   	System.out.println(<span class="string">"Requst parm is "</span>+testParam);</span><br><span class="line">   	<span class="keyword">return</span> <span class="string">"Test"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-通过-PathVariable-获取请求参数"><a href="#2-通过-PathVariable-获取请求参数" class="headerlink" title="2. 通过 @PathVariable 获取请求参数"></a>2. 通过 <code>@PathVariable</code> 获取请求参数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/test/&#123;parm&#125;"</span>, method = RequestMethod.GET, RequestMethod.POST)</span><br><span class="line">   <span class="meta">@ResponseBody</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(@PathVariable(<span class="string">"parm"</span>)</span> String testParm)</span>&#123;</span><br><span class="line">       System.out.println(<span class="string">"Requst parm is "</span>+testParm);</span><br><span class="line">   	<span class="keyword">return</span> <span class="string">"Test"</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>PS：使用 <code>@RequestParam</code> 时，URL 是这样的：<code>http://localhost:8080/path?参数名=参数值</code><br>使用 <code>@PathVariable</code> 时，URL是这样的：<code>http://localhost:8080/path/参数值</code></p>
+<h3 id="3-通过-HttpServletRequest-获取前端发送-JSON-数据"><a href="#3-通过-HttpServletRequest-获取前端发送-JSON-数据" class="headerlink" title="3. 通过 HttpServletRequest 获取前端发送 JSON 数据"></a>3. 通过 <code>HttpServletRequest</code> 获取前端发送 JSON 数据</h3><p>前端示例代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">$(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        type: <span class="string">"POST"</span>,</span><br><span class="line">        url: <span class="string">"http://localhost:8080/test/"</span>,</span><br><span class="line">        data: &#123;</span><br><span class="line">            <span class="string">"param"</span>: <span class="string">"测试参数"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="keyword">async</span>: <span class="literal">true</span>,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>使用 <code>HttpServletRequest</code> 获取 JSON ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/test"</span>, method = RequestMethod.GET, RequestMethod.POST)</span><br><span class="line">   <span class="meta">@ResponseBody</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(HttpServletRequest request)</span></span>&#123;</span><br><span class="line">       System.out.println(<span class="string">"Requst parm is "</span>+request.getParameter(<span class="string">"parm"</span>));</span><br><span class="line">   	<span class="keyword">return</span> <span class="string">"Test"</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-通过-ModelAttribute-将前端发送-JSON-数据映射成目标对象"><a href="#4-通过-ModelAttribute-将前端发送-JSON-数据映射成目标对象" class="headerlink" title="4. 通过 @ModelAttribute 将前端发送 JSON 数据映射成目标对象"></a>4. 通过 <code>@ModelAttribute</code> 将前端发送 JSON 数据映射成目标对象</h3><p>前端代码如 3 中所示</p>
+<p><code>Param Class</code>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Param</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String param;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getParam</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> param;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setParam</span><span class="params">(String param)</span> </span>&#123;<span class="keyword">this</span>.param = param;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用 <code>@ModelAttribute</code> 将 JSON 映射成目标对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/test"</span>, method = RequestMethod.GET, RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(@ModelAttribute(<span class="string">"Param"</span>)</span> Param param) </span>&#123;</span><br><span class="line">   	System.out.println(<span class="string">"Requst parm is "</span>+param.getParam());</span><br><span class="line">   	<span class="keyword">return</span> <span class="string">"Test"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="图片上传与读取"><a href="#图片上传与读取" class="headerlink" title="图片上传与读取"></a>图片上传与读取</h2><p><strong>图片上传</strong>：前端通过 formData 将图片以 POST 请求方式发送给后端，后端使用 <code>MultipartFile file</code> 接收传来的二进制流，然后通过将文件名通过 <code>UUID.randomUUID()</code> 赋为唯一 ID 后直接保存到本地硬盘上。</p>
+<p>注意 <code>multipart/form-data</code> 的请求头中的 <code>Content-Type</code> 与普通 POST 请求不同：</p>
+<p>普通 POST 请求头中 <code>Content-Type</code> 字段值为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Type: application/x-www-form-urlencoded</span><br></pre></td></tr></table></figure></p>
+<p><code>multipart/form-data</code> 请求头中 <code>Content-Type</code> 字段值为 <code>multipart/form-data; boundary=xxxxxxx</code>，这里的 <code>xxxxxxx</code> 可以自己定义，但要保证唯一：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryZp8W8sOi2HI0TBW7</span><br></pre></td></tr></table></figure></p>
+<p>普通 POST 请求的请求体格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">param1=123&amp;param2=456&amp;param3=789</span><br></pre></td></tr></table></figure></p>
+<p>上传图片的 <code>multipart/form-data</code> 的 POST 请求体格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">------WebKitFormBoundaryjUVXJ3PslTEBh9as</span><br><span class="line">Content-Disposition: form-data; name=&quot;param1&quot;</span><br><span class="line"></span><br><span class="line">123</span><br><span class="line">------WebKitFormBoundaryjUVXJ3PslTEBh9as</span><br><span class="line">Content-Disposition: form-data; name=&quot;param2&quot;</span><br><span class="line"></span><br><span class="line">456</span><br><span class="line">------WebKitFormBoundaryjUVXJ3PslTEBh9as</span><br><span class="line">Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;test.jpg&quot;</span><br><span class="line">Content-Type: images/jpeg</span><br><span class="line"></span><br><span class="line">..................省略的图片二进制流信息</span><br><span class="line">------WebKitFormBoundaryjUVXJ3PslTEBh9as</span><br></pre></td></tr></table></figure></p>
+<p><strong>图片读取</strong>：后端接收到图片路径后，从硬盘上读取文件，再将文件流通过 <code>HttpServletResponse response</code> 返回。</p>
+<p>具体做法是先设置 <code>ContentType</code>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setContentType(<span class="string">"image"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>然后通过 Spring 的 <code>StreamUtils.copy()</code> 读取到的文件流拷贝到 <code>response</code> 中，其中 <code>IMAGE_PATH</code> 即为图片的路径：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">StreamUtils.copy(<span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(IMAGE_PATH)), response.getOutputStream());</span><br></pre></td></tr></table></figure></p>
+<h2 id="用户登录与注销"><a href="#用户登录与注销" class="headerlink" title="用户登录与注销"></a>用户登录与注销</h2><h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><ol>
+<li>服务器校验密码，生成 token 关联 userId 并保存至数据库库中，同时将 token 返回给客户端（浏览器中存储 Cookie ）。</li>
+<li>服务器生成 token 时还需要设置一个过期时间与状态，如果 token 到达过期时间就通过改变 token 状态来失效这个 token。</li>
+<li>下次用户访问时浏览器 Cookie 中会带着这个 token，服务器会通过 token 来找到这个用户（所以 token 必须要是唯一的），并返回用户的具体信息。</li>
+<li>注：token 可以是 session_id，也可以是 Cookie 中的任意一个 key，以下是几个重要方法。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造 Cookie 并加入 token 字段</span></span><br><span class="line">Cookie cookie = <span class="keyword">new</span> Cookie(<span class="string">"token"</span>, Token.toString());</span><br><span class="line"><span class="comment">// Cookie设为全局有效</span></span><br><span class="line">cookie.setPath(<span class="string">"/"</span>);</span><br><span class="line"><span class="comment">// 浏览器设置Cookie有效时间为一周</span></span><br><span class="line">cookie.setMaxAge(<span class="number">3600</span>*<span class="number">24</span>*<span class="number">7</span>);</span><br><span class="line"><span class="comment">// 将Cookie加入至response中</span></span><br><span class="line">response.addCookie(cookie);</span><br></pre></td></tr></table></figure>
+<h3 id="注销"><a href="#注销" class="headerlink" title="注销"></a>注销</h3><ol>
+<li>服务器端将 token 状态变为失效状态</li>
+<li>清理 session</li>
+</ol>
+<h2 id="拦截器-Interceptor-的使用"><a href="#拦截器-Interceptor-的使用" class="headerlink" title="拦截器 (Interceptor) 的使用"></a>拦截器 (Interceptor) 的使用</h2><p>Spring 中的拦截器主要分两种，一个是 <code>MethodInterceptor</code>，它拦截的是方法；一个是 <code>HandlerInterceptor</code>，它拦截的是请求地址，且比 <code>MethodInterceptor</code> 先执行。</p>
+<p>实现一个 <code>HandlerInterceptor</code> 拦截器可以直接实现 <code>HandlerInterceptor</code> 接口，也可以继承 <code>HandlerInterceptorAdapter</code> 类，下面是实现接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoInterceptor</span> <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 进入Controller前</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Controller处理后</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>preHandle</strong>: 该方法将在请求处理之前进行调用。该方法的返回值为 <code>Boolean</code> 类型，当返回为 <code>false</code> 时，表示请求结束，后续的 <code>Interceptor</code> 和 <code>Controller</code> 都不会再执行；当返回值为 <code>true</code> 时就会继续调用下一个 <code>Interceptor</code> 的 <code>preHandle</code> 方法，如果已经是最后一个 <code>Interceptor</code> 时候则会调用当前请求的 <code>Controller</code> 。</li>
+<li><strong>postHandle</strong>:该方法将在请求处理之后进行调用，也就是 <code>Controller</code> 调用之后执行，但它是在 <code>DispatcherServlet</code> 进行视图渲染之前被调用的，所以可以在这个方法中对 <code>Controller</code> 处理之后的 <code>ModelAndView</code> 对象进行操作（如下，我在这里面先加入了当前登录用户的信息）。<code>postHandle</code> 方法被调用的方向跟 <code>preHandle</code> 是相反的，也就是说先声明的 <code>Interceptor</code> 的 <code>postHandle</code> 方法反而会后执行。</li>
+<li><strong>afterCompletion</strong>:该方法也是需要当前对应的 <code>Interceptor</code> 的 <code>preHandle</code> 方法的返回值为 <code>true</code> 时才会执行。该方法将在整个请求结束之后，也就是在 <code>DispatcherServlet</code> 渲染了对应的视图之后执行。这个方法的主要作用是用于进行资源清理工作。</li>
+</ul>
+<p>搜相关资料时看到一篇国外的技术文章里讲的比较清晰：</p>
+<ul>
+<li><strong>prehandle</strong> – called before the actual handler is executed, but <strong>the view is not generated yet</strong></li>
+<li><strong>postHandle</strong> – called after <strong>the handler is executed</strong></li>
+<li><strong>afterCompletion</strong> – called after the complete <strong>request has finished and view was generated</strong></li>
+</ul>
+<p><img src="/images/StrongFriends开发笔记/Interceptor.png" alt=""></p>
+<h3 id="实现用户登录拦截器"><a href="#实现用户登录拦截器" class="headerlink" title="实现用户登录拦截器"></a>实现用户登录拦截器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">       String token = <span class="keyword">null</span>;</span><br><span class="line">	<span class="comment">// 如果Cookie不为空</span></span><br><span class="line">       <span class="keyword">if</span>(httpServletRequest.getCookies()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">           <span class="keyword">for</span>(Cookie cookie : httpServletRequest.getCookies() )&#123;</span><br><span class="line">			<span class="comment">// 找到token字段</span></span><br><span class="line">               <span class="keyword">if</span>(cookie.getName().equals(<span class="string">"token"</span>))&#123;</span><br><span class="line">                   token = cookie.getValue();</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">if</span>(ticket!=<span class="keyword">null</span>)&#123;</span><br><span class="line">           LoginTicket loginTicket = loginTicketDAO.selectByTicket(token);</span><br><span class="line">		<span class="comment">// 判断Cookie中的token与数据库中的token是否一致且没过期且状态为有效</span></span><br><span class="line">           <span class="keyword">if</span> (loginTicket == <span class="keyword">null</span> || loginTicket.getExpired().before(<span class="keyword">new</span> Date()) || loginTicket.getStatus() != <span class="number">0</span>) &#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">           &#125;</span><br><span class="line">		<span class="comment">// 若数据库中找到了该用户的token</span></span><br><span class="line">           User user = userDAO.selectById(loginTicket.getUserId());</span><br><span class="line">		<span class="comment">// 用HostHolder保存该用户的信息，这样Controller就可以拿到该用户的信息，是对ThreadLocal的封装</span></span><br><span class="line">           hostHolder.setUser(user);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	<span class="comment">// 在modelAndView中加入user信息</span></span><br><span class="line">       <span class="keyword">if</span>(modelAndView!=<span class="keyword">null</span> &amp;&amp; hostHolder.getUser()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">           modelAndView.addObject(<span class="string">"user"</span>,hostHolder.getUser());</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	<span class="comment">// 结束后清除该用户</span></span><br><span class="line">       hostHolder.clear();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实现用户权限拦截器"><a href="#实现用户权限拦截器" class="headerlink" title="实现用户权限拦截器"></a>实现用户权限拦截器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthInterceptor</span> <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">// 管理员ID为99999</span></span><br><span class="line">        <span class="keyword">if</span> (hostHolder.getUser() == <span class="keyword">null</span>||hostHolder.getUser().getId()!=<span class="number">99999</span>) &#123;</span><br><span class="line">			<span class="comment">// 不是管理员就直接跳转回首页</span></span><br><span class="line">            httpServletResponse.sendRedirect(<span class="string">"/"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="注册拦截器"><a href="#注册拦截器" class="headerlink" title="注册拦截器"></a>注册拦截器</h3><p>完成拦截器后就要把拦截器注册到 SpringMVC 中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StrongFriendsWebConfiguration</span> <span class="keyword">extends</span> <span class="title">WebMvcConfigurerAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    PassportInterceptor passportInterceptor;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    AuthInterceptor authInterceptor;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addInterceptor(passportInterceptor);</span><br><span class="line">		<span class="comment">// 指定拦截/admin路径下所有请求</span></span><br><span class="line">        registry.addInterceptor(authInterceptor).addPathPatterns(<span class="string">"/admin*"</span>);</span><br><span class="line">        <span class="keyword">super</span>.addInterceptors(registry);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ThreadLocal-的使用"><a href="#ThreadLocal-的使用" class="headerlink" title="ThreadLocal 的使用"></a>ThreadLocal 的使用</h2><p>在拦截器中使用 <code>ThreadLocal</code> 主要是为了拿到当前的用户信息，并传递给后续的 <code>Controller</code> 中使用，将其封装成一个 <code>HostHolder</code> 以便使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HostHolder</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;User&gt; users = <span class="keyword">new</span> ThreadLocal&lt;User&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> users.get();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUser</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">        users.set(user);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        users.remove();;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="多个拦截器的执行顺序"><a href="#多个拦截器的执行顺序" class="headerlink" title="多个拦截器的执行顺序"></a>多个拦截器的执行顺序</h3><p>若有两个拦截器 Interceptor1 与 Interceptor2，则执行顺序如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">=======&gt; Interceptor1:preHandle()</span><br><span class="line">=======&gt; Interceptor2:preHandle()</span><br><span class="line">.......</span><br><span class="line">=======&gt; Interceptor2:postHandle()</span><br><span class="line">=======&gt; Interceptor1:postHandle()</span><br><span class="line">=======&gt; Interceptor2:afterCompletion()</span><br><span class="line">=======&gt; Interceptor1 :afterCompletion()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/StrongFriends开发笔记/InterceptorsOrder.png" alt=""></p>
+<h2 id="Token-Cookie-Session-的区别"><a href="#Token-Cookie-Session-的区别" class="headerlink" title="Token / Cookie / Session 的区别"></a>Token / Cookie / Session 的区别</h2><h3 id="Token"><a href="#Token" class="headerlink" title="Token"></a>Token</h3><ul>
+<li>Token 是服务端生成的一串随机字符串，以在一定时间范围内标识用户的一个令牌</li>
+<li>使用 Token 可以减轻服务器的压力，减少频繁查询数据库</li>
+</ul>
+<h3 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h3><ul>
+<li>存储方式：Cookie 存储在客户端浏览器中</li>
+<li>存储容量：有大小限制，不同浏览器的Cookie个数也有不同限制</li>
+<li>存储方式：Cookie 中只能存储 ASCII 字符串</li>
+<li>安全：Cookie 以明文存储，易被攻破进行 Cookie 欺骗，不安全</li>
+</ul>
+<h3 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h3><ul>
+<li>存储方式：Session 存放在服务器端</li>
+<li>存储容量：没有大小限制，服务器的内存大小有关</li>
+<li>存储方式：Session 中能够存储任何类型的数据</li>
+<li>安全：用户不可见，不存在泄漏风险，较安全</li>
+<li>Session 机制可以通过 Cookie 实现，但不一定是 Cookie</li>
+<li>当做了负载均衡后，session 保存在某个服务器中，其他服务器是无法识别这个 session 的，除非多个服务器之间对 session 进行复制</li>
+</ul>
+<p>PS：当浏览器禁用 Cookie 后，Session 与 Token 仍可以用，不过需要通过其他的方式来获取 Session 与 Token ，比如放在 URL 路径中，或者以表单形式提交给服务器端。</p>
+<h2 id="防止-XSS-攻击"><a href="#防止-XSS-攻击" class="headerlink" title="防止 XSS 攻击"></a>防止 XSS 攻击</h2><h3 id="在-Cookie-中设置-HttpOnly-属性"><a href="#在-Cookie-中设置-HttpOnly-属性" class="headerlink" title="在 Cookie 中设置 HttpOnly 属性"></a>在 Cookie 中设置 HttpOnly 属性</h3><p>这样攻击者通过 JS 脚本将无法读取到 Cookie 信息。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.addHeader(<span class="string">"Set-Cookie"</span>, <span class="string">"HttpOnly"</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用过滤器-Filter-将-HTML-进行转义"><a href="#使用过滤器-Filter-将-HTML-进行转义" class="headerlink" title="使用过滤器 (Filter) 将 HTML 进行转义"></a>使用过滤器 (Filter) 将 HTML 进行转义</h3><p>Filter 主要用于对用户请求进行预处理，也可以对 <code>HttpServletResponse</code> 进行后处理，是个典型的处理链。使用 Filter 完整的流程是：Filter 对用户请求进行预处理，接着将请求交给 Servlet 进行预处理并生成响应，最后 Filter 再对服务器响应进行后处理。</p>
+<p>在 <code>HttpServletRequest</code> 到达 Servlet 之前，拦截用户的 <code>HttpServletRequest</code>。根据需要检查 <code>HttpServletRequest</code>，也可以修改 <code>HttpServletRequest</code> 头和数据。在 <code>HttpServletResponse</code> 到达客户端之前，拦截 <code>HttpServletResponse</code>。根据需要检查 <code>HttpServletResponse</code>，也可以修改 <code>HttpServletResponse</code> 头和数据。</p>
+<p>下面是 Filter 在预防 XSS 攻击的应用：</p>
+<ol>
+<li>实现 <code>XssHttpServletRequestWrapper</code> 类，继承自 <code>HttpServletRequestWrapper</code>，重写 <code>getParameter()</code> 和 <code>getParameterValues()</code> 方法，使用 <code>org.apache.commons.lang3</code> 下的 <code>StringEscapeUtils.escapeHtml4()</code> 方法对所有请求参数与 JSON 进行转义</li>
+<li>实现 <code>Fliter</code> 过滤所有请求，将 <code>HttpServletRequest</code> 强转为 <code>XssHttpServletRequestWrapper</code> 传递下去</li>
+</ol>
+<h2 id="拦截器与过滤器的区别"><a href="#拦截器与过滤器的区别" class="headerlink" title="拦截器与过滤器的区别"></a>拦截器与过滤器的区别</h2><ol>
+<li>拦截器基于 JAVA 反射机制 (AOP)，而过滤器基于函数回调 (doFilter)</li>
+<li>拦截器不依赖于 Servlet 容器，过滤器依赖于 Servlet 容器</li>
+<li>拦截器只能对 action 请求起作用，而过滤器则可以对几乎所有的请求起作用</li>
+<li>拦截器可以访问 action 上下文、值栈里的对象，而过滤器不能访问</li>
+<li>在 action 的生命周期中，拦截器可以多次被调用，而过滤器只能在容器初始化时被调用一次</li>
+</ol>
+<p>执行顺序：过滤器 <code>chain.doFilter()</code> 前 -&gt; 拦截器 <code>preHandle()</code> -&gt; <code>Controller</code> - 拦截器 <code>postHandle()</code> -&gt; 页面渲染 -&gt; 拦截器 <code>afterCompletion()</code>  -&gt; 过滤器 <code>chain.doFilter()</code> 后</p>
+<h2 id="异步通用服务模块"><a href="#异步通用服务模块" class="headerlink" title="异步通用服务模块"></a>异步通用服务模块</h2><p>这个模块的核心基于生产者-消费者模型，生产者通过向 MQ(由 Redis list 实现，是 FIFO 的)中 Push 需要处理的事件，然后消费者将事件 Pop 出来并通过线程池消费。</p>
+<p>其中，生产者产生的事件是类型是多样的，消费者需要判断事件类型并调用对应的 Handler 处理。</p>
+<p><img src="/images/StrongFriends开发笔记/async.png" alt=""></p>
+<p>首先定义 EventModel ：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EventModel</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 事件类型</span></span><br><span class="line">    <span class="keyword">private</span> EventType type;</span><br><span class="line">    <span class="comment">// 事件触发者</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> actorId;</span><br><span class="line">    <span class="comment">// 触发对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> entityId;</span><br><span class="line">    <span class="comment">// 触发对象类型</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> entityType;</span><br><span class="line">    <span class="comment">// 触发对象拥有者</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> entityOwnerId;</span><br><span class="line">    <span class="comment">// 事件的额外数据</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, String&gt; exts = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">	<span class="comment">// 省略getter/setter方法</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中 EventType 为枚举：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> EventType &#123;</span><br><span class="line">    COMMENT(<span class="number">0</span>),</span><br><span class="line">    LIKE(<span class="number">1</span>),</span><br><span class="line">    DISLIKE(<span class="number">2</span>),</span><br><span class="line">    MESSAGE(<span class="number">3</span>),</span><br><span class="line">    POST(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> value;</span><br><span class="line">    EventType(<span class="keyword">int</span> value) &#123;<span class="keyword">this</span>.value = value;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> value;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再定义 EventHandler 接口，各类服务的 Handler 都需要实现这个接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EventHandler</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 具体处理逻辑</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doHandle</span><span class="params">(EventModel model)</span></span>;</span><br><span class="line">	<span class="comment">// 获取支持处理的Event类型</span></span><br><span class="line">    <span class="function">List&lt;EventType&gt; <span class="title">getSupportEventTypes</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来是生产者：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EventProducer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    JedisAdapter jedisAdapter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">produceEvent</span><span class="params">(EventModel eventModel)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">// 序列化Event</span></span><br><span class="line">            String json = JSONObject.toJSONString(eventModel);</span><br><span class="line">            String key = RedisKeyUtil.getEventQueueKey();</span><br><span class="line">			<span class="comment">// 从左push到list中</span></span><br><span class="line">            jedisAdapter.lpush(key, json);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>消费者：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Spirng的InitializingBean为bean提供了定义初始化方法的方式。InitializingBean是一个接口，仅包含一个方法：afterPropertiesSet()</span></span><br><span class="line"><span class="comment"> * Spring在设置完一个bean所有的信息后，会检查bean是否实现了InitializingBean接口，如果实现就调用bean的afterPropertiesSet方法。</span></span><br><span class="line"><span class="comment"> * 装配bean的信息查看bean是否实现InitializingBean接口调用afterPropertiesSet方法</span></span><br><span class="line"><span class="comment"> * afterPropertiesSet会在init-method前调用</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 实现ApplicationContextAware接口后，可以获得ApplicationContext中的所有bean。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EventConsumer</span> <span class="keyword">implements</span> <span class="title">InitializingBean</span>, <span class="title">ApplicationContextAware</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在config Map中关联EventType与对应处理的EventHandler</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;EventType, List&lt;EventHandler&gt;&gt; config = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> JedisAdapter jedisAdapter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterPropertiesSet</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 找出所有实现了EventHandler接口的类</span></span><br><span class="line">        Map&lt;String, EventHandler&gt; beans = applicationContext.getBeansOfType(EventHandler.class);</span><br><span class="line">        <span class="keyword">if</span> (beans != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 遍历所有实现了EventHandler接口的类</span></span><br><span class="line">            <span class="keyword">for</span> (Map.Entry&lt;String, EventHandler&gt; entry : beans.entrySet()) &#123;</span><br><span class="line">                <span class="comment">// 找到每个Handler类支持的EventType</span></span><br><span class="line">                List&lt;EventType&gt; eventTypes = entry.getValue().getSupportEventTypes();</span><br><span class="line">                <span class="comment">// 找到EventType后要与EventHandler关联</span></span><br><span class="line">                <span class="keyword">for</span> (EventType type : eventTypes) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (!config.containsKey(type)) &#123;</span><br><span class="line">                        <span class="comment">// 放入config中,完成关联</span></span><br><span class="line">                        config.put(type, <span class="keyword">new</span> ArrayList&lt;EventHandler&gt;());</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 注册每个时间的Handler</span></span><br><span class="line">                    config.get(type).add(entry.getValue());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化线程池</span></span><br><span class="line">        ThreadPool threadPool = <span class="keyword">new</span> ThreadPool();</span><br><span class="line"></span><br><span class="line">        Runnable task = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    String key = RedisKeyUtil.getEventQueueKey();</span><br><span class="line">                    <span class="comment">// 弹出最右的事件，如果list没有事件会阻塞list直到等待超时返回nil</span></span><br><span class="line">                    List&lt;String&gt; messages = jedisAdapter.brpop(<span class="number">10</span>, key);</span><br><span class="line">                    <span class="comment">// [0]:EVENT(即list key) [1]：事件的具体信息</span></span><br><span class="line">                    <span class="keyword">for</span> (String message : messages) &#123;</span><br><span class="line">                        <span class="comment">// 跳过第一个元素，即redis的list key</span></span><br><span class="line">                        <span class="keyword">if</span> (message.equals(key)) &#123;</span><br><span class="line">                            <span class="keyword">continue</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="comment">// JSON反序列回EventModel</span></span><br><span class="line">                        EventModel eventModel = JSON.parseObject(message, EventModel.class);</span><br><span class="line">                        <span class="comment">// 若config中没找到这个事件的处理handler，丢弃该事件</span></span><br><span class="line">                        <span class="keyword">if</span> (!config.containsKey(eventModel.getType())) &#123;</span><br><span class="line">                            <span class="keyword">continue</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="comment">// 找到EventModel事件类型，调用对应Handler处理</span></span><br><span class="line">                        <span class="keyword">for</span> (EventHandler handler : config.get(eventModel.getType())) &#123;</span><br><span class="line">                            handler.doHandle(eventModel);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 执行</span></span><br><span class="line">        threadPool.getThreadPool().execute(task);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setApplicationContext</span><span class="params">(ApplicationContext applicationContext)</span> <span class="keyword">throws</span> BeansException </span>&#123;<span class="keyword">this</span>.applicationContext = applicationContext;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPool</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 线程池核心池的大小</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> CORE_SIZE = <span class="number">8</span>;</span><br><span class="line">        <span class="comment">//  线程池的最大线程数</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_SIZE = <span class="number">12</span>;</span><br><span class="line">        <span class="comment">// 当线程数大于核心时，此为终止前多余的空闲线程等待新任务的最长时间</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> KEEP_ALIVE_TIME = <span class="number">30</span>;</span><br><span class="line">        <span class="comment">// ArrayBlockingQueue的大小</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> QUEUE_SIZE = <span class="number">50000</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> ThreadPoolExecutor threadPool = <span class="keyword">new</span> ThreadPoolExecutor(CORE_SIZE, MAX_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS, <span class="keyword">new</span> ArrayBlockingQueue&lt;Runnable&gt;(QUEUE_SIZE), <span class="keyword">new</span> ThreadPoolExecutor.AbortPolicy());</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> ThreadPoolExecutor <span class="title">getThreadPool</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> threadPool;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>总共有以下五种 Handler：</p>
+<ol>
+<li><code>LikdHandler</code>：Redis 读写 + 系统站内信通知(即私信)</li>
+<li><code>DislikeHandler</code>：Redis 读写 + 系统站内信通知</li>
+<li><code>CommentlikeHandler</code>：MySQL 与 Redis 读写 + 系统站内信通知</li>
+<li><code>MessageHandler</code>：MySQL 写</li>
+<li><code>PostHandler</code>：MySQL 写</li>
+</ol>
+<h2 id="TODO-线程池的应用"><a href="#TODO-线程池的应用" class="headerlink" title="TODO 线程池的应用"></a>TODO 线程池的应用</h2><p>《阿里巴巴Java开发手册》中指出：”强制线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式”，因为这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。</p>
+<p>TODO</p>
+<h2 id="防止-SQL-注入攻击"><a href="#防止-SQL-注入攻击" class="headerlink" title="防止 SQL 注入攻击"></a>防止 SQL 注入攻击</h2><p>在 Mybatis 中尽量使用 <code>#{}</code> 而不是 <code>${}</code>，因为对于含有 <code>#{}</code> 的 SQL 语句，Mybatis 会通过 JDBC 中的 PreparedStatement 实现预编译，执行时直接使用编译后的 SQL，再用传入的参数替换掉占位符“?”。而<code>${}</code> 未经过预编译，存在 SQL 注入风险。</p>
+<p>但是预编译也有一个缺点，就是不允许一个占位符“?”有多个值，在执行有<strong>IN</strong>子句查询的时候会将多个参数视作一个。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user where id in ( 1 , 2 , 3)</span><br></pre></td></tr></table></figure></p>
+<p>此时的 <code>1 , 2, 3</code> 将被整体视作一个参数，解决办法是 <code>foreach</code>，假设参数<code>int[] ids = {1,2,3}</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * from user where id in</span><br><span class="line">  &lt;foreach collection=&quot;array&quot; item=&quot;id&quot; index=&quot;index&quot; collection=&quot;list&quot;</span><br><span class="line">      open=&quot;(&quot; separator=&quot;,&quot; close=&quot;)&quot;&gt;</span><br><span class="line">        #&#123;id&#125;</span><br><span class="line">  &lt;/foreach&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用-Redis-作为缓存"><a href="#使用-Redis-作为缓存" class="headerlink" title="使用 Redis 作为缓存"></a>使用 Redis 作为缓存</h2><p>只在赞/踩与评论功能中使用了 Redis 作为缓存。</p>
+<h3 id="赞-踩"><a href="#赞-踩" class="headerlink" title="赞 / 踩"></a>赞 / 踩</h3><ul>
+<li>写：Redis</li>
+<li>读：Redis</li>
+<li>注：考虑到赞踩是热点数据，弱数据一致性，只需要将 Redis 缓存定时写入 MySQL 就好</li>
+<li>Redis 缓存定时写入 MySQL：使用 <code>@EnableScheduling</code> 注解来开启定时任务</li>
+<li>即使 Redis 崩了，也能从 MySQL 中恢复上一次的数据，且赞踩数据不是很重要</li>
+<li>可以考虑读写分离提高性能</li>
+</ul>
+<h3 id="评论"><a href="#评论" class="headerlink" title="评论"></a>评论</h3><p>这部分参考了论文《Scaling Memcache at Facebook》 中的 <strong>Query cache</strong> 策略：</p>
+<blockquote>
+<p>We rely on memcache to lighten the read load on our databases. In particular, we use memcache as a demand-filled look-aside cache as shown in Figure 1. When a web server needs data, it first requests the value from memcache by providing a string key. If the item addressed by that key is not cached, the web server retrieves the data from the database or other back-end service and populates the cache with the key-value pair. For write requests, the web server issues SQL statements to the database and then sends a delete request to memcache that invalidates any stale data. We choose to delete cached data instead of updating it because deletes are idempotent. Memcache is not the authoritative source of the data and is therefore allowed to evict cached data.</p>
+<p>简单描述如下：<br>1.当一个 Web 服务器需要数据时，首先通过一个string key 来向 memcache 请求，如果没有拿到拿到这个 key 的缓存，就会从数据库或者从后台服务中找，再把找到的k-v对存到 memcache 中。</p>
+<p>2.对于写的请求，Web 服务器会先发送 SQL 语句到数据库更新，接着发送删除请求到 memcache，失效旧的缓存。选择删除缓存的方式，而不是更新缓存的原因是删除是幂等运算。</p>
+</blockquote>
+<p><img src="/images/StrongFriends开发笔记/fb.jpg" alt=""></p>
+<p>我的实现是：</p>
+<ul>
+<li>写：先写入MySQL，再删除 Redis 缓存(为了防止缓存删除失败，读到脏数据，还对每个 KEY 都设置了随机失效时间)</li>
+<li>读：先读 Redis，若命中直接返回 Redis 数据；若没命中，读 MySQL 数据返回并写入 Redis 缓存</li>
+</ul>
+<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>访问一个不存在的 key 时，缓存不起作用，请求会穿透到 DB ，流量大时 DB 自然就会瘫痪。</p>
+<p>解决方案:</p>
+<ol>
+<li>利用互斥锁，缓存失效的时候，先去获得锁，得到锁了，再去请求数据库。没得到锁，则休眠一段时间重试</li>
+<li>采用异步更新策略，无论key是否取到值，都直接返回。value值中维护一个缓存失效时间，缓存如果过期，异步起一个线程去读数据库，更新缓存。需要做缓存预热(项目启动前，先加载缓存)操作。</li>
+<li>布隆过滤器，内部维护一系列合法有效的key就可以迅速判断出请求所携带的key是否合法有效。如果不合法，则直接返回。</li>
+</ol>
+<h4 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h4><h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><h2 id="Redis-的两种持久化方式-RDB-与-AOF"><a href="#Redis-的两种持久化方式-RDB-与-AOF" class="headerlink" title="Redis 的两种持久化方式 RDB 与 AOF"></a>Redis 的两种持久化方式 RDB 与 AOF</h2><h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><p>RDB (Redis DataBase) 持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。</p>
+<p>优势：</p>
+<ul>
+<li>整个 Redis 数据库将只包含一个文件，十分易于备份</li>
+<li>性能最大化，对于 Redis 的服务进程而言，在开始持久化时，它唯一需要做的只是 fork 出子进程，之后再由子进程完成这些持久化的工作，这样就可以极大地避免服务进程执行 IO 操作</li>
+<li>相对于 AOF，基于 RDB 数据文件来重启和恢复 Redis 会更快</li>
+</ul>
+<p>劣势：</p>
+<ul>
+<li>无法最大限度地避免数据丢失，系统一旦在定时持久化之前出现宕机现象，此前没有来得及写入磁盘的数据都将丢失</li>
+<li>由于 RDB 是通过 fork 子进程来协助完成数据持久化工作的，因此，如果当数据较大时，可能会导致整个服务器停止服务数毫秒，甚至数秒</li>
+</ul>
+<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><p>AOF (Append Only File) 持久化以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，只许追加文件但不可以改写文件，可以打开文件看到详细的操作记录</p>
+<p>AOF 提供以下三种同步策略，默认为 <strong>everysec</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># no: don&apos;t fsync, just let the OS flush the data when it wants. Faster.</span><br><span class="line"># always: fsync after every write to the append only log. Slow, Safest.</span><br><span class="line"># everysec: fsync only one time every second. Compromise.</span><br></pre></td></tr></table></figure></p>
+<p>优势：</p>
+<ul>
+<li>最大限度地避免数据丢失，默认的 everysec 策略可以记录下每秒的修改操作，但如果一秒内宕机，有数据丢失</li>
+<li>AOF 对日志文件的写入操作采用的是 append 模式，因此在写入过程中即使出现宕机现象，也不会破坏日志文件中已经存在的内容。</li>
+</ul>
+<p>劣势：</p>
+<ul>
+<li>对于同一份数据来说，AOF 文件通常要大于 RDB 文件。RDB 在恢复大数据集时的速度比 AOF 的恢复速度要快。</li>
+<li>根据同步策略的不同，AOF 在运行效率上往往会慢于 RDB。但是每秒同步策略的效率还是比较高的。</li>
+</ul>
+<p>总结：AOF，存放的指令日志，做数据恢复的时候，实际上是要执行所有的历史指令日志来恢复数据，要是遇上很多 ABA 之类的操作就会很影响恢复性能。RDB，就是一份数据文件，恢复的时候，直接加载到内存中即可。</p>
+<p>二者选择的标准，就是愿意牺牲一些性能，换取最少的数据丢失(AOF)，还是牺牲一些数据来换取更高的性能(RDB)。实际中应该综合使用 AOF 和 RDB 两种持久化机制，用 AOF 来保证数据不丢失，作为数据恢复的第一选择; 用 RDB 来做不同程度的冷备，在 AOF 文件都丢失或损坏不可用的时候，还可以使用 RDB 来进行快速的数据恢复</p>
+<h2 id="Redis-的过期策略以及内存回收机制"><a href="#Redis-的过期策略以及内存回收机制" class="headerlink" title="Redis 的过期策略以及内存回收机制"></a>Redis 的过期策略以及内存回收机制</h2><h3 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h3><p>对于过期的 key，Redis 采用的是<strong>定期删除</strong>和<strong>惰性删除</strong>两种策略。</p>
+<ul>
+<li>定期删除：Redis默认每个100ms检查，是否有过期的key，有过期key则删除。需要说明的是，redis不是每个100ms将所有的key检查一次，而是随机抽取进行检查(如果每隔100ms,全部key进行检查，redis岂不是卡死)。因此，如果只采用定期删除策略，会导致很多 key 到时间却没有删除，此时就需要下面的惰性删除配合解决了。</li>
+<li>惰性删除：只有在用户获取某个 key 的时候，Redis 才会对这个 key 进行过期检查，过期则删除。</li>
+</ul>
+<p>过期策略存在以下问题：由于 Redis 定期删除是随机抽取检查，不可能扫描清除掉所有过期的key并删除，一些 key 也可能未被请求过，惰性删除未被触发，这样 Redis 的内存占用会越来越高。此时就需要内存回收(淘汰)机制 。</p>
+<h3 id="内存回收机制"><a href="#内存回收机制" class="headerlink" title="内存回收机制"></a>内存回收机制</h3><p>在 Redis 配置文件中的 <code>maxmemory</code>决定了所能使用的最大内存(bytes)，默认为0，表示无限制。当 Redis 中内存数据达到 <code>maxmemory</code> 时，触发内存回收。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># maxmemory &lt;bytes&gt;</span><br></pre></td></tr></table></figure></p>
+<p>而 <code>maxmemory-policy</code> 决定了 Redis 采用何种内存回收机制，默认为 <code>noeviction</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># volatile-lru -&gt; remove the key with an expire set using an LRU algorithm</span><br><span class="line"># allkeys-lru -&gt; remove any key according to the LRU algorithm</span><br><span class="line"># volatile-random -&gt; remove a random key with an expire set</span><br><span class="line"># allkeys-random -&gt; remove a random key, any key</span><br><span class="line"># volatile-ttl -&gt; remove the key with the nearest expire time (minor TTL)</span><br><span class="line"># noeviction -&gt; don&apos;t expire at all, just return an error on write operations</span><br><span class="line"></span><br><span class="line"># maxmemory-policy noeviction</span><br></pre></td></tr></table></figure></p>
+<p>Redis 共有以下 6 种策略：</p>
+<ol>
+<li>volatile-lru：在过期的 key 中删除最近最久未使用的</li>
+<li>allkeys-lru：在所有 key 中删除最近最久未使用的</li>
+<li>volatile-random：在过期的 key 中随机删除</li>
+<li>allkeys-random：在所有的 key 中随机删除</li>
+<li>noeviction：不删任何数据，如果内存不够，会对写操作直接返回 error</li>
+</ol>
+<p>无疑 <code>volatile-lru</code> 是最佳选择。</p>
+<h2 id="其他功能没采用-Redis-作为缓存的原因"><a href="#其他功能没采用-Redis-作为缓存的原因" class="headerlink" title="其他功能没采用 Redis 作为缓存的原因"></a>其他功能没采用 Redis 作为缓存的原因</h2><ul>
+<li>考虑到<strong>私信</strong>使用频率不是很高，没有用 Redis 做缓存</li>
+<li>考虑到如果用户上传的是视频，那么<strong>发帖</strong>也做缓存的话就会导致占用大量内存，此时用 Redis 做缓存就不是一个明智的选择。而且 Redis 的 Value 不能超过 512MB ，现在一般的视频都超过了这个大小。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Web开发/" rel="tag"><i class="fa fa-tag"></i> Web开发</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/" rel="next" title="Nginx流量控制配合Fail2ban抵御流量攻击">
+                <i class="fa fa-chevron-left"></i> Nginx流量控制配合Fail2ban抵御流量攻击
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Marticles" />
+            
+              <p class="site-author-name" itemprop="name">Marticles</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Marticles" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-接收参数的几种方式"><span class="nav-number">2.</span> <span class="nav-text">Spring 接收参数的几种方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-通过-RequestParam-获取请求参数"><span class="nav-number">2.1.</span> <span class="nav-text">1. 通过 @RequestParam 获取请求参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-通过-PathVariable-获取请求参数"><span class="nav-number">2.2.</span> <span class="nav-text">2. 通过 @PathVariable 获取请求参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-通过-HttpServletRequest-获取前端发送-JSON-数据"><span class="nav-number">2.3.</span> <span class="nav-text">3. 通过 HttpServletRequest 获取前端发送 JSON 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-通过-ModelAttribute-将前端发送-JSON-数据映射成目标对象"><span class="nav-number">2.4.</span> <span class="nav-text">4. 通过 @ModelAttribute 将前端发送 JSON 数据映射成目标对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片上传与读取"><span class="nav-number">3.</span> <span class="nav-text">图片上传与读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户登录与注销"><span class="nav-number">4.</span> <span class="nav-text">用户登录与注销</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#登录"><span class="nav-number">4.1.</span> <span class="nav-text">登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注销"><span class="nav-number">4.2.</span> <span class="nav-text">注销</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拦截器-Interceptor-的使用"><span class="nav-number">5.</span> <span class="nav-text">拦截器 (Interceptor) 的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现用户登录拦截器"><span class="nav-number">5.1.</span> <span class="nav-text">实现用户登录拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现用户权限拦截器"><span class="nav-number">5.2.</span> <span class="nav-text">实现用户权限拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注册拦截器"><span class="nav-number">5.3.</span> <span class="nav-text">注册拦截器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal-的使用"><span class="nav-number">6.</span> <span class="nav-text">ThreadLocal 的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多个拦截器的执行顺序"><span class="nav-number">6.1.</span> <span class="nav-text">多个拦截器的执行顺序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Token-Cookie-Session-的区别"><span class="nav-number">7.</span> <span class="nav-text">Token / Cookie / Session 的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Token"><span class="nav-number">7.1.</span> <span class="nav-text">Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie"><span class="nav-number">7.2.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session"><span class="nav-number">7.3.</span> <span class="nav-text">Session</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防止-XSS-攻击"><span class="nav-number">8.</span> <span class="nav-text">防止 XSS 攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Cookie-中设置-HttpOnly-属性"><span class="nav-number">8.1.</span> <span class="nav-text">在 Cookie 中设置 HttpOnly 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用过滤器-Filter-将-HTML-进行转义"><span class="nav-number">8.2.</span> <span class="nav-text">使用过滤器 (Filter) 将 HTML 进行转义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拦截器与过滤器的区别"><span class="nav-number">9.</span> <span class="nav-text">拦截器与过滤器的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异步通用服务模块"><span class="nav-number">10.</span> <span class="nav-text">异步通用服务模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TODO-线程池的应用"><span class="nav-number">11.</span> <span class="nav-text">TODO 线程池的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防止-SQL-注入攻击"><span class="nav-number">12.</span> <span class="nav-text">防止 SQL 注入攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Redis-作为缓存"><span class="nav-number">13.</span> <span class="nav-text">使用 Redis 作为缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#赞-踩"><span class="nav-number">13.1.</span> <span class="nav-text">赞 / 踩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#评论"><span class="nav-number">13.2.</span> <span class="nav-text">评论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存穿透"><span class="nav-number">13.3.</span> <span class="nav-text">缓存穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#布隆过滤器"><span class="nav-number">13.3.1.</span> <span class="nav-text">布隆过滤器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存击穿"><span class="nav-number">13.4.</span> <span class="nav-text">缓存击穿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存雪崩"><span class="nav-number">13.5.</span> <span class="nav-text">缓存雪崩</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的两种持久化方式-RDB-与-AOF"><span class="nav-number">14.</span> <span class="nav-text">Redis 的两种持久化方式 RDB 与 AOF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB"><span class="nav-number">14.1.</span> <span class="nav-text">RDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF"><span class="nav-number">14.2.</span> <span class="nav-text">AOF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的过期策略以及内存回收机制"><span class="nav-number">15.</span> <span class="nav-text">Redis 的过期策略以及内存回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过期策略"><span class="nav-number">15.1.</span> <span class="nav-text">过期策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存回收机制"><span class="nav-number">15.2.</span> <span class="nav-text">内存回收机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他功能没采用-Redis-作为缓存的原因"><span class="nav-number">16.</span> <span class="nav-text">其他功能没采用 Redis 作为缓存的原因</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-expand -user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Marticles</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">57.2k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'tX35P74MzjHmbgXpVmfVXiNw-gzGzoHsz',
+        appKey: '5duYsnA8GwkNJm18sfPzfvV9',
+        placeholder: '在此分享你的想法!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("tX35P74MzjHmbgXpVmfVXiNw-gzGzoHsz", "5duYsnA8GwkNJm18sfPzfvV9");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
