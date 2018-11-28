@@ -399,7 +399,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  6,672 字
+                  6,675 字
                 </span>
               
 
@@ -1355,7 +1355,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  7,742 字
+                  7,731 字
                 </span>
               
 
@@ -1381,7 +1381,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
 
       
         
-          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneablejava</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneablejava</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
 <p>ArrayList继承于AbstractSequentialList，实现了List接口、Deque接口、Cloneable接口(浅拷贝)、Serializable接口。总的来说，LinkedList是线程不安全的，允许元素为null的双向链表，它也可以被当作栈、队列或双向队列进行操作。</p>
 <h2 id="与ArrayList的比较"><a href="#与ArrayList的比较" class="headerlink" title="与ArrayList的比较"></a>与ArrayList的比较</h2><p>LinkedList与ArrayList相比，ArrayList的增删效率低(O(n))，但是改查效率高(O(1))。而LinkedList正好相反，由于其底层是链表实现的，增删(O(1))只需要修改链表节点指针，所以增删效率较高，而改查都需要先定位到目标节点(O(n))，故改查效率较低。同时，LinkedList不需要ArrayList中的批量扩容，也不需要预留空间，所以空间效率也比ArrayList高。</p>
 <p>但是和ArrayList比，LinkedList没有实现RandomAccess接口，所以随机访问元素速度较慢。虽然作者做了折半查找的优化(根据index判断目标节点在链表的前半段还是后半段，然后决定是从头部开始尾部开始查找)，但查找的时间效率仍然比较低。</p>
