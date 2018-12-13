@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring Cloud," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="监控与管理actuator通过 pom.xml 导入  1234&amp;lt;dependency&amp;gt;            &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;            &amp;lt;artifactId&amp;gt;spring-boot-starter-actuator&amp;lt;/artifactId&amp;gt;">
+<meta name="keywords" content="Spring Cloud">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Spring微服务实战》阅读笔记">
+<meta property="og:url" content="http://marticles.github.io/2018/12/13/《Spring微服务实战》阅读笔记/index.html">
+<meta property="og:site_name" content="0xCAFEBABE">
+<meta property="og:description" content="监控与管理actuator通过 pom.xml 导入  1234&amp;lt;dependency&amp;gt;            &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;            &amp;lt;artifactId&amp;gt;spring-boot-starter-actuator&amp;lt;/artifactId&amp;gt;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/客户端负载均衡.png">
+<meta property="og:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/客户端弹性模式.png">
+<meta property="og:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/舱壁模式.png">
+<meta property="og:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/Hystrix的调用失败过程.png">
+<meta property="og:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/服务网关1.png">
+<meta property="og:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/服务网关2.png">
+<meta property="og:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/Zuul过滤器.png">
+<meta property="og:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/动态路由过滤器.png">
+<meta property="og:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/OAuth2.png">
+<meta property="og:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/SpringCloudStream.png">
+<meta property="og:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/日志聚合.png">
+<meta property="og:updated_time" content="2018-12-13T15:45:16.812Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Spring微服务实战》阅读笔记">
+<meta name="twitter:description" content="监控与管理actuator通过 pom.xml 导入  1234&amp;lt;dependency&amp;gt;            &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;            &amp;lt;artifactId&amp;gt;spring-boot-starter-actuator&amp;lt;/artifactId&amp;gt;">
+<meta name="twitter:image" content="http://marticles.github.io/images/Spring微服务实战阅读笔记/客户端负载均衡.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://marticles.github.io/2018/12/13/《Spring微服务实战》阅读笔记/"/>
+
+
+
+
+
+  <title>《Spring微服务实战》阅读笔记 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xCAFEBABE</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Just for fun</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/12/13/《Spring微服务实战》阅读笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《Spring微服务实战》阅读笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-13T23:34:26+08:00">
+                2018-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/13/《Spring微服务实战》阅读笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/13/《Spring微服务实战》阅读笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/12/13/《Spring微服务实战》阅读笔记/" class="leancloud_visitors" data-flag-title="《Spring微服务实战》阅读笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  6,607 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="监控与管理"><a href="#监控与管理" class="headerlink" title="监控与管理"></a>监控与管理</h2><h3 id="actuator"><a href="#actuator" class="headerlink" title="actuator"></a>actuator</h3><p>通过 pom.xml 导入 </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>即可通过 <code>/health</code>，<code>/beans</code>，<code>/env</code>，<code>/metrics</code> 等获得对应监控信息。<br>例如 <code>/metrics</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;mem&quot;: 248408,</span><br><span class="line">    ...</span><br><span class="line">    &quot;gc.ps_scavenge.count&quot;: 7,</span><br><span class="line">    &quot;gc.ps_scavenge.time&quot;: 95,</span><br><span class="line">    &quot;gc.ps_marksweep.count&quot;: 1,</span><br><span class="line">    &quot;gc.ps_marksweep.time&quot;: 55,</span><br><span class="line">    &quot;httpsessions.max&quot;: -1,</span><br><span class="line">    &quot;httpsessions.active&quot;: 0,</span><br><span class="line">    &quot;gauge.response.hello&quot;: 11,</span><br><span class="line">    &quot;gauge.response.metrics&quot;: 60,</span><br><span class="line">    &quot;counter.status.200.metrics&quot;: 1,</span><br><span class="line">    &quot;counter.status.200.hello&quot;: 1,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中：</p>
+<ul>
+<li><code>gauge.*</code>：HTTP 请求性能指标之一，表示一个绝对数值，例如 gauge.response.hello：11表示上一次 hello 请求的延迟为 5 毫秒</li>
+<li><code>counter.*</code>：HTTP 请求性能指标之一，作为计数器使用，例如 counter.status.200.hello：1 表示 hello 请求返回 200 状态码的次数为 1</li>
+</ul>
+<p>通过注入<code>org.springframework.boot.actuate.metrics.CounterService</code> 与 <code>org.springframework.boot.actuate.metrics.GaugeService</code> 可以实现访问指定端点的统计信息</p>
+<p>例如增加 <code>counterService.increment(&quot;hello.count&quot;);</code>，返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;counter.hello.count&quot;: 1</span><br></pre></td></tr></table></figure></p>
+<p>此外，可以通过实现 <code>org.springframework.boot.actuate.health.HealthIndicator</code> 接口来实现对其他没有被 Spring 封装的组件的监测。</p>
+<p>如果需要远程关闭应用，可以在配置文件中加入以下字段，这样向服务器 POST <code>/shutdown</code> 就可以实现远程关闭应用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">endpoints.shutdown.enabled=true</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="服务治理-Spring-Cloud-Eureka"><a href="#服务治理-Spring-Cloud-Eureka" class="headerlink" title="服务治理 Spring Cloud Eureka"></a>服务治理 Spring Cloud Eureka</h2><h3 id="服务注册"><a href="#服务注册" class="headerlink" title="服务注册"></a>服务注册</h3><ul>
+<li><p>服务注册：在服务治理框架中，通常会构建一个<strong>服务注册中心</strong>，每个服务单元向注册中心登记自己提供的服务并告知主机、端口号、版本号、通信协议等附加信息。</p>
+</li>
+<li><p>服务发现：服务调用方调用服务时，需要先向<strong>服务注册中心</strong>咨询服务，并获取所有服务的实例清单。实际的框架为了性能等因素，不会采用每次都向服务注册中心获取服务的方式。</p>
+</li>
+</ul>
+<p>Eureka 服务端，就是服务注册中心；Eureka 客户端则主要处理服务的注册与发现。</p>
+<p>服务调用方每次调用服务时都向服务注册中心请求获取所有实例明显是一个不可取的策略，可以考虑引入缓存实现客户端的负载均衡。这样，服务调用方将定期与服务注册中心进行联系并刷新服务实例的缓存，当拿到不健康的实例时，再去向服务中注册重新获取实例。</p>
+<p><img src="/images/Spring微服务实战阅读笔记/客户端负载均衡.png" alt="客户端负载均衡"></p>
+<p>注意，每次服务注册都需要<strong>30s</strong>才能在Eureka中显示，因为Eureka需要从服务接受3次连续心跳包ping，每次心跳包ping间隔10s。</p>
+<p>每个通过Eureka注册的服务都有以下两个ID：</p>
+<ul>
+<li><p>应用程序ID：由<code>spring.application.name</code>决定，表示一组服务实例</p>
+</li>
+<li><p>实例ID：一个随机数，表示单个服务实例</p>
+</li>
+</ul>
+<p>注册服务后，可通过Eureka的REST API查看所有服务的注册表，默认返回XML，返回JSON需要在Headers中设置Accept字段为application/json：</p>
+<p><code>http://localhost:8761/eureka/apps/&lt;APP_ID&gt;</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"application"</span>: &#123;</span><br><span class="line">        <span class="attr">"name"</span>: <span class="string">"LICENSING-SERVICE"</span>,</span><br><span class="line">        <span class="attr">"instance"</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"instanceId"</span>: <span class="string">"DESKTOP-2Q0HP3P:licensing-service:8761"</span>,</span><br><span class="line">                <span class="attr">"hostName"</span>: <span class="string">"DESKTOP-2Q0HP3P"</span>,</span><br><span class="line">                <span class="attr">"app"</span>: <span class="string">"LICENSING-SERVICE"</span>,</span><br><span class="line">                <span class="attr">"ipAddr"</span>: <span class="string">"192.168.43.40"</span>,</span><br><span class="line">                <span class="attr">"status"</span>: <span class="string">"UP"</span>,</span><br><span class="line">                <span class="attr">"overriddenstatus"</span>: <span class="string">"UNKNOWN"</span>,</span><br><span class="line">                <span class="attr">"port"</span>: &#123;</span><br><span class="line">                    <span class="attr">"$"</span>: <span class="number">8761</span>,</span><br><span class="line">                    <span class="attr">"@enabled"</span>: <span class="string">"true"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">"securePort"</span>: &#123;</span><br><span class="line">                    <span class="attr">"$"</span>: <span class="number">443</span>,</span><br><span class="line">                    <span class="attr">"@enabled"</span>: <span class="string">"false"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">"countryId"</span>: <span class="number">1</span>,</span><br><span class="line">                <span class="attr">"dataCenterInfo"</span>: &#123;</span><br><span class="line">                    <span class="attr">"@class"</span>: <span class="string">"com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo"</span>,</span><br><span class="line">                    <span class="attr">"name"</span>: <span class="string">"MyOwn"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">"leaseInfo"</span>: &#123;</span><br><span class="line">                    <span class="attr">"renewalIntervalInSecs"</span>: <span class="number">30</span>,</span><br><span class="line">                    <span class="attr">"durationInSecs"</span>: <span class="number">90</span>,</span><br><span class="line">                    <span class="attr">"registrationTimestamp"</span>: <span class="number">1544514179315</span>,</span><br><span class="line">                    <span class="attr">"lastRenewalTimestamp"</span>: <span class="number">1544514537713</span>,</span><br><span class="line">                    <span class="attr">"evictionTimestamp"</span>: <span class="number">0</span>,</span><br><span class="line">                    <span class="attr">"serviceUpTimestamp"</span>: <span class="number">1544514149963</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">"metadata"</span>: &#123;</span><br><span class="line">                    <span class="attr">"@class"</span>: <span class="string">"java.util.Collections$EmptyMap"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">"homePageUrl"</span>: <span class="string">"http://DESKTOP-2Q0HP3P:8761/"</span>,</span><br><span class="line">                <span class="attr">"statusPageUrl"</span>: <span class="string">"http://DESKTOP-2Q0HP3P:8761/info"</span>,</span><br><span class="line">                <span class="attr">"healthCheckUrl"</span>: <span class="string">"http://DESKTOP-2Q0HP3P:8761/health"</span>,</span><br><span class="line">                <span class="attr">"vipAddress"</span>: <span class="string">"licensing-service"</span>,</span><br><span class="line">                <span class="attr">"secureVipAddress"</span>: <span class="string">"licensing-service"</span>,</span><br><span class="line">                <span class="attr">"isCoordinatingDiscoveryServer"</span>: <span class="string">"true"</span>,</span><br><span class="line">                <span class="attr">"lastUpdatedTimestamp"</span>: <span class="string">"1544514179315"</span>,</span><br><span class="line">                <span class="attr">"lastDirtyTimestamp"</span>: <span class="string">"1544514149295"</span>,</span><br><span class="line">                <span class="attr">"actionType"</span>: <span class="string">"ADDED"</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，服务注册基本完成。</p>
+<h2 id="服务发现-Spring-DiscoveryClient"><a href="#服务发现-Spring-DiscoveryClient" class="headerlink" title="服务发现 Spring DiscoveryClient"></a>服务发现 Spring DiscoveryClient</h2><h3 id="查找服务实例"><a href="#查找服务实例" class="headerlink" title="查找服务实例"></a>查找服务实例</h3><p>使用<code>@EnableDiscoveryClient</code>注解来激活Spring Discovery Client，使应用能够使用Discovery Client和Ribbon库。</p>
+<p>注入DiscoveryClient，调用getInstances()方法查找所有服务实例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> DiscoveryClient discoveryClient;</span><br><span class="line"></span><br><span class="line">List&lt;ServiceInstance&gt; instances = discoveryClient.getInstances(<span class="string">"yourServiceId"</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用带有-Ribbon-功能的-Spring-RestTemplate-调用服务"><a href="#使用带有-Ribbon-功能的-Spring-RestTemplate-调用服务" class="headerlink" title="使用带有 Ribbon 功能的 Spring RestTemplate 调用服务"></a>使用带有 Ribbon 功能的 Spring RestTemplate 调用服务</h3><p>使用<code>@LoadBalanced</code>注解对RestTemplate添加一个LoadBalancerClient，以实现客户端负载均衡<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@LoadBalanced</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestTemplate <span class="title">getRestTemplate</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用-Netflix-Feign-客户端调用服务"><a href="#使用-Netflix-Feign-客户端调用服务" class="headerlink" title="使用 Netflix Feign 客户端调用服务"></a>使用 Netflix Feign 客户端调用服务</h3><p>Netflix Feign客户端是Spring启用Ribbon的Spring RestTemplate类的替代方案。在启动类中添加<code>@EnableFeignClients</code>注解。</p>
+<p>在类中使用<code>@FeignClient(&quot;yourServiceId&quot;)</code>注解标识服务</p>
+<h2 id="使用-Spring-Cloud-和-Netflix-Hystrix-的客户端弹性模式"><a href="#使用-Spring-Cloud-和-Netflix-Hystrix-的客户端弹性模式" class="headerlink" title="使用 Spring Cloud 和 Netflix Hystrix 的客户端弹性模式"></a>使用 Spring Cloud 和 Netflix Hystrix 的客户端弹性模式</h2><p>客户端弹性模式的重点是：在远程服务发生错误或表现不佳时保护远程资源（如另一个微服务调用或数据库查询）的客户端免于崩溃。</p>
+<p>这些模式的目标是让客户端“快速失败”，而不消耗诸如数据库连接和线程池之类的宝贵资源，并且可以防止远程服务的问题向客户端的消费者进行“上游”传播。</p>
+<p>有4种客户端弹性模式，分别是：</p>
+<ol>
+<li>客户端负载均衡（client load balance）模式</li>
+<li>断路器（circuit breaker）模式</li>
+<li>后备（fallback）模式</li>
+<li>舱壁（bulkhead）模式</li>
+</ol>
+<p>这些模式是在调用远程资源的客户端中实现的，实现的逻辑位于消费远程服务的客户端和资源之间。</p>
+<p><img src="/images/Spring微服务实战阅读笔记/客户端弹性模式.png" alt="客户端弹性模式"></p>
+<h3 id="负载均衡模式"><a href="#负载均衡模式" class="headerlink" title="负载均衡模式"></a>负载均衡模式</h3><p>即维护一个服务缓存，客户端查找服务实例时不直接从服务注册中心（如Eureka）中拿，而是从缓存中拿。</p>
+<p>由于客户端服务均衡器位于服务端和客户端之间，所以它可以检测到服务实例是否抛出错误或表现不佳，从而将该实例从缓存中提前移除，防止将来客户端调用该实例。</p>
+<p>Netflix Ribbon 提供了开箱即用的负载均衡功能。</p>
+<h3 id="断路器模式"><a href="#断路器模式" class="headerlink" title="断路器模式"></a>断路器模式</h3><p>断路器模式是模仿电路断路器的客户端弹性模式。当远程服务被调用时，断路器将监视这个应用，如果调用时间太长，断路器将会介入并中断调用。</p>
+<p>此外，断路器将监视所有的远程资源调用，如果对一个资源的调用失败次数足够多，那么断路器就会采用快速失败机制，阻止将来调用失败的远程资源。</p>
+<p>断路器提供了：</p>
+<ul>
+<li>快速失败：当远程服务处于降级状态时，应用程序将会快速失败，并防止拖垮整个应用。在大多数中断情况下，最好是部分服务关闭而不是完全关闭</li>
+<li>优雅地失败：通过超时和快速失败，开发人员可以寻找替代机制来执行用户意图，例如用户尝试从一个数据源检索数据，并且该数据源正在经历服务降级，那么可以开发人员可以尝试从其他数据源检索该数据</li>
+<li>无缝恢复：断路器作为中介，可以定期检查所请求资源是否重新上线，并在没有人为干预的情况下重新允许对该资源的访问。</li>
+</ul>
+<h3 id="后备模式"><a href="#后备模式" class="headerlink" title="后备模式"></a>后备模式</h3><p>在后备模式下，当远程服务调用失败时，服务消费者将执行替代代码路径，并尝试通过其他方式执行操作，而不是生成一个异常。</p>
+<p>这通常涉及从另一数据源查找数据，或将用户的请求进行排队以供将来处理。</p>
+<p>例如，对于购物网站的用户个性化推荐列表，该服务需要调用微服务对用户的历史行为进行分析再返回推荐结果，但是如果这个个性化推荐服务失败，后备策略是从另一个数据源中获取一个通用的推荐列表。</p>
+<h3 id="舱壁模式"><a href="#舱壁模式" class="headerlink" title="舱壁模式"></a>舱壁模式</h3><p>舱壁模式是建立在造船的概念基础上的。采用舱壁设计，即使船体被击穿，水也会被隔离在舱壁外。</p>
+<p>基于这个概念，可以使用线程池充当服务的“舱壁”，把远程资源的调用分到线程池中，这样就可以降低一个缓慢的远程资源调用拖垮整个应用的风险。</p>
+<p>每个远程资源都是隔离的，并分配给线程池。</p>
+<h3 id="使用-Hystrix"><a href="#使用-Hystrix" class="headerlink" title="使用 Hystrix"></a>使用 Hystrix</h3><ol>
+<li><p>使用<code>@EnableCircuitBreaker</code>注解，加入至引导类中。</p>
+</li>
+<li><p>在方法前加入<code>@HystrixCommand</code>注解，<strong>在任何时候调用该方法，Hystrix都将包装这个调用</strong>。当调用时间超过 <strong><em>1000ms</em></strong> 时，Hystrix将中断调用并抛出一个<code>com.nextflix.hystrix.exception.HystrixRuntimeException</code>异常。</p>
+</li>
+</ol>
+<h4 id="定时断路器"><a href="#定时断路器" class="headerlink" title="定时断路器"></a>定时断路器</h4><p>通过设置<code>commandProperties</code>属性，可以实现自定义Hystrix的服务调用超时时间，当然也还可以定制其他的附加属性。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用超时时间设为12s</span></span><br><span class="line"><span class="meta">@HystrixCommand</span>(commandProperties=&#123;</span><br><span class="line">                    <span class="meta">@HystrixProperty</span>(name=<span class="string">"execution.isolation.thread.timeInMilliseconds"</span>, value=<span class="string">"12000"</span>)&#125;)</span><br></pre></td></tr></table></figure></p>
+<h4 id="实现后备策略"><a href="#实现后备策略" class="headerlink" title="实现后备策略"></a>实现后备策略</h4><p>在<code>fallbackMethod</code>属性中可以定义一个后备方法，如果来自Hystrix的调用失败，就会调用该方法。该方法需要和<code>@HystrixCommand</code>注解的方法在同一类中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand</span>(fallbackMethod = <span class="string">"yourFallBackMethod"</span>)</span><br></pre></td></tr></table></figure>
+<p>使用后备机制需要注意：</p>
+<ul>
+<li>后备是一种在资源超时或失败时提供行动方案的机制。如果需要使用后备来捕获超时异常，就需要在服务调用周围使用<code>try catch</code>，并在<code>catch</code>中记录日志</li>
+<li>注意后备方法，如果后备方法也是另一个微服务，则可能也需要用<code>@HystrixCommand</code>来保护该服务。在主要的行动方案中的失败，可能也会影响到备用的行动方案，需要注意。</li>
+</ul>
+<h4 id="使用线程池实现“舱壁”隔离服务调用"><a href="#使用线程池实现“舱壁”隔离服务调用" class="headerlink" title="使用线程池实现“舱壁”隔离服务调用"></a>使用线程池实现“舱壁”隔离服务调用</h4><p>Hystrix使用线程池来处理所有对远程服务的请求，在使用没有任何配置的默认<code>@HystrixCommand</code>注解时，会将所有远程服务调用都放在同一线程池下，默认情况下这个线程池中有10个线程，这可能会导致应用出现问题。在存在高并发的情况下，一个服务可能会导致Java容器中的所有线程都被阻塞，最终崩溃。</p>
+<p>例如，如果某些服务突然涌入大量请求，会导致这个服务占用了所有该线程池中的所有线程，其他服务将无法处理它们收到的请求。</p>
+<p>舱壁模式将远程资源调用隔离在它们自己的线程池中，从而控制了单个出现问题的服务。</p>
+<p><img src="/images/Spring微服务实战阅读笔记/舱壁模式.png" alt="舱壁模式"></p>
+<p>实现隔离的线程池，需要用到<code>@HystrixCommand</code>注解的其他属性：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand</span>(</span><br><span class="line">    <span class="comment">// 线程池的唯一ID</span></span><br><span class="line">    threadPoolKey = <span class="string">"yourThreadPool"</span>,</span><br><span class="line">    threadPoolProperties =</span><br><span class="line">        <span class="comment">// 线程池最大容量 和 线程池满时的阻塞队列大小</span></span><br><span class="line">        &#123;<span class="meta">@HystrixProperty</span>(name = <span class="string">"coreSize"</span>,value=<span class="string">"30"</span>),</span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name=<span class="string">"maxQueueSize"</span>, value=<span class="string">"10"</span>)&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>将<code>maxQueueSize</code>属性设为-1，会使用<code>SynchronousQueue</code>，大于1则会使用<code>LinkedBlockingQueue</code>。</p>
+<p>关于线程池的大小如何设置，Netflix推荐以下公式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">服务健康状态时的每秒支持最大请求数 x 第99百分位延迟时间(s) + 用户缓冲的少量额外线程</span><br></pre></td></tr></table></figure></p>
+<p>例如，第99百分位延迟时间为1s，意味着99％的请求处理时间不到1s。</p>
+<h4 id="微调-Hystrix"><a href="#微调-Hystrix" class="headerlink" title="微调 Hystrix"></a>微调 Hystrix</h4><p>Hystrix不仅能实现超时时间调用的熔断，还能监控调用失败的次数，如果调用次数足够多，那么Hystrix同样会熔断。</p>
+<p>下图是Hystrix远程资源调用失败时的决策过程。</p>
+<p>当Hystrix遇到服务错误时，会执行以下步骤：</p>
+<ol>
+<li>开始一个10s（可配置）的计时器，查看10s内发生的服务调用数量，<strong>如果次数少于最小调用次数</strong>（默认为20），那么即使有几个调用失败，Hystrix也不会采取行动。例如，10s内有18次服务调用，其中有15次服务调用失败，但由于没达到最小调用次数，Hystrix会继续让调用通过，到达远程服务。</li>
+<li>如果超过最小调用次数，那么Hystrix将会开始<strong>查看调用失败的百分比</strong>。如果超过默认的调用失败百分比阈值（50%），就会触发熔断，使将来所有的调用都失败。</li>
+<li>当触发熔断时，Hystrix会尝试启动一个新的活动窗口，每隔5s（可配置）允许一个调用到达这个已经“出现了问题”的服务。如果调用成功，那么Hystrix将重置熔断并重新允许调用通过。如果调用失败，则保持熔断，并在另一个5s内尝试上述步骤。</li>
+</ol>
+<p><img src="/images/Spring微服务实战阅读笔记/Hystrix的调用失败过程.png" alt="Hystrix的调用失败过程"></p>
+<p>在<code>@HystrixCommand</code>注解中可以实现配置以上的参数：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand</span>(</span><br><span class="line">    commandProperties=&#123;</span><br><span class="line">        <span class="comment">// 10s内的最小调用次数</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name=<span class="string">"circuitBreaker.requestVolumeThreshold"</span>, value=<span class="string">"10"</span>),</span><br><span class="line">        <span class="comment">// 调用失败份百分比阈值(%)</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name=<span class="string">"circuitBreaker.errorThresholdPercentage"</span>, value=<span class="string">"75"</span>),</span><br><span class="line">        <span class="comment">// 熔断后允许一个调用通过的时间(ms)</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name=<span class="string">"circuitBreaker.sleepWindowInMilliseconds"</span>, value=<span class="string">"7000"</span>),</span><br><span class="line">        <span class="comment">// 监视服务调用问题的计时器(即上述的10s)</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name=<span class="string">"metrics.rollingStats.timeInMilliseconds"</span>, value=<span class="string">"15000"</span>),</span><br><span class="line">        <span class="comment">// 搜集在计时器范围内的服务调用失败次数的桶数量</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name=<span class="string">"metrics.rollingStats.numBuckets"</span>, value=<span class="string">"5"</span>)&#125;</span><br><span class="line">    )</span><br></pre></td></tr></table></figure></p>
+<p>Hystrix将在桶中收集服务调用失败的次数，注意，<code>metrics.rollingStats.timeInMilliseconds</code>必须能被<code>metrics.rollingStats.numBuckets</code>所整除。在上面的配置中，将使用15秒的定时器，并用5个长度为3秒的桶收集失败次数。桶的数量越多，定时器时间越短，收集失败次数的粒度就越小，但也会加剧CPU占用。</p>
+<p>通过<code>@DefaultProperties</code>注解，可以设定默认的Hystrix配置。</p>
+<h4 id="Hystrix-与线程上下文"><a href="#Hystrix-与线程上下文" class="headerlink" title="Hystrix 与线程上下文"></a>Hystrix 与线程上下文</h4><p>当一个<code>@HystrixCommand</code>被执行时，可以使用两种不同的隔离策略——<code>THREAD</code>和<code>SEMAPHORE(信号量)</code>来运行。默认情况下是以<code>THREAD</code>隔离策略允许，该线程池不与父线程共享上下文，这意味着中断线程的执行，不会中断执行原始调用的父线程。</p>
+<p>基于<code>SEMAPHORE</code>的隔离，不需要启动一个新线程，而且如果调用超时，就会中断父线程。</p>
+<p>通过<code>excution.isolation.strategy</code>属性可以配置隔离策略：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand</span>(</span><br><span class="line">    commandProperties =</span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name=<span class="string">"excution.isolation.strategy"</span>, value=<span class="string">"SEMAPHORE"</span>)&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在默认情况下，Hystrix开发团队建议使用默认的THREAD策略，可以保持与父线程更高层级的隔离。SEMAPHORE隔离模型比THREAD隔离模型更轻量级，SEMAPHORE适用于并发量很大且使用异步I/O的模型（如Netty）。</p>
+</blockquote>
+<h4 id="Hystrix-与-ThreadLocal"><a href="#Hystrix-与-ThreadLocal" class="headerlink" title="Hystrix 与 ThreadLocal"></a>Hystrix 与 ThreadLocal</h4><p>在默认情况下，Hystrix不会将父线程的上下文传递给由Hystrix管理的线程中，这意味着在副线程中设置的ThreadLocal值都是取不到的。</p>
+<p>但所幸Spring与Hystrix提供了一种<code>HystrixConcurrencyStrategy</code>机制，可以将父线程的上下文传递给Hystrix线程池中的线程。</p>
+<p>实现自定义的HystrixConcurrencyStrategy需要以下3个操作：</p>
+<ol>
+<li>定义自定义的Hystrix并发策略类</li>
+<li>定义一个Callable类，将UserContext注入Hystrix命令中</li>
+<li>配置Spring Cloud以使用自定义Hystrix并发策略</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第1步，定义自定义的Hystrix并发策略类</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 继承默认的HystrixConcurrencyStrategy</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalAwareStrategy</span> <span class="keyword">extends</span> <span class="title">HystrixConcurrencyStrategy</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 拿到已存在的并发策略</span></span><br><span class="line">    <span class="keyword">private</span> HystrixConcurrencyStrategy existingConcurrencyStrategy;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 传入自定义类的构造器中</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ThreadLocalAwareStrategy</span><span class="params">(HystrixConcurrencyStrategy existingConcurrencyStrategy)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.existingConcurrencyStrategy = existingConcurrencyStrategy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果已存在的并发策略不存在，调用父类HystrixConcurrencyStrategy.getBlockingQueue()</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BlockingQueue&lt;Runnable&gt; <span class="title">getBlockingQueue</span><span class="params">(<span class="keyword">int</span> maxQueueSize)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> existingConcurrencyStrategy != <span class="keyword">null</span></span><br><span class="line">                ? existingConcurrencyStrategy.getBlockingQueue(maxQueueSize)</span><br><span class="line">                : <span class="keyword">super</span>.getBlockingQueue(maxQueueSize);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; <span class="function">HystrixRequestVariable&lt;T&gt; <span class="title">getRequestVariable</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">            HystrixRequestVariableLifecycle&lt;T&gt; rv)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> existingConcurrencyStrategy != <span class="keyword">null</span></span><br><span class="line">                ? existingConcurrencyStrategy.getRequestVariable(rv)</span><br><span class="line">                : <span class="keyword">super</span>.getRequestVariable(rv);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ThreadPoolExecutor <span class="title">getThreadPool</span><span class="params">(HystrixThreadPoolKey threadPoolKey,</span></span></span><br><span class="line"><span class="function"><span class="params">                                            HystrixProperty&lt;Integer&gt; corePoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                                            HystrixProperty&lt;Integer&gt; maximumPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                                            HystrixProperty&lt;Integer&gt; keepAliveTime, TimeUnit unit,</span></span></span><br><span class="line"><span class="function"><span class="params">                                            BlockingQueue&lt;Runnable&gt; workQueue)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> existingConcurrencyStrategy != <span class="keyword">null</span></span><br><span class="line">                ? existingConcurrencyStrategy.getThreadPool(threadPoolKey, corePoolSize,</span><br><span class="line">                maximumPoolSize, keepAliveTime, unit, workQueue)</span><br><span class="line">                : <span class="keyword">super</span>.getThreadPool(threadPoolKey, corePoolSize, maximumPoolSize,</span><br><span class="line">                keepAliveTime, unit, workQueue);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; <span class="function">Callable&lt;T&gt; <span class="title">wrapCallable</span><span class="params">(Callable&lt;T&gt; callable)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> existingConcurrencyStrategy != <span class="keyword">null</span></span><br><span class="line">                ? existingConcurrencyStrategy</span><br><span class="line">                <span class="comment">// 注入Callable实现，设置为UserContext</span></span><br><span class="line">                .wrapCallable(<span class="keyword">new</span> DelegatingUserContextCallable&lt;T&gt;(callable, UserContextHolder.getContext()))</span><br><span class="line">                : <span class="keyword">super</span>.wrapCallable(<span class="keyword">new</span> DelegatingUserContextCallable&lt;T&gt;(callable, UserContextHolder.getContext()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下一步，实现执行传递的Callable类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第2步，定义一个Callable类，将UserContext注入Hystrix命令中</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">DelegatingUserContextCallable</span>&lt;<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Callable&lt;V&gt; delegate;</span><br><span class="line">    <span class="keyword">private</span> UserContext originalUserContext;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 传入原始的Callable类，</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DelegatingUserContextCallable</span><span class="params">(Callable&lt;V&gt; delegate,</span></span></span><br><span class="line"><span class="function"><span class="params">                                             UserContext userContext)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.delegate = delegate;</span><br><span class="line">        <span class="keyword">this</span>.originalUserContext = userContext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// call()方法在被@HystrixCommand注解保护的方法之前被调用</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> V <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 设置UserContext</span></span><br><span class="line">        UserContextHolder.setContext( originalUserContext );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> delegate.call();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.originalUserContext = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将存储UserContex的ThreadLocal变量与受Hystrix保护的方法线程关联</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;V&gt; <span class="function">Callable&lt;V&gt; <span class="title">create</span><span class="params">(Callable&lt;V&gt; delegate,</span></span></span><br><span class="line"><span class="function"><span class="params">                                         UserContext userContext)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DelegatingUserContextCallable&lt;V&gt;(delegate, userContext);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后配置Spring Cloud<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 3.配置Spring Cloud以使用自定义Hystrix并发策略</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalConfiguration</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Autowired</span>(required = <span class="keyword">false</span>)</span><br><span class="line">        <span class="keyword">private</span> HystrixConcurrencyStrategy existingConcurrencyStrategy;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@PostConstruct</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">// 保留现有的Hystrix插件的引用</span></span><br><span class="line">            <span class="comment">// 先获取其他所有的Hystrix，再依次重新设置Hystrix插件</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 注意，Hystrix只允许一个HystrixConcurrencyStrategy</span></span><br><span class="line">            HystrixEventNotifier eventNotifier = HystrixPlugins.getInstance()</span><br><span class="line">                    .getEventNotifier();</span><br><span class="line">            HystrixMetricsPublisher metricsPublisher = HystrixPlugins.getInstance()</span><br><span class="line">                    .getMetricsPublisher();</span><br><span class="line">            HystrixPropertiesStrategy propertiesStrategy = HystrixPlugins.getInstance()</span><br><span class="line">                    .getPropertiesStrategy();</span><br><span class="line">            HystrixCommandExecutionHook commandExecutionHook = HystrixPlugins.getInstance()</span><br><span class="line">                    .getCommandExecutionHook();</span><br><span class="line"></span><br><span class="line">            HystrixPlugins.reset();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 使用Hystrix插件注册自定义的HystrixConcurrencyStrategy</span></span><br><span class="line">            HystrixPlugins.getInstance().registerConcurrencyStrategy(<span class="keyword">new</span> ThreadLocalAwareStrategy(existingConcurrencyStrategy));</span><br><span class="line">            <span class="comment">// 重新注册其他组件</span></span><br><span class="line">            HystrixPlugins.getInstance().registerEventNotifier(eventNotifier);</span><br><span class="line">            HystrixPlugins.getInstance().registerMetricsPublisher(metricsPublisher);</span><br><span class="line">            HystrixPlugins.getInstance().registerPropertiesStrategy(propertiesStrategy);</span><br><span class="line">            HystrixPlugins.getInstance().registerCommandExecutionHook(commandExecutionHook);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用-Spring-Cloud-和-Zuul-进行服务路由"><a href="#使用-Spring-Cloud-和-Zuul-进行服务路由" class="headerlink" title="使用 Spring Cloud 和 Zuul 进行服务路由"></a>使用 Spring Cloud 和 Zuul 进行服务路由</h2><p>接下来将使用Spring Cloud和Zuul完成以下操作：</p>
+<ul>
+<li>将所有服务调用放在一个URL后面，并使用服务发现将这些调用映射到实际的服务实例</li>
+<li>将关联ID注入进流经服务网关的每个服务调用中</li>
+<li>再从客户端发挥的HTTP响应中注入关联ID</li>
+<li>构建一个动态路由机制，将各个具体的组织路由到服务实例端点，该端点与其他人使用的服务实例端点不同</li>
+</ul>
+<h3 id="服务网关"><a href="#服务网关" class="headerlink" title="服务网关"></a>服务网关</h3><p>服务网关位于客户端与各个服务的所有调用之间，从服务客户端调用中分离出路径，并确定服务客户端正在尝试调用哪个服务。有了服务网关，服务客户端永远不会直接调用单个服务的URL，而是将所有调用都放到服务网关上。</p>
+<p><img src="/images/Spring微服务实战阅读笔记/服务网关1.png" alt="服务网关1"></p>
+<p><img src="/images/Spring微服务实战阅读笔记/服务网关2.png" alt="服务网关2"></p>
+<p>通过服务网关可以实现：</p>
+<ul>
+<li>静态路由</li>
+<li>动态路由</li>
+<li>验证和授权</li>
+<li>度量数据收集和日志记录</li>
+</ul>
+<p>注意，服务网关也可能成为单点故障和潜在瓶颈。因此，需要注意以下几点：</p>
+<ul>
+<li>将上文提到的的负载均衡器应该放在多个服务网关实例前，而不是所有服务实例前，这确保服务网关实现可以伸缩。</li>
+<li>保持为服务网关编写的代码是无状态的，不要在服务网关中存储任何信息，因为这样会限制网关的可伸缩性，导致不得不确保在所有网关实例中复制数据。</li>
+<li>保持为服务网关编写的代码是轻量的，服务网关是服务调用的“阻塞点”，具有多个数据库调用的复杂代码可能会导致难以追踪的性能问题。</li>
+</ul>
+<h3 id="使用-Spring-Cloud-和-Zuul-实现服务网关"><a href="#使用-Spring-Cloud-和-Zuul-实现服务网关" class="headerlink" title="使用 Spring Cloud 和 Zuul 实现服务网关"></a>使用 Spring Cloud 和 Zuul 实现服务网关</h3><p>通过在启动类中加入<code>@EnableZuulProxy</code>注解来开启Zuul服务，Zuul的核心就是一个反向代理。</p>
+<p>接着配置Zuul与Eureka进行通信，在<code>application.yml</code>中写入配置。</p>
+<h3 id="在-Zuul-中映射微服务路由"><a href="#在-Zuul-中映射微服务路由" class="headerlink" title="在 Zuul 中映射微服务路由"></a>在 Zuul 中映射微服务路由</h3><p>Zuul要与下游服务器进行通信，必须知道如何将进来的调用请求映射到下游路由，Zuul有以下几种机制来做到这一点：</p>
+<ul>
+<li>通过服务发现自动映射路由</li>
+<li>使用服务发现手动映射路由</li>
+<li>使用静态URL手动映射路由</li>
+</ul>
+<h4 id="通过服务发现自动映射路由"><a href="#通过服务发现自动映射路由" class="headerlink" title="通过服务发现自动映射路由"></a>通过服务发现自动映射路由</h4><p>Zuul的所有路由映射都是通过在<code>application.yml</code>中定义路由来完成的。但是Zuul也可以根据其服务ID自动路由请求，而不需要配置。</p>
+<p>使用自动路由时，Zuul只基于Eureka服务ID来公开服务，如果服务实例没有在运行，Zuul将不会公开该服务的路由。</p>
+<h4 id="使用服务发现手动映射路由"><a href="#使用服务发现手动映射路由" class="headerlink" title="使用服务发现手动映射路由"></a>使用服务发现手动映射路由</h4><p>通过在<code>application.yml</code>配置，可以实现手动映射路由：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">zuul:</span><br><span class="line">  prefix:  /api</span><br><span class="line">  routes:</span><br><span class="line">    licensingservice: /licensing/**</span><br><span class="line">  # 不使用Eureka来公开服务</span><br><span class="line">  ignored-services: &apos;*&apos;</span><br></pre></td></tr></table></figure></p>
+<h4 id="使用静态URL手动映射路由"><a href="#使用静态URL手动映射路由" class="headerlink" title="使用静态URL手动映射路由"></a>使用静态URL手动映射路由</h4><p>Zuul 可以用来路由那些不受Eureka管理的服务。在这种情况下，可以建立Zuul直接路由到其他服务（甚至不是Java的外部服务）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zuul:</span><br><span class="line">  routes:</span><br><span class="line">    licenseservice: </span><br><span class="line">      path: /licensestatic/**</span><br><span class="line">      url: http://licenseservice-static:8081</span><br></pre></td></tr></table></figure></p>
+<h4 id="Zuul-和服务超时"><a href="#Zuul-和服务超时" class="headerlink" title="Zuul 和服务超时"></a>Zuul 和服务超时</h4><p>Zuul使用Hystrix和Ribbon来防止服务调用超时影响服务网关的性能，在默认情况下，对于任何超过1s处理时间的请求，Zuul会终止并返回一个HTTP 500错误。这个时间可以通过<code>hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds</code>属性来为所有通过Zuul运行的服务设置Hystrix超时。</p>
+<p>如果要为特定服务设置超时，则需要将上述的<code>.default</code>改为<code>.yourservicename</code>。</p>
+<h3 id="构建过滤器以使用关联-ID-并进行跟踪"><a href="#构建过滤器以使用关联-ID-并进行跟踪" class="headerlink" title="构建过滤器以使用关联 ID 并进行跟踪"></a>构建过滤器以使用关联 ID 并进行跟踪</h3><p>Zuul支持以下3种Lexington的过滤器：</p>
+<ul>
+<li><p>前置过滤器：前置过滤器正在Zuul将实际请求发送到目的地前被调用。前置过滤器通常可以在HTTP请求到达实际服务之前对HTTP进行检查和修改，实现验证和授权。前置过滤器不能将用户重定向到不同的端点或服务。</p>
+</li>
+<li><p>路由过滤器：路由过滤器在调用目前服务之前拦截调用。路由过滤器通常用来确定是否需要进行某些级别的动态路由。例如，将同一服务的两个不同版本之间进行路由，以便将一小部分的服务调用路由到新版本，这样就能在大部分人使用原有服务的情况下，让少部分人体验新功能。（AB测试？灰度发布？）</p>
+</li>
+<li><p>后置过滤器：后置过滤器在目标服务被调用后，响应发送会客户端后被调用。后置过滤器通常用来记录从目标服务返回的响应、处理错误或审核对敏感信息的响应。</p>
+</li>
+</ul>
+<p>各个过滤器的流程如下：</p>
+<p><img src="/images/Spring微服务实战阅读笔记/Zuul过滤器.png" alt="Zuul过滤器"></p>
+<p>注意，路由过滤器并不会执行HTTP重定向，而是终止传入的HTTP请求，然后代表原始调用者调用路由。这意味着路由过滤器必须完全负责动态路由的调用，并且不能执行HTTP重定向。</p>
+<p>实现Zuul Filter必须继承<code>ZuulFiter</code>类，并重写以下4个方法：</p>
+<ul>
+<li><code>fliterType( )</code>：用来告诉Zuul过滤器的种类</li>
+<li><code>fliterOrder( )</code>：返回一个整数值，指示不同类型的过滤器的执行顺序</li>
+<li><code>shouldFliter( )</code>：返回一个Bool值来指示该过滤器是否要执行</li>
+<li><code>run( )</code>：每次服务通过过滤器时执行的业务逻辑</li>
+</ul>
+<p>通过以下方法，可以向HTTP Request首部添加唯一的关联ID：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RequestContext.getCurrentContext().addZuulRequestHeader(USER_ID,  userId);</span><br></pre></td></tr></table></figure></p>
+<p>接着，可以使用一个Fliter从HTTP Request首部中拿到关联ID，并存在ThreadLocal中，然后使用一个Interceptor确保所有出站调用都具有关联ID。</p>
+<p>使用后置过滤器，可以将关联ID存入HTTP Response首部中，再返回给服务调用者。</p>
+<h3 id="构建动态路由过滤器"><a href="#构建动态路由过滤器" class="headerlink" title="构建动态路由过滤器"></a>构建动态路由过滤器</h3><p><img src="/images/Spring微服务实战阅读笔记/动态路由过滤器.png" alt="动态路由过滤器"></p>
+<h2 id="保护微服务"><a href="#保护微服务" class="headerlink" title="保护微服务"></a>保护微服务</h2><h3 id="OAuth2"><a href="#OAuth2" class="headerlink" title="OAuth2"></a>OAuth2</h3><p>OAuth2是一个基于令牌的安全验证和授权况下，它将安全性分解为以下4个组成部分：</p>
+<ol>
+<li>受保护资源：这是开发人员想要保护的资源（在书中就是一个微服务），需要确保只有已通过验证并且具有适当授权的用户才能访问它。</li>
+<li>资源所有者：资源所有者定义哪些应用程序可以调用其服务，哪些用户可以访问该服务以及他们可以使用该服务完成哪些事情。资源所有者注册的每个应用程序都将获得一个应用程序名称，该应用程序名称和应用程序密钥一起标识应用程序，这两者的组合也是验证OAuth2令牌时传递的凭据的一部分。</li>
+<li>应用程序：代表用户调用服务的应用程序，用户很少会直接调用服务，而是依赖应用程序为他们工作。</li>
+<li>OAuth2验证服务器：OAuth2验证服务器是应用程序和正在使用的服务之间的中间人。</li>
+</ol>
+<p>以上4个组成部分相互作用对用户进行验证，用户只需提交他们的凭据。如果成功通过校验，则会出示一个验证令牌，该令牌可以在服务之间传递。</p>
+<p><img src="/images/Spring微服务实战阅读笔记/OAuth2.png" alt="OAuth2"></p>
+<p>OAuth2规范具有以下4种类型的授权：</p>
+<ul>
+<li>密码</li>
+<li>客户端凭证 client credential</li>
+<li>授权码 authorization code</li>
+<li>隐式 implicit</li>
+</ul>
+<blockquote>
+<p>验证和授权的区别：<br>验证(authentication)：验证是用户通过提供凭据来证明他们是谁的行为<br>授权(authorization)：授权决定是否允许用户做他们想做的事情</p>
+</blockquote>
+<h3 id="使用-Spring-Cloud-Stream-的事件驱动架构"><a href="#使用-Spring-Cloud-Stream-的事件驱动架构" class="headerlink" title="使用 Spring Cloud Stream 的事件驱动架构"></a>使用 Spring Cloud Stream 的事件驱动架构</h3><p>Spring Cloud中有4个组件涉及发布消息和消费消息：</p>
+<ul>
+<li>发射器(source)：服务使用发射器来发布消息，发射器是一个Spring注解接口，它接收一个普通Java对象（POJO)，该对象代表要发布的消息。发射器接收消息并序列化（默认为Json）后发布到通道。</li>
+<li>通道(channel)：通道是对队列的一个抽象。</li>
+<li>绑定器(binder)：绑定器是Spring Cloud Stream的一部分，负责与特定消息平台通讯。</li>
+<li>接收器(sink)：服务通过接收器从MQ中接收消息。接收器监听从通道传入的消息并反序列为POJO。</li>
+</ul>
+<p><img src="/images/Spring微服务实战阅读笔记/SpringCloudStream.png" alt="SpringCloudStream"></p>
+<h3 id="使用-Spring-Cloud-Sleuth-和-Zipkin-进行分布式跟踪"><a href="#使用-Spring-Cloud-Sleuth-和-Zipkin-进行分布式跟踪" class="headerlink" title="使用 Spring Cloud Sleuth 和 Zipkin 进行分布式跟踪"></a>使用 Spring Cloud Sleuth 和 Zipkin 进行分布式跟踪</h3><p>Spring Cloud Sleuth将关联ID装配到HTTP调用上，通过过滤器与其他Spring组件进行交互，将生成的关联ID传递到所有系统调用。</p>
+<p><img src="/images/Spring微服务实战阅读笔记/日志聚合.png" alt="日志聚合"></p>
+<p>通过<code>@EnableZipkinServer</code>注解开启Zipkin服务，然后在服务应用的<code>application.yml</code>中加入以下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  zipkin:</span><br><span class="line">    # zipkin服务器地址</span><br><span class="line">    base-url: http://localhost:8080</span><br><span class="line">  sleuth:</span><br><span class="line">    sampler:</span><br><span class="line">      # 日志输出百分比</span><br><span class="line">      percentage: 1</span><br></pre></td></tr></table></figure></p>
+<p>为所有服务发送跟踪消息，可以设置<code>spring.sleuth.sampler.percentage = 1</code>，也可以使用<code>AlwaysSampler</code>替换Spring Cloud Sleuth 中默认的 <code>Sampler</code>类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Sampler <span class="title">defaultSampler</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> AlwaysSampler();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring-Cloud/" rel="tag"><i class="fa fa-tag"></i> Spring Cloud</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/02/Java8-Object源码阅读/" rel="next" title="Java8 Object源码阅读">
+                <i class="fa fa-chevron-left"></i> Java8 Object源码阅读
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Marticles" />
+            
+              <p class="site-author-name" itemprop="name">Marticles</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Marticles" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#监控与管理"><span class="nav-number">1.</span> <span class="nav-text">监控与管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#actuator"><span class="nav-number">1.1.</span> <span class="nav-text">actuator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务治理-Spring-Cloud-Eureka"><span class="nav-number">2.</span> <span class="nav-text">服务治理 Spring Cloud Eureka</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务注册"><span class="nav-number">2.1.</span> <span class="nav-text">服务注册</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务发现-Spring-DiscoveryClient"><span class="nav-number">3.</span> <span class="nav-text">服务发现 Spring DiscoveryClient</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查找服务实例"><span class="nav-number">3.1.</span> <span class="nav-text">查找服务实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用带有-Ribbon-功能的-Spring-RestTemplate-调用服务"><span class="nav-number">3.2.</span> <span class="nav-text">使用带有 Ribbon 功能的 Spring RestTemplate 调用服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Netflix-Feign-客户端调用服务"><span class="nav-number">3.3.</span> <span class="nav-text">使用 Netflix Feign 客户端调用服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Spring-Cloud-和-Netflix-Hystrix-的客户端弹性模式"><span class="nav-number">4.</span> <span class="nav-text">使用 Spring Cloud 和 Netflix Hystrix 的客户端弹性模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡模式"><span class="nav-number">4.1.</span> <span class="nav-text">负载均衡模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断路器模式"><span class="nav-number">4.2.</span> <span class="nav-text">断路器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后备模式"><span class="nav-number">4.3.</span> <span class="nav-text">后备模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#舱壁模式"><span class="nav-number">4.4.</span> <span class="nav-text">舱壁模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Hystrix"><span class="nav-number">4.5.</span> <span class="nav-text">使用 Hystrix</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定时断路器"><span class="nav-number">4.5.1.</span> <span class="nav-text">定时断路器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现后备策略"><span class="nav-number">4.5.2.</span> <span class="nav-text">实现后备策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用线程池实现“舱壁”隔离服务调用"><span class="nav-number">4.5.3.</span> <span class="nav-text">使用线程池实现“舱壁”隔离服务调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#微调-Hystrix"><span class="nav-number">4.5.4.</span> <span class="nav-text">微调 Hystrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hystrix-与线程上下文"><span class="nav-number">4.5.5.</span> <span class="nav-text">Hystrix 与线程上下文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hystrix-与-ThreadLocal"><span class="nav-number">4.5.6.</span> <span class="nav-text">Hystrix 与 ThreadLocal</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Spring-Cloud-和-Zuul-进行服务路由"><span class="nav-number">5.</span> <span class="nav-text">使用 Spring Cloud 和 Zuul 进行服务路由</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务网关"><span class="nav-number">5.1.</span> <span class="nav-text">服务网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Spring-Cloud-和-Zuul-实现服务网关"><span class="nav-number">5.2.</span> <span class="nav-text">使用 Spring Cloud 和 Zuul 实现服务网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Zuul-中映射微服务路由"><span class="nav-number">5.3.</span> <span class="nav-text">在 Zuul 中映射微服务路由</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通过服务发现自动映射路由"><span class="nav-number">5.3.1.</span> <span class="nav-text">通过服务发现自动映射路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用服务发现手动映射路由"><span class="nav-number">5.3.2.</span> <span class="nav-text">使用服务发现手动映射路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用静态URL手动映射路由"><span class="nav-number">5.3.3.</span> <span class="nav-text">使用静态URL手动映射路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Zuul-和服务超时"><span class="nav-number">5.3.4.</span> <span class="nav-text">Zuul 和服务超时</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建过滤器以使用关联-ID-并进行跟踪"><span class="nav-number">5.4.</span> <span class="nav-text">构建过滤器以使用关联 ID 并进行跟踪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建动态路由过滤器"><span class="nav-number">5.5.</span> <span class="nav-text">构建动态路由过滤器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保护微服务"><span class="nav-number">6.</span> <span class="nav-text">保护微服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OAuth2"><span class="nav-number">6.1.</span> <span class="nav-text">OAuth2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Spring-Cloud-Stream-的事件驱动架构"><span class="nav-number">6.2.</span> <span class="nav-text">使用 Spring Cloud Stream 的事件驱动架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Spring-Cloud-Sleuth-和-Zipkin-进行分布式跟踪"><span class="nav-number">6.3.</span> <span class="nav-text">使用 Spring Cloud Sleuth 和 Zipkin 进行分布式跟踪</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-expand -user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Marticles</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">67.6k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'tX35P74MzjHmbgXpVmfVXiNw-gzGzoHsz',
+        appKey: '5duYsnA8GwkNJm18sfPzfvV9',
+        placeholder: '在此分享你的想法!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("tX35P74MzjHmbgXpVmfVXiNw-gzGzoHsz", "5duYsnA8GwkNJm18sfPzfvV9");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
