@@ -399,7 +399,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  6,607 字
+                  6,671 字
                 </span>
               
 
@@ -425,9 +425,10 @@
 
       
         
-          <h2 id="监控与管理"><a href="#监控与管理" class="headerlink" title="监控与管理"></a>监控与管理</h2><h3 id="actuator"><a href="#actuator" class="headerlink" title="actuator"></a>actuator</h3><p>通过 pom.xml 导入 </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>即可通过 <code>/health</code>，<code>/beans</code>，<code>/env</code>，<code>/metrics</code> 等获得对应监控信息。<br>例如 <code>/metrics</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;mem&quot;: 248408,</span><br><span class="line">    ...</span><br><span class="line">    &quot;gc.ps_scavenge.count&quot;: 7,</span><br><span class="line">    &quot;gc.ps_scavenge.time&quot;: 95,</span><br><span class="line">    &quot;gc.ps_marksweep.count&quot;: 1,</span><br><span class="line">    &quot;gc.ps_marksweep.time&quot;: 55,</span><br><span class="line">    &quot;httpsessions.max&quot;: -1,</span><br><span class="line">    &quot;httpsessions.active&quot;: 0,</span><br><span class="line">    &quot;gauge.response.hello&quot;: 11,</span><br><span class="line">    &quot;gauge.response.metrics&quot;: 60,</span><br><span class="line">    &quot;counter.status.200.metrics&quot;: 1,</span><br><span class="line">    &quot;counter.status.200.hello&quot;: 1,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+          <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Eureka：服务注册与发现<br>Ribbon：客户端负载均衡<br>Hystrix：服务降级、熔断<br>Feign：集成Ribbon的Spring RestTemplate替代方案<br>Zuul：服务网关<br>Config：集中式配置服务<br>Stream：消息驱动<br>Sleuth：服务跟踪<br>Zipkin：服务监控</p>
+<h2 id="监控与管理"><a href="#监控与管理" class="headerlink" title="监控与管理"></a>监控与管理</h2><h3 id="actuator"><a href="#actuator" class="headerlink" title="actuator"></a>actuator</h3><p>通过 pom.xml 导入 </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>即可通过 <code>/health</code>，<code>/beans</code>，<code>/env</code>，<code>/metrics</code> 等端点获得对应监控信息。<br>例如 <code>/metrics</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;mem&quot;: 248408,</span><br><span class="line">    ...</span><br><span class="line">    &quot;gc.ps_scavenge.count&quot;: 7,</span><br><span class="line">    &quot;gc.ps_scavenge.time&quot;: 95,</span><br><span class="line">    &quot;gc.ps_marksweep.count&quot;: 1,</span><br><span class="line">    &quot;gc.ps_marksweep.time&quot;: 55,</span><br><span class="line">    &quot;httpsessions.max&quot;: -1,</span><br><span class="line">    &quot;httpsessions.active&quot;: 0,</span><br><span class="line">    &quot;gauge.response.hello&quot;: 11,</span><br><span class="line">    &quot;gauge.response.metrics&quot;: 60,</span><br><span class="line">    &quot;counter.status.200.metrics&quot;: 1,</span><br><span class="line">    &quot;counter.status.200.hello&quot;: 1,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>其中：</p>
 <ul>
 <li><code>gauge.*</code>：HTTP 请求性能指标之一，表示一个绝对数值，例如 gauge.response.hello：11表示上一次 hello 请求的延迟为 5 毫秒</li>
@@ -435,8 +436,6 @@
 </ul>
 <p>通过注入<code>org.springframework.boot.actuate.metrics.CounterService</code> 与 <code>org.springframework.boot.actuate.metrics.GaugeService</code> 可以实现访问指定端点的统计信息</p>
 <p>例如增加 <code>counterService.increment(&quot;hello.count&quot;);</code>，返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;counter.hello.count&quot;: 1</span><br></pre></td></tr></table></figure></p>
-<p>此外，可以通过实现 <code>org.springframework.boot.actuate.health.HealthIndicator</code> 接口来实现对其他没有被 Spring 封装的组件的监测。</p>
-<p>如果需要远程关闭应用，可以在配置文件中加入以下字段，这样向服务器 POST <code>/shutdown</code> 就可以实现远程关闭应用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">endpoints.shutdown.enabled=true</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/12/13/《Spring微服务实战》阅读笔记/#more" rel="contents">
@@ -2341,7 +2340,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">67.6k</span>
+    <span title="Site words total count">67.7k</span>
   
 </div>
 
