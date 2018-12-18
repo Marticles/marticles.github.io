@@ -399,7 +399,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  746 字
+                  1,304 字
                 </span>
               
 
@@ -425,15 +425,14 @@
 
       
         
-          <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>编译器碰到 “+” 的时候，会 new 一个 StringBuilder 出来，接着调用 append 方法进行追加，再调用 toString 方法，生成新字符串。</p>
-<p>在每次循环中，都会创建一个 StringBuilder 对象，且都会调用一次 toString 方法，可见用 “+” 拼接字符串的成本是十分高的。</p>
+          <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>拼接字符串最好不要直接用 “+” ，因为编译器遇到 “+” 的时候，会 new 一个 StringBuilder 出来，接着调用 append 方法进行追加，再调用 toString 方法，生成新字符串。在每次循环中，都会创建一个 StringBuilder 对象，且都会调用一次 toString 方法，可见用 “+” 拼接字符串的成本是十分高的。</p>
 <p>PS：执行一次字符串 “str += a”，相当于 “str = new StringBuilder(str).append(“a”).toString()”</p>
 <h2 id="String、StringBuiler、StringBuffer-的区别"><a href="#String、StringBuiler、StringBuffer-的区别" class="headerlink" title="String、StringBuiler、StringBuffer 的区别"></a>String、StringBuiler、StringBuffer 的区别</h2><p>String 为字符串常量，而 StringBuilder 和 StringBuffer 均为字符串变量，即 String 对象一旦创建之后该对象是不可更改的，但后两者的对象是变量，是可以更改的。</p>
 <p>运行效率：StringBuilder &gt; StringBuffer &gt; String</p>
 <p>StringBuffer 和 StringBuilder 都继承自 AbstractStringBuilder，原理一样，就是在底层维护了一个 char 数组，唯一的区别只是 StringBuffer 是线程安全的，它对所有方法都做了同步，而 StringBuilder 是非线程安全的。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AbstractStringBuilder(<span class="keyword">int</span> capacity) &#123;</span><br><span class="line">        value = <span class="keyword">new</span> <span class="keyword">char</span>[capacity];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>每次 append 的时候就会往 char 数组中填入字符，在最终调用 sb.toString() 的时候，用一个new String()方法把 char 数组里面的内容都转成 String，这样，整个过程中只产生了一个StringBuilder对象与一个String 对象，非常节省空间。</p>
-<p>StringBuilder唯一的性能损耗点在于 char 数组不够的时候需要进行扩容，扩容需要进行数组拷贝，一定程度上降低了效率。</p>
+<p>每次 append 的时候就会往 char[ ] 中填入字符，在最终调用 sb.toString( ) 的时候，用一个 new String( ) 方法把 char 数组里面的内容都转成 String，这样，整个过程中只产生了一个 StringBuilder 对象与一个 String 对象，非常节省空间。</p>
+<p>StringBuilde r唯一的性能损耗点在于 char[ ] 容量不够的时候需要进行扩容，扩容需要进行数组拷贝，一定程度上降低了效率。</p>
 <p>考虑到扩容的时候有性能上的损耗，尽量在初始化时预估长度并传入该长度，可以避免扩容的发生。</p>
           <!--noindex-->
           <div class="post-button text-center">
@@ -2347,7 +2346,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">84.9k</span>
+    <span title="Site words total count">85.4k</span>
   
 </div>
 
