@@ -293,6 +293,196 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/" itemprop="url">分布式Session一致性问题与JWT的强制失效方案</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-30T14:27:23+08:00">
+                2019-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/" class="leancloud_visitors" data-flag-title="分布式Session一致性问题与JWT的强制失效方案">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  461 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Session一致性解决方案"><a href="#Session一致性解决方案" class="headerlink" title="Session一致性解决方案"></a>Session一致性解决方案</h2><h3 id="利用-Cookie-记录-Session"><a href="#利用-Cookie-记录-Session" class="headerlink" title="利用 Cookie 记录 Session"></a>利用 Cookie 记录 Session</h3><p>将session存储到浏览器cookie中。</p>
+<p>缺点：</p>
+<ul>
+<li>极其容易被窃取，不安全</li>
+<li>受Cookie的大小限制</li>
+</ul>
+<h3 id="Session-复制"><a href="#Session-复制" class="headerlink" title="Session 复制"></a>Session 复制</h3><p>多台服务器间相互同步 session，这样每台服务器都包含全部的session。</p>
+<p>优点：</p>
+<ul>
+<li>任何一台服务器宕机都不会丢失session</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>session同步需要数据传输，有延迟</li>
+<li>浪费内存</li>
+</ul>
+<h3 id="Session-绑定"><a href="#Session-绑定" class="headerlink" title="Session 绑定"></a>Session 绑定</h3><p>对客户端 IP地址做 hash（如 nginx 的 ip_hash），将 Session 与某一服务器绑定，保证该客户端的每次请求都落在同一服务器上。</p>
+<p>优点：</p>
+<ul>
+<li>负载均衡，只要hash够平均</li>
+<li>不需要修改服务器代码，只需要修改nginx配置</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>某个服务器宕机后，对应的session就会丢失</li>
+<li>水平扩展服务器后，session会被rehash，客户端可能拿不到正确的session</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/01/09/《Spring实战》阅读笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2035,200 +2225,6 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/11/09/设计模式学习/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/09/设计模式学习/" itemprop="url">设计模式学习</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-09T18:57:20+08:00">
-                2018-11-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/09/设计模式学习/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/09/设计模式学习/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/11/09/设计模式学习/" class="leancloud_visitors" data-flag-title="设计模式学习">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  3,242 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>单例模式 ( Singleton pattern ) 确保一个类只有一个实例，并提供全局访问点。在 Java 中实现单例模式需要私有的构造器、一个静态方法和一个静态变量。</p>
-<p>一般在以下两种场景中会考虑使用单例模式：</p>
-<ul>
-<li><p>产生某对象会消耗过多的资源，为避免频繁地创建与销毁对象对资源的浪费。如：对数据库的操作、访问 IO、线程池、网络请求等。</p>
-</li>
-<li><p>某种类型的对象应该有且只有一个。如果制造出多个这样的实例，可能导致：程序行为异常、资源使用过量、结果不一致等问题。比如一个系统只能有：一个窗口管理器或文件系统等。</p>
-</li>
-</ul>
-<p>单例模式按加载时机可以分为：懒汉式和饿汉式；按实现的方式则可以分为：双重检查锁，内部类方式和枚举方式等等。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/09/设计模式学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2283,7 +2279,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2366,7 +2362,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">87.8k</span>
+    <span title="Site words total count">88.3k</span>
   
 </div>
 
