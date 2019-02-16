@@ -293,6 +293,399 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/08/30/个人翻译-Java异常处理的9个最佳实践/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/30/个人翻译-Java异常处理的9个最佳实践/" itemprop="url">个人翻译：Java异常处理的9个最佳实践</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-30T16:21:35+08:00">
+                2018-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/个人翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">个人翻译</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/30/个人翻译-Java异常处理的9个最佳实践/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/08/30/个人翻译-Java异常处理的9个最佳实践/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/08/30/个人翻译-Java异常处理的9个最佳实践/" class="leancloud_visitors" data-flag-title="个人翻译：Java异常处理的9个最佳实践">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,154 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>异常处理是每个程序员的必备技能，这篇文章介绍了Java异常处理的9个最佳实践，在Dzone上获得了110+个like。<br>文章为个人兴趣译制，原文链接<a href="https://dzone.com/articles/9-best-practices-to-handle-exceptions-in-java" target="_blank" rel="noopener"><strong>请点击这里</strong>。</a>译文已投稿至<a href="http://www.importnew.com/29603.html" target="_blank" rel="noopener"><strong>ImportNew</strong></a>，感谢原作者的奉献，感谢”hanxiaomax”的校对。</p>
+<h2 id="9个最佳实践"><a href="#9个最佳实践" class="headerlink" title="9个最佳实践"></a>9个最佳实践</h2><blockquote>
+<p>无论你是新手还是资深程序员，复习下异常处理的实践总是一件好事，因为这能确保你与你的团队在遇到问题时能够处理得了它。</p>
+</blockquote>
+<p>在 Java 中处理异常并不是一件易事。新手觉得处理异常难以理解，甚至是资深开发者也会花上好几个小时来讨论是应该抛出抛异常还是处理异常。</p>
+<p>这就是为何大多数开发团队都拥有一套自己的异常处理规范。如果你初进团队，你也许会发现这些规范和你曾使用的规范大相径庭。</p>
+<p>尽管如此，这里还是有一些被大多数团队所遵循的最佳实践准则。以下9个最重要的实践方法能帮助你开始进行异常处理，或提高你的异常处理水平。</p>
+<h2 id="1-在-Finally-中清理资源或使用-Try-With-Resource-语句"><a href="#1-在-Finally-中清理资源或使用-Try-With-Resource-语句" class="headerlink" title="1.在 Finally 中清理资源或使用 Try-With-Resource 语句"></a>1.在 Finally 中清理资源或使用 Try-With-Resource 语句</h2><p>在实际开发中会经常遇到在 try 中使用资源的情况，比如一个<a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html" target="_blank" rel="noopener"> InputStream </a>，在使用后你需要关闭它。在这种情况下，一个常见的错误是在 try 的尾部关闭了资源。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doNotCloseResourceInTry</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    FileInputStream inputStream = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        File file = <span class="keyword">new</span> File(<span class="string">"./tmp.txt"</span>);</span><br><span class="line">        inputStream = <span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">        <span class="comment">// use the inputStream to read a file</span></span><br><span class="line">        <span class="comment">// do NOT do this</span></span><br><span class="line">        inputStream.close();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">        log.error(e);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        log.error(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种情况的问题是，只要异常没被抛出，程序就能很好地运行。所有在 try 中的代码都将被正常执行，资源也会被关闭。</p>
+<p>但是，用 try 总是有原因的。当你调用一个或多个可能会抛出异常的方法或自己主动抛出异常时，程序可能会无法到达 try 的尾部。于是在最后，资源将不被关闭。</p>
+<p>因为，你应该将所有清理资源的代码放进 finally 中，或使用 try-with-resource 语句。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/30/个人翻译-Java异常处理的9个最佳实践/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/08/01/k-近邻算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/01/k-近邻算法/" itemprop="url">k-近邻算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T15:37:35+08:00">
+                2018-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/01/k-近邻算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/08/01/k-近邻算法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/08/01/k-近邻算法/" class="leancloud_visitors" data-flag-title="k-近邻算法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,804 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。<br><strong>k值选择</strong>、<strong>距离度量</strong>、<strong>决策规则</strong>是k近邻算法的三个基本要素。<br>k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最多类别数的类别。而做回归时，一般是选择平均法，即最近的k个样本的样本输出的平均值作为回归预测值。<br>对于原始kNN计算量大的缺点，主要有<strong>KD</strong>树与<strong>球树</strong>两种改进算法。</p>
+<p>参考：周志华-《机器学习》&amp;Peter Harrington-《机器学习实战》<br>Mohamad Dolatshah, Ali Hadian, Behrouz Minaei-Bidgoli, “Ball-tree: Efficient spatial indexing for constrained nearest-neighbor search in metric spaces”, <em>ArXiv e-prints</em>, Nov 2015.</p>
+<h2 id="k值选择"><a href="#k值选择" class="headerlink" title="k值选择"></a>k值选择</h2><p>k值越小，偏差越小、方差越大，容易过拟合，不抗噪声。<br>k值越大，偏差越大、方差越小，容易欠拟合。<br>通常采用经验值或交叉验证选取合适的k值。</p>
+<h2 id="计算距离"><a href="#计算距离" class="headerlink" title="计算距离"></a>计算距离</h2><p>欧式距离：</p>
+<script type="math/tex; mode=display">
+D(x,y) = \sqrt{(x_1-y_1)^2 + (x_2-y_2)^2 + ... + (x_n-y_n)^2} = \sqrt{\sum\limits_{i=1}^{n}(x_i-y_i)^2}</script><p>曼哈顿距离：</p>
+<script type="math/tex; mode=display">
+D(x,y) =|x_1-y_1| + |x_2-y_2| + ... + |x_n-y_n| =\sum\limits_{i=1}^{n}|x_i-y_i|</script><p>闵可夫斯基距离：</p>
+<script type="math/tex; mode=display">
+D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{\sum\limits_{i=1}^{n}(|x_i-y_i|)^p}</script><p>当$p=1$时，就是曼哈顿距离；当$p=2$时，就是欧氏距离。</p>
+<h2 id="原始kNN-Brute-Force"><a href="#原始kNN-Brute-Force" class="headerlink" title="原始kNN(Brute Force)"></a>原始kNN(Brute Force)</h2><p>原始的kNN算法在找近邻时采取的是Brute Force算法，暴力对所有训练集样本进行搜索，有两个明显的缺点：<br>1.需要存储全部训练集<br>2.计算量太大<br>一种有效的改进方法是事先将训练集按近邻关系分解成组，算出每组质心的位置，以质心作为代表点，和未知样本计算距离，选出距离最近的一个或若干个组，再在组的范围内应用原始的kNN算法。由于并不是将未知样本与所有样本计算距离，故该改进算法可以减少计算量，但并不能减少存储量。<br>实现k-近邻法时，主要考虑的问题是如何对训练数据进行快速k近邻搜索，为了减少计算量，可以考虑使用特殊的结构存储训练数据，以减小计算距离的次数，比如引入树结构。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/01/k-近邻算法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/07/29/个人翻译-推荐系统概述/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -438,193 +831,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/07/29/个人翻译-推荐系统概述/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/" itemprop="url">基于LSTM的空气污染预测模型研究：以上海市PM2.5预测为例</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-27T19:19:34+08:00">
-                2018-07-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/" class="leancloud_visitors" data-flag-title="基于LSTM的空气污染预测模型研究：以上海市PM2.5预测为例">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  118 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="《研究方法与论文写作》短学期课程作业"><a href="#《研究方法与论文写作》短学期课程作业" class="headerlink" title="《研究方法与论文写作》短学期课程作业"></a>《研究方法与论文写作》短学期课程作业</h4><p>利用Tensorflow搭建了一个seq2seq模型来预测上海市未来PM2.5。<br>数据集来自UCI机器学习数据库中的中国五大城市PM2.5，共包括：PM2.5、露点、湿度、气压、气温、组合风向、累计风速、每小时降雨量、累计降雨量。<br>只使用了气象数据对PM2.5进行预测，未来可能会考虑加入污染物数据。</p>
-<p><img src="/images/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/0001.jpg" alt="Image"><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/07/27/基于LSTM的空气污染预测模型研究-以上海市PM2.5预测为例/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1297,8 +1503,8 @@ y=\frac{1}{1+e^{-z}}</script><p>下图给出了Sigmoid函数在不同坐标尺�
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/踩坑/" itemprop="url" rel="index">
-                    <span itemprop="name">踩坑</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -1997,171 +2203,11 @@ y=\frac{1}{1+e^{-z}}</script><p>下图给出了Sigmoid函数在不同坐标尺�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/05/01/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/01/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-01T15:03:21+08:00">
-                2018-05-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/01/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/05/01/hello-world/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/05/01/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  3 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello World! :)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2211,7 +2257,7 @@ y=\frac{1}{1+e^{-z}}</script><p>下图给出了Sigmoid函数在不同坐标尺�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2222,7 +2268,7 @@ y=\frac{1}{1+e^{-z}}</script><p>下图给出了Sigmoid函数在不同坐标尺�
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2233,7 +2279,7 @@ y=\frac{1}{1+e^{-z}}</script><p>下图给出了Sigmoid函数在不同坐标尺�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2294,7 +2340,7 @@ y=\frac{1}{1+e^{-z}}</script><p>下图给出了Sigmoid函数在不同坐标尺�
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">94.6k</span>
+    <span title="Site words total count">96.9k</span>
   
 </div>
 
@@ -2316,6 +2362,12 @@ y=\frac{1}{1+e^{-z}}</script><p>下图给出了Sigmoid函数在不同坐标尺�
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
   
 
   
