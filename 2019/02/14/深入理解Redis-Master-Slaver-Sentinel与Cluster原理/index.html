@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="前言毕设中使用了 Redis 作为缓存，自己以往的项目中使用的都是单机的 Redis，借此机会，熟悉下 Redis 集群的搭建过程(特别是哨兵模式)及其原理。 Redis中的集群模式主要分为三种：主从(Master/Slaver)、哨兵(Sentail)和 Cluster。 主从(Master/Slaver)注：由于某些政治正确原因，Redis 官方现在已经将 Master/Slaver 改为 M">
+<meta name="description" content="前言这篇总结参考自 Redis 的官方文档(https://redis.io/documentation)与《Redis设计与实现》。 Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。 主从(Master-Slaver)注：由于某些">
 <meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis中的主从、哨兵、集群原理及搭建.">
-<meta property="og:url" content="http://marticles.github.io/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/index.html">
+<meta property="og:title" content="深入理解Redis Master-Slaver、Sentinel与Cluster原理">
+<meta property="og:url" content="http://marticles.github.io/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="前言毕设中使用了 Redis 作为缓存，自己以往的项目中使用的都是单机的 Redis，借此机会，熟悉下 Redis 集群的搭建过程(特别是哨兵模式)及其原理。 Redis中的集群模式主要分为三种：主从(Master/Slaver)、哨兵(Sentail)和 Cluster。 主从(Master/Slaver)注：由于某些政治正确原因，Redis 官方现在已经将 Master/Slaver 改为 M">
+<meta property="og:description" content="前言这篇总结参考自 Redis 的官方文档(https://redis.io/documentation)与《Redis设计与实现》。 Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。 主从(Master-Slaver)注：由于某些">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-16T17:34:06.366Z">
+<meta property="og:image" content="http://marticles.github.io/images/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/baklog.png">
+<meta property="og:updated_time" content="2019-02-17T18:06:19.297Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Redis中的主从、哨兵、集群原理及搭建.">
-<meta name="twitter:description" content="前言毕设中使用了 Redis 作为缓存，自己以往的项目中使用的都是单机的 Redis，借此机会，熟悉下 Redis 集群的搭建过程(特别是哨兵模式)及其原理。 Redis中的集群模式主要分为三种：主从(Master/Slaver)、哨兵(Sentail)和 Cluster。 主从(Master/Slaver)注：由于某些政治正确原因，Redis 官方现在已经将 Master/Slaver 改为 M">
+<meta name="twitter:title" content="深入理解Redis Master-Slaver、Sentinel与Cluster原理">
+<meta name="twitter:description" content="前言这篇总结参考自 Redis 的官方文档(https://redis.io/documentation)与《Redis设计与实现》。 Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。 主从(Master-Slaver)注：由于某些">
+<meta name="twitter:image" content="http://marticles.github.io/images/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/baklog.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://marticles.github.io/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/"/>
+  <link rel="canonical" href="http://marticles.github.io/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/"/>
 
 
 
 
 
-  <title>Redis中的主从、哨兵、集群原理及搭建. | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>深入理解Redis Master-Slaver、Sentinel与Cluster原理 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -297,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Marticles">
@@ -314,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Redis中的主从、哨兵、集群原理及搭建.</h1>
+          <h1 class="post-title" itemprop="name headline">深入理解Redis Master-Slaver、Sentinel与Cluster原理</h1>
         
 
         <div class="post-meta">
@@ -367,8 +369,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/" itemprop="commentCount"></span>
+                <a href="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -376,7 +378,7 @@
 
           
           
-             <span id="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/" class="leancloud_visitors" data-flag-title="Redis中的主从、哨兵、集群原理及搭建.">
+             <span id="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" class="leancloud_visitors" data-flag-title="深入理解Redis Master-Slaver、Sentinel与Cluster原理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -388,6 +390,11 @@
              </span>
           
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
           
 
           
@@ -401,7 +408,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,071 字
+                  4,859 字
                 </span>
               
 
@@ -426,92 +433,157 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>毕设中使用了 Redis 作为缓存，自己以往的项目中使用的都是单机的 Redis，借此机会，熟悉下 Redis 集群的搭建过程(特别是哨兵模式)及其原理。</p>
-<p>Redis中的集群模式主要分为三种：主从(Master/Slaver)、哨兵(Sentail)和 Cluster。</p>
-<h2 id="主从-Master-Slaver"><a href="#主从-Master-Slaver" class="headerlink" title="主从(Master/Slaver)"></a>主从(Master/Slaver)</h2><p>注：由于某些政治正确原因，Redis 官方现在已经将 Master/Slaver 改为 Master/Replica，一些相关的命令诸如 <code>slaverof &lt;Matser-IP&gt;</code> 也改成了 <code>replicaof &lt;Matser-IP&gt;</code>，但原有的命令暂时还是可用并存的。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇总结参考自 Redis 的官方文档(<a href="https://redis.io/documentation)与《Redis设计与实现》。" target="_blank" rel="noopener">https://redis.io/documentation)与《Redis设计与实现》。</a></p>
+<p>Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。</p>
+<h2 id="主从-Master-Slaver"><a href="#主从-Master-Slaver" class="headerlink" title="主从(Master-Slaver)"></a>主从(Master-Slaver)</h2><p>注：由于某些政治正确原因，Redis 官方现在已经将 Master-Slaver 改为 Master-Replica，一些相关的命令诸如 <code>slaverof &lt;Matser-IP&gt;</code> 也改成了 <code>replicaof &lt;Matser-IP&gt;</code>，但原有的命令暂时还是可用并存的。</p>
 <p>个人理解，主从模式的作用有以下两点：</p>
 <ul>
-<li><strong>容灾备份</strong>，当一个节点损坏时，数据因为有备份，可以方便恢复。</li>
-<li><strong>负载均衡</strong>，通过读写分离，所有写请求将由 master完成，读请求则可以通过其他 slave 来完成，从而可以支持更高的并发量。</li>
+<li><strong>容灾备份</strong>：当一个节点损坏时由于有备份，可以十分容易地恢复数据。</li>
+<li><strong>负载均衡</strong>：通过读写分离，所有写请求将由 master完成，读请求则可以通过其他 slave 来完成且 slave 是可以无限扩展的，从而可以支持更高的并发量。</li>
 </ul>
-<p>主从模式下，一个 master 可以有多个 slave，但一个 slave 只能有一个master，且数据流向是单向的，由由 master 到 slave。</p>
-<p>注意，处于保证主和各个从之间数据一致性的考虑，slave 默认是无法提供写服务的，除非将配置文件中的 <code>replica-read-only</code> 改为 <code>no</code>，但这样的话就要自己实现主从一致性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Since Redis 2.6 by default replicas are read-only.</span><br><span class="line">replica-read-only yes</span><br></pre></td></tr></table></figure></p>
+<p>主从模式下，一个 master 可以有多个 slave，但一个 slave 只能有一个master，slave 也可以有自己的 slave，其中的数据流向是单向的，由 master 到 slave。</p>
+<p>注意，出于保证主和各个从之间数据一致性的考虑，slave 默认是无法提供写服务的，除非将配置文件中的 <code>replica-read-only</code> 改为 <code>no</code>，但这样的话就要自己实现主从一致性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Since Redis 2.6 by default replicas are read-only.</span><br><span class="line">replica-read-only yes</span><br></pre></td></tr></table></figure>
+<h3 id="旧版复制-SYNC"><a href="#旧版复制-SYNC" class="headerlink" title="旧版复制(SYNC)"></a>旧版复制(SYNC)</h3><p>旧版复制功能可以分为<strong>同步</strong>与<strong>命令传播</strong>两个操作：</p>
+<ul>
+<li>同步：用于将 slave 更新至与 master 数据一致的状态。</li>
+<li>命令传播：用于 master 数据被更改，导致主从不一致的情况，让 master 与 slave 重新回到数据一致的在状态。</li>
+</ul>
+<h4 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h4><p>同步操作需要 <code>SYNC</code> 命令来完成，具体步骤如下：</p>
+<ol>
+<li>从节点向 master 发送 <code>PSYNC</code> 命令。</li>
+<li>Master 执行 <code>BGSAVE</code>，开启一个后台进程生成 RDB 文件。</li>
+<li>Master 开始缓冲所有新的写命令。</li>
+<li>当后台保存任务完成时， master 将 RDB 文件读取至内存中并传输给 slave， slave 将其保存在磁盘上，然后加载 RDB 文件到内存进行同步。</li>
+<li>Master 将缓冲区内缓存的所有写命令发送给 slave，slave 执行这些写命令完成全量复制。</li>
+</ol>
+<h4 id="命令传播"><a href="#命令传播" class="headerlink" title="命令传播"></a>命令传播</h4><p>经过同步操作后，主从之间的数据将达到一致状态，但当 master 数据又被改变时，为了让主从再次回到数据一致状态，master 还需要对 slave 进行命令传播。</p>
+<p>即 master 会将新的造成数据不一致的命令都发送给 slave，这样当 slave执行完这些命令后，主从将恢复数据一致状态。</p>
 <a id="more"></a>
-<h3 id="全量复制与部分复制"><a href="#全量复制与部分复制" class="headerlink" title="全量复制与部分复制"></a>全量复制与部分复制</h3><h3 id="规避复制风暴"><a href="#规避复制风暴" class="headerlink" title="规避复制风暴"></a>规避复制风暴</h3><p>复制风暴是指大量从节点对同一主节点或者对同一台机器的多个主节点短时间内发起全量复制的过程。</p>
-<p>单主节点复制风暴：减少主节点挂载从节点的数量，或者采用树状复制结构，加入中间层从节点用来保护主节点</p>
-<p>单机器复制风暴：单台机器部署多个Redis实例。 避免方法：应该把主节点尽量分散在多台机器上</p>
-<p>当主节点所在机器故障后提供故障转移机制，避免机器回复后进行密集的全量复制</p>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>普通的主从(Master/Slaver)模式有以下缺点：</p>
+<h3 id="新版复制-PSYNC"><a href="#新版复制-PSYNC" class="headerlink" title="新版复制(PSYNC)"></a>新版复制(PSYNC)</h3><p>新版的复制命令<code>PSYNC</code> 提供了全量复制与部分复制两种模式。</p>
+<p><strong>全量复制</strong>：用于初次复制或其它无法进行部分复制的情况，将 master 中的所有数据都发送给 slave。</p>
+<p>全量复制的步骤与旧版复制中的同步操作一样，其过程中的创建 RDB 文件、加载至内存、经网络传输、slave 接收并载入 RDB 文件中都是对 master 与 slave 开销十分大的操作。所以全量复制是一个非常耗费资源的操作。</p>
+<p>为了部分解决这个问题，从 2.8.18 开始，Redis 支持无磁盘复制，子进程可以直接发送 RDB 文件给 slave，无需使用磁盘作为中间储存介质。更进一步，Redis 还提供了部分复制的方案。</p>
+<p><strong>部分复制</strong>：用于处理网络短暂性中断等原因造成的数据丢失场景，当 slave 重新连上 master后，master 会补发断线期间丢失数据给 slave。因为补发的数据远远小于全量数据，所以可以有效避免全量复制的过高开销。</p>
+<p>部分复制依靠以下三个部分完成：</p>
+<ul>
+<li>Redis Master 的 replication ID ，这是一个伪随机字符串，标记了一个给定的 dataset。</li>
+<li>Redis Master 与 Slave 的 offset 偏移量，新增了多少字节的数据，其自身的 offset 就会增加多少。</li>
+<li>Redis Master 的 Replication  Bakclog 复制积压缓冲区。</li>
+</ul>
+<p><img src="/images/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/baklog.png" alt=""></p>
+<p>Replication  Bakclog 是由 master 维护的固定长度 FIFO 队列，默认大小为 1MB。</p>
+<p>当复制时master 就会将 replication stream 发送给 slave 。offset 即使在没有任何 slave 连接到 master 的情况下也会自增，所以对于每一对给定的<strong>(Replication ID, offset)</strong> ，都标识一个 master dataset的确切版本。</p>
+<p>当 slave 连接到 master 进行同步时，会使用 <code>PSYNC</code> 命令来发送旧的 master replication ID 和已经处理过的 offset。通过这种方式， master 能够仅发送 slave 所需的增量部分实现部分复制。但是如果 master 的缓冲区中没有足够的 backlog(“However if there is not enough backlog in the master buffers”)，或者如果 slave 引用了不可知的历史 replication ID，则会转而进行全量复制。</p>
+<p>需要注意的是，如果网络中断时间过长，造成 master 没有缓存完整中断期间执行的写命令，则无法进行部分复制，此时会转而使用全量复制。</p>
+<h3 id="规避复制风暴"><a href="#规避复制风暴" class="headerlink" title="规避复制风暴"></a>规避复制风暴</h3><p>复制风暴是指<strong>大量从节点对同一主节点或者对同一台机器的多个主节点短时间内发起全量复制的过程</strong>。</p>
+<p>解决方案：</p>
+<ul>
+<li><p>单主节点复制风暴：master 只有一个，此时应减少 master 的 slave 数量，或者采用树状复制结构，加入中间层 slave 用来保护最上面的 mster。</p>
+</li>
+<li><p>单机器复制风暴：master 有多个，但这些 master 都在同台机器上，此时很容易阻塞 IO，此时应该把这些 master 分散部署在多台机器上</p>
+</li>
+</ul>
+<h3 id="主从模式下的过期-key-处理策略"><a href="#主从模式下的过期-key-处理策略" class="headerlink" title="主从模式下的过期 key 处理策略"></a>主从模式下的过期 key 处理策略</h3><p>Slave 不会过期 key，只会等待 master 过期 key。在 master 主动过期一个key，或者有客户端读过期 key 时 master 通过惰性删除策略淘汰了这个 key 的情况下，master 就会发送一条 <code>del</code> 命令给 slave 删除该 key。</p>
+<p>其中， master 删除该 key 到 slave 也删除该 key 的过程是存在一个延迟的。因此，<strong>主从模式下 Slave 会存在读到过期 key 的情况</strong>。</p>
+<h3 id="Brain-split-脑裂-问题"><a href="#Brain-split-脑裂-问题" class="headerlink" title="Brain split(脑裂)问题"></a>Brain split(脑裂)问题</h3><p>如果 master 与其他 slave 断开了连接，但还是对外提供正常服务，此时哨兵会认为 master 失效并选举新的 master，此时集群中就存在了两个 master。有的客户端会认为旧的 master 仍正常工作，继续向其写入新的数据，而一旦旧的 master 恢复连接，就会成为新的 matser 的 slave，之前新写入的数据将会丢失。</p>
+<p>解决办法：</p>
+<ol>
+<li>通过修改 redis.conf 中的 <code>min-slaves-to-write</code> 可以指定如果没有给指定数量的 slave 发送数据，则会直接拒绝客户端的写请求。</li>
+<li><code>min-slaves-max-lag</code> 可以指定如果 slave 超过指定时间没有与自己进行 ack，也会直接拒绝客户端的写请求。</li>
+</ol>
+<p>注：最新的配置文件中已经改成了 <code>min-replicas-to-write</code> 和 <code>min-replicas-max-lag</code>。</p>
+<h3 id="主从模式部署建议"><a href="#主从模式部署建议" class="headerlink" title="主从模式部署建议"></a>主从模式部署建议</h3><p>官方文档中给出以下建议：</p>
+<blockquote>
+<p>“When Redis Sentinel is used for high availability, also turning off persistence on the master, together with auto restart of the process, is dangerous.”<br><strong>主从模式下永远不要关闭持久化的同时配置了自动重启</strong> ，严重情况下可能会导致 <strong>master 和所有 slave 中的数据都被删除</strong>。</p>
+</blockquote>
+<p>设想以下场景：master 与 slave1,slave2，当 master 失效后，由于 master 关闭了持久化并配置了自动重启，重启后的 master 将是空的，此时 slave1 与 slave2 进行复制，复制后的结果将是所有节点的数据都被清空。</p>
+<h3 id="主从模式的缺点"><a href="#主从模式的缺点" class="headerlink" title="主从模式的缺点"></a>主从模式的缺点</h3><p>普通的主从(Master/Slaver)模式有以下缺点：</p>
 <ul>
 <li>master 节点挂了以后，Redis 集群将不可提供写服务，因为剩下的 slave 不能成为 master。</li>
 </ul>
-<p>所以有了下面的 Sentinel 模式。</p>
-<h2 id="Sentinel-哨兵"><a href="#Sentinel-哨兵" class="headerlink" title="Sentinel(哨兵)"></a>Sentinel(哨兵)</h2><p>Redis 官方解释哨兵模式是为了提高 Redis 的可用性，即<strong>高可用</strong>。</p>
-<p>sentinel 模式建立于主从模式基础上，当 master 节点挂了以后，sentinel 会在 slave 中选择一个做为master。而当 master 节点重新启动后，也不会恢复原有的 master role，而是作为新的 slave 。</p>
-<p>sentinel 因为存在单个进程挂掉的可能，所以一般使用的是 sentinel 集群。<br>在生产中 sentinel 最好不要和 Redis master 或 slave 部署在同一台机器上，不然机器挂了以后 sentinel 也会不可用。</p>
-<p>当使用 sentinel 模式时客户端就可以不用直接连接 master，而是连接任一 sentinel 节点 ，由 sentinel 来提供可用的 master 节点，这样当 master 节点挂掉以后，sentinel 就会感知到进行重新选举并将新的master 节点返回给使用者。</p>
-<p>不过要注意， 无论配置了需要多少个 sentinel 同意才能判断一个节点失效， 一个 sentinel 都需要获得集群中多数 sentinel 的同意， 才能发起一次 failover。换句话说， 在只有少数 sentinel 正常运作的情况下， sentinel 是不能执行 failover 的。</p>
-<p>注：Redis 官方文档推荐至少有 3 个哨兵实例，原因是，将无法选举。</p>
-<h2 id="Failover-步骤"><a href="#Failover-步骤" class="headerlink" title="Failover 步骤"></a>Failover 步骤</h2><h2 id="选举规则"><a href="#选举规则" class="headerlink" title="选举规则"></a>选举规则</h2><h2 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h2><p>即使使用了哨兵模式，Redis 集群中的每个节点也是全量存储，浪费内存且有木桶效应。为了最大化利用内存，可以采用 Cluster 对数据进行分布式存储，即<strong>每个 Redis 节点都存储不同的内容</strong>。</p>
-<p>Cluster 架构中，Redis 被设计成共有16384个hash slot(哈希槽)。每个 master 分得一部分 slot，其算法为：hash_slot = crc16(key) mod 16384 ，这就找到对应slot。采用hash slot的算法，实际上是解决了redis-cluster架构下，有多个master节点的时候，数据如何分布到这些节点上去。key是可用key，如果有{}则取{}内的作为可用key，否则整个可以是可用key。群集至少需要3主3从，且每个实例使用不同的配置文件。</p>
-<h2 id="Centos-下基于-Docker-搭建一主二从三哨兵集群"><a href="#Centos-下基于-Docker-搭建一主二从三哨兵集群" class="headerlink" title="Centos 下基于 Docker 搭建一主二从三哨兵集群"></a>Centos 下基于 Docker 搭建一主二从三哨兵集群</h2><blockquote>
-<p>更新：这种方式部署有坑，外网环境下无法访问该集群，解决办法已更新在《Docker网络模型踩坑》。</p>
+<p>为了解决主从自动切换的问题，就有了 Sentinel 模式。</p>
+<h2 id="哨兵-Sentinel"><a href="#哨兵-Sentinel" class="headerlink" title="哨兵(Sentinel)"></a>哨兵(Sentinel)</h2><blockquote>
+<p>“Redis Sentinel provides high availability for Redis.”<br>Sentinel 是 Redis 官方提供的 Redis 集群 <strong>高可用</strong> 解决方案。</p>
 </blockquote>
-<p>系统环境：Centos7.4 &amp; Docker 18.09.2</p>
-<ol>
-<li>首先拉取Redis镜像。</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull redis</span><br></pre></td></tr></table></figure>
-<ol>
-<li>搭建一主二从集群，”yourpassword”为自定义密码。</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># master</span></span><br><span class="line">$ docker run -it --name redis-master -d -p 6379:6379 redis redis-server --requirepass yourpassword --port 6379</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-master bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6379</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br><span class="line"></span><br><span class="line"><span class="comment"># slave1</span></span><br><span class="line">$ docker run -it --name redis-slave1 -d -p 6380:6380 redis redis-server --requirepass yourpassword --port 6380</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave1 bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6380</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br><span class="line"></span><br><span class="line"><span class="comment"># slave2</span></span><br><span class="line">$ docker run -it --name redis-slave2 -d -p 6381:6381 redis redis-server --requirepass yourpassword --port 6381</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave2 bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6381</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br></pre></td></tr></table></figure>
-<ol>
-<li>下载 Redis 官方的哨兵配置 sentinel.conf。</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://download.redis.io/redis-stable/sentinel.conf</span><br></pre></td></tr></table></figure>
-<ol>
-<li>查看 master 的 IP 地址。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker inspect containerid</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>即下面的”IPAddress”字段。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;Name&quot;: &quot;/redis-master&quot;,</span><br><span class="line">        &quot;NetworkSettings&quot;: &#123;</span><br><span class="line">            &quot;Gateway&quot;: &quot;X.X.X.X&quot;,</span><br><span class="line">            &quot;IPAddress&quot;: &quot;X.X.X.X&quot;,</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<ol>
-<li>在 sentinel.conf 中配置以下字段。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">port 26379</span><br><span class="line">sentinel monitor mymaster X.X.X.X 6379 2</span><br><span class="line">sentinel auth-pass mymaster yourpassword</span><br><span class="line">daemonize yes</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>其中第三个参数<quorum>为哨兵选举的法定人数，由于有3个哨兵，这里设为 2。</quorum></p>
-<ol>
-<li>复制多两份配置。</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cp  sentinel.conf sentinel2.conf</span><br><span class="line">$ cp  sentinel.conf sentinel3.conf</span><br></pre></td></tr></table></figure>
-<p>再将 sentinel2.conf 和 sentinel3.conf 中的 port 分别改为 26380 与 26381。</p>
-<ol>
-<li><p>启动三个哨兵。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sentinel1</span></span><br><span class="line">$  docker run -it --name redis-sentinel1 -d -p 26379:26379 -v /root/download/sentinel.conf:/usr/<span class="built_in">local</span>/etc/redis/sentinel.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel1 bash</span><br><span class="line">$ redis-sentinel /usr/<span class="built_in">local</span>/etc/redis/sentinel.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># sentinel2</span></span><br><span class="line">$  docker run -it --name redis-sentinel2 -d -p 26380:26380 -v /root/download/sentinel2.conf:/usr/<span class="built_in">local</span>/etc/redis/sentinel.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel2 bash</span><br><span class="line">$ redis-sentinel /usr/<span class="built_in">local</span>/etc/redis/sentinel.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># sentinel3</span></span><br><span class="line">$  docker run -it --name redis-sentinel3 -d -p 26381:26381 -v /root/download/sentinel3.conf:/usr/<span class="built_in">local</span>/etc/redis/sentinel.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel3 bash</span><br><span class="line">$ redis-sentinel /usr/<span class="built_in">local</span>/etc/redis/sentinel.conf</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>检查启动是否成功。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel bash</span><br><span class="line">$ redis-cli -p 26379</span><br><span class="line">-&gt; info</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>显示以下信息说明集群已启动成功。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Sentinel</span><br><span class="line">sentinel_masters:1</span><br><span class="line">sentinel_tilt:0</span><br><span class="line">sentinel_running_scripts:0</span><br><span class="line">sentinel_scripts_queue_length:0</span><br><span class="line">sentinel_simulate_failure_flags:0</span><br><span class="line">master0:name=mymaster,status=ok,address=X.X.X.X:6379,slaves=2,sentinels=3</span><br></pre></td></tr></table></figure>
-<ol>
-<li>下线 master，检测主从切换是否成功。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker stop redis-master</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>等待一段时间，进入任意 sentinel 内部。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel bash</span><br><span class="line">$ redis-cli -p 26379</span><br><span class="line">-&gt; info</span><br></pre></td></tr></table></figure>
-<p>可以看到主库已经成功切换。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Sentinel</span><br><span class="line">sentinel_masters:1</span><br><span class="line">sentinel_tilt:0</span><br><span class="line">sentinel_running_scripts:0</span><br><span class="line">sentinel_scripts_queue_length:0</span><br><span class="line">sentinel_simulate_failure_flags:0</span><br><span class="line">master0:name=mymaster,status=ok,address=X.X.X.X:6380,slaves=2,sentinels=3</span><br></pre></td></tr></table></figure></p>
-<p>或者输入 <code>sentinel master mymaster</code>，同样可以看到主库切换后的结果。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1) &quot;name&quot;</span><br><span class="line">2) &quot;mymaster&quot;</span><br><span class="line">3) &quot;ip&quot;</span><br><span class="line">4) &quot;X.X.X.X&quot;</span><br><span class="line">5) &quot;port&quot;</span><br><span class="line">6) &quot;6380&quot;</span><br></pre></td></tr></table></figure></p>
-<p>注：即使重新启动原来的 redis-master 节点，集群也不会自动切换回该节点，需手动切换。</p>
-<p>题外话：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Sentinel</span><br><span class="line">sentinel_masters:1</span><br><span class="line">···</span><br><span class="line">master0:name=mymaster,status=ok,address=X.X.X.X:6380,slaves=2,sentinels=3</span><br></pre></td></tr></table></figure></p>
-<p><code>info</code>命令返回的信息中的 status 字段其实还有其他几种状态，仅列两个需要注意的如下：</p>
+<p>Sentinel 主要提供以下四个功能：</p>
 <ul>
-<li>s_down :Subjectively down(主观下线)，即当前sentinel 认为 master 为”不可用”状态。</li>
-<li>o_down :Objectively down(客观下线)，即多个 sentinel 都认为 master 处于”s_down”状态，那么此时master将处于 o_down状态，即 master 已经被集群确定为”不可用”，将会开启 failover 重新选举新的 matser。</li>
+<li><strong>监控(Monitoring)</strong>：Sentinel 会不断地检查 master 与 slave 是否在按预期地工作。</li>
+<li><strong>通知(Notification)</strong>：当被监控的 Redis 实例出现问题时，Sentinel 可以通过一个 api 来通知系统管理员或者另外的应用程序。</li>
+<li><strong>自动故障转移(Automatic failover)</strong>：如果一个 master 节点没有按照预期工作，sentinel 就会开始故障转移，把一个 slave 节点提升 master主节点，并重新配置其他的 slave 节点使用新的 master 节点，使用Redis 服务的应用程序在连接哨兵时也会被通知新的 master 地址。</li>
+<li><strong>配置提供者(Configuration provider)</strong>：Sentinel 可以作为客户端服务发现的提供者，比如客户端会连接到 Sentinels 来请求当前 master 节点的地址。当故障转移发生的时候，Sentinels 将返回新的地址。</li>
 </ul>
-<p>注意，Objectively down(客观下线)只适用于 master 节点， 对于其他类型的 Redis 节点， sentinel 在将它们判断为失效前不需要进行协商， 所以从服务器或者其他 sentinel 永远都不会达到客观下线的条件。</p>
+<p>Sentinel 模式建立于主从模式基础上，当 master 节点挂了以后，sentinel 会在 slave 中选择一个做为master。而当 master 节点重新启动后，也不会恢复原有的 master role，而是作为新的 slave 。</p>
+<p>Redis 官方文档中建议<strong>至少部署 3 个哨兵实例</strong>，原因是在以下情况下，sentinel 将无法进行选举。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 如果M1失效，R1将成为新的master</span><br><span class="line">+----+         +----+</span><br><span class="line">| M1 |---------| R1 |</span><br><span class="line">| S1 |         | S2 |</span><br><span class="line">+----+         +----+</span><br><span class="line">Configuration: quorum = 1</span><br><span class="line"></span><br><span class="line"># 虽然此时可以完成重新选举，但如果M1所在的机器宕机，S1也将停止工作</span><br><span class="line"># 这种情况下S2将无法进行failover</span><br></pre></td></tr></table></figure>
+<p>注意，无论配置了需要多少个 sentinel 同意才能判断一个节点失效， <strong>一个 sentinel 都需要过半数的 sentinel 同意， 才能发起一次 failover</strong>。在上面的情况中，由于 S1 挂掉导致集群中只有 S2一个 sentinel ，故无法进行切换 matser。换句话说， 在只有少数 sentinel 正常运作的情况下，sentinel 是不能执行 failover 的。</p>
+<h3 id="选举哨兵-Leader"><a href="#选举哨兵-Leader" class="headerlink" title="选举哨兵 Leader"></a>选举哨兵 Leader</h3><p>当一个 master 被判断为客观下线，所有的 sentinel 就需要选举出一个 leader 来执行 failover 故障转移操作(所有的 sentinel 都有被选为 leader 的资格)，具体步骤如下：</p>
+<ol>
+<li>当某个 sentinel 发现 master 客观下线时，就会向其他 sentinel 发送 <code>sentinel is-master-down-by-addr</code> 命令，其中命令参数 <code>runid</code> 为发起命令的 sentinel 运行 ID ，这表示该 sentinel 请求目标  sentinel 将自己设置为 leader。</li>
+<li>收到命令的 sentinel 如果之前没有收到其他 sentinel 发送的 <code>sentinel is-master-down-by-addr</code> 命令，则返回一条回复(即每个 sentinel 只能投一票)，回复中的 <code>leader_runid</code> 参数与 <code>leader_epoch</code> 分别记录了该 sentinel 的局部 leader 信息。</li>
+<li>发起命令的 sentinel 收到回复后会检查自己的 <code>configuration epoch</code>是否与回复中的 <code>leader_epoch</code> 一致，如果一致则接着检查 <code>leader_runid</code> 是否与自己的运行 ID 一致，如果一致则表示收到命令的 sentinel 已经将发起命令的 sentinel 设为了局部 leader。</li>
+<li>如果某个 sentinel 被半数以上的 sentinel 节点设为了局部 leader，则其就成为了 sentinel leader，下一步的 failover 操作将由该 sentinel 执行。</li>
+<li>如果在给定时间内没有选出 leader，所有的 sentinel 在一段时间后会进行下一次选举，直至选出 sentinel leader 为止。</li>
+</ol>
+<p>注意，无论每次选举结果的成功与否，一次选举后所有的 sentinel 的 <code>configuration epoch</code> 都会自增一次。</p>
+<h3 id="Failover-步骤"><a href="#Failover-步骤" class="headerlink" title="Failover 步骤"></a>Failover 步骤</h3><p>选出 sentinel leader 后，该节点就会对已客观下线的 matser 执行 failover 故障转移操作，该操作包括：</p>
+<ol>
+<li>sentinel leader 会将该 master 下的所有 slave 保存至一个列表中，按照以下规则进行过滤。</li>
+<li>删除列表中所有处于下线或断线状态的 slave。</li>
+<li>删除列表中所有最近 5 秒内没有回复过 sentinel leader <code>info</code> 命令的 slave。</li>
+<li>删除列表中所有与已客观下线 master 连接断开超过 <code>down-after-milliseconds * 10 ms</code> 的 slave，这样可以过滤掉数据较旧的 slave。</li>
+<li>在过滤后的列表中选出 <code>slave-priority</code> 值最高的 slave，如果存在该 slave 则直接返回。 <code>slave-priority</code> 代表 slave 的优先级，在 sentinel.conf 中可以配置，数值越小优先级越高，但如果为 0 则表示永远不会被选为新的 master。</li>
+<li>如果不存在 <code>slave-priority</code> 值最高的 slave(即存在多个具有相同优先度的 slabe)，此时将按照复制 offset 偏移量最大的原则进行选择(offset 大表示数据较新)。</li>
+<li>如果 offset 仍相同，则按照运行 ID 进行排序，选出 ID 最小的 slave。</li>
+<li>选出 slave 后，sentinel leader 会发送 <code>slaveof no one</code> 命令使其成为新的 master。</li>
+<li>接着 sentinel leader 会让原 master 的所有 slave 复制新的 matser 数据，这一步通过发送 <code>slaveof &lt;new-master-ip&gt; &lt;new-master-port&gt;</code> 命令实现。</li>
+<li>最后 sentinel leader 会将原 master 设为新的 master 的 slave，这步同样通过 <code>slaveof</code> 命令实现。</li>
+</ol>
+<h3 id="Sentinel-部署建议"><a href="#Sentinel-部署建议" class="headerlink" title="Sentinel 部署建议"></a>Sentinel 部署建议</h3><p>官方文档中给出以下建议：</p>
+<blockquote>
+<p>“Please deploy at least <strong>three Sentinels</strong> in <strong>three different boxes</strong> always.”<br>Sentinel 由于存在单个进程挂掉的可能，所以一般使用的是 sentinel 集群。<strong>在生产中 sentinel 最好不要和 Redis master 或 slave 部署在同一台机器上</strong>，不然机器挂了以后 sentinel 也会不可用，且各 sentinel 最好部署在独立的机器或虚拟机中。</p>
+</blockquote>
+<h2 id="集群-Cluster"><a href="#集群-Cluster" class="headerlink" title="集群(Cluster)"></a>集群(Cluster)</h2><p>即使使用了哨兵模式，Redis 集群中的每个节点也是全量存储的，不仅浪费内存且有木桶效应。为了最大化利用内存，可以采用 Cluster 对数据进行分布式存储，即<strong>每个 Redis 节点(node)都存储不同的数据</strong>。</p>
+<p>官方文档是这样说明的：</p>
+<blockquote>
+<p>“Redis Cluster provides a way to run a Redis installation where <strong>data is automatically sharded across multiple Redis nodes</strong>.”<br>Redis Cluster 提供了一种在多个 Redis 节点间自动共享数据的方式(<strong>即数据分片</strong>)。</p>
+</blockquote>
+<p>注意，Cluster 并不能保证强一致性，仅能提供最终一致性。</p>
+<blockquote>
+<p>“Redis Cluster is not able to guarantee strong consistency. / In general Redis + Sentinel as a whole are a an eventually consistent system.”</p>
+</blockquote>
+<p>Cluster 的每个 node 都会使用 <code>clusterNode</code> 的结构来保存自己的当前状态，<code>clusterNode</code> 存储了 node 的创建时间、名字、configuration epoch、IP地址与端口等等信息。同时每个 node 也会为集群中的其他所有 node 都创建一个相应的 <code>clusterNode</code> 结构来记录其他 node 的状态。</p>
+<h3 id="Cluster-的主从模型"><a href="#Cluster-的主从模型" class="headerlink" title="Cluster 的主从模型"></a>Cluster 的主从模型</h3><p>为了使在部分节点失效的情况下下 Redis Cluster 仍然可用，所以 Cluster 也使用了主从复制模型，每个 hash slot 都会有 1～N 个拷贝(为 1 就是只有一个 matser)。</p>
+<p>Cluster 的 master 节点一般用于处理读写请求，而 slave 节点则一般只用于备份。当有请求向 slave 发起时，会直接重定向到对应 key 所在的 master 来处理。</p>
+<p>由于半数同意原则，Redis 官方文档建议 Cluster 至少为 3 主 3 从模式。</p>
+<blockquote>
+<p>“Note that the minimal cluster that works as expected requires to contain at least three master nodes.”</p>
+</blockquote>
+<h3 id="槽位指派"><a href="#槽位指派" class="headerlink" title="槽位指派"></a>槽位指派</h3><p>Redis Cluster 没有采用一致性哈希算法，而是引入了 hash slot 哈希槽的概念。Redis 集群共有 16384(2 的 14 次方) 个 hash slot，每个 master 都会分得一部分 slot，对于每个 key ，分配其槽位的算法为 <code>hash_slot = CRC16(key) mod 16384</code> ，即先对 key 进行 CRC16 循环冗余校验再对 16384 取模得到放置的槽位。</p>
+<p>这种结构很容易添加或者删除节点。 比如当新添加节点 D 时，就从节点 A, B, C 中分得部分槽到 D 上。 如果想移除节点 A，则需要将 A 中的槽移到 B 和 C 上，然后将没有任何槽的 A 从集群中移除即可。由于从一个节点将 hash slot 移动到另一个节点并不会停止服务，所以无论添加删除或者改变某个节点的 hash slot 数量都不会造成集群不可用的状态。</p>
+<p>当 Cluster 中的 16384 个 slot 都有节点在处理时，Cluster 处于上线状态(ok)，如果有任何一个 slot 没有得到处理，Cluster 就会处于下线状态(fail)。</p>
+<h3 id="重新分片"><a href="#重新分片" class="headerlink" title="重新分片"></a>重新分片</h3><p>Cluster 的重新分片操作可以将任意数量已经指派给某个节点(源节点)的槽改为指派给另一个节点(目标节点)，并且相关槽所属的 k-v 对也会从源节点移动到目标节点(这里的重新分片不是 rehash，注意与客户端一致性 hash 分片区分开来)。</p>
+<p>重新分片操作可以在线进行，在重新分片过程中，集群不需要下线，并且源节点和目标节点都可以继续处理命令请求。</p>
+<p>Cluster 的重新分片操作是通过 redis-trib 来负责完成的。Redis 提供了进行重新分片的命令，而 redis-trib 则通过向源节点与目标节点发送命令来完成重新分片操作。</p>
+<p>redis-trib 对 Cluster 的单个槽进行重新分片的步骤如下：</p>
+<ol>
+<li><p>redis-trib对目标节点发送 <code>CLUSTER SETSLOT &lt;slot&gt; IMPORTING &lt;source_id&gt;</code>  命令，让目标节点准备好从源节点导入(import)在这个槽中的 k-v对。</p>
+</li>
+<li><p>redis-trib 对源节点发送 <code>CLUSTER SETSLOT &lt;slot&gt; MIGRATING &lt;target_id&gt;</code> 命令，让源节点准备好将这个槽中的 k-v对迁移(migrate)至目标节点。</p>
+</li>
+<li><p>redis-trib 向源节点发送 <code>CLUSTER GETKEYSINSLOT &lt;slot&gt; &lt;count&gt;</code> 命令，获得 count 个属于这个槽的 k-v 对的 key。</p>
+</li>
+<li><p>对于步骤 3 获得的每个 key，redis-trib 都向源节点发送一个 <code>MIGRATE &lt;target_ip&gt; &lt;target_port&gt; &lt;key_name&gt; 0 &lt;timeout&gt;</code> 命令，将被选中的 key 原子地从源节点迁移至目标节点。</p>
+</li>
+<li><p>重复执行步骤 3 和步骤 4，直到源节点保存的所有在槽中的 k-v 对都被迁移至目标节点为止。</p>
+</li>
+<li><p>redis-trib 向 Cluster 中的任意一个节点发送 <code>CLUSTER SETSLOT &lt;slot&gt; NODE &lt;target_id&gt;</code> 命令，将槽指派给目标节点，这一指派信息会通过消息发送至整个集群，最终集群中的所有节点都会知道这个槽已经被指派给了目标节点</p>
+</li>
+</ol>
+<p>设计多个槽的重新分片时，则对每个槽都执行上述步骤。</p>
+<p>如果节点 A 正在迁移槽 i 到 节点 B，当有客户端请求查找 A 中已迁移的 key 时，A 会向客户端返回一个 <code>ACK</code> 错误，指引客户端到 B 继续查找该 key。<code>ACK</code> 错误只是两个节点在槽迁移过程中采用的一种临时措施，而 <code>MOVED</code> 错误才真正表示槽的负责权已经从一个节点转移到另一个节点。</p>
+<p>当节点接受请求中的 key 不在自己负责的槽位中，就会返回 <code>MOVED</code> 错误，<code>MOVED</code> 错误携带的信息可以指引客户端转向真正负责该槽位的节点。</p>
+<h3 id="故障检测"><a href="#故障检测" class="headerlink" title="故障检测"></a>故障检测</h3><h3 id="故障转移"><a href="#故障转移" class="headerlink" title="故障转移"></a>故障转移</h3><h3 id="Failover-步骤-1"><a href="#Failover-步骤-1" class="headerlink" title="Failover 步骤"></a>Failover 步骤</h3><h3 id="Cluster-中节点的通信"><a href="#Cluster-中节点的通信" class="headerlink" title="Cluster 中节点的通信"></a>Cluster 中节点的通信</h3><p>MEET<br>PING<br>PONG<br>PUBLISH<br>FAIL</p>
 
       
     </div>
@@ -542,8 +614,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/12/Java中的强引用、弱引用、软引用和虚引用/" rel="next" title="Java中的强引用、弱引用、软引用和虚引用">
-                <i class="fa fa-chevron-left"></i> Java中的强引用、弱引用、软引用和虚引用
+              <a href="/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/" rel="next" title="基于Docker搭建Redis一主二从三哨兵集群实战">
+                <i class="fa fa-chevron-left"></i> 基于Docker搭建Redis一主二从三哨兵集群实战
               </a>
             
           </div>
@@ -551,10 +623,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/15/Docker 网络模型踩坑/" rel="prev" title="Docker 网络模型踩坑">
-                Docker 网络模型踩坑 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -649,7 +717,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -660,7 +728,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -703,7 +771,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从-Master-Slaver"><span class="nav-number">2.</span> <span class="nav-text">主从(Master/Slaver)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全量复制与部分复制"><span class="nav-number">2.1.</span> <span class="nav-text">全量复制与部分复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#规避复制风暴"><span class="nav-number">2.2.</span> <span class="nav-text">规避复制风暴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">2.3.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sentinel-哨兵"><span class="nav-number">3.</span> <span class="nav-text">Sentinel(哨兵)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Failover-步骤"><span class="nav-number">4.</span> <span class="nav-text">Failover 步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选举规则"><span class="nav-number">5.</span> <span class="nav-text">选举规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cluster"><span class="nav-number">6.</span> <span class="nav-text">Cluster</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Centos-下基于-Docker-搭建一主二从三哨兵集群"><span class="nav-number">7.</span> <span class="nav-text">Centos 下基于 Docker 搭建一主二从三哨兵集群</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从-Master-Slaver"><span class="nav-number">2.</span> <span class="nav-text">主从(Master-Slaver)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#旧版复制-SYNC"><span class="nav-number">2.1.</span> <span class="nav-text">旧版复制(SYNC)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同步"><span class="nav-number">2.1.1.</span> <span class="nav-text">同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命令传播"><span class="nav-number">2.1.2.</span> <span class="nav-text">命令传播</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新版复制-PSYNC"><span class="nav-number">2.2.</span> <span class="nav-text">新版复制(PSYNC)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#规避复制风暴"><span class="nav-number">2.3.</span> <span class="nav-text">规避复制风暴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从模式下的过期-key-处理策略"><span class="nav-number">2.4.</span> <span class="nav-text">主从模式下的过期 key 处理策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Brain-split-脑裂-问题"><span class="nav-number">2.5.</span> <span class="nav-text">Brain split(脑裂)问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从模式部署建议"><span class="nav-number">2.6.</span> <span class="nav-text">主从模式部署建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从模式的缺点"><span class="nav-number">2.7.</span> <span class="nav-text">主从模式的缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哨兵-Sentinel"><span class="nav-number">3.</span> <span class="nav-text">哨兵(Sentinel)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选举哨兵-Leader"><span class="nav-number">3.1.</span> <span class="nav-text">选举哨兵 Leader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Failover-步骤"><span class="nav-number">3.2.</span> <span class="nav-text">Failover 步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sentinel-部署建议"><span class="nav-number">3.3.</span> <span class="nav-text">Sentinel 部署建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群-Cluster"><span class="nav-number">4.</span> <span class="nav-text">集群(Cluster)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster-的主从模型"><span class="nav-number">4.1.</span> <span class="nav-text">Cluster 的主从模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#槽位指派"><span class="nav-number">4.2.</span> <span class="nav-text">槽位指派</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新分片"><span class="nav-number">4.3.</span> <span class="nav-text">重新分片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#故障检测"><span class="nav-number">4.4.</span> <span class="nav-text">故障检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#故障转移"><span class="nav-number">4.5.</span> <span class="nav-text">故障转移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Failover-步骤-1"><span class="nav-number">4.6.</span> <span class="nav-text">Failover 步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster-中节点的通信"><span class="nav-number">4.7.</span> <span class="nav-text">Cluster 中节点的通信</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -737,7 +805,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">96.9k</span>
+    <span title="Site words total count">100.4k</span>
   
 </div>
 
@@ -760,16 +828,10 @@
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
   
-    <span class="site-uv">
-      <i class="fa fa-user"></i> 访问人数
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i> 总访问量
+      <i class="fa fa-user></i> 总访问量
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       
     </span>

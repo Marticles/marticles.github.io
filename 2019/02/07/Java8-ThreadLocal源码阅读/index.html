@@ -83,12 +83,12 @@
 <meta name="keywords" content="Java源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java8 ThreadLocal源码阅读">
-<meta property="og:url" content="http://marticles.github.io/2019/02/11/Java8-ThreadLocal源码阅读/index.html">
+<meta property="og:url" content="http://marticles.github.io/2019/02/07/Java8-ThreadLocal源码阅读/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
 <meta property="og:description" content="ThreadLocal 原理每个线程内部维护着一个 ThreadLocalMap，这个 Map 的底层是由数组 table 实现的，用于存储 Entry。ThreadLocalMap 中的 key 为弱引用类型，指向 ThreadLocal 本身，value 是实际存储的变量 Object。  概述ThreadLocal 的作用是提供线程内的局部变量，该变量在线程的生命周期内起作用，减少同一个线程">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://marticles.github.io/images/Java8-ThreadLocal源码阅读/ThreadLocal.jpg">
-<meta property="og:updated_time" content="2019-02-14T09:05:19.628Z">
+<meta property="og:updated_time" content="2019-02-17T17:54:26.967Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8 ThreadLocal源码阅读">
 <meta name="twitter:description" content="ThreadLocal 原理每个线程内部维护着一个 ThreadLocalMap，这个 Map 的底层是由数组 table 实现的，用于存储 Entry。ThreadLocalMap 中的 key 为弱引用类型，指向 ThreadLocal 本身，value 是实际存储的变量 Object。  概述ThreadLocal 的作用是提供线程内的局部变量，该变量在线程的生命周期内起作用，减少同一个线程">
@@ -122,7 +122,7 @@
 
 
 
-  <link rel="canonical" href="http://marticles.github.io/2019/02/11/Java8-ThreadLocal源码阅读/"/>
+  <link rel="canonical" href="http://marticles.github.io/2019/02/07/Java8-ThreadLocal源码阅读/"/>
 
 
 
@@ -299,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/11/Java8-ThreadLocal源码阅读/">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/07/Java8-ThreadLocal源码阅读/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Marticles">
@@ -328,8 +328,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-11T22:23:12+08:00">
-                2019-02-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-07T22:23:12+08:00">
+                2019-02-07
               </time>
             
 
@@ -369,8 +369,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/02/11/Java8-ThreadLocal源码阅读/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/11/Java8-ThreadLocal源码阅读/" itemprop="commentCount"></span>
+                <a href="/2019/02/07/Java8-ThreadLocal源码阅读/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/07/Java8-ThreadLocal源码阅读/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -378,7 +378,7 @@
 
           
           
-             <span id="/2019/02/11/Java8-ThreadLocal源码阅读/" class="leancloud_visitors" data-flag-title="Java8 ThreadLocal源码阅读">
+             <span id="/2019/02/07/Java8-ThreadLocal源码阅读/" class="leancloud_visitors" data-flag-title="Java8 ThreadLocal源码阅读">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -390,6 +390,11 @@
              </span>
           
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
           
 
           
@@ -528,7 +533,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/02/12/Java中的强引用、弱引用、软引用和虚引用/" rel="prev" title="Java中的强引用、弱引用、软引用和虚引用">
+              <a href="/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/" rel="prev" title="Java中的强引用、弱引用、软引用和虚引用">
                 Java中的强引用、弱引用、软引用和虚引用 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -625,7 +630,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -636,7 +641,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -713,7 +718,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">96.9k</span>
+    <span title="Site words total count">100.4k</span>
   
 </div>
 
@@ -736,16 +741,10 @@
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
   
-    <span class="site-uv">
-      <i class="fa fa-user"></i> 访问人数
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i> 总访问量
+      <i class="fa fa-user></i> 总访问量
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       
     </span>

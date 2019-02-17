@@ -79,13 +79,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="0xCAFEBABE">
-<meta property="og:url" content="http://marticles.github.io/tags/系统动力学/index.html">
+<meta name="description" content="前言在看 JDK 中 ThreadLocal 源码时接触到了弱引用 WeakReference，在这次的笔记中记录下强引用、弱引用、软引用和虚引用的概念与区别。 四种引用的级别由高到低依次为：  Strong Reference &amp;gt; Soft Reference &amp;gt; Weak Reference &amp;gt; Phantom Reference   强引用(Strong Reference">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中的强引用、弱引用、软引用和虚引用">
+<meta property="og:url" content="http://marticles.github.io/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
+<meta property="og:description" content="前言在看 JDK 中 ThreadLocal 源码时接触到了弱引用 WeakReference，在这次的笔记中记录下强引用、弱引用、软引用和虚引用的概念与区别。 四种引用的级别由高到低依次为：  Strong Reference &amp;gt; Soft Reference &amp;gt; Weak Reference &amp;gt; Phantom Reference   强引用(Strong Reference">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://marticles.github.io/images/Java中的引用/Reference.jpg">
+<meta property="og:image" content="http://marticles.github.io/images/Java中的引用/Reference.gif">
+<meta property="og:updated_time" content="2019-02-17T17:54:31.725Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="0xCAFEBABE">
+<meta name="twitter:title" content="Java中的强引用、弱引用、软引用和虚引用">
+<meta name="twitter:description" content="前言在看 JDK 中 ThreadLocal 源码时接触到了弱引用 WeakReference，在这次的笔记中记录下强引用、弱引用、软引用和虚引用的概念与区别。 四种引用的级别由高到低依次为：  Strong Reference &amp;gt; Soft Reference &amp;gt; Weak Reference &amp;gt; Phantom Reference   强引用(Strong Reference">
+<meta name="twitter:image" content="http://marticles.github.io/images/Java中的引用/Reference.jpg">
 
 
 
@@ -115,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://marticles.github.io/tags/系统动力学/"/>
+  <link rel="canonical" href="http://marticles.github.io/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/"/>
 
 
 
 
 
-  <title>标签: 系统动力学 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>Java中的强引用、弱引用、软引用和虚引用 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -140,7 +147,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -278,54 +285,270 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>系统动力学<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/" itemprop="url">
-              
-                <span itemprop="name">系统动力学视角下基于巴斯模型的视频传播机制探究：以AnyLogic仿真为例</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Java中的强引用、弱引用、软引用和虚引用</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-06-28T20:28:34+08:00"
-              content="2018-06-28" >
-          06-28
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-10T15:07:22+08:00">
+                2019-02-10
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/" class="leancloud_visitors" data-flag-title="Java中的强引用、弱引用、软引用和虚引用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  779 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在看 JDK 中 ThreadLocal 源码时接触到了弱引用 WeakReference，在这次的笔记中记录下强引用、弱引用、软引用和虚引用的概念与区别。</p>
+<p>四种引用的级别由高到低依次为：</p>
+<blockquote>
+<p>Strong Reference &gt; Soft Reference &gt; Weak Reference &gt; Phantom Reference</p>
+</blockquote>
+<p><img src="/images/Java中的引用/Reference.jpg" alt="Reference"></p>
+<h2 id="强引用-Strong-Reference"><a href="#强引用-Strong-Reference" class="headerlink" title="强引用(Strong Reference)"></a>强引用(Strong Reference)</h2><p>强引用是最常使用的引用，任何被强引用所引用的对象都不能被垃圾回收器回收。当内存空间不足，JVM 就会抛出 OutOfMemoryError 错误。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br></pre></td></tr></table></figure>
+<p>变量 obj 就是该 Object 对象的一个强引用。只有强引用消失，对象才能被 GC 回收。</p>
+<p>如果在一个方法的内部有一个强引用，这个引用保存在 Java 栈中，而真正的引用内容(Object)保存在 Java堆中。 当这个方法运行完成后，就会退出方法栈，则引用对象的引用数为0，这个对象会被回收。</p>
+<h2 id="弱引用-Weak-Reference"><a href="#弱引用-Weak-Reference" class="headerlink" title="弱引用(Weak Reference)"></a>弱引用(Weak Reference)</h2><p>相比于软引用，具有弱引用的对象拥有更短暂的生命周期。当一个对象只有弱引用指向它时，垃圾回收器不管当前内存是否足够，都会进行回收。</p>
+<p>在 ThreadLocal 中的 ThreadLocalMap 的 key 就被设计成了弱引用类型，在 JDK 中另一个使用弱引用的例子是WeakHashMap，它是除 HashMap 和 TreeMap 之外Map接口的另一种实现。WeakHashMap中的 key 也是弱引用类型。</p>
+<a id="more"></a>
+<h2 id="软引用-Soft-Reference"><a href="#软引用-Soft-Reference" class="headerlink" title="软引用(Soft Reference)"></a>软引用(Soft Reference)</h2><p>软引用用来描述一些有用但是非必需的对象。如果一个对象只具有软引用，当内存空间足够时垃圾回收器就不会回收它。如果内存空间不足了，才会回收这些对象的内存。</p>
+<p>软引用用来描述一些有用但并不是必需的对象，比如可用来实现内存敏感的高速缓存。</p>
+<h2 id="虚引用-Phantom-Reference"><a href="#虚引用-Phantom-Reference" class="headerlink" title="虚引用(Phantom Reference)"></a>虚引用(Phantom Reference)</h2><p>虚引用不同于其余三种引用，也无法通过虚引用获得对象的一个实例，虚引用并不会决定对象的生命周期。</p>
+<p>如果一个对象仅持有虚引用，那么它就和没有任何引用一样，为一个对象设置虚引用关联的唯一目的就是希望这个对象被 GC 回收时能收到一个系统通知，即用来跟踪对象被垃圾回收器回收的活动。</p>
+<p>虚引用与软引用和弱引用的区别在于：</p>
+<p>虚引用必须和引用队列(ReferenceQueue)联合使用。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">引用类型</th>
+<th style="text-align:center">何时会被垃圾回收</th>
+<th style="text-align:center">用途</th>
+<th style="text-align:center">生命周期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">强引用</td>
+<td style="text-align:center">从不</td>
+<td style="text-align:center">/</td>
+<td style="text-align:center">JVM停止运行时终止</td>
+</tr>
+<tr>
+<td style="text-align:center">弱引用</td>
+<td style="text-align:center">当内存不足时</td>
+<td style="text-align:center">缓存</td>
+<td style="text-align:center">内存不足时终止</td>
+</tr>
+<tr>
+<td style="text-align:center">软引用</td>
+<td style="text-align:center">正常GC时</td>
+<td style="text-align:center">缓存</td>
+<td style="text-align:center">GC后终止</td>
+</tr>
+<tr>
+<td style="text-align:center">虚引用</td>
+<td style="text-align:center">正常GC时</td>
+<td style="text-align:center">跟踪对象的垃圾回收</td>
+<td style="text-align:center">GC后终止</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>一个对象的生命周期：</p>
+<p><img src="/images/Java中的引用/Reference.gif" alt="Reference"></p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/07/Java8-ThreadLocal源码阅读/" rel="next" title="Java8 ThreadLocal源码阅读">
+                <i class="fa fa-chevron-left"></i> Java8 ThreadLocal源码阅读
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/" rel="prev" title="基于Docker搭建Redis一主二从三哨兵集群实战">
+                基于Docker搭建Redis一主二从三哨兵集群实战 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -333,6 +556,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -353,8 +583,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -384,7 +623,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -395,7 +634,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -429,6 +668,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强引用-Strong-Reference"><span class="nav-number">2.</span> <span class="nav-text">强引用(Strong Reference)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#弱引用-Weak-Reference"><span class="nav-number">3.</span> <span class="nav-text">弱引用(Weak Reference)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软引用-Soft-Reference"><span class="nav-number">4.</span> <span class="nav-text">软引用(Soft Reference)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚引用-Phantom-Reference"><span class="nav-number">5.</span> <span class="nav-text">虚引用(Phantom Reference)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -456,7 +711,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">96.9k</span>
+    <span title="Site words total count">100.4k</span>
   
 </div>
 
@@ -479,16 +734,10 @@
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
   
-    <span class="site-uv">
-      <i class="fa fa-user"></i> 访问人数
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i> 总访问量
+      <i class="fa fa-user></i> 总访问量
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       
     </span>
@@ -604,6 +853,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -1095,7 +1348,7 @@
         showTime(Counter);
       }
     });
-  </script>
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
@@ -1107,26 +1360,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 

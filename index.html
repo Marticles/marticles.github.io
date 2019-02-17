@@ -293,7 +293,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/15/Docker 网络模型踩坑/">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Marticles">
@@ -312,199 +312,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/15/Docker 网络模型踩坑/" itemprop="url">Docker 网络模型踩坑</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-15T21:13:11+08:00">
-                2019-02-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Docker/" itemprop="url" rel="index">
-                    <span itemprop="name">Docker</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/02/15/Docker 网络模型踩坑/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/15/Docker 网络模型踩坑/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/02/15/Docker 网络模型踩坑/" class="leancloud_visitors" data-flag-title="Docker 网络模型踩坑">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  399 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇笔记源自上次 Docker 下搭建 Redis 哨兵集群所踩的坑，主要原因是 Docker 默认的网络模型是 Bridge，而在设置哨兵的 matser IP 时用的是容器的内网地址，在 Spring Boot 中使用 Redis 时哨兵返回的仍是 Docker 的内网地址。</p>
-<p>解决办法是加入 docker 启动参数—network=host，改为 host 模式启动，并将 master 节点 IP 改为宿主的外网地址。</p>
-<p>借此机会，顺便学习一下 Docker 的网络模型。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># master与slave都改为host模式启动</span></span><br><span class="line">$ docker run -it --name redis-master --network=host -d -v /root/download/redis.conf:/usr/<span class="built_in">local</span>/etc/redis/redis.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-master bash</span><br><span class="line">$ redis-server /usr/<span class="built_in">local</span>/etc/redis/redis.conf</span><br><span class="line"></span><br><span class="line">$ docker run -it --name redis-slave1 --network=host -d -v /root/download/redis2.conf:/usr/<span class="built_in">local</span>/etc/redis/redis.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave1 bash</span><br><span class="line">$ redis-server /usr/<span class="built_in">local</span>/etc/redis/redis.conf</span><br><span class="line"></span><br><span class="line">$ docker run -it --name redis-slave2 --network=host -d -v /root/download/redis3.conf:/usr/<span class="built_in">local</span>/etc/redis/redis.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave2 bash</span><br><span class="line">$ redis-server /usr/<span class="built_in">local</span>/etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
-<p>其中 redis-master 的 redis.conf：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 注释掉该字段，否则只允许本机连接</span><br><span class="line"># bind 127.0.0.1</span><br><span class="line">port 6379</span><br><span class="line">daemonize yes</span><br><span class="line">requirepass yourpassword</span><br><span class="line">masterauth yourpassword</span><br></pre></td></tr></table></figure></p>
-<p>注意 redis-slave1 与 redis-slave2 的 redis.conf中还需加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replicaof &lt;redis-master ip&gt; &lt;redis-master port&gt;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 哨兵也改为host模式启动</span></span><br><span class="line">$ docker run -it --name redis-sentinel --network=host -d -v /root/download/sentinel.conf:/usr/<span class="built_in">local</span>/etc/redis/sentinel.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel1 bash</span><br><span class="line">$ redis-sentinel /usr/<span class="built_in">local</span>/etc/redis/sentinel.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其他哨兵配置同上</span></span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/15/Docker 网络模型踩坑/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/" itemprop="url">Redis中的主从、哨兵、集群原理及搭建.</a></h1>
+                <a class="post-title-link" href="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" itemprop="url">深入理解Redis Master-Slaver、Sentinel与Cluster原理</a></h1>
         
 
         <div class="post-meta">
@@ -557,8 +365,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/" itemprop="commentCount"></span>
+                <a href="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -566,7 +374,7 @@
 
           
           
-             <span id="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/" class="leancloud_visitors" data-flag-title="Redis中的主从、哨兵、集群原理及搭建.">
+             <span id="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" class="leancloud_visitors" data-flag-title="深入理解Redis Master-Slaver、Sentinel与Cluster原理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -591,7 +399,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,071 字
+                  4,859 字
                 </span>
               
 
@@ -617,19 +425,35 @@
 
       
         
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>毕设中使用了 Redis 作为缓存，自己以往的项目中使用的都是单机的 Redis，借此机会，熟悉下 Redis 集群的搭建过程(特别是哨兵模式)及其原理。</p>
-<p>Redis中的集群模式主要分为三种：主从(Master/Slaver)、哨兵(Sentail)和 Cluster。</p>
-<h2 id="主从-Master-Slaver"><a href="#主从-Master-Slaver" class="headerlink" title="主从(Master/Slaver)"></a>主从(Master/Slaver)</h2><p>注：由于某些政治正确原因，Redis 官方现在已经将 Master/Slaver 改为 Master/Replica，一些相关的命令诸如 <code>slaverof &lt;Matser-IP&gt;</code> 也改成了 <code>replicaof &lt;Matser-IP&gt;</code>，但原有的命令暂时还是可用并存的。</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇总结参考自 Redis 的官方文档(<a href="https://redis.io/documentation)与《Redis设计与实现》。" target="_blank" rel="noopener">https://redis.io/documentation)与《Redis设计与实现》。</a></p>
+<p>Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。</p>
+<h2 id="主从-Master-Slaver"><a href="#主从-Master-Slaver" class="headerlink" title="主从(Master-Slaver)"></a>主从(Master-Slaver)</h2><p>注：由于某些政治正确原因，Redis 官方现在已经将 Master-Slaver 改为 Master-Replica，一些相关的命令诸如 <code>slaverof &lt;Matser-IP&gt;</code> 也改成了 <code>replicaof &lt;Matser-IP&gt;</code>，但原有的命令暂时还是可用并存的。</p>
 <p>个人理解，主从模式的作用有以下两点：</p>
 <ul>
-<li><strong>容灾备份</strong>，当一个节点损坏时，数据因为有备份，可以方便恢复。</li>
-<li><strong>负载均衡</strong>，通过读写分离，所有写请求将由 master完成，读请求则可以通过其他 slave 来完成，从而可以支持更高的并发量。</li>
+<li><strong>容灾备份</strong>：当一个节点损坏时由于有备份，可以十分容易地恢复数据。</li>
+<li><strong>负载均衡</strong>：通过读写分离，所有写请求将由 master完成，读请求则可以通过其他 slave 来完成且 slave 是可以无限扩展的，从而可以支持更高的并发量。</li>
 </ul>
-<p>主从模式下，一个 master 可以有多个 slave，但一个 slave 只能有一个master，且数据流向是单向的，由由 master 到 slave。</p>
-<p>注意，处于保证主和各个从之间数据一致性的考虑，slave 默认是无法提供写服务的，除非将配置文件中的 <code>replica-read-only</code> 改为 <code>no</code>，但这样的话就要自己实现主从一致性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Since Redis 2.6 by default replicas are read-only.</span><br><span class="line">replica-read-only yes</span><br></pre></td></tr></table></figure></p>
+<p>主从模式下，一个 master 可以有多个 slave，但一个 slave 只能有一个master，slave 也可以有自己的 slave，其中的数据流向是单向的，由 master 到 slave。</p>
+<p>注意，出于保证主和各个从之间数据一致性的考虑，slave 默认是无法提供写服务的，除非将配置文件中的 <code>replica-read-only</code> 改为 <code>no</code>，但这样的话就要自己实现主从一致性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Since Redis 2.6 by default replicas are read-only.</span><br><span class="line">replica-read-only yes</span><br></pre></td></tr></table></figure>
+<h3 id="旧版复制-SYNC"><a href="#旧版复制-SYNC" class="headerlink" title="旧版复制(SYNC)"></a>旧版复制(SYNC)</h3><p>旧版复制功能可以分为<strong>同步</strong>与<strong>命令传播</strong>两个操作：</p>
+<ul>
+<li>同步：用于将 slave 更新至与 master 数据一致的状态。</li>
+<li>命令传播：用于 master 数据被更改，导致主从不一致的情况，让 master 与 slave 重新回到数据一致的在状态。</li>
+</ul>
+<h4 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h4><p>同步操作需要 <code>SYNC</code> 命令来完成，具体步骤如下：</p>
+<ol>
+<li>从节点向 master 发送 <code>PSYNC</code> 命令。</li>
+<li>Master 执行 <code>BGSAVE</code>，开启一个后台进程生成 RDB 文件。</li>
+<li>Master 开始缓冲所有新的写命令。</li>
+<li>当后台保存任务完成时， master 将 RDB 文件读取至内存中并传输给 slave， slave 将其保存在磁盘上，然后加载 RDB 文件到内存进行同步。</li>
+<li>Master 将缓冲区内缓存的所有写命令发送给 slave，slave 执行这些写命令完成全量复制。</li>
+</ol>
+<h4 id="命令传播"><a href="#命令传播" class="headerlink" title="命令传播"></a>命令传播</h4><p>经过同步操作后，主从之间的数据将达到一致状态，但当 master 数据又被改变时，为了让主从再次回到数据一致状态，master 还需要对 slave 进行命令传播。</p>
+<p>即 master 会将新的造成数据不一致的命令都发送给 slave，这样当 slave执行完这些命令后，主从将恢复数据一致状态。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/14/Redis中的主从、哨兵、集群原理及搭建/#more" rel="contents">
+            <a class="btn" href="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -680,7 +504,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/12/Java中的强引用、弱引用、软引用和虚引用/">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Marticles">
@@ -699,7 +523,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/12/Java中的强引用、弱引用、软引用和虚引用/" itemprop="url">Java中的强引用、弱引用、软引用和虚引用</a></h1>
+                <a class="post-title-link" href="/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/" itemprop="url">基于Docker搭建Redis一主二从三哨兵集群实战</a></h1>
         
 
         <div class="post-meta">
@@ -711,8 +535,210 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-12T15:07:22+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-12T16:49:51+08:00">
                 2019-02-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/" class="leancloud_visitors" data-flag-title="基于Docker搭建Redis一主二从三哨兵集群实战">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,036 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>毕设中使用了 Redis 作为缓存，自己以往的项目中使用的都是单机的 Redis，这次要将单机的 Redis 实例改为 Redis 集群。</p>
+<blockquote>
+<p>更新：这种方式部署有坑，外网环境下无法访问该集群，解决办法已更新在《Docker网络模型踩坑》。</p>
+</blockquote>
+<h2 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h2><p>系统环境：Centos7.4 &amp; Docker 18.09.2</p>
+<ol>
+<li>首先拉取Redis镜像。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull redis</span><br></pre></td></tr></table></figure>
+<ol>
+<li>搭建一主二从集群，<code>yourpassword</code> 为自定义密码，注意主从密码需要一致。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># master</span></span><br><span class="line">$ docker run -it --name redis-master -d -p 6379:6379 redis redis-server --requirepass yourpassword --port 6379</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-master bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6379</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br><span class="line"></span><br><span class="line"><span class="comment"># slave1</span></span><br><span class="line">$ docker run -it --name redis-slave1 -d -p 6380:6380 redis redis-server --requirepass yourpassword --port 6380</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave1 bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6380</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br><span class="line"></span><br><span class="line"><span class="comment"># slave2</span></span><br><span class="line">$ docker run -it --name redis-slave2 -d -p 6381:6381 redis redis-server --requirepass yourpassword --port 6381</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave2 bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6381</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br></pre></td></tr></table></figure>
+<ol>
+<li>下载 Redis 官方的哨兵配置 sentinel.conf。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://download.redis.io/redis-stable/sentinel.conf</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/" itemprop="url">Java中的强引用、弱引用、软引用和虚引用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-10T15:07:22+08:00">
+                2019-02-10
               </time>
             
 
@@ -752,8 +778,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/02/12/Java中的强引用、弱引用、软引用和虚引用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/12/Java中的强引用、弱引用、软引用和虚引用/" itemprop="commentCount"></span>
+                <a href="/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -761,7 +787,7 @@
 
           
           
-             <span id="/2019/02/12/Java中的强引用、弱引用、软引用和虚引用/" class="leancloud_visitors" data-flag-title="Java中的强引用、弱引用、软引用和虚引用">
+             <span id="/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/" class="leancloud_visitors" data-flag-title="Java中的强引用、弱引用、软引用和虚引用">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -826,7 +852,7 @@
 <p>在 ThreadLocal 中的 ThreadLocalMap 的 key 就被设计成了弱引用类型，在 JDK 中另一个使用弱引用的例子是WeakHashMap，它是除 HashMap 和 TreeMap 之外Map接口的另一种实现。WeakHashMap中的 key 也是弱引用类型。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/12/Java中的强引用、弱引用、软引用和虚引用/#more" rel="contents">
+            <a class="btn" href="/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -877,7 +903,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/11/Java8-ThreadLocal源码阅读/">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/07/Java8-ThreadLocal源码阅读/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Marticles">
@@ -896,7 +922,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/11/Java8-ThreadLocal源码阅读/" itemprop="url">Java8 ThreadLocal源码阅读</a></h1>
+                <a class="post-title-link" href="/2019/02/07/Java8-ThreadLocal源码阅读/" itemprop="url">Java8 ThreadLocal源码阅读</a></h1>
         
 
         <div class="post-meta">
@@ -908,8 +934,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-11T22:23:12+08:00">
-                2019-02-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-07T22:23:12+08:00">
+                2019-02-07
               </time>
             
 
@@ -949,8 +975,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/02/11/Java8-ThreadLocal源码阅读/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/11/Java8-ThreadLocal源码阅读/" itemprop="commentCount"></span>
+                <a href="/2019/02/07/Java8-ThreadLocal源码阅读/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/07/Java8-ThreadLocal源码阅读/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -958,7 +984,7 @@
 
           
           
-             <span id="/2019/02/11/Java8-ThreadLocal源码阅读/" class="leancloud_visitors" data-flag-title="Java8 ThreadLocal源码阅读">
+             <span id="/2019/02/07/Java8-ThreadLocal源码阅读/" class="leancloud_visitors" data-flag-title="Java8 ThreadLocal源码阅读">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1023,7 +1049,7 @@
 </ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/11/Java8-ThreadLocal源码阅读/#more" rel="contents">
+            <a class="btn" href="/2019/02/07/Java8-ThreadLocal源码阅读/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -2309,7 +2335,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2320,7 +2346,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2381,7 +2407,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">96.9k</span>
+    <span title="Site words total count">100.4k</span>
   
 </div>
 
@@ -2404,16 +2430,10 @@
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
   
-    <span class="site-uv">
-      <i class="fa fa-user"></i> 访问人数
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i> 总访问量
+      <i class="fa fa-user></i> 总访问量
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       
     </span>

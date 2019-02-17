@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Marticles" />
+  <meta name="keywords" content="Redis," />
 
 
 
@@ -79,13 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="0xCAFEBABE">
-<meta property="og:url" content="http://marticles.github.io/categories/系统模拟/index.html">
+<meta name="description" content="前言毕设中使用了 Redis 作为缓存，自己以往的项目中使用的都是单机的 Redis，这次要将单机的 Redis 实例改为 Redis 集群。  更新：这种方式部署有坑，外网环境下无法访问该集群，解决办法已更新在《Docker网络模型踩坑》。  搭建步骤系统环境：Centos7.4 &amp;amp; Docker 18.09.2  首先拉取Redis镜像。  1$ docker pull redis">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Docker搭建Redis一主二从三哨兵集群实战">
+<meta property="og:url" content="http://marticles.github.io/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
+<meta property="og:description" content="前言毕设中使用了 Redis 作为缓存，自己以往的项目中使用的都是单机的 Redis，这次要将单机的 Redis 实例改为 Redis 集群。  更新：这种方式部署有坑，外网环境下无法访问该集群，解决办法已更新在《Docker网络模型踩坑》。  搭建步骤系统环境：Centos7.4 &amp;amp; Docker 18.09.2  首先拉取Redis镜像。  1$ docker pull redis">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-17T18:00:40.317Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="0xCAFEBABE">
+<meta name="twitter:title" content="基于Docker搭建Redis一主二从三哨兵集群实战">
+<meta name="twitter:description" content="前言毕设中使用了 Redis 作为缓存，自己以往的项目中使用的都是单机的 Redis，这次要将单机的 Redis 实例改为 Redis 集群。  更新：这种方式部署有坑，外网环境下无法访问该集群，解决办法已更新在《Docker网络模型踩坑》。  搭建步骤系统环境：Centos7.4 &amp;amp; Docker 18.09.2  首先拉取Redis镜像。  1$ docker pull redis">
 
 
 
@@ -115,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://marticles.github.io/categories/系统模拟/"/>
+  <link rel="canonical" href="http://marticles.github.io/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/"/>
 
 
 
 
 
-  <title>分类: 系统模拟 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>基于Docker搭建Redis一主二从三哨兵集群实战 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -140,7 +145,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -278,55 +283,277 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>系统模拟<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/06/28/系统动力学视角下基于巴斯模型的视频传播机制探究-以AnyLogic仿真为例/" itemprop="url">
-              
-                <span itemprop="name">系统动力学视角下基于巴斯模型的视频传播机制探究：以AnyLogic仿真为例</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">基于Docker搭建Redis一主二从三哨兵集群实战</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-06-28T20:28:34+08:00"
-              content="2018-06-28" >
-          06-28
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-12T16:49:51+08:00">
+                2019-02-12
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/02/12/基于Docker搭建Redis一主二从三哨兵集群实战/" class="leancloud_visitors" data-flag-title="基于Docker搭建Redis一主二从三哨兵集群实战">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,036 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>毕设中使用了 Redis 作为缓存，自己以往的项目中使用的都是单机的 Redis，这次要将单机的 Redis 实例改为 Redis 集群。</p>
+<blockquote>
+<p>更新：这种方式部署有坑，外网环境下无法访问该集群，解决办法已更新在《Docker网络模型踩坑》。</p>
+</blockquote>
+<h2 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h2><p>系统环境：Centos7.4 &amp; Docker 18.09.2</p>
+<ol>
+<li>首先拉取Redis镜像。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull redis</span><br></pre></td></tr></table></figure>
+<ol>
+<li>搭建一主二从集群，<code>yourpassword</code> 为自定义密码，注意主从密码需要一致。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># master</span></span><br><span class="line">$ docker run -it --name redis-master -d -p 6379:6379 redis redis-server --requirepass yourpassword --port 6379</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-master bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6379</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br><span class="line"></span><br><span class="line"><span class="comment"># slave1</span></span><br><span class="line">$ docker run -it --name redis-slave1 -d -p 6380:6380 redis redis-server --requirepass yourpassword --port 6380</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave1 bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6380</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br><span class="line"></span><br><span class="line"><span class="comment"># slave2</span></span><br><span class="line">$ docker run -it --name redis-slave2 -d -p 6381:6381 redis redis-server --requirepass yourpassword --port 6381</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave2 bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6381</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br></pre></td></tr></table></figure>
+<ol>
+<li>下载 Redis 官方的哨兵配置 sentinel.conf。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://download.redis.io/redis-stable/sentinel.conf</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<ol>
+<li>查看 master 的 IP 地址。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker inspect redis-master</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>即下面的”IPAddress”字段。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;Name&quot;: &quot;/redis-master&quot;,</span><br><span class="line">        &quot;NetworkSettings&quot;: &#123;</span><br><span class="line">            &quot;Gateway&quot;: &quot;X.X.X.X&quot;,</span><br><span class="line">            &quot;IPAddress&quot;: &quot;X.X.X.X&quot;,</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<ol>
+<li>在 sentinel.conf 中配置以下字段。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">port 26379</span><br><span class="line">sentinel monitor mymaster X.X.X.X 6379 2</span><br><span class="line">sentinel auth-pass mymaster yourpassword</span><br><span class="line">daemonize yes</span><br><span class="line">requirepass &lt;sentinelpassword&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>其中第三个参数<quorum>为哨兵判断客观下线的法定人数，由于有 3 个哨兵，这里设为 2，不同哨兵的该值可以不同，即不同哨兵判断客观下线的条件可能不同。</quorum></p>
+<ol>
+<li>复制多两份配置。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cp  sentinel.conf sentinel2.conf</span><br><span class="line">$ cp  sentinel.conf sentinel3.conf</span><br></pre></td></tr></table></figure>
+<p>再将 sentinel2.conf 和 sentinel3.conf 中的 <code>port</code> 分别改为 26380 与 26381。</p>
+<ol>
+<li><p>启动三个哨兵。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sentinel1</span></span><br><span class="line">$  docker run -it --name redis-sentinel1 -d -p 26379:26379 -v /root/download/sentinel.conf:/usr/<span class="built_in">local</span>/etc/redis/sentinel.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel1 bash</span><br><span class="line">$ redis-sentinel /usr/<span class="built_in">local</span>/etc/redis/sentinel.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># sentinel2</span></span><br><span class="line">$  docker run -it --name redis-sentinel2 -d -p 26380:26380 -v /root/download/sentinel2.conf:/usr/<span class="built_in">local</span>/etc/redis/sentinel.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel2 bash</span><br><span class="line">$ redis-sentinel /usr/<span class="built_in">local</span>/etc/redis/sentinel.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># sentinel3</span></span><br><span class="line">$  docker run -it --name redis-sentinel3 -d -p 26381:26381 -v /root/download/sentinel3.conf:/usr/<span class="built_in">local</span>/etc/redis/sentinel.conf -d redis /bin/bash</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel3 bash</span><br><span class="line">$ redis-sentinel /usr/<span class="built_in">local</span>/etc/redis/sentinel.conf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查哨兵启动是否成功。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel bash</span><br><span class="line">$ redis-cli -p 26379</span><br><span class="line">-&gt; info</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>显示以下信息说明集群已启动成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Sentinel</span><br><span class="line">sentinel_masters:1</span><br><span class="line">sentinel_tilt:0</span><br><span class="line">sentinel_running_scripts:0</span><br><span class="line">sentinel_scripts_queue_length:0</span><br><span class="line">sentinel_simulate_failure_flags:0</span><br><span class="line">master0:name=mymaster,status=ok,address=X.X.X.X:6379,slaves=2,sentinels=3</span><br></pre></td></tr></table></figure>
+<ol>
+<li>下线 master，检测主从切换是否成功。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker stop redis-master</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>等待一段时间，进入任意 sentinel 内部。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it redis-sentinel bash</span><br><span class="line">$ redis-cli -p 26379</span><br><span class="line">-&gt; info</span><br></pre></td></tr></table></figure>
+<p>可以看到主库已经成功切换。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Sentinel</span><br><span class="line">sentinel_masters:1</span><br><span class="line">sentinel_tilt:0</span><br><span class="line">sentinel_running_scripts:0</span><br><span class="line">sentinel_scripts_queue_length:0</span><br><span class="line">sentinel_simulate_failure_flags:0</span><br><span class="line">master0:name=mymaster,status=ok,address=X.X.X.X:6380,slaves=2,sentinels=3</span><br></pre></td></tr></table></figure></p>
+<p>或者输入 <code>sentinel master mymaster</code>，同样可以看到主库切换后的结果。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1) &quot;name&quot;</span><br><span class="line">2) &quot;mymaster&quot;</span><br><span class="line">3) &quot;ip&quot;</span><br><span class="line">4) &quot;X.X.X.X&quot;</span><br><span class="line">5) &quot;port&quot;</span><br><span class="line">6) &quot;6380&quot;</span><br></pre></td></tr></table></figure></p>
+<p>注：即使重新启动原来的 redis-master 节点，集群也不会自动切换回该节点，需手动切换。</p>
+<p>题外话：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Sentinel</span><br><span class="line">sentinel_masters:1</span><br><span class="line">···</span><br><span class="line">master0:name=mymaster,status=ok,address=X.X.X.X:6380,slaves=2,sentinels=3</span><br></pre></td></tr></table></figure></p>
+<p><code>info</code>命令返回的信息中的 status 字段其实还有其他几种状态，仅列两个需要注意的如下：</p>
+<ul>
+<li>s_down :Subjectively down(主观下线)，即当前sentinel 认为 master 为”不可用”状态。</li>
+<li>o_down :Objectively down(客观下线)，即多个 sentinel 都认为 master 处于”s_down”状态，那么此时master将处于 o_down状态，即 master 已经被集群确定为”不可用”，将会开启 failover 重新选举新的 matser。</li>
+</ul>
+<p>注意，<strong>Objectively down(客观下线)只适用于 master 节点</strong>， 对于其他类型的 Redis 节点， sentinel 在将它们判断为失效前不需要进行协商， 所以从服务器或者其他 sentinel 永远都不会达到客观下线的条件。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag"><i class="fa fa-tag"></i> Redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/10/Java中的强引用、弱引用、软引用和虚引用/" rel="next" title="Java中的强引用、弱引用、软引用和虚引用">
+                <i class="fa fa-chevron-left"></i> Java中的强引用、弱引用、软引用和虚引用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" rel="prev" title="深入理解Redis Master-Slaver、Sentinel与Cluster原理">
+                深入理解Redis Master-Slaver、Sentinel与Cluster原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -334,6 +561,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -354,8 +588,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -385,7 +628,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -396,7 +639,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -430,6 +673,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建步骤"><span class="nav-number">2.</span> <span class="nav-text">搭建步骤</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -457,7 +716,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">96.9k</span>
+    <span title="Site words total count">100.4k</span>
   
 </div>
 
@@ -480,16 +739,10 @@
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
   
-    <span class="site-uv">
-      <i class="fa fa-user"></i> 访问人数
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i> 总访问量
+      <i class="fa fa-user></i> 总访问量
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       
     </span>
@@ -605,6 +858,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -1096,7 +1353,7 @@
         showTime(Counter);
       }
     });
-  </script>
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
@@ -1108,26 +1365,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
