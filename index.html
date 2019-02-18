@@ -293,6 +293,213 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/15/Docker网络模式踩坑/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/15/Docker网络模式踩坑/" itemprop="url">Docker网络模式踩坑</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-15T21:13:11+08:00">
+                2019-02-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/15/Docker网络模式踩坑/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/15/Docker网络模式踩坑/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/02/15/Docker网络模式踩坑/" class="leancloud_visitors" data-flag-title="Docker网络模式踩坑">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,115 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇笔记源自上次 Docker 下搭建 Redis 哨兵集群所踩的坑，主要原因是 Docker 默认的网络模式是 Bridge，而在设置哨兵的 matser IP 时用的是容器的内网地址，在 Spring Boot 中使用 Redis 时哨兵返回的仍是 Docker 的内网地址。</p>
+<p>解决办法是加入 docker 启动参数 <code>--network=host</code>，改为 host 模式启动，并将 master 节点 IP 改为 host 的外网地址，此时的 Redis 集群是直接暴露在公网的，一定要设置 <code>requirepass</code>。</p>
+<p>借此机会，顺便学习一下 Docker 的网络模式。</p>
+<h2 id="Docker-的网络模式"><a href="#Docker-的网络模式" class="headerlink" title="Docker 的网络模式"></a>Docker 的网络模式</h2><p>Dcoker 网络隔离基于 Network namespace，创建 Docker 容器时会为每一个容器分配 Network namespace。</p>
+<p>创建 Docker 容器时有以下几种网络模式：</p>
+<ul>
+<li><strong>Bridge</strong></li>
+<li><strong>Host</strong></li>
+<li><strong>None</strong></li>
+<li><strong>Overlay</strong></li>
+<li><strong>Macvlan</strong></li>
+<li><strong>Container</strong></li>
+</ul>
+<p>Docker 容器默认为 bridge 模式，其他模式需要在创建容器时使用 <code>–-net</code> 手动指定。</p>
+<h3 id="Bridge-模式"><a href="#Bridge-模式" class="headerlink" title="Bridge 模式"></a>Bridge 模式</h3><p>Bridge 模式下会在 host 上创建一个 名为 docker0 的虚拟网桥，此模式下的容器会桥接到这个虚拟网桥上，虚拟网桥会与 host 进行 IP 转换，端口映射等通信。 </p>
+<p>Docker 官方文档中这样说明 Bridge 的使用场景：</p>
+<blockquote>
+<p>“ Bridge networks are usually used when your applications run in standalone containers that need to communicate. “<br> Bridge 网络通常用于应用程序在需要通信的独立容器中运行时的场景下。</p>
+</blockquote>
+<h3 id="Host-模式"><a href="#Host-模式" class="headerlink" title="Host 模式"></a>Host 模式</h3><p>指定方法：<code>--net=&quot;host&quot;</code></p>
+<p>Host 模式删除了容器与 host 之间的网络隔离(“remove network isolation between the container and the Docker host”)，此模式下创建的容器没有自己独立的 Network namespace，而是和 host 共享一个 Network namespace 并且共享 host 的所有端口与 IP。</p>
+<p>通过这种模式创建的容器可以访问看到 host 上所有的网络设备，由于这种方式创建的容器有极高的访问权限，所以被认为是不安全的。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/02/15/Docker网络模式踩坑/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -312,7 +519,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" itemprop="url">深入理解Redis Master-Slaver、Sentinel与Cluster原理</a></h1>
+                <a class="post-title-link" href="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" itemprop="url">深入理解Redis Master-Slaver/Sentinel/Cluster原理</a></h1>
         
 
         <div class="post-meta">
@@ -374,7 +581,7 @@
 
           
           
-             <span id="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" class="leancloud_visitors" data-flag-title="深入理解Redis Master-Slaver、Sentinel与Cluster原理">
+             <span id="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" class="leancloud_visitors" data-flag-title="深入理解Redis Master-Slaver/Sentinel/Cluster原理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -399,7 +606,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  4,859 字
+                  5,905 字
                 </span>
               
 
@@ -425,7 +632,7 @@
 
       
         
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇总结参考自 Redis 的官方文档(<a href="https://redis.io/documentation)与《Redis设计与实现》。" target="_blank" rel="noopener">https://redis.io/documentation)与《Redis设计与实现》。</a></p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇总结参考自 Redis 的官方文档与《Redis设计与实现》。</p>
 <p>Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。</p>
 <h2 id="主从-Master-Slaver"><a href="#主从-Master-Slaver" class="headerlink" title="主从(Master-Slaver)"></a>主从(Master-Slaver)</h2><p>注：由于某些政治正确原因，Redis 官方现在已经将 Master-Slaver 改为 Master-Replica，一些相关的命令诸如 <code>slaverof &lt;Matser-IP&gt;</code> 也改成了 <code>replicaof &lt;Matser-IP&gt;</code>，但原有的命令暂时还是可用并存的。</p>
 <p>个人理解，主从模式的作用有以下两点：</p>
@@ -610,7 +817,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,036 字
+                  1,027 字
                 </span>
               
 
@@ -641,17 +848,11 @@
 <p>更新：这种方式部署有坑，外网环境下无法访问该集群，解决办法已更新在《Docker网络模型踩坑》。</p>
 </blockquote>
 <h2 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h2><p>系统环境：Centos7.4 &amp; Docker 18.09.2</p>
-<ol>
-<li>首先拉取Redis镜像。</li>
-</ol>
+<p>首先拉取Redis镜像。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull redis</span><br></pre></td></tr></table></figure>
-<ol>
-<li>搭建一主二从集群，<code>yourpassword</code> 为自定义密码，注意主从密码需要一致。</li>
-</ol>
+<p>搭建一主二从集群，<code>yourpassword</code> 为自定义密码，注意主从密码需要一致。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># master</span></span><br><span class="line">$ docker run -it --name redis-master -d -p 6379:6379 redis redis-server --requirepass yourpassword --port 6379</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-master bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6379</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br><span class="line"></span><br><span class="line"><span class="comment"># slave1</span></span><br><span class="line">$ docker run -it --name redis-slave1 -d -p 6380:6380 redis redis-server --requirepass yourpassword --port 6380</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave1 bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6380</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br><span class="line"></span><br><span class="line"><span class="comment"># slave2</span></span><br><span class="line">$ docker run -it --name redis-slave2 -d -p 6381:6381 redis redis-server --requirepass yourpassword --port 6381</span><br><span class="line">$ docker <span class="built_in">exec</span> -it redis-slave2 bash</span><br><span class="line">$ redis-cli -a yourpassword -p 6381</span><br><span class="line">$ config <span class="built_in">set</span> masterauth yourpassword</span><br></pre></td></tr></table></figure>
-<ol>
-<li>下载 Redis 官方的哨兵配置 sentinel.conf。</li>
-</ol>
+<p>下载 Redis 官方的哨兵配置 sentinel.conf。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://download.redis.io/redis-stable/sentinel.conf</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
@@ -2072,204 +2273,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/12/02/Java8-Object源码阅读/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/02/Java8-Object源码阅读/" itemprop="url">Java8 Object源码阅读</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-02T14:12:56+08:00">
-                2018-12-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/12/02/Java8-Object源码阅读/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/02/Java8-Object源码阅读/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/12/02/Java8-Object源码阅读/" class="leancloud_visitors" data-flag-title="Java8 Object源码阅读">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  3,483 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Object类是类层次结构的根类，是每个Class的超类，Java中的所有类都默认继承自Object类，可以直接调用Object的成员方法。</p>
-<p>方法摘要：</p>
-<ul>
-<li>clone()：创建并返回此对象的一个副本</li>
-<li>equals(Object obj) ：判断两个对象是否相等</li>
-<li>hashCode()：返回该对象的哈希码值</li>
-<li>getClass()：返回该对象的运行时类</li>
-<li>toString()：返回该对象的字符串表示</li>
-<li>notify()：唤醒在此对象monitor上等待的单个线程</li>
-<li>notifyAll()：唤醒在此对象monitor上等待的所有线程</li>
-<li>wai()：在其他线程调用此对象的notify()方法或notifyAll()方法前，导致当前线程等待，这个方法有三个重载</li>
-<li>finalize()：当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/02/Java8-Object源码阅读/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2324,7 +2327,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2335,7 +2338,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2346,7 +2349,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2395,33 +2398,48 @@
       <div class="footer-inner">
         <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
-    <i class="fa fa-expand -user"></i>
+    <i class="fa fa-code -user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Marticles</span>
 
   
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
+      <i class="fa fa-pencil"></i>
     </span>
     
-      <span class="post-meta-item-text">Site words total count&#58;</span>
+      <span class="post-meta-item-text">累计字数&#58;</span>
     
-    <span title="Site words total count">100.4k</span>
+    <span title="累计字数">102.5k</span>
   
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
 
 
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
-
+<div>
+<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("05/01/2018 00:00:00");
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
+</div>
 
 
 
@@ -2433,7 +2451,7 @@
 
   
     <span class="site-pv">
-      <i class="fa fa-user></i> 总访问量
+      <i class="fa fa-heart"></i> 总访问量
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       
     </span>

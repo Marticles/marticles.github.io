@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="前言这篇总结参考自 Redis 的官方文档(https://redis.io/documentation)与《Redis设计与实现》。 Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。 主从(Master-Slaver)注：由于某些">
+<meta name="description" content="前言这篇总结参考自 Redis 的官方文档与《Redis设计与实现》。 Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。 主从(Master-Slaver)注：由于某些政治正确原因，Redis 官方现在已经将 Master-Slav">
 <meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="深入理解Redis Master-Slaver、Sentinel与Cluster原理">
+<meta property="og:title" content="深入理解Redis Master-Slaver&#x2F;Sentinel&#x2F;Cluster原理">
 <meta property="og:url" content="http://marticles.github.io/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="前言这篇总结参考自 Redis 的官方文档(https://redis.io/documentation)与《Redis设计与实现》。 Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。 主从(Master-Slaver)注：由于某些">
+<meta property="og:description" content="前言这篇总结参考自 Redis 的官方文档与《Redis设计与实现》。 Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。 主从(Master-Slaver)注：由于某些政治正确原因，Redis 官方现在已经将 Master-Slav">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://marticles.github.io/images/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/baklog.png">
-<meta property="og:updated_time" content="2019-02-17T18:06:19.297Z">
+<meta property="og:image" content="http://marticles.github.io/images/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/backlog.png">
+<meta property="og:updated_time" content="2019-02-18T05:47:14.263Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深入理解Redis Master-Slaver、Sentinel与Cluster原理">
-<meta name="twitter:description" content="前言这篇总结参考自 Redis 的官方文档(https://redis.io/documentation)与《Redis设计与实现》。 Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。 主从(Master-Slaver)注：由于某些">
-<meta name="twitter:image" content="http://marticles.github.io/images/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/baklog.png">
+<meta name="twitter:title" content="深入理解Redis Master-Slaver&#x2F;Sentinel&#x2F;Cluster原理">
+<meta name="twitter:description" content="前言这篇总结参考自 Redis 的官方文档与《Redis设计与实现》。 Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。 主从(Master-Slaver)注：由于某些政治正确原因，Redis 官方现在已经将 Master-Slav">
+<meta name="twitter:image" content="http://marticles.github.io/images/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/backlog.png">
 
 
 
@@ -128,7 +128,7 @@
 
 
 
-  <title>深入理解Redis Master-Slaver、Sentinel与Cluster原理 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>深入理解Redis Master-Slaver/Sentinel/Cluster原理 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -316,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">深入理解Redis Master-Slaver、Sentinel与Cluster原理</h1>
+          <h1 class="post-title" itemprop="name headline">深入理解Redis Master-Slaver/Sentinel/Cluster原理</h1>
         
 
         <div class="post-meta">
@@ -378,7 +378,7 @@
 
           
           
-             <span id="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" class="leancloud_visitors" data-flag-title="深入理解Redis Master-Slaver、Sentinel与Cluster原理">
+             <span id="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" class="leancloud_visitors" data-flag-title="深入理解Redis Master-Slaver/Sentinel/Cluster原理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -390,11 +390,6 @@
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-eye></i> 阅读次数
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
           
 
           
@@ -408,7 +403,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  4,859 字
+                  5,905 字
                 </span>
               
 
@@ -433,7 +428,7 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇总结参考自 Redis 的官方文档(<a href="https://redis.io/documentation)与《Redis设计与实现》。" target="_blank" rel="noopener">https://redis.io/documentation)与《Redis设计与实现》。</a></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇总结参考自 Redis 的官方文档与《Redis设计与实现》。</p>
 <p>Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。</p>
 <h2 id="主从-Master-Slaver"><a href="#主从-Master-Slaver" class="headerlink" title="主从(Master-Slaver)"></a>主从(Master-Slaver)</h2><p>注：由于某些政治正确原因，Redis 官方现在已经将 Master-Slaver 改为 Master-Replica，一些相关的命令诸如 <code>slaverof &lt;Matser-IP&gt;</code> 也改成了 <code>replicaof &lt;Matser-IP&gt;</code>，但原有的命令暂时还是可用并存的。</p>
 <p>个人理解，主从模式的作用有以下两点：</p>
@@ -471,8 +466,8 @@
 <li>Redis Master 与 Slave 的 offset 偏移量，新增了多少字节的数据，其自身的 offset 就会增加多少。</li>
 <li>Redis Master 的 Replication  Bakclog 复制积压缓冲区。</li>
 </ul>
-<p><img src="/images/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/baklog.png" alt=""></p>
-<p>Replication  Bakclog 是由 master 维护的固定长度 FIFO 队列，默认大小为 1MB。</p>
+<p><img src="/images/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/backlog.png" alt=""></p>
+<p>Replication  Bakclog 是由 master 维护的固定长度 FIFO 队列，默认大小为 <code>1MB</code>。</p>
 <p>当复制时master 就会将 replication stream 发送给 slave 。offset 即使在没有任何 slave 连接到 master 的情况下也会自增，所以对于每一对给定的<strong>(Replication ID, offset)</strong> ，都标识一个 master dataset的确切版本。</p>
 <p>当 slave 连接到 master 进行同步时，会使用 <code>PSYNC</code> 命令来发送旧的 master replication ID 和已经处理过的 offset。通过这种方式， master 能够仅发送 slave 所需的增量部分实现部分复制。但是如果 master 的缓冲区中没有足够的 backlog(“However if there is not enough backlog in the master buffers”)，或者如果 slave 引用了不可知的历史 replication ID，则会转而进行全量复制。</p>
 <p>需要注意的是，如果网络中断时间过长，造成 master 没有缓存完整中断期间执行的写命令，则无法进行部分复制，此时会转而使用全量复制。</p>
@@ -528,7 +523,7 @@
 <p>注意，无论每次选举结果的成功与否，一次选举后所有的 sentinel 的 <code>configuration epoch</code> 都会自增一次。</p>
 <h3 id="Failover-步骤"><a href="#Failover-步骤" class="headerlink" title="Failover 步骤"></a>Failover 步骤</h3><p>选出 sentinel leader 后，该节点就会对已客观下线的 matser 执行 failover 故障转移操作，该操作包括：</p>
 <ol>
-<li>sentinel leader 会将该 master 下的所有 slave 保存至一个列表中，按照以下规则进行过滤。</li>
+<li>sentinel leader 会将该 master 下的所有 slave 保存至一个列表中，按照以下规则进行过滤选出新的 master。</li>
 <li>删除列表中所有处于下线或断线状态的 slave。</li>
 <li>删除列表中所有最近 5 秒内没有回复过 sentinel leader <code>info</code> 命令的 slave。</li>
 <li>删除列表中所有与已客观下线 master 连接断开超过 <code>down-after-milliseconds * 10 ms</code> 的 slave，这样可以过滤掉数据较旧的 slave。</li>
@@ -553,7 +548,7 @@
 <p>“Redis Cluster is not able to guarantee strong consistency. / In general Redis + Sentinel as a whole are a an eventually consistent system.”</p>
 </blockquote>
 <p>Cluster 的每个 node 都会使用 <code>clusterNode</code> 的结构来保存自己的当前状态，<code>clusterNode</code> 存储了 node 的创建时间、名字、configuration epoch、IP地址与端口等等信息。同时每个 node 也会为集群中的其他所有 node 都创建一个相应的 <code>clusterNode</code> 结构来记录其他 node 的状态。</p>
-<h3 id="Cluster-的主从模型"><a href="#Cluster-的主从模型" class="headerlink" title="Cluster 的主从模型"></a>Cluster 的主从模型</h3><p>为了使在部分节点失效的情况下下 Redis Cluster 仍然可用，所以 Cluster 也使用了主从复制模型，每个 hash slot 都会有 1～N 个拷贝(为 1 就是只有一个 matser)。</p>
+<h3 id="Cluster-新节点的加入"><a href="#Cluster-新节点的加入" class="headerlink" title="Cluster 新节点的加入"></a>Cluster 新节点的加入</h3><h3 id="Cluster-的主从模型"><a href="#Cluster-的主从模型" class="headerlink" title="Cluster 的主从模型"></a>Cluster 的主从模型</h3><p>为了使在部分节点失效的情况下下 Redis Cluster 仍然可用，所以 Cluster 也使用了主从复制模型，每个 hash slot 都会有 1～N 个拷贝(为 1 就是只有一个 matser)。</p>
 <p>Cluster 的 master 节点一般用于处理读写请求，而 slave 节点则一般只用于备份。当有请求向 slave 发起时，会直接重定向到对应 key 所在的 master 来处理。</p>
 <p>由于半数同意原则，Redis 官方文档建议 Cluster 至少为 3 主 3 从模式。</p>
 <blockquote>
@@ -583,7 +578,39 @@
 <p>设计多个槽的重新分片时，则对每个槽都执行上述步骤。</p>
 <p>如果节点 A 正在迁移槽 i 到 节点 B，当有客户端请求查找 A 中已迁移的 key 时，A 会向客户端返回一个 <code>ACK</code> 错误，指引客户端到 B 继续查找该 key。<code>ACK</code> 错误只是两个节点在槽迁移过程中采用的一种临时措施，而 <code>MOVED</code> 错误才真正表示槽的负责权已经从一个节点转移到另一个节点。</p>
 <p>当节点接受请求中的 key 不在自己负责的槽位中，就会返回 <code>MOVED</code> 错误，<code>MOVED</code> 错误携带的信息可以指引客户端转向真正负责该槽位的节点。</p>
-<h3 id="故障检测"><a href="#故障检测" class="headerlink" title="故障检测"></a>故障检测</h3><h3 id="故障转移"><a href="#故障转移" class="headerlink" title="故障转移"></a>故障转移</h3><h3 id="Failover-步骤-1"><a href="#Failover-步骤-1" class="headerlink" title="Failover 步骤"></a>Failover 步骤</h3><h3 id="Cluster-中节点的通信"><a href="#Cluster-中节点的通信" class="headerlink" title="Cluster 中节点的通信"></a>Cluster 中节点的通信</h3><p>MEET<br>PING<br>PONG<br>PUBLISH<br>FAIL</p>
+<h3 id="故障检测"><a href="#故障检测" class="headerlink" title="故障检测"></a>故障检测</h3><p>Cluster 这种的每个节点都会定期向其他节点发送 <code>PING</code> 消息，如果接收 <code>PING</code> 的节点没有在规定时间内返回 <code>PONG</code> 消息，那么发送 <code>PING</code> 消息的节点就会将该节点标记为疑似下线(probable fail, PFAIL)。</p>
+<p>如果某个节点发现集群内半数以上的 master 节点都将某个 master 节点 x 标记为 PFAIL ，则这个节点 x 将会被标记为 FAIL 已下线。发现节点 x 进入 FAIL 状态的节点会向集群广播消息，所有收到这条 FAIL 消息的节点会立即将节点 x 标记为 FAIL。</p>
+<h3 id="Failover-步骤-1"><a href="#Failover-步骤-1" class="headerlink" title="Failover 步骤"></a>Failover 步骤</h3><p>当一个 slave 发现一个 master 进入 FAIL 状态时，就会触发故障转移 failover，步骤包括：</p>
+<ol>
+<li>从 FAIL master 的所有 slave 中选出一个。</li>
+<li>被选中的 slave 会执行 <code>slaveof no one</code> 成为新的 master。</li>
+<li>新的 master 会撤销对 FAIL master 的所有槽指派，并将这些槽指派给自己。</li>
+<li>新的 master 向集群广播一条 PONG 消息，让其他节点知道自己已经从 slave 变成了 master，且接管了原来 FAIL master的槽。</li>
+<li>新的 master 开始接收所有与自己负责槽有关的命令，故障转移完成。</li>
+</ol>
+<p>上述第一步中的选举新的 master 规则如下：</p>
+<ul>
+<li>Cluster 的 <code>configuration epoch</code> 是一个自增计数器，初始值为 0。当集群中的某个节点开始一次 failover 时，<code>configuration epoch</code>的值会加 1。</li>
+<li>在每个 <code>configuration epoch</code> 中，每个 master 都会有一次投票机会，第一个向其他 master 请求投票 的 原有FAIL master 的 slave 将会获得该票，即票是先到先得的。</li>
+</ul>
+<p>具体的选举步骤如下：</p>
+<ol>
+<li>当 slave 发现自己的 master 进入 FAIL 状态时，就会向集群广播一条 <code>CLUSTERMSG_TYPE_FAILOVER_AUTH_REQUEST</code> 消息，请求具有投票权的 master 给自己投票。</li>
+<li>如果某个具有投票权的 master 之前尚未给其他 slave 投过票，则会向该 slave 返回一条 <code>CLUSTERMSG_TYPE_FAILOVER_AUTH_ACK</code> 消息，表示同意投票。</li>
+<li>每个参与选举的 slave 会统计自己收到的<code>CLUSTERMSG_TYPE_FAILOVER_AUTH_ACK</code> 消息条数来确定自己获得了多少个 master 的同意。</li>
+<li>当某个 slave 获得的票数大于所有具有投票权的 master数量一半时，它就会成为 新的 master。</li>
+<li>如果一个 <code>configuration epoch</code> 中没有任何一个 slave 获得足够票数，则集群将会进入下一个 <code>configuration epoch</code> 并再次进行选举，直到选出新的 master 为止。</li>
+</ol>
+<p>可以看出，Cluster 的选举规则和 Sentinel 是非常类似的，二者都是基于 Raft 算法的 Leader election 方法实现的。</p>
+<h3 id="Cluster-中节点的通信"><a href="#Cluster-中节点的通信" class="headerlink" title="Cluster 中节点的通信"></a>Cluster 中节点的通信</h3><p>Cluster 中的各个节点通过发送和接受 message 来进行通信，发送消息的节点为 sender，接受消息的节点为 receiver。</p>
+<p>节点发送的 message 主要有以下五种：</p>
+<ol>
+<li><strong>MEET</strong>：当 sender 接收到客户端发送的 <code>CLUSTER MEET</code> 命令时，sender 会向 receiver 发送 <code>MEET</code> 消息请求 receiver 加入到 sender 当前所处的 Cluster 中。</li>
+<li><strong>PING</strong>:Cluster 中的每个节点会从已知节点列表中随机选出 <strong>5</strong> 个节点，每隔 <strong>1s</strong> 向这 5 个节点中最长时间没有发过 <code>PING</code> 消息的节点发送 <code>PING</code> 消息，<strong>以此检测该节点是否在线</strong>。如果这个发送 <code>PING</code> 消息的节点距离上次接收某个节点 <code>PONG</code> 消息的时间超过了 <code>cluster-node-timeout</code> 的一半，节点也会发送一条 <code>PING</code> 消息来避免对其他节点信息的更新滞。</li>
+<li><strong>PONG</strong>:当 receiver 接收到 sender 发送的 <code>MEET</code> 或 <code>PING</code> 消息时，就会返回一条 <code>PONG</code> 消息。此外，一个节点也可以通过向 Cluster 广播 <code>PONG</code> 消息来让其他节点立即刷新自己的相关信息，例如在failover 让其他节点知道自己成为了新的 master。</li>
+<li><strong>FAIL</strong>:当其他节点收到某个节点发送的 <code>FAIL</code> 消息时，会立即将 <code>FAIL</code> 消息内的节点标记为 FAIL 状态。</li>
+<li><strong>PUBLISH</strong>:当节点接收到一个 <code>PUBLISH</code> 命令时，就会向集群广播一条 <code>PUBLISH</code> 消息，所有接收到这条 <code>PUBLISH</code> 的节点都会执行相同的 <code>PUBLISH</code> 命令。</li>
+</ol>
 
       
     </div>
@@ -595,6 +622,24 @@
 
     
 
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Marticles
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://marticles.github.io/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" title="深入理解Redis Master-Slaver/Sentinel/Cluster原理">http://marticles.github.io/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
     
 
     <footer class="post-footer">
@@ -623,6 +668,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/15/Docker网络模式踩坑/" rel="prev" title="Docker网络模式踩坑">
+                Docker网络模式踩坑 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -706,7 +755,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -717,7 +766,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -728,7 +777,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -771,7 +820,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从-Master-Slaver"><span class="nav-number">2.</span> <span class="nav-text">主从(Master-Slaver)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#旧版复制-SYNC"><span class="nav-number">2.1.</span> <span class="nav-text">旧版复制(SYNC)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同步"><span class="nav-number">2.1.1.</span> <span class="nav-text">同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命令传播"><span class="nav-number">2.1.2.</span> <span class="nav-text">命令传播</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新版复制-PSYNC"><span class="nav-number">2.2.</span> <span class="nav-text">新版复制(PSYNC)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#规避复制风暴"><span class="nav-number">2.3.</span> <span class="nav-text">规避复制风暴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从模式下的过期-key-处理策略"><span class="nav-number">2.4.</span> <span class="nav-text">主从模式下的过期 key 处理策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Brain-split-脑裂-问题"><span class="nav-number">2.5.</span> <span class="nav-text">Brain split(脑裂)问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从模式部署建议"><span class="nav-number">2.6.</span> <span class="nav-text">主从模式部署建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从模式的缺点"><span class="nav-number">2.7.</span> <span class="nav-text">主从模式的缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哨兵-Sentinel"><span class="nav-number">3.</span> <span class="nav-text">哨兵(Sentinel)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选举哨兵-Leader"><span class="nav-number">3.1.</span> <span class="nav-text">选举哨兵 Leader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Failover-步骤"><span class="nav-number">3.2.</span> <span class="nav-text">Failover 步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sentinel-部署建议"><span class="nav-number">3.3.</span> <span class="nav-text">Sentinel 部署建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群-Cluster"><span class="nav-number">4.</span> <span class="nav-text">集群(Cluster)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster-的主从模型"><span class="nav-number">4.1.</span> <span class="nav-text">Cluster 的主从模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#槽位指派"><span class="nav-number">4.2.</span> <span class="nav-text">槽位指派</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新分片"><span class="nav-number">4.3.</span> <span class="nav-text">重新分片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#故障检测"><span class="nav-number">4.4.</span> <span class="nav-text">故障检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#故障转移"><span class="nav-number">4.5.</span> <span class="nav-text">故障转移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Failover-步骤-1"><span class="nav-number">4.6.</span> <span class="nav-text">Failover 步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster-中节点的通信"><span class="nav-number">4.7.</span> <span class="nav-text">Cluster 中节点的通信</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从-Master-Slaver"><span class="nav-number">2.</span> <span class="nav-text">主从(Master-Slaver)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#旧版复制-SYNC"><span class="nav-number">2.1.</span> <span class="nav-text">旧版复制(SYNC)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同步"><span class="nav-number">2.1.1.</span> <span class="nav-text">同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命令传播"><span class="nav-number">2.1.2.</span> <span class="nav-text">命令传播</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新版复制-PSYNC"><span class="nav-number">2.2.</span> <span class="nav-text">新版复制(PSYNC)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#规避复制风暴"><span class="nav-number">2.3.</span> <span class="nav-text">规避复制风暴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从模式下的过期-key-处理策略"><span class="nav-number">2.4.</span> <span class="nav-text">主从模式下的过期 key 处理策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Brain-split-脑裂-问题"><span class="nav-number">2.5.</span> <span class="nav-text">Brain split(脑裂)问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从模式部署建议"><span class="nav-number">2.6.</span> <span class="nav-text">主从模式部署建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从模式的缺点"><span class="nav-number">2.7.</span> <span class="nav-text">主从模式的缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哨兵-Sentinel"><span class="nav-number">3.</span> <span class="nav-text">哨兵(Sentinel)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选举哨兵-Leader"><span class="nav-number">3.1.</span> <span class="nav-text">选举哨兵 Leader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Failover-步骤"><span class="nav-number">3.2.</span> <span class="nav-text">Failover 步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sentinel-部署建议"><span class="nav-number">3.3.</span> <span class="nav-text">Sentinel 部署建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群-Cluster"><span class="nav-number">4.</span> <span class="nav-text">集群(Cluster)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster-新节点的加入"><span class="nav-number">4.1.</span> <span class="nav-text">Cluster 新节点的加入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster-的主从模型"><span class="nav-number">4.2.</span> <span class="nav-text">Cluster 的主从模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#槽位指派"><span class="nav-number">4.3.</span> <span class="nav-text">槽位指派</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新分片"><span class="nav-number">4.4.</span> <span class="nav-text">重新分片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#故障检测"><span class="nav-number">4.5.</span> <span class="nav-text">故障检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Failover-步骤-1"><span class="nav-number">4.6.</span> <span class="nav-text">Failover 步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster-中节点的通信"><span class="nav-number">4.7.</span> <span class="nav-text">Cluster 中节点的通信</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -793,33 +842,48 @@
       <div class="footer-inner">
         <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
-    <i class="fa fa-expand -user"></i>
+    <i class="fa fa-code -user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Marticles</span>
 
   
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
+      <i class="fa fa-pencil"></i>
     </span>
     
-      <span class="post-meta-item-text">Site words total count&#58;</span>
+      <span class="post-meta-item-text">累计字数&#58;</span>
     
-    <span title="Site words total count">100.4k</span>
+    <span title="累计字数">102.5k</span>
   
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
 
 
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
-
+<div>
+<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("05/01/2018 00:00:00");
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
+</div>
 
 
 
@@ -831,7 +895,7 @@
 
   
     <span class="site-pv">
-      <i class="fa fa-user></i> 总访问量
+      <i class="fa fa-heart"></i> 总访问量
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       
     </span>
