@@ -88,7 +88,7 @@
 <meta property="og:description" content="前言这篇总结参考自 Redis 的官方文档与《Redis设计与实现》。 Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。 主从(Master-Slaver)注：由于某些政治正确原因，Redis 官方现在已经将 Master-Slav">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://marticles.github.io/images/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/backlog.png">
-<meta property="og:updated_time" content="2019-02-18T05:47:14.263Z">
+<meta property="og:updated_time" content="2019-02-18T06:34:26.026Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解Redis Master-Slaver&#x2F;Sentinel&#x2F;Cluster原理">
 <meta name="twitter:description" content="前言这篇总结参考自 Redis 的官方文档与《Redis设计与实现》。 Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。 主从(Master-Slaver)注：由于某些政治正确原因，Redis 官方现在已经将 Master-Slav">
@@ -629,10 +629,7 @@
     <strong>本文作者：</strong>
     Marticles
   </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="http://marticles.github.io/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" title="深入理解Redis Master-Slaver/Sentinel/Cluster原理">http://marticles.github.io/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/</a>
-  </li>
+
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
     本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
@@ -840,11 +837,11 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-code -user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Marticles</span>
+  <span class="author" itemprop="copyrightHolder">LJH's Blog</span>
 
   
     <span class="post-meta-divider">|</span>
@@ -852,9 +849,9 @@
       <i class="fa fa-pencil"></i>
     </span>
     
-      <span class="post-meta-item-text">累计字数&#58;</span>
+      <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">102.5k</span>
+    <span title="累计字数">102.6k</span>
   
 </div>
 
@@ -895,7 +892,7 @@ setInterval("createtime()",250);
 
   
     <span class="site-pv">
-      <i class="fa fa-heart"></i> 总访问量
+      <i class="fa fa-heart"></i> 访问量
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       
     </span>
