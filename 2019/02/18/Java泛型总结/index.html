@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Marticles" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言虽然平时除了一些集合类以外很少会用到泛型，但深入了解泛型一直是以前的 Todo list 之一，拖了挺久了，这次就借这篇笔记来一次解决。 这篇笔记参考自 Oracle Java 官方文档中的 Generics 部分与 Baeldung 的 这篇文章，示例代码也来自于Oracle Java 官方文档。 重点：通配符、PECS 原则、类型擦除。 关于泛型 “In a nutshell, gener">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 泛型总结">
+<meta property="og:url" content="http://marticles.github.io/2019/02/18/Java泛型总结/index.html">
+<meta property="og:site_name" content="0xCAFEBABE">
+<meta property="og:description" content="前言虽然平时除了一些集合类以外很少会用到泛型，但深入了解泛型一直是以前的 Todo list 之一，拖了挺久了，这次就借这篇笔记来一次解决。 这篇笔记参考自 Oracle Java 官方文档中的 Generics 部分与 Baeldung 的 这篇文章，示例代码也来自于Oracle Java 官方文档。 重点：通配符、PECS 原则、类型擦除。 关于泛型 “In a nutshell, gener">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://marticles.github.io/images/Java泛型总结/generics-subtypeRelationship.gif">
+<meta property="og:image" content="http://marticles.github.io/images/Java泛型总结/generics-sampleHierarchy.gif">
+<meta property="og:image" content="http://marticles.github.io/images/Java泛型总结/generics-payloadListHierarchy.gif">
+<meta property="og:updated_time" content="2019-02-21T11:51:25.064Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 泛型总结">
+<meta name="twitter:description" content="前言虽然平时除了一些集合类以外很少会用到泛型，但深入了解泛型一直是以前的 Todo list 之一，拖了挺久了，这次就借这篇笔记来一次解决。 这篇笔记参考自 Oracle Java 官方文档中的 Generics 部分与 Baeldung 的 这篇文章，示例代码也来自于Oracle Java 官方文档。 重点：通配符、PECS 原则、类型擦除。 关于泛型 “In a nutshell, gener">
+<meta name="twitter:image" content="http://marticles.github.io/images/Java泛型总结/generics-subtypeRelationship.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://marticles.github.io/2019/02/18/Java泛型总结/"/>
+
+
+
+
+
+  <title>Java 泛型总结 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xCAFEBABE</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Just for fun</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/18/Java泛型总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java 泛型总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-18T19:49:32+08:00">
+                2019-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/18/Java泛型总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/18/Java泛型总结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/02/18/Java泛型总结/" class="leancloud_visitors" data-flag-title="Java 泛型总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,799 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>虽然平时除了一些集合类以外很少会用到泛型，但深入了解泛型一直是以前的 Todo list 之一，拖了挺久了，这次就借这篇笔记来一次解决。</p>
+<p>这篇笔记参考自 Oracle Java <a href="https://docs.oracle.com/javase/tutorial/java/generics/why.html" target="_blank" rel="noopener">官方文档</a>中的 Generics 部分与 Baeldung 的 <a href="https://www.baeldung.com/java-generics" target="_blank" rel="noopener">这篇文章</a>，示例代码也来自于Oracle Java 官方文档。</p>
+<p>重点：通配符、PECS 原则、类型擦除。</p>
+<h2 id="关于泛型"><a href="#关于泛型" class="headerlink" title="关于泛型"></a>关于泛型</h2><blockquote>
+<p>“In a nutshell,<strong> generics enable types (classes and interfaces) to be parameters when defining classes, interfaces and methods</strong>. Much like the more familiar formal parameters used in method declarations, <strong>type parameters provide a way for you to re-use the same code with different inputs</strong>. The difference is that the inputs to formal parameters are values, <strong>while the inputs to type parameters are types</strong>.”</p>
+</blockquote>
+<p>泛型(Generics)可以<strong>参数化类型</strong>，提供了一种处理不同输入下复用代码的方式。普通参数输入的是值，而泛型参数的输入是类型。简而言之，泛型就是<strong>类型参数(Type Parameters)</strong>。</p>
+<p>那么，为何要引入泛型呢，Oracle 是这么解释的：</p>
+<blockquote>
+<p>“Generics were introduced to the Java language to <strong>provide tighter type checks at compile time</strong> and to support generic programming.”</p>
+</blockquote>
+<p>为了编译期中提供<strong>更为严格的类型检查</strong>，泛型被引入了 Java 中。简单来说，泛型可以将错误 / 异常提前到编译期，而不是运行期，这样我们就可以在编译期解决问题，而不是等到其在运行期才暴露出来。</p>
+<p>泛型中的数据类型被指定为一个参数，这种参数类型可以用在类、接口和方法中，分别被称为<strong>泛型类</strong>、<strong>泛型接口</strong>和<strong>泛型方法</strong>。</p>
+<h2 id="泛型的优点"><a href="#泛型的优点" class="headerlink" title="泛型的优点"></a>泛型的优点</h2><ul>
+<li><strong>Stronger type checks at compile time (编译期中更具健壮性的类型检查)</strong><br>Java 编译器会在编译期对泛型进行类型安全检查，编译报错相比运行错误更容易发现。</li>
+<li><strong>Elimination of casts (消除强转)</strong></li>
+<li><strong>Enabling programmers to implement generic algorithms (编写更具复用性的程序)</strong><br>使用泛型，可以令程序灵活处理不同的参数类型而不用改变代码。</li>
+</ul>
+<a id="more"></a>
+<h2 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h2><p>泛型类的定义方式：<code>class name&lt;T1, T2, ..., Tn&gt; { /* ... */ }</code></p>
+<p>先定义一个非泛型的 Box 类，你可以自由地往 Box 中传入任何对象。但在程序编译时，编译器无法确定这个 Box 类的类型。设想在这样的一个场景中：某处的代码 set 了一个 Integer 给 object，但在另一处代码用 String 的方式使用 get 了 Box 内的 object，此时就会报一个 ClassCastException。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Box</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object object;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(Object object)</span> </span>&#123; <span class="keyword">this</span>.object = object; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">get</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> object; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的情况下，如果要实现一个存放 String 的 Box 就需要重写另一个 Box。但通过引入泛型，就可以避免以上问题。</p>
+<p>下面的代码中的泛型的 Box 类可以通过替换 T 实现复用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Generic version of the Box class.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &lt;T&gt; the type of the value being boxed</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Box</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// T stands for "Type"</span></span><br><span class="line">    <span class="keyword">private</span> T t;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T t)</span> </span>&#123; <span class="keyword">this</span>.t = t; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> t; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Box&lt;Integer&gt; integerBox = <span class="keyword">new</span> Box&lt;Integer&gt;();</span><br><span class="line">Box&lt;String&gt; stringBox = <span class="keyword">new</span> Box&lt;String&gt;();</span><br></pre></td></tr></table></figure>
+<p>Java SE 7 以后，只要编译器能从上下文中确定或推断类型参数，就可以用一个空类型集合<code>&lt;&gt;</code>替换构造函数中的类型参数，即<strong>类型推断(Type inference)</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Box&lt;Integer&gt; integerBox = <span class="keyword">new</span> Box&lt;&gt;();</span><br><span class="line">Box&lt;String&gt; stringBox = <span class="keyword">new</span> Box&lt;&gt;();</span><br></pre></td></tr></table></figure>
+<h3 id="类型参数的命名规则"><a href="#类型参数的命名规则" class="headerlink" title="类型参数的命名规则"></a>类型参数的命名规则</h3><p>按照惯例，类型参数的命名规则是单个<strong>大写字母</strong>，例如：</p>
+<ul>
+<li>E - Element (used extensively by the Java Collections Framework)</li>
+<li>K - Key</li>
+<li>N - Number</li>
+<li>T - Type</li>
+<li>V - Value</li>
+<li>S,U,V etc. - 2nd, 3rd, 4th types</li>
+</ul>
+<p>注意，泛型的类型参数不可使用八大基本类型。</p>
+<h3 id="原始类型-Raw-Types"><a href="#原始类型-Raw-Types" class="headerlink" title="原始类型(Raw Types)"></a>原始类型(Raw Types)</h3><blockquote>
+<p>“A raw type is the name of <strong>a generic class or interface without any type arguments.</strong>“</p>
+</blockquote>
+<p>原始类型就是没有任何类型参数的泛型类或接口，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Box</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T t)</span> </span>&#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// rawBox就是一个Raw Type</span></span><br><span class="line">Box rawBox = <span class="keyword">new</span> Box();</span><br></pre></td></tr></table></figure>
+<h2 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h2><p>与泛型类相似。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public interface Box&lt;T&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h2><blockquote>
+<p>“Generic methods are methods that <strong>introduce their own type parameters</strong>. “</p>
+</blockquote>
+<p>泛型方法在<strong>调用方法时</strong>指明泛型的具体类型。</p>
+<p>和泛型类做一下比较，泛型类是在<strong>实例化类时</strong>指明泛型的具体类型。</p>
+<blockquote>
+<p>“The syntax for a generic method includes <strong>a list of type parameters</strong>, inside angle brackets, which appears before the method’s return type.<strong> For static generic methods, the type parameter section must appear before the method’s return type.</strong>“</p>
+</blockquote>
+<p>泛型方法在方法返回类型前的尖括号<code>&lt;&gt;</code>内包括了一系列的泛型类型参数，对于静态的泛型方法，泛型类型参数必须出现在方法返回类型的前面。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Util</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 比较两个对象是否相等的compare()泛型方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;K, V&gt; <span class="function"><span class="keyword">boolean</span> <span class="title">compare</span><span class="params">(Pair&lt;K, V&gt; p1, Pair&lt;K, V&gt; p2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> p1.getKey().equals(p2.getKey()) &amp;&amp;</span><br><span class="line">               p1.getValue().equals(p2.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Pair</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> K key;</span><br><span class="line">    <span class="keyword">private</span> V value;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Pair</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.key = key;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setKey</span><span class="params">(K key)</span> </span>&#123; <span class="keyword">this</span>.key = key; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(V value)</span> </span>&#123; <span class="keyword">this</span>.value = value; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> K <span class="title">getKey</span><span class="params">()</span>   </span>&#123; <span class="keyword">return</span> key; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> V <span class="title">getValue</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> value; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用方式</span></span><br><span class="line">Pair&lt;Integer, String&gt; p1 = <span class="keyword">new</span> Pair&lt;&gt;(<span class="number">1</span>, <span class="string">"apple"</span>);</span><br><span class="line">Pair&lt;Integer, String&gt; p2 = <span class="keyword">new</span> Pair&lt;&gt;(<span class="number">2</span>, <span class="string">"pear"</span>);</span><br><span class="line"><span class="keyword">boolean</span> same = Util.&lt;Integer, String&gt;compare(p1, p2);</span><br><span class="line"><span class="comment">// 或者通过类型推断，让编译器自动推倒出类型参数</span></span><br><span class="line"><span class="keyword">boolean</span> same = Util.compare(p1, p2);</span><br></pre></td></tr></table></figure>
+<h2 id="泛型通配符"><a href="#泛型通配符" class="headerlink" title="泛型通配符"></a>泛型通配符</h2><p>有的时候，我们希望在泛型中限定能够使用的类型参数，比如类型参数只准传入某种类型的父类或某种类型的子类，这就需要借助通配符的帮助来实现该功能。</p>
+<p>Java 泛型中使用 <code>?</code>来表示通配符。</p>
+<h3 id="lt-extends-T-gt-上界通配符"><a href="#lt-extends-T-gt-上界通配符" class="headerlink" title="&lt; ? extends T &gt; 上界通配符"></a>&lt; ? extends T &gt; 上界通配符</h3><p>若希望为泛型添加上界(即传入的类型实参必须是指定类型的子类型)，需要在传入类型参数的后面加入<code>extends</code>和其上界。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Box</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T t;          </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T t)</span> </span>&#123;<span class="keyword">this</span>.t = t;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> t;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 声明上界为Number</span></span><br><span class="line">    <span class="keyword">public</span> &lt;U extends Number&gt; <span class="function"><span class="keyword">void</span> <span class="title">inspect</span><span class="params">(U u)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"T: "</span> + t.getClass().getName());</span><br><span class="line">        System.out.println(<span class="string">"U: "</span> + u.getClass().getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Box&lt;Integer&gt; integerBox = <span class="keyword">new</span> Box&lt;Integer&gt;();</span><br><span class="line">        integerBox.set(<span class="keyword">new</span> Integer(<span class="number">10</span>));</span><br><span class="line">        integerBox.inspect(<span class="string">"some text"</span>); <span class="comment">// error: this is still String!</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>多个上界的形式<code>&lt;T extends B1 &amp; B2 &amp; B3&gt;</code>，但是要注意，如果上界中有其中一个是 Class，需要将 Class 放在第一位。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Class A &#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">B</span> </span>&#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">C</span> </span>&#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> &lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">A</span> &amp; <span class="title">B</span> &amp; <span class="title">C</span>&gt; </span>&#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"><span class="comment">// A 不在第一位，会报编译错误</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> &lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">B</span> &amp; <span class="title">A</span> &amp; <span class="title">C</span>&gt; </span>&#123; <span class="comment">/* ... */</span> &#125;  <span class="comment">// compile-time error</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="lt-super-T-gt-下界通配符"><a href="#lt-super-T-gt-下界通配符" class="headerlink" title="&lt; ? super T &gt; 下界通配符"></a>&lt; ? super T &gt; 下界通配符</h3><p>类似地，为泛型添加下界(即传入的类型实参必须是指定类型的父类型)，需要在传入类型参数的后面加入<code>super</code>和其下界。</p>
+<h3 id="lt-gt-无界通配符"><a href="#lt-gt-无界通配符" class="headerlink" title="&lt; ? &gt; 无界通配符"></a>&lt; ? &gt; 无界通配符</h3><p>接受任何类型，没什么好说的。</p>
+<h3 id="泛型通配符中的继承关系与子类型问题"><a href="#泛型通配符中的继承关系与子类型问题" class="headerlink" title="泛型通配符中的继承关系与子类型问题"></a>泛型通配符中的继承关系与子类型问题</h3><p>下面的代码是正确的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Box&lt;Number&gt; box = <span class="keyword">new</span> Box&lt;Number&gt;();</span><br><span class="line">box.add(<span class="keyword">new</span> Integer(<span class="number">10</span>));   <span class="comment">// OK</span></span><br><span class="line">box.add(<span class="keyword">new</span> Double(<span class="number">10.1</span>));  <span class="comment">// OK</span></span><br></pre></td></tr></table></figure>
+<p>但是，下面的代码呢，也是正确的吗？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假设Box有以下一个boxTest()方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">boxTest</span><span class="params">(Box&lt;Number&gt; n)</span> </span>&#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"></span><br><span class="line">box.boxTest(Box&lt;Integer&gt;) <span class="comment">// OK???</span></span><br><span class="line">box.boxTest(Box&lt;Double&gt;)  <span class="comment">// OK??？</span></span><br></pre></td></tr></table></figure>
+<p>答案是否定的，为什么呢？原因是 <code>Box&lt;Integer&gt;</code> 与 <code>Box&lt;Double&gt;</code> 不是 <code>Box&lt;Number&gt;</code> 的子类型。</p>
+<p><img src="/images/Java泛型总结/generics-subtypeRelationship.gif" alt="generics-subtypeRelationship"></p>
+<p>例如 Oject 是所有 class 的父类，但是 Oject 的集合并不是所有集合的父类型。例如 <code>Object</code> 是 <code>String</code> 的父类，但 <code>List&lt;Object&gt;</code> 就不是<code>List&lt;String&gt;</code> 的父类型 。Oracle 官网文档中特别指出这是一个在泛型编程中十分常见的误解。</p>
+<p>但下面这样的继承关系是存在的。</p>
+<p><img src="/images/Java泛型总结/generics-sampleHierarchy.gif" alt="generics-sampleHierarchy"></p>
+<p>因此你可以这样实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">PayloadList</span>&lt;<span class="title">E</span>,<span class="title">P</span>&gt; <span class="keyword">extends</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">setPayload</span><span class="params">(<span class="keyword">int</span> index, P val)</span></span>;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PayloadList&lt;String,String&gt;</span><br><span class="line">PayloadList&lt;String,Integer&gt;</span><br><span class="line">PayloadList&lt;String,Exception&gt;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/Java泛型总结/generics-payloadListHierarchy.gif" alt="generics-payloadListHierarchy"></p>
+<h3 id="通配符的使用建议-PECS原则"><a href="#通配符的使用建议-PECS原则" class="headerlink" title="通配符的使用建议(PECS原则)"></a>通配符的使用建议(PECS原则)</h3><p>PECS 原则来自《Effective Java》 中的第28条，即<strong>“Producer Extends,Consumer Super”</strong>。</p>
+<ul>
+<li><p>从集合中获取 T，集合为生产者，使用上界 <code>&lt;? extends T&gt;</code> </p>
+</li>
+<li><p>往集合中插入 T，集合为消费者，使用下界 <code>&lt;? super T&gt;</code></p>
+</li>
+<li><p>如果想同时读写，不要使用通配符</p>
+</li>
+</ul>
+<h4 id="extends"><a href="#extends" class="headerlink" title="extends"></a>extends</h4><p>来看看下面的代码，从 arrayList 中往外取对象时，我们可以保证取出来的对象是 Number 或是 Number 的子类；但往 arrayList 中 add() 对象时，我们无法确认存放的对象类型是 Number、Integer 还是 Double。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;? extends Number&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;Number&gt;;  <span class="comment">// Number "extends" Number</span></span><br><span class="line">List&lt;? extends Number&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;Integer&gt;; <span class="comment">// Integer extends Number</span></span><br><span class="line">List&lt;? extends Number&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;Double&gt;;  <span class="comment">// Double extends Number</span></span><br></pre></td></tr></table></figure>
+<h4 id="super"><a href="#super" class="headerlink" title="super"></a>super</h4><p>下面的代码中，在往 arrayList 中 add() 对象时，我们可以保证插入的对象一定是 Number 或是 Number 的父类 Object在；但从 arrayList 中往外取对象时，我们无法确认取出的对象是 Number 还是 Number 的父类 Object(但至少可以取出 Object)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;? <span class="keyword">super</span> Number&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;Number&gt;; <span class="comment">// Number is a "super" of Number</span></span><br><span class="line">List&lt;? <span class="keyword">super</span> Number&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;Object&gt;; <span class="comment">// Object is a "super" of Number</span></span><br></pre></td></tr></table></figure>
+<h4 id="JDK-中的例子"><a href="#JDK-中的例子" class="headerlink" title="JDK 中的例子"></a>JDK 中的例子</h4><p>java.util.Collections 中的 copy() 方法，使用 PECS 原则来保证参数安全：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">copy</span><span class="params">(List&lt;? <span class="keyword">super</span> T&gt; dest,List&lt;? extends T&gt; src)</span></span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<ul>
+<li><code>dest</code> 为被复制的原集合，需要从中获取元素，所以使用上界 <code>&lt;? extends T&gt;</code> </li>
+<li><code>src</code> 为复制后的目标集合，需要往里插入元素，所以使用下界 <code>&lt;? super T&gt;</code> </li>
+</ul>
+<h2 id="类型擦除-Type-Erasure"><a href="#类型擦除-Type-Erasure" class="headerlink" title="类型擦除(Type Erasure)"></a>类型擦除(Type Erasure)</h2><p>先来看看下面的代码，输出的是 true 还是 false 呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List &lt;String&gt; l1 = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">List&lt;Integer&gt; l2 = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">System.out.println(l1.getClass() == l2.getClass());</span><br></pre></td></tr></table></figure>
+<p>你可能会回答 false，但是答案其实是 true。原因就是泛型中的类型擦除(because all instances of a generic class have the same run-time class, regardless of their actual type parameters)。所有的泛型实例在 JVM 中都是相同的，不管它们的原始参数类型是什么。</p>
+<p>Java 编译器会<strong>在编译期将擦除所有的类型参数，并将其替换为其边界，如果没有绑定，则替换为 Object</strong>，最终编译后的字节码中只包含普通的类、接口与方法，</p>
+<p>Oracle 的 Java 文档中指出，引入类型擦除是为了和 JAVA SE 5 之前的代码兼容。</p>
+<h3 id="类型擦除的补偿"><a href="#类型擦除的补偿" class="headerlink" title="类型擦除的补偿"></a>类型擦除的补偿</h3><p>由于类型擦除的存在，所以在使用泛型时无法使用new T()，也不能使用instanceof,，因为这两个方法都要知道确切的类型。</p>
+<p>但通过设计模式中的模板模式与工厂模式可以实现类型擦除的补偿。</p>
+<h2 id="泛型与反射"><a href="#泛型与反射" class="headerlink" title="泛型与反射"></a>泛型与反射</h2><h3 id="通过反射跳过编译器的类型安全检查"><a href="#通过反射跳过编译器的类型安全检查" class="headerlink" title="通过反射跳过编译器的类型安全检查"></a>通过反射跳过编译器的类型安全检查</h3><p>使用反射可绕过编译器，往某个泛型集合中加入其它类型数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">arrayList.add(<span class="number">23</span>); <span class="comment">// OK</span></span><br><span class="line">arrayList.add(<span class="string">"String"</span>); <span class="comment">// Error</span></span><br><span class="line">arrayList.add(<span class="number">9.9f</span>); <span class="comment">// Error</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 利用反射调用add()插入其他类型数据</span></span><br><span class="line">Method addMethod = arrayList.getClass().getDeclaredMethod(<span class="string">"add"</span>,Object.class);</span><br><span class="line">addMethod.invoke(arrayList,<span class="string">"String"</span>); <span class="comment">// OK</span></span><br><span class="line">addMethod.invoke(arrayList,<span class="number">9.9f</span>); <span class="comment">// OK</span></span><br></pre></td></tr></table></figure>
+<h3 id="通过反射获取泛型的实际类型参数"><a href="#通过反射获取泛型的实际类型参数" class="headerlink" title="通过反射获取泛型的实际类型参数"></a>通过反射获取泛型的实际类型参数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">Method getMethod = arrayList.getClass().getDeclaredMethod(<span class="string">"get"</span>,Object.class);</span><br><span class="line"><span class="comment">// 反射获得泛型类型参数</span></span><br><span class="line">Type [] types = getMethod.getGenericParameterTypes();</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Marticles
+  </li>
+
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/15/Docker网络模式踩坑/" rel="next" title="Docker网络模式踩坑">
+                <i class="fa fa-chevron-left"></i> Docker网络模式踩坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Marticles" />
+            
+              <p class="site-author-name" itemprop="name">Marticles</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Marticles" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于泛型"><span class="nav-number">2.</span> <span class="nav-text">关于泛型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型的优点"><span class="nav-number">3.</span> <span class="nav-text">泛型的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型类"><span class="nav-number">4.</span> <span class="nav-text">泛型类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类型参数的命名规则"><span class="nav-number">4.1.</span> <span class="nav-text">类型参数的命名规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原始类型-Raw-Types"><span class="nav-number">4.2.</span> <span class="nav-text">原始类型(Raw Types)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型接口"><span class="nav-number">5.</span> <span class="nav-text">泛型接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型方法"><span class="nav-number">6.</span> <span class="nav-text">泛型方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型通配符"><span class="nav-number">7.</span> <span class="nav-text">泛型通配符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lt-extends-T-gt-上界通配符"><span class="nav-number">7.1.</span> <span class="nav-text">&lt; ? extends T &gt; 上界通配符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lt-super-T-gt-下界通配符"><span class="nav-number">7.2.</span> <span class="nav-text">&lt; ? super T &gt; 下界通配符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lt-gt-无界通配符"><span class="nav-number">7.3.</span> <span class="nav-text">&lt; ? &gt; 无界通配符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型通配符中的继承关系与子类型问题"><span class="nav-number">7.4.</span> <span class="nav-text">泛型通配符中的继承关系与子类型问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通配符的使用建议-PECS原则"><span class="nav-number">7.5.</span> <span class="nav-text">通配符的使用建议(PECS原则)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#extends"><span class="nav-number">7.5.1.</span> <span class="nav-text">extends</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#super"><span class="nav-number">7.5.2.</span> <span class="nav-text">super</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JDK-中的例子"><span class="nav-number">7.5.3.</span> <span class="nav-text">JDK 中的例子</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型擦除-Type-Erasure"><span class="nav-number">8.</span> <span class="nav-text">类型擦除(Type Erasure)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类型擦除的补偿"><span class="nav-number">8.1.</span> <span class="nav-text">类型擦除的补偿</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型与反射"><span class="nav-number">9.</span> <span class="nav-text">泛型与反射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过反射跳过编译器的类型安全检查"><span class="nav-number">9.1.</span> <span class="nav-text">通过反射跳过编译器的类型安全检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过反射获取泛型的实际类型参数"><span class="nav-number">9.2.</span> <span class="nav-text">通过反射获取泛型的实际类型参数</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-code -user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LJH's Blog</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-pencil"></i>
+    </span>
+    
+      <span class="post-meta-item-text">累计字数 </span>
+    
+    <span title="累计字数">108.2k</span>
+  
+</div>
+
+
+
+
+
+
+
+<div>
+<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("05/01/2018 00:00:00");
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-heart"></i> 访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'tX35P74MzjHmbgXpVmfVXiNw-gzGzoHsz',
+        appKey: '5duYsnA8GwkNJm18sfPzfvV9',
+        placeholder: '在此分享你的想法!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("tX35P74MzjHmbgXpVmfVXiNw-gzGzoHsz", "5duYsnA8GwkNJm18sfPzfvV9");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
