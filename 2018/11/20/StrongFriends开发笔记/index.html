@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://marticles.github.io/images/StrongFriends开发笔记/InterceptorsOrder.png">
 <meta property="og:image" content="http://marticles.github.io/images/StrongFriends开发笔记/async.png">
 <meta property="og:image" content="http://marticles.github.io/images/StrongFriends开发笔记/fb.jpg">
-<meta property="og:updated_time" content="2018-12-22T09:09:04.563Z">
+<meta property="og:updated_time" content="2019-02-21T12:06:38.355Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="StrongFriends开发笔记">
 <meta name="twitter:description" content="前言StrongFriends，又称壮壮朋友(๑•̀ㅂ•́)و✧，是我开发的一个举铁爱好者论坛。主要功能包括：发帖、评论、赞踩、私信、RM 计算器、维京系数计算器、力量排行榜、帖子 / 评论 / 用户管理。 前端：BootStraps 后端：SpringBoot / Mybatis DB: MySQL / Redis 以下是个人在实现一些重点功能所做的笔记。 Spring 接收参数的几种方式1.">
@@ -406,7 +406,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  6,784 字
+                  4,932 字
                 </span>
               
 
@@ -595,74 +595,6 @@
 <li><p>读：先读 Redis，若命中直接返回 Redis 数据；若没命中，读 MySQL 数据返回并写入 Redis 缓存</p>
 </li>
 </ul>
-<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>访问一个不存在的 key 时，缓存不起作用，请求会穿透到 DB ，流量大时 DB 自然就会瘫痪。</p>
-<p>解决方案:</p>
-<ol>
-<li><p>利用互斥锁，缓存失效的时候，先去获得锁，得到锁了，再去请求数据库。没得到锁，则休眠一段时间重试。</p>
-</li>
-<li><p>即使查询到的数据为空，仍把该空值缓存，还需要设置过期时间。</p>
-</li>
-<li><p>布隆过滤器，内部维护一系列合法有效的 key 就可以迅速判断出请求所携带的key是否合法有效。如果不合法，则直接返回。</p>
-</li>
-</ol>
-<h4 id="TODO-实现布隆过滤器"><a href="#TODO-实现布隆过滤器" class="headerlink" title="TODO 实现布隆过滤器"></a>TODO 实现布隆过滤器</h4><h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><p>一个存在的 key，在缓存过期的一刻，恰好在这个时间点对这个 key 有大量的并发请求过来，这个时候大量的请求可能会瞬间瘫痪掉 DB 。</p>
-<p>解决方案：</p>
-<ol>
-<li>分级缓存，采用 L1 (一级缓存)和 L2(二级缓存) 缓存方式，L1 缓存失效时间短，L2 缓存失效时间长。请求优先从 L1 缓存获取数据，如果 L1 缓存未命中则加锁，只有1个线程能获取到锁，这个线程再从数据库中读取数据并将数据再更新到到 L1 缓存和 L2 缓存中，而其他线程依旧从 L2 缓存获取数据并返回。L2 缓存中可能会存在脏数据，需要业务能够容忍这种短时间的不一致</li>
-<li>互斥锁</li>
-</ol>
-<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><p>大量的 key 设置了相同的过期时间，导致在缓存在同一时刻全部失效，造成瞬时 DB 请求量大、压力骤增，引起雪崩。</p>
-<p>解决方案：</p>
-<ol>
-<li>给缓存设置过期时间时加上一个随机值时间，使得每个key的过期时间分布开来，不会集中在同一时刻失效。</li>
-<li>分级缓存</li>
-</ol>
-<h2 id="Redis-的两种持久化方式-RDB-与-AOF"><a href="#Redis-的两种持久化方式-RDB-与-AOF" class="headerlink" title="Redis 的两种持久化方式 RDB 与 AOF"></a>Redis 的两种持久化方式 RDB 与 AOF</h2><h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><p>RDB (Redis DataBase) 持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。</p>
-<p>优势：</p>
-<ul>
-<li>整个 Redis 数据库将只包含一个文件，十分易于备份</li>
-<li>性能最大化，对于 Redis 的服务进程而言，在开始持久化时，它唯一需要做的只是 fork 出子进程，之后再由子进程完成这些持久化的工作，这样就可以极大地避免服务进程执行 IO 操作</li>
-<li>相对于 AOF，基于 RDB 数据文件来重启和恢复 Redis 会更快</li>
-</ul>
-<p>劣势：</p>
-<ul>
-<li>无法最大限度地避免数据丢失，系统一旦在定时持久化之前出现宕机现象，此前没有来得及写入磁盘的数据都将丢失</li>
-<li>由于 RDB 是通过 fork 子进程来协助完成数据持久化工作的，因此，如果当数据较大时，可能会导致整个服务器停止服务数毫秒，甚至数秒</li>
-</ul>
-<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><p>AOF (Append Only File) 持久化以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，只许追加文件但不可以改写文件，可以打开文件看到详细的操作记录</p>
-<p>AOF 提供以下三种同步策略，默认为 <strong>everysec</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># no: don&apos;t fsync, just let the OS flush the data when it wants. Faster.</span><br><span class="line"># always: fsync after every write to the append only log. Slow, Safest.</span><br><span class="line"># everysec: fsync only one time every second. Compromise.</span><br></pre></td></tr></table></figure>
-<p>优势：</p>
-<ul>
-<li>最大限度地避免数据丢失，默认的 everysec 策略可以记录下每秒的修改操作，但如果一秒内宕机，有数据丢失</li>
-<li>AOF 对日志文件的写入操作采用的是 append 模式，因此在写入过程中即使出现宕机现象，也不会破坏日志文件中已经存在的内容。</li>
-</ul>
-<p>劣势：</p>
-<ul>
-<li>对于同一份数据来说，AOF 文件通常要大于 RDB 文件。RDB 在恢复大数据集时的速度比 AOF 的恢复速度要快。</li>
-<li>根据同步策略的不同，AOF 在运行效率上往往会慢于 RDB。但是每秒同步策略的效率还是比较高的。</li>
-</ul>
-<p>总结：AOF，存放的指令日志，做数据恢复的时候，实际上是要执行所有的历史指令日志来恢复数据，要是遇上很多 ABA 之类的操作就会很影响恢复性能。RDB，就是一份数据文件，恢复的时候，直接加载到内存中即可。</p>
-<p>二者选择的标准，就是愿意牺牲一些性能，换取最少的数据丢失(AOF)，还是牺牲一些数据来换取更高的性能(RDB)。实际中应该综合使用 AOF 和 RDB 两种持久化机制，用 AOF 来保证数据不丢失，作为数据恢复的第一选择; 用 RDB 来做不同程度的冷备，在 AOF 文件都丢失或损坏不可用的时候，还可以使用 RDB 来进行快速的数据恢复</p>
-<h2 id="Redis-的过期策略以及内存回收机制"><a href="#Redis-的过期策略以及内存回收机制" class="headerlink" title="Redis 的过期策略以及内存回收机制"></a>Redis 的过期策略以及内存回收机制</h2><h3 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h3><p>对于过期的 key，Redis 采用的是<strong>定期删除</strong>和<strong>惰性删除</strong>两种策略。</p>
-<ul>
-<li>定期删除：Redis默认每个100ms检查，是否有过期的key，有过期key则删除。需要说明的是，redis不是每个100ms将所有的key检查一次，而是随机抽取进行检查(如果每隔100ms,全部key进行检查，redis岂不是卡死)。因此，如果只采用定期删除策略，会导致很多 key 到时间却没有删除，此时就需要下面的惰性删除配合解决了。</li>
-<li>惰性删除：只有在用户获取某个 key 的时候，Redis 才会对这个 key 进行过期检查，过期则删除。</li>
-</ul>
-<p>过期策略存在以下问题：由于 Redis 定期删除是随机抽取检查，不可能扫描清除掉所有过期的key并删除，一些 key 也可能未被请求过，惰性删除未被触发，这样 Redis 的内存占用会越来越高。此时就需要内存回收(淘汰)机制 。</p>
-<h3 id="内存回收机制"><a href="#内存回收机制" class="headerlink" title="内存回收机制"></a>内存回收机制</h3><p>在 Redis 配置文件中的 <code>maxmemory</code>决定了所能使用的最大内存(bytes)，默认为0，表示无限制。当 Redis 中内存数据达到 <code>maxmemory</code> 时，触发内存回收。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># maxmemory &lt;bytes&gt;</span><br></pre></td></tr></table></figure>
-<p>而 <code>maxmemory-policy</code> 决定了 Redis 采用何种内存回收机制，默认为 <code>noeviction</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># volatile-lru -&gt; remove the key with an expire set using an LRU algorithm</span><br><span class="line"># allkeys-lru -&gt; remove any key according to the LRU algorithm</span><br><span class="line"># volatile-random -&gt; remove a random key with an expire set</span><br><span class="line"># allkeys-random -&gt; remove a random key, any key</span><br><span class="line"># volatile-ttl -&gt; remove the key with the nearest expire time (minor TTL)</span><br><span class="line"># noeviction -&gt; don&apos;t expire at all, just return an error on write operations</span><br><span class="line"># maxmemory-policy noeviction</span><br></pre></td></tr></table></figure>
-<p>Redis 共有以下 6 种策略：</p>
-<ol>
-<li>volatile-lru：在过期的 key 中删除最近最久未使用的</li>
-<li>allkeys-lru：在所有 key 中删除最近最久未使用的</li>
-<li>volatile-random：在过期的 key 中随机删除</li>
-<li>allkeys-random：在所有的 key 中随机删除</li>
-<li>noeviction：不删任何数据，如果内存不够，会对写操作直接返回 error</li>
-</ol>
-<p>无疑 <code>volatile-lru</code> 是最佳选择。</p>
 <h2 id="其他功能没采用-Redis-作为缓存的原因"><a href="#其他功能没采用-Redis-作为缓存的原因" class="headerlink" title="其他功能没采用 Redis 作为缓存的原因"></a>其他功能没采用 Redis 作为缓存的原因</h2><ul>
 <li>考虑到<strong>私信</strong>使用频率不是很高，没有用 Redis 做缓存</li>
 <li>考虑到如果用户上传的是视频，那么<strong>发帖</strong>也做缓存的话就会导致占用大量内存，此时用 Redis 做缓存就不是一个明智的选择。而且 Redis 的 Value 不能超过 512MB ，现在一般的视频都超过了这个大小。</li>
@@ -808,7 +740,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -819,7 +751,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -830,7 +762,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -873,7 +805,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-接收参数的几种方式"><span class="nav-number">2.</span> <span class="nav-text">Spring 接收参数的几种方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-通过-RequestParam-获取请求参数"><span class="nav-number">2.1.</span> <span class="nav-text">1. 通过 @RequestParam 获取请求参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-通过-PathVariable-获取请求参数"><span class="nav-number">2.2.</span> <span class="nav-text">2. 通过 @PathVariable 获取请求参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-通过-HttpServletRequest-获取前端发送-JSON-数据"><span class="nav-number">2.3.</span> <span class="nav-text">3. 通过 HttpServletRequest 获取前端发送 JSON 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-通过-ModelAttribute-将前端发送-JSON-数据映射成目标对象"><span class="nav-number">2.4.</span> <span class="nav-text">4. 通过 @ModelAttribute 将前端发送 JSON 数据映射成目标对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片上传与读取"><span class="nav-number">3.</span> <span class="nav-text">图片上传与读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户登录与注销"><span class="nav-number">4.</span> <span class="nav-text">用户登录与注销</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#登录"><span class="nav-number">4.1.</span> <span class="nav-text">登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注销"><span class="nav-number">4.2.</span> <span class="nav-text">注销</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拦截器-Interceptor-的使用"><span class="nav-number">5.</span> <span class="nav-text">拦截器 (Interceptor) 的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现用户登录拦截器"><span class="nav-number">5.1.</span> <span class="nav-text">实现用户登录拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现用户权限拦截器"><span class="nav-number">5.2.</span> <span class="nav-text">实现用户权限拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注册拦截器"><span class="nav-number">5.3.</span> <span class="nav-text">注册拦截器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal-的使用"><span class="nav-number">6.</span> <span class="nav-text">ThreadLocal 的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多个拦截器的执行顺序"><span class="nav-number">6.1.</span> <span class="nav-text">多个拦截器的执行顺序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Token-Cookie-Session-的区别"><span class="nav-number">7.</span> <span class="nav-text">Token / Cookie / Session 的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Token"><span class="nav-number">7.1.</span> <span class="nav-text">Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie"><span class="nav-number">7.2.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session"><span class="nav-number">7.3.</span> <span class="nav-text">Session</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防止-XSS-攻击"><span class="nav-number">8.</span> <span class="nav-text">防止 XSS 攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Cookie-中设置-HttpOnly-属性"><span class="nav-number">8.1.</span> <span class="nav-text">在 Cookie 中设置 HttpOnly 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用过滤器-Filter-将-HTML-进行转义"><span class="nav-number">8.2.</span> <span class="nav-text">使用过滤器 (Filter) 将 HTML 进行转义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拦截器与过滤器的区别"><span class="nav-number">9.</span> <span class="nav-text">拦截器与过滤器的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异步通用服务模块"><span class="nav-number">10.</span> <span class="nav-text">异步通用服务模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#杠铃轨迹识别"><span class="nav-number">10.1.</span> <span class="nav-text">杠铃轨迹识别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防止-SQL-注入攻击"><span class="nav-number">11.</span> <span class="nav-text">防止 SQL 注入攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Redis-作为缓存"><span class="nav-number">12.</span> <span class="nav-text">使用 Redis 作为缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#赞-踩"><span class="nav-number">12.1.</span> <span class="nav-text">赞 / 踩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#评论"><span class="nav-number">12.2.</span> <span class="nav-text">评论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存穿透"><span class="nav-number">12.3.</span> <span class="nav-text">缓存穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TODO-实现布隆过滤器"><span class="nav-number">12.3.1.</span> <span class="nav-text">TODO 实现布隆过滤器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存击穿"><span class="nav-number">12.4.</span> <span class="nav-text">缓存击穿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存雪崩"><span class="nav-number">12.5.</span> <span class="nav-text">缓存雪崩</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的两种持久化方式-RDB-与-AOF"><span class="nav-number">13.</span> <span class="nav-text">Redis 的两种持久化方式 RDB 与 AOF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB"><span class="nav-number">13.1.</span> <span class="nav-text">RDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF"><span class="nav-number">13.2.</span> <span class="nav-text">AOF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的过期策略以及内存回收机制"><span class="nav-number">14.</span> <span class="nav-text">Redis 的过期策略以及内存回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过期策略"><span class="nav-number">14.1.</span> <span class="nav-text">过期策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存回收机制"><span class="nav-number">14.2.</span> <span class="nav-text">内存回收机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他功能没采用-Redis-作为缓存的原因"><span class="nav-number">15.</span> <span class="nav-text">其他功能没采用 Redis 作为缓存的原因</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-接收参数的几种方式"><span class="nav-number">2.</span> <span class="nav-text">Spring 接收参数的几种方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-通过-RequestParam-获取请求参数"><span class="nav-number">2.1.</span> <span class="nav-text">1. 通过 @RequestParam 获取请求参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-通过-PathVariable-获取请求参数"><span class="nav-number">2.2.</span> <span class="nav-text">2. 通过 @PathVariable 获取请求参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-通过-HttpServletRequest-获取前端发送-JSON-数据"><span class="nav-number">2.3.</span> <span class="nav-text">3. 通过 HttpServletRequest 获取前端发送 JSON 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-通过-ModelAttribute-将前端发送-JSON-数据映射成目标对象"><span class="nav-number">2.4.</span> <span class="nav-text">4. 通过 @ModelAttribute 将前端发送 JSON 数据映射成目标对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片上传与读取"><span class="nav-number">3.</span> <span class="nav-text">图片上传与读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户登录与注销"><span class="nav-number">4.</span> <span class="nav-text">用户登录与注销</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#登录"><span class="nav-number">4.1.</span> <span class="nav-text">登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注销"><span class="nav-number">4.2.</span> <span class="nav-text">注销</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拦截器-Interceptor-的使用"><span class="nav-number">5.</span> <span class="nav-text">拦截器 (Interceptor) 的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现用户登录拦截器"><span class="nav-number">5.1.</span> <span class="nav-text">实现用户登录拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现用户权限拦截器"><span class="nav-number">5.2.</span> <span class="nav-text">实现用户权限拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注册拦截器"><span class="nav-number">5.3.</span> <span class="nav-text">注册拦截器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal-的使用"><span class="nav-number">6.</span> <span class="nav-text">ThreadLocal 的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多个拦截器的执行顺序"><span class="nav-number">6.1.</span> <span class="nav-text">多个拦截器的执行顺序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Token-Cookie-Session-的区别"><span class="nav-number">7.</span> <span class="nav-text">Token / Cookie / Session 的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Token"><span class="nav-number">7.1.</span> <span class="nav-text">Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie"><span class="nav-number">7.2.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session"><span class="nav-number">7.3.</span> <span class="nav-text">Session</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防止-XSS-攻击"><span class="nav-number">8.</span> <span class="nav-text">防止 XSS 攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Cookie-中设置-HttpOnly-属性"><span class="nav-number">8.1.</span> <span class="nav-text">在 Cookie 中设置 HttpOnly 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用过滤器-Filter-将-HTML-进行转义"><span class="nav-number">8.2.</span> <span class="nav-text">使用过滤器 (Filter) 将 HTML 进行转义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拦截器与过滤器的区别"><span class="nav-number">9.</span> <span class="nav-text">拦截器与过滤器的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异步通用服务模块"><span class="nav-number">10.</span> <span class="nav-text">异步通用服务模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#杠铃轨迹识别"><span class="nav-number">10.1.</span> <span class="nav-text">杠铃轨迹识别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防止-SQL-注入攻击"><span class="nav-number">11.</span> <span class="nav-text">防止 SQL 注入攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Redis-作为缓存"><span class="nav-number">12.</span> <span class="nav-text">使用 Redis 作为缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#赞-踩"><span class="nav-number">12.1.</span> <span class="nav-text">赞 / 踩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#评论"><span class="nav-number">12.2.</span> <span class="nav-text">评论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他功能没采用-Redis-作为缓存的原因"><span class="nav-number">13.</span> <span class="nav-text">其他功能没采用 Redis 作为缓存的原因</span></a></li></ol></div>
             
 
           </div>
@@ -907,7 +839,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">108.2k</span>
+    <span title="累计字数">109.7k</span>
   
 </div>
 
