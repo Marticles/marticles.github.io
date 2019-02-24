@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="MachineLearning," />
+  <meta name="keywords" content="Marticles" />
 
 
 
@@ -79,27 +79,22 @@
 
 
 
-<meta name="description" content="前言k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。k值选择、距离度量、决策规则是k近邻算法的三个基本要素。k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最">
-<meta name="keywords" content="MachineLearning">
+<meta name="description" content="前言一致性哈希算法在 1997 年由 MIT 的 Karger 等人在解决分布式 Cache 中而发表的一篇  paper “Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web” 中提出，设计目标是为了解决分布式缓存热点（Ho">
 <meta property="og:type" content="article">
-<meta property="og:title" content="k-近邻算法">
-<meta property="og:url" content="http://marticles.github.io/2018/08/01/k-近邻算法/index.html">
+<meta property="og:title" content="一致性哈希算法原理及Java实现">
+<meta property="og:url" content="http://marticles.github.io/2019/02/20/一致性哈希算法原理及Java实现/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="前言k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。k值选择、距离度量、决策规则是k近邻算法的三个基本要素。k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最">
+<meta property="og:description" content="前言一致性哈希算法在 1997 年由 MIT 的 Karger 等人在解决分布式 Cache 中而发表的一篇  paper “Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web” 中提出，设计目标是为了解决分布式缓存热点（Ho">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/2d.png">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/3d.png">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/kdtree.jpg">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/kd-tree-building.png">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/kd.jpg">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/kd2.jpg">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/balltree.jpg">
-<meta property="og:image" content="http://marticles.github.io/images/k-近邻算法/balltree.png">
-<meta property="og:updated_time" content="2018-09-01T07:24:00.477Z">
+<meta property="og:image" content="http://marticles.github.io/images/一致性哈希算法原理及Java实现/1.png">
+<meta property="og:image" content="http://marticles.github.io/images/一致性哈希算法原理及Java实现/2.png">
+<meta property="og:image" content="http://marticles.github.io/images/一致性哈希算法原理及Java实现/3.png">
+<meta property="og:image" content="http://marticles.github.io/images/一致性哈希算法原理及Java实现/4.png">
+<meta property="og:updated_time" content="2019-02-24T08:46:22.663Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="k-近邻算法">
-<meta name="twitter:description" content="前言k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。k值选择、距离度量、决策规则是k近邻算法的三个基本要素。k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最">
-<meta name="twitter:image" content="http://marticles.github.io/images/k-近邻算法/2d.png">
+<meta name="twitter:title" content="一致性哈希算法原理及Java实现">
+<meta name="twitter:description" content="前言一致性哈希算法在 1997 年由 MIT 的 Karger 等人在解决分布式 Cache 中而发表的一篇  paper “Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web” 中提出，设计目标是为了解决分布式缓存热点（Ho">
+<meta name="twitter:image" content="http://marticles.github.io/images/一致性哈希算法原理及Java实现/1.png">
 
 
 
@@ -129,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://marticles.github.io/2018/08/01/k-近邻算法/"/>
+  <link rel="canonical" href="http://marticles.github.io/2019/02/20/一致性哈希算法原理及Java实现/"/>
 
 
 
 
 
-  <title>k-近邻算法 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>一致性哈希算法原理及Java实现 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -306,7 +301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/08/01/k-近邻算法/">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/20/一致性哈希算法原理及Java实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Marticles">
@@ -323,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">k-近邻算法</h1>
+          <h1 class="post-title" itemprop="name headline">一致性哈希算法原理及Java实现</h1>
         
 
         <div class="post-meta">
@@ -335,8 +330,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T15:37:35+08:00">
-                2018-08-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-20T23:26:16+08:00">
+                2019-02-20
               </time>
             
 
@@ -358,8 +353,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/categories/分布式系统/" itemprop="url" rel="index">
+                    <span itemprop="name">分布式系统</span>
                   </a>
                 </span>
 
@@ -376,8 +371,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/01/k-近邻算法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/08/01/k-近邻算法/" itemprop="commentCount"></span>
+                <a href="/2019/02/20/一致性哈希算法原理及Java实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/20/一致性哈希算法原理及Java实现/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -385,7 +380,7 @@
 
           
           
-             <span id="/2018/08/01/k-近邻算法/" class="leancloud_visitors" data-flag-title="k-近邻算法">
+             <span id="/2019/02/20/一致性哈希算法原理及Java实现/" class="leancloud_visitors" data-flag-title="一致性哈希算法原理及Java实现">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -410,7 +405,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,804 字
+                  1,323 字
                 </span>
               
 
@@ -435,64 +430,66 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。<br><strong>k值选择</strong>、<strong>距离度量</strong>、<strong>决策规则</strong>是k近邻算法的三个基本要素。<br>k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最多类别数的类别。而做回归时，一般是选择平均法，即最近的k个样本的样本输出的平均值作为回归预测值。<br>对于原始kNN计算量大的缺点，主要有<strong>KD</strong>树与<strong>球树</strong>两种改进算法。</p>
-<p>参考：周志华-《机器学习》&amp;Peter Harrington-《机器学习实战》<br>Mohamad Dolatshah, Ali Hadian, Behrouz Minaei-Bidgoli, “Ball-tree: Efficient spatial indexing for constrained nearest-neighbor search in metric spaces”, <em>ArXiv e-prints</em>, Nov 2015.</p>
-<h2 id="k值选择"><a href="#k值选择" class="headerlink" title="k值选择"></a>k值选择</h2><p>k值越小，偏差越小、方差越大，容易过拟合，不抗噪声。<br>k值越大，偏差越大、方差越小，容易欠拟合。<br>通常采用经验值或交叉验证选取合适的k值。</p>
-<h2 id="计算距离"><a href="#计算距离" class="headerlink" title="计算距离"></a>计算距离</h2><p>欧式距离：</p>
-<script type="math/tex; mode=display">
-D(x,y) = \sqrt{(x_1-y_1)^2 + (x_2-y_2)^2 + ... + (x_n-y_n)^2} = \sqrt{\sum\limits_{i=1}^{n}(x_i-y_i)^2}</script><p>曼哈顿距离：</p>
-<script type="math/tex; mode=display">
-D(x,y) =|x_1-y_1| + |x_2-y_2| + ... + |x_n-y_n| =\sum\limits_{i=1}^{n}|x_i-y_i|</script><p>闵可夫斯基距离：</p>
-<script type="math/tex; mode=display">
-D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{\sum\limits_{i=1}^{n}(|x_i-y_i|)^p}</script><p>当$p=1$时，就是曼哈顿距离；当$p=2$时，就是欧氏距离。</p>
-<h2 id="原始kNN-Brute-Force"><a href="#原始kNN-Brute-Force" class="headerlink" title="原始kNN(Brute Force)"></a>原始kNN(Brute Force)</h2><p>原始的kNN算法在找近邻时采取的是Brute Force算法，暴力对所有训练集样本进行搜索，有两个明显的缺点：<br>1.需要存储全部训练集<br>2.计算量太大<br>一种有效的改进方法是事先将训练集按近邻关系分解成组，算出每组质心的位置，以质心作为代表点，和未知样本计算距离，选出距离最近的一个或若干个组，再在组的范围内应用原始的kNN算法。由于并不是将未知样本与所有样本计算距离，故该改进算法可以减少计算量，但并不能减少存储量。<br>实现k-近邻法时，主要考虑的问题是如何对训练数据进行快速k近邻搜索，为了减少计算量，可以考虑使用特殊的结构存储训练数据，以减小计算距离的次数，比如引入树结构。<br><a id="more"></a></p>
-<h2 id="KD树"><a href="#KD树" class="headerlink" title="KD树"></a>KD树</h2><p>KD树(K-dimension tree)是一种对k维空间中的实例点进行存储以便对其进行快速检索的树形数据结构。KD树是是一种二叉树，表示对k维空间的一个划分，构造KD树相当于不断地用垂直于坐标轴的超平面将K维空间切分，构成一系列的K维超矩形区域。KD树的每个结点对应于一个K维超矩形区域。利用KD树可以省去对大部分数据点的搜索，从而减少搜索的计算量。<br><img src="/images/k-近邻算法/2d.png" alt=""><br>下面是三维空间下KD树的构建及空间划分过程。<br>首先，边框为红色的竖直平面将整个空间划分为两部分，此两部分又分别被边框为绿色的水平平面划分为上下两部分。最后此4个子空间又分别被边框为蓝色的竖直平面分割为两部分，变为8个子空间，此8个子空间即为叶子节点。<br><img src="/images/k-近邻算法/3d.png" alt=""></p>
-<h3 id="KD树的建立"><a href="#KD树的建立" class="headerlink" title="KD树的建立"></a>KD树的建立</h3><p>KD树建树采用的是从$m$个样本的$n$维特征中，分别计算$n$个特征的取值的方差，用方差最大的第$k$维特征$n_k$来作为根节点。对于这个特征，选择特征$n_k$的取值的中位数$n_kv$对应的样本作为划分点，对于所有第$k$维特征的取值小于$n_kv$的样本，划入左子树，对于第$k$维特征的取值大于等于$n_kv$的样本，划入右子树，对于左子树和右子树，采用和刚才同样的办法来找方差最大的特征来做根节点，递归生成KD树。<br><img src="/images/k-近邻算法/kdtree.jpg" alt=""><br>比如现在有$6$个二维样本，$(2,3),(5,4),(9,6),(4,7),(8,1),(7,2)$，构建KD树的具体步骤为：</p>
-<ol>
-<li>找到划分的特征。$6$个数据点在$x$，$y$维度上的数据方差分别为$6.97$，$5.37$，所以在$x$轴上方差更大，用第$1$维特征建树。</li>
-<li>确定划分点$（7,2）$。根据$x$维上的值将数据排序，$6$个数据的中值为$7$，所以划分点的数据是$（7,2）$。这样该节点的分割超平面就是通过$（7,2）$并垂直于划分点维度的直线$x=7$；</li>
-<li>确定左子空间和右子空间。分割超平面$x=7$将整个空间分为两部分：$x&lt;=7$的部分为左子空间，包含$3$个节点${(2,3),(5,4),(4,7)}$；另一部分为右子空间，包含$2$个节点${(9,6),(8,1)}$。</li>
-<li>构建$(7,2)$节点的左子树时，点集合$(2,3),(4,7),(5,4)$。$3$个数据点在$x$，$y$维度上的数据方差分别为$2.33$，$4.33$，此时的切分维度为$y$。中值为$(5,4)$作为分割平面，$(2,3)$挂在其左子树，$(4,7)$挂在其右子树。</li>
-<li>构建$(7,2)$节点的左子树同理。</li>
-</ol>
-<p>最后得到的KD树如下：<br><img src="/images/k-近邻算法/kd-tree-building.png" alt=""></p>
-<h3 id="最近邻搜索"><a href="#最近邻搜索" class="headerlink" title="最近邻搜索"></a>最近邻搜索</h3><p>以上述建立的KD树来寻找$(2,4.5)$的最近邻。</p>
-<ol>
-<li><strong>二叉搜索</strong>：首先从根节点$(7,2)$出发，由于目标点$x=2 &lt; 7$，进入左子树$(5,4)$。由于目标点$y=4.5&gt;4$,进入右子树$(4,7)$，形成搜索路径${(7,2)-(5,4)-(4,7)}$。</li>
-<li><strong>回溯</strong>：节点$(4,7)$与目标查找点距离为$3.202$，回溯到父节点$(5,4)$与目标查找点之间距离为$3.041$，所以$(5,4)$为查询点的最近邻。以目标点(2,4.5)为圆心，以3.041为半径作圆。</li>
-<li><strong>更新最近邻</strong>：该圆和$y = 4$超平面交割，所以需要进入$(5,4)$左子树进行查找。回溯至节点$(2,3)$，$(2,4.5)$到$(2,3)$的距离比到$(5,4)$要近，所以最近邻点更新为$(2,3)$，最近距离更新为$1.5$。回溯至$(7,2)$，以$(2,4.5)$为圆心，$1.5$为半径作圆，发现并不和$x = 7$分割超平面交割，至此搜索路径回溯完成，完成更新最近邻操作，返回最近邻点$(2,3)$。</li>
-</ol>
-<p><img src="/images/k-近邻算法/kd.jpg" alt=""></p>
-<p>根据KD树搜索最近邻的方法，可以得到第一个最近邻样本点，将它置为已选。然后忽略置为已选的样本，重新选择最近邻，这样运行k次，就可以得到k个最近邻。</p>
-<p>如果样本点是随机分布的，KD树搜索的平均计算复杂度是$O(logN)$，这里$N$是训练实例数。KD树更适用于训练实例数远大于空间维数时的k近邻搜索。当空间维数接近训练实例数时，它的效率会迅速下降，几乎接近线性扫描。</p>
-<h2 id="球树"><a href="#球树" class="headerlink" title="球树"></a>球树</h2><p>KD树算法能够提高kNN搜索效率，但在某些时候效率并不高，比如处理不均匀分布的数据集时。<br>如下图所示，如果黑色的实例点离目标点(星点)再远一点，那么虚线会像红线那样扩大，导致与左上方矩形的右下角相交。既然相交那就要检查左上方矩形，而实际上最近的点离目标点(星点)很近，检查左上方矩形区域已是多余。因此KD树把二维平面划分成矩形会带来无效搜索的问题。<br><img src="/images/k-近邻算法/kd2.jpg" alt=""><br>为了优化超矩形体导致的搜索效率的问题，引入球树。</p>
-<h3 id="球树的建立"><a href="#球树的建立" class="headerlink" title="球树的建立"></a>球树的建立</h3><p>球树的每个分割块都是超球体，而非KD树中的超矩形体。球树的构建过程如下：</p>
-<ol>
-<li><strong>构建超球体</strong>：超球体是可以包含所有样本的最小球体。</li>
-<li><strong>划分子超球体</strong>：从超球体中选择一个离超球体中心最远的点，然后选择第二个点离第一个点最远，将球中所有的点分配到离这两个聚类中心最近的一个。然后计算每个聚类的中心，以及聚类能够包含它所有数据点所需的最小半径，这样我们便得到两个子超球体，和KD树中的左右子树对应。</li>
-<li><strong>递归</strong>：对上述两个子超球体，递归执行步骤2，最终得到球树。</li>
-</ol>
-<p><img src="/images/k-近邻算法/balltree.jpg" alt=""><br>可以看出球树和KD树类似，主要区别在于球树得到的是节点样本组成的最小超球体，而KD得到的是节点样本组成的超矩形体，这个超球体要与对应的KD树的超矩形体小，这样在做最近邻搜索的时候，可以避免一些无效的搜索。</p>
-<h3 id="球树搜索最近邻"><a href="#球树搜索最近邻" class="headerlink" title="球树搜索最近邻"></a>球树搜索最近邻</h3><p>KD树在搜索路径优化时使用的是两点之间的距离来判断，而球树使用的是两边之和与第三边大小来判断，即$|x+y|\leq|x|+|y|$。<br>以下图为例搜索点$q$的半径为$r$内的最近邻，即满足$||q-x||\leq r$：</p>
-<ol>
-<li>从根节点$q$开始从上至下递归遍历每个可能包含最终近邻的子空间$p_i$。</li>
-<li>如果子空间的半径$radius{(p_i)}$与$r$之和小于$p_i$中心点$center(p_i)$到目标点$q$的距离，即$(radius(p_i)+r)\leq ||center(p_i)-q||$，接着在满足这样条件的子空间样本点内递归搜索满足$||q-x||\leq r$的点就是我们想要的最近邻点了。换句简单的话来说，对于目标空间$(q, r)$，所有被该超球体截断的子超球体内的所有子空间都将被遍历搜索。</li>
-<li>由于子超球体$a$与$b$被$q$所截，而对于$a$与$b$内的子空间，$d,h,f$又被$q$所截，所以接下来就会在$d,h,f$内进行线性搜索。诸如$c,e,g$这些距离太远的子空间将被舍去。最后$[x_4,x_7]$就是最终得到最近邻。</li>
-</ol>
-<p><img src="/images/k-近邻算法/balltree.png" alt=""><br>球树中的每个结点对应一个圆，结点的数字表示该区域保含的观测点数，但不一定就是图中该区域囊括的点数，因为有重叠的情况，并且一个观测点只能属于一个区域。实际的球树结点保存圆心和半径。叶子结点保存它包含的观测点。</p>
-<h2 id="kNN实现手写数字分类"><a href="#kNN实现手写数字分类" class="headerlink" title="kNN实现手写数字分类"></a>kNN实现手写数字分类</h2><p>代码来自于《机器学习实战》第2章。</p>
-<p>思路:</p>
-<ol>
-<li>将每个32x32的图像数据转换成1x1024的向量<br>再将每个单列向量分别存入一个矩阵A中<br>矩阵A中每一列对应一张图片信息，m张图片对应的矩阵A的大小即为m*1024</li>
-<li>将测试图片也转换为1x1024的向量后与矩阵A中每一列求欧式距离<br>将一一对应的距离存入一个数组中，取出距离数组中最小的k个训练集索引</li>
-<li>索引出现次数最多的值就是预测数值</li>
-</ol>
-<p>先处理图像数据<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">img2vector</span><span class="params">(filename)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    将32*32的图像数据转换为1*1024的向量</span></span><br><span class="line"><span class="string">    循环读出文件的前32行，并将每行的前32个值存储在1*1024的numpy数组中</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    returnVect = np.zeros((<span class="number">1</span>,<span class="number">1024</span>))</span><br><span class="line">    fr = open(filename)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">        lineStr = fr.readline()</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">            returnVect[<span class="number">0</span>,<span class="number">32</span>*i+j] = int(lineStr[j])</span><br><span class="line">    <span class="keyword">return</span> returnVect</span><br></pre></td></tr></table></figure></p>
-<p>构造分类器<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classify0</span><span class="params">(inX, dataSet, labels, k)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    利用k-近邻算法实现分类，采用欧式距离</span></span><br><span class="line"><span class="string">    inX: 用于分类的输入向量</span></span><br><span class="line"><span class="string">    dataSet: 训练集</span></span><br><span class="line"><span class="string">    labels: 标签向量</span></span><br><span class="line"><span class="string">    k: 选择最近邻数目</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    dataSetSize = dataSet.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 将输入向量按行复制，与训练集相减得到差值</span></span><br><span class="line">    diffMat = np.tile(inX, (dataSetSize, <span class="number">1</span>)) - dataSet</span><br><span class="line">    <span class="comment"># 各个差值分别平方</span></span><br><span class="line">    sqDiffMat = diffMat ** <span class="number">2</span></span><br><span class="line">    <span class="comment"># 按行对结果求和</span></span><br><span class="line">    sqDistances = sqDiffMat.sum(axis = <span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 再开方即可得到距离</span></span><br><span class="line">    distances = sqDistances ** <span class="number">0.5</span></span><br><span class="line">    <span class="comment"># argsort()方法将向量中每个元素进行排序，结果是元素的索引形成的向量</span></span><br><span class="line">    <span class="comment"># 如argsort([1,3,2]) -&gt; ([0,2,1])</span></span><br><span class="line">    sortedDistIndicies = distances.argsort()</span><br><span class="line">    classCount = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i  <span class="keyword">in</span> range(k):</span><br><span class="line">        <span class="comment"># 找到该样本的类型</span></span><br><span class="line">        voteIlabel = labels[sortedDistIndicies[i]]</span><br><span class="line">        <span class="comment"># 在字典中将该类型+1</span></span><br><span class="line">        <span class="comment"># 字典的get()方法</span></span><br><span class="line">        <span class="comment"># 如：list.get(k,d)get相当于一条if...else...语句</span></span><br><span class="line">        <span class="comment"># 参数k在字典中，字典将返回list[k]</span></span><br><span class="line">        <span class="comment"># 如果参数k不在字典中则返回参数d,如果K在字典中则返回k对应的value值</span></span><br><span class="line">        classCount[voteIlabel] = classCount.get(voteIlabel, <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">    <span class="comment"># 字典的 items()方法，以列表返回可遍历的(key，value)元组</span></span><br><span class="line">    <span class="comment"># sorted()中的第2个参数key=operator.itemgetter(1)表示按第2个元素进行排序</span></span><br><span class="line">    sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="keyword">True</span>)</span><br><span class="line">    <span class="comment"># 返回第0个tuple的第0个参数，由于是逆序排序所以返回的是出现次数最多的类型</span></span><br><span class="line">    <span class="keyword">return</span> sortedClassCount[<span class="number">0</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure></p>
-<p>测试分类器正确率<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handwritingClassTest</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    kNN手写数字识别测试</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 导入训练集</span></span><br><span class="line">    hwLabels = []</span><br><span class="line">    trainingFileList = listdir(<span class="string">'trainingDigits'</span>)</span><br><span class="line">    m = len(trainingFileList)</span><br><span class="line">    trainingMat = np.zeros((m, <span class="number">1024</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        fileNameStr = trainingFileList[i]</span><br><span class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">        classNumStr = int(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</span><br><span class="line">        hwLabels.append(classNumStr)</span><br><span class="line">        trainingMat[i, :] = img2vector(<span class="string">'trainingDigits/%s'</span> % fileNameStr)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 导入测试集</span></span><br><span class="line">    testFileList = listdir(<span class="string">'testDigits'</span>)</span><br><span class="line">    errorCount = <span class="number">0.0</span></span><br><span class="line">    mTest = len(testFileList)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(mTest):</span><br><span class="line">        fileNameStr = testFileList[i]</span><br><span class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">        classNumStr = int(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</span><br><span class="line">        vectorUnderTest = img2vector(<span class="string">'testDigits/%s'</span> % fileNameStr)</span><br><span class="line">        classifierResult = classify0(vectorUnderTest, trainingMat, hwLabels, <span class="number">3</span>)</span><br><span class="line">        print(<span class="string">"the classifier came back with: %d, the real answer is: %d"</span> % (classifierResult, classNumStr))</span><br><span class="line">        <span class="keyword">if</span> (classifierResult != classNumStr): errorCount += <span class="number">1.0</span></span><br><span class="line">    print(<span class="string">"\nthe total number of errors is: %d"</span> % errorCount)</span><br><span class="line">    print(<span class="string">"\nthe total correct rate is: %f"</span> % (<span class="number">1</span>-(errorCount / float(mTest))))</span><br></pre></td></tr></table></figure></p>
-<p>结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line">the classifier came back with: 9, the real answer is: 9</span><br><span class="line"></span><br><span class="line">the total number of errors is: 10</span><br><span class="line">the total correct rate is: 0.989429</span><br></pre></td></tr></table></figure></p>
-<p>原始的kNN要做分类的话每张图片都得和每个训练集样本两两计算距离，如上述例子就是如此。时间复杂度就是O(M*N)，虽然简单但是遇到数据集很大时会变得效率非常低，所以一般采用的是KD树或球树等改进型的kNN算法。scikit-learn中提供了kNN算法的三种实现，第一种是Brute Force(暴力)实现，第二种是KD树实现，第三种是球树实现。<br>kNN做回归比较简单，就是取k个近邻的平均值作为预测值，当有多个特征时可以为特征设置不同权重，或者给近点加大权重，远点减小权重，都可以提高预测准确率。</p>
-
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一致性哈希算法在 1997 年由 MIT 的 Karger 等人在解决分布式 Cache 中而发表的一篇  paper “Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web” 中提出，设计目标是为了解决分布式缓存热点（Hot spot）问题。</p>
+<p>这篇 paper 提出在动态变化的 Cache 环境中，哈希算法应该满足的4个适应条件：Balance（均衡）、Monotonicity（单调性）、Spread（分散性）、Load（负载）。</p>
+<p>一致性哈希算法可应用于负载均衡、分布式缓存等场景中。以分布式缓存为例，对于 $n$ 台缓存服务器（$n$ 个 node），普通哈希是对资源 $o$ 的请求使用 $ {{\mbox{hash}}(o) \ \% \  n} $ 来映射到某个 node上。这种方式强依赖于 node 的数量，所以当 node 增加或减少时就需要对大量资源进行 rehash。</p>
+<p>使用一致性哈希算法，可以很好地解决这个问题，它能够尽可能小的改变 node 和 已存在 key 的映射关系。</p>
+<h2 id="一致性哈希算法"><a href="#一致性哈希算法" class="headerlink" title="一致性哈希算法"></a>一致性哈希算法</h2><p>一致性哈希算法通常借助一个被称为哈希环的整数环来实现，哈希环的值空间为 $ 2^{32} $ ， 即 $ 0 \sim 2^{32}-1 $，其中 Node 按顺时针方向分布于哈希环上。对于每个资源（比如 IP 地址），可以通过 $ { {\mbox{hash}}(o)  \  \%  \ 2^{32}} $ 来映射到哈希环上，每个资源分得<strong>处于自己前方顺时针方向的 Node</strong>。</p>
+<p>例如下图，IP 1 分给 Node A， IP2 与 IP3 分给 Node B，以此类推。</p>
+<p><img src="/images/一致性哈希算法原理及Java实现/1.png" alt="1"></p>
+<a id="more"></a>
+<h3 id="增加节点"><a href="#增加节点" class="headerlink" title="增加节点"></a>增加节点</h3><p>如果此时需要需要增加一个 Node D，则需要对处于 Node C 与 Node D 之间的节点进行 rehash，其他 Node B 与 Node C 负责的资源不受影响。</p>
+<p><img src="/images/一致性哈希算法原理及Java实现/2.png" alt="2"></p>
+<h3 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h3><p>假如此时需要删除 Node D，则只需要将处于 Node C 与 Node D 之间的节点进行 rehash 从而映射到 Node A 上即可，此时影响的节点仅有一部分而不是普通哈希中的那么多。</p>
+<p><strong>综上，一致性哈希算法对于节点的增减都只需重定位环空间中的一小部分数据，具有较好的容错性和可扩展性。</strong></p>
+<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><p>N nodes (or slots) and K keys(from ConsistentHashing’s  wikipedia)：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">Classic hash table</th>
+<th style="text-align:center">Consistent hashing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">add a node</td>
+<td style="text-align:center">$O(K)$</td>
+<td style="text-align:center">$O(K/N + log(N))$</td>
+</tr>
+<tr>
+<td style="text-align:center">remove a node</td>
+<td style="text-align:center">$O(K)$</td>
+<td style="text-align:center">$O(K/N + log(N))$</td>
+</tr>
+<tr>
+<td style="text-align:center">add a key</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(log(N))$</td>
+</tr>
+<tr>
+<td style="text-align:center">remove a key</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">$O(log(N))$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Hash-倾斜问题"><a href="#Hash-倾斜问题" class="headerlink" title="Hash 倾斜问题"></a>Hash 倾斜问题</h2><p>Hash 算法的一个考量指标是<strong>平衡性</strong>，平衡性指的是我们希望每个资源落在任意一个 Node 上的机会都尽可能接近，即下图左边的理想情况，但实际中的情况往往是右边所示。</p>
+<p><img src="/images/一致性哈希算法原理及Java实现/3.png" alt="3"></p>
+<p>此时的大部分资源都分给了 Node 3，在真实环境中会导致大部分请求都落在了该台服务器上，这就是 Hash 倾斜问题。为了解决这个问题，我们引入<strong>虚拟节点</strong>。</p>
+<p>理论上来说，只要 Node 数量足够大，每个资源在哈希环上就会分散地足够平均，因此我们可以通过加入虚拟节点，每个真实节点负责一部分虚拟节点来提高平衡性。</p>
+<p>此时的流程是：<strong>资源请求 -&gt; 虚拟节点 -&gt; 真实节点</strong>。</p>
+<p><img src="/images/一致性哈希算法原理及Java实现/4.png" alt="4"></p>
+<h2 id="其他哈希算法"><a href="#其他哈希算法" class="headerlink" title="其他哈希算法"></a>其他哈希算法</h2><h3 id="Jump-Consistent-Hash"><a href="#Jump-Consistent-Hash" class="headerlink" title="Jump Consistent Hash"></a>Jump Consistent Hash</h3><p>Google 在 2014 年发表的一篇 paper “A Fast, Minimal Memory, Consistent Hash Algorithm” 中提出了 Jump Consistent Hash。这个算法最早已经在 2011 年加入进 Google Guava 工具库中。</p>
+<p>Jump Hash 解决了 Ring Hash 的两个缺点：</p>
+<ul>
+<li>零内存消耗。</li>
+<li>几乎完美的散列分布。</li>
+</ul>
+<p>更多的一致性哈希算法可以参考<a href="https://medium.com/@dgryski/consistent-hashing-algorithmic-tradeoffs-ef6b8e2fcae8" target="_blank" rel="noopener">这篇文章</a>。</p>
+<h2 id="一致性哈希算法的-Java-实现"><a href="#一致性哈希算法的-Java-实现" class="headerlink" title="一致性哈希算法的 Java 实现"></a>一致性哈希算法的 Java 实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义一个Node节点，包括域名、IP地址和存储数据</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String domain;</span><br><span class="line">    <span class="keyword">private</span> String ip;</span><br><span class="line">    <span class="keyword">private</span> HashMap&lt;String, String&gt; data;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义一个抽象类Cluster来表示集群</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Cluster</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> SortedMap&lt;Integer, Node&gt; nodes;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 一致性哈希算法的实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsistentHashingCluster</span> <span class="keyword">extends</span> <span class="title">Cluster</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 简单起见这里没用2^32</span></span><br><span class="line">    <span class="keyword">private</span> Integer size = <span class="number">1024</span>;</span><br><span class="line">    <span class="comment">// 每个节点有32个虚拟节点</span></span><br><span class="line">    <span class="keyword">private</span> Integer virtualNodesNum = <span class="number">32</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConsistentHashingCluster</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addNode</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.nodes.put(node.getIp().hashCode() % size, node);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; virtualNodesNum; i++) &#123;</span><br><span class="line">            Node newNode = <span class="keyword">new</span> Node(node.getDomain() + <span class="string">"#vir"</span> + i, node.getIp() + <span class="string">"#vir"</span> + i);</span><br><span class="line">            <span class="keyword">this</span>.nodes.put(Math.abs((node.getIp() + i).hashCode()) % size, newNode);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeNode</span><span class="params">(String ip)</span> </span>&#123;</span><br><span class="line">        Node node = <span class="keyword">this</span>.nodes.get(ip.hashCode() % size);</span><br><span class="line">        <span class="keyword">this</span>.nodes.remove(ip.hashCode() % size);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; virtualNodesNum; i++) &#123;</span><br><span class="line">            <span class="keyword">this</span>.nodes.remove(Math.abs((node.getIp() + i).hashCode()) % size);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">get</span><span class="params">(String ip)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.nodes.get(ip.hashCode() % size);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putFile</span><span class="params">(String file)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == <span class="keyword">this</span>.nodes.get(file.hashCode() % size)) &#123;</span><br><span class="line">            Node firstNode = <span class="keyword">this</span>.nodes.get(nodes.firstKey());</span><br><span class="line">            firstNode.putFile(file);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.nodes.get(file.hashCode() % size).putFile(file);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">getFileNode</span><span class="params">(String file)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == <span class="keyword">this</span>.nodes.get(file.hashCode() % size)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.nodes.get(nodes.firstKey());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Node tempNode = <span class="keyword">this</span>.nodes.get(file.hashCode() % size);</span><br><span class="line">            String ip = tempNode.getIp();</span><br><span class="line">            <span class="comment">// 如果是虚拟节点</span></span><br><span class="line">            <span class="keyword">if</span> (ip.contains(<span class="string">"#"</span>)) &#123;</span><br><span class="line">                <span class="comment">// 找到对应的真实节点</span></span><br><span class="line">                <span class="keyword">int</span> i = ip.indexOf(<span class="string">"#"</span>);</span><br><span class="line">                String realIp = ip.substring(<span class="number">0</span>, i);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">this</span>.nodes.get(realIp.hashCode() % size);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">this</span>.nodes.get(ip.hashCode() % size);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -522,12 +519,6 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/MachineLearning/" rel="tag"><i class="fa fa-tag"></i> MachineLearning</a>
-          
-        </div>
-      
 
       
       
@@ -537,8 +528,8 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/29/个人翻译-推荐系统概述/" rel="next" title="个人翻译：推荐系统概述">
-                <i class="fa fa-chevron-left"></i> 个人翻译：推荐系统概述
+              <a href="/2019/02/18/Java泛型总结/" rel="next" title="Java 泛型总结">
+                <i class="fa fa-chevron-left"></i> Java 泛型总结
               </a>
             
           </div>
@@ -546,10 +537,6 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/30/个人翻译-Java异常处理的9个最佳实践/" rel="prev" title="个人翻译：Java异常处理的9个最佳实践">
-                个人翻译：Java异常处理的9个最佳实践 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -698,7 +685,7 @@ D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k值选择"><span class="nav-number">2.</span> <span class="nav-text">k值选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算距离"><span class="nav-number">3.</span> <span class="nav-text">计算距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原始kNN-Brute-Force"><span class="nav-number">4.</span> <span class="nav-text">原始kNN(Brute Force)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KD树"><span class="nav-number">5.</span> <span class="nav-text">KD树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#KD树的建立"><span class="nav-number">5.1.</span> <span class="nav-text">KD树的建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最近邻搜索"><span class="nav-number">5.2.</span> <span class="nav-text">最近邻搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#球树"><span class="nav-number">6.</span> <span class="nav-text">球树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#球树的建立"><span class="nav-number">6.1.</span> <span class="nav-text">球树的建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#球树搜索最近邻"><span class="nav-number">6.2.</span> <span class="nav-text">球树搜索最近邻</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kNN实现手写数字分类"><span class="nav-number">7.</span> <span class="nav-text">kNN实现手写数字分类</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一致性哈希算法"><span class="nav-number">2.</span> <span class="nav-text">一致性哈希算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#增加节点"><span class="nav-number">2.1.</span> <span class="nav-text">增加节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除节点"><span class="nav-number">2.2.</span> <span class="nav-text">删除节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间复杂度"><span class="nav-number">2.3.</span> <span class="nav-text">时间复杂度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hash-倾斜问题"><span class="nav-number">3.</span> <span class="nav-text">Hash 倾斜问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他哈希算法"><span class="nav-number">4.</span> <span class="nav-text">其他哈希算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Jump-Consistent-Hash"><span class="nav-number">4.1.</span> <span class="nav-text">Jump Consistent Hash</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一致性哈希算法的-Java-实现"><span class="nav-number">5.</span> <span class="nav-text">一致性哈希算法的 Java 实现</span></a></li></ol></div>
             
 
           </div>

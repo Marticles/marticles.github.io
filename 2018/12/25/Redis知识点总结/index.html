@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="Redis 的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis 的数据结构与应用场景 String：缓存、计数器、分布式锁等 List：链表、队列、微博关注人时间轴列表等 Hash：用户信息、Hash 表等 Set：去重、赞、踩、共同好友等 Zse">
+<meta name="description" content="Redis(Remote Dictionary Server)的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis 的数据结构与应用场景 String：缓存、计数器、分布式锁等 List：链表、队列、微博关注人时间轴列表等 Hash：用户信息、Has">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis知识点总结">
 <meta property="og:url" content="http://marticles.github.io/2018/12/25/Redis知识点总结/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="Redis 的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis 的数据结构与应用场景 String：缓存、计数器、分布式锁等 List：链表、队列、微博关注人时间轴列表等 Hash：用户信息、Hash 表等 Set：去重、赞、踩、共同好友等 Zse">
+<meta property="og:description" content="Redis(Remote Dictionary Server)的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis 的数据结构与应用场景 String：缓存、计数器、分布式锁等 List：链表、队列、微博关注人时间轴列表等 Hash：用户信息、Has">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-23T13:20:38.299Z">
+<meta property="og:updated_time" content="2019-02-23T18:24:41.264Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis知识点总结">
-<meta name="twitter:description" content="Redis 的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis 的数据结构与应用场景 String：缓存、计数器、分布式锁等 List：链表、队列、微博关注人时间轴列表等 Hash：用户信息、Hash 表等 Set：去重、赞、踩、共同好友等 Zse">
+<meta name="twitter:description" content="Redis(Remote Dictionary Server)的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis 的数据结构与应用场景 String：缓存、计数器、分布式锁等 List：链表、队列、微博关注人时间轴列表等 Hash：用户信息、Has">
 
 
 
@@ -400,7 +400,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,103 字
+                  2,106 字
                 </span>
               
 
@@ -425,7 +425,7 @@
       
 
       
-        <h2 id="Redis-的特点"><a href="#Redis-的特点" class="headerlink" title="Redis 的特点"></a>Redis 的特点</h2><ul>
+        <h2 id="Redis-Remote-Dictionary-Server-的特点"><a href="#Redis-Remote-Dictionary-Server-的特点" class="headerlink" title="Redis(Remote Dictionary Server)的特点"></a>Redis(Remote Dictionary Server)的特点</h2><ul>
 <li>纯内存操作</li>
 <li>采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题</li>
 <li>使用多路 I/O 复用模型，非阻塞型IO</li>
@@ -649,7 +649,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -660,7 +660,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -714,7 +714,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的特点"><span class="nav-number">1.</span> <span class="nav-text">Redis 的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的数据结构与应用场景"><span class="nav-number">2.</span> <span class="nav-text">Redis 的数据结构与应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的两种持久化方式-RDB与AOF"><span class="nav-number">3.</span> <span class="nav-text">Redis 的两种持久化方式(RDB与AOF)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB"><span class="nav-number">3.1.</span> <span class="nav-text">RDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF"><span class="nav-number">3.2.</span> <span class="nav-text">AOF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的过期策略以及内存回收机制"><span class="nav-number">4.</span> <span class="nav-text">Redis 的过期策略以及内存回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过期策略"><span class="nav-number">4.1.</span> <span class="nav-text">过期策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存回收机制"><span class="nav-number">4.2.</span> <span class="nav-text">内存回收机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存穿透"><span class="nav-number">5.</span> <span class="nav-text">缓存穿透</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存击穿"><span class="nav-number">6.</span> <span class="nav-text">缓存击穿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存雪崩"><span class="nav-number">7.</span> <span class="nav-text">缓存雪崩</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-Remote-Dictionary-Server-的特点"><span class="nav-number">1.</span> <span class="nav-text">Redis(Remote Dictionary Server)的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的数据结构与应用场景"><span class="nav-number">2.</span> <span class="nav-text">Redis 的数据结构与应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的两种持久化方式-RDB与AOF"><span class="nav-number">3.</span> <span class="nav-text">Redis 的两种持久化方式(RDB与AOF)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB"><span class="nav-number">3.1.</span> <span class="nav-text">RDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF"><span class="nav-number">3.2.</span> <span class="nav-text">AOF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的过期策略以及内存回收机制"><span class="nav-number">4.</span> <span class="nav-text">Redis 的过期策略以及内存回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过期策略"><span class="nav-number">4.1.</span> <span class="nav-text">过期策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存回收机制"><span class="nav-number">4.2.</span> <span class="nav-text">内存回收机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存穿透"><span class="nav-number">5.</span> <span class="nav-text">缓存穿透</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存击穿"><span class="nav-number">6.</span> <span class="nav-text">缓存击穿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存雪崩"><span class="nav-number">7.</span> <span class="nav-text">缓存雪崩</span></a></li></ol></div>
             
 
           </div>
@@ -748,7 +748,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">109.7k</span>
+    <span title="累计字数">111.0k</span>
   
 </div>
 

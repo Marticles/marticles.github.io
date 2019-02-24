@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="ThreadLocal 原理每个线程内部维护着一个 ThreadLocalMap，这个 Map 的底层是由数组 table 实现的，用于存储 Entry。ThreadLocalMap 中的 key 为弱引用类型，指向 ThreadLocal 本身，value 是实际存储的变量 Object。  概述ThreadLocal 的作用是提供线程内的局部变量，该变量在线程的生命周期内起作用，减少同一个线程">
+<meta name="description" content="ThreadLocal 原理每个线程内部维护着一个 ThreadLocalMap，这个 Map 的底层是由数组 table 实现的，用于存储 Entry。ThreadLocalMap 中的 key 为弱引用类型，指向 ThreadLocal 本身，value 是实际存储的变量 Object。  概述ThreadLocal 的作用在于提供了「线程内的局部变量」，该变量在线程的生命周期内起作用，减少同">
 <meta name="keywords" content="Java源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java8 ThreadLocal源码阅读">
 <meta property="og:url" content="http://marticles.github.io/2019/02/07/Java8-ThreadLocal源码阅读/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="ThreadLocal 原理每个线程内部维护着一个 ThreadLocalMap，这个 Map 的底层是由数组 table 实现的，用于存储 Entry。ThreadLocalMap 中的 key 为弱引用类型，指向 ThreadLocal 本身，value 是实际存储的变量 Object。  概述ThreadLocal 的作用是提供线程内的局部变量，该变量在线程的生命周期内起作用，减少同一个线程">
+<meta property="og:description" content="ThreadLocal 原理每个线程内部维护着一个 ThreadLocalMap，这个 Map 的底层是由数组 table 实现的，用于存储 Entry。ThreadLocalMap 中的 key 为弱引用类型，指向 ThreadLocal 本身，value 是实际存储的变量 Object。  概述ThreadLocal 的作用在于提供了「线程内的局部变量」，该变量在线程的生命周期内起作用，减少同">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://marticles.github.io/images/Java8-ThreadLocal源码阅读/ThreadLocal.jpg">
-<meta property="og:updated_time" content="2019-02-18T12:11:46.025Z">
+<meta property="og:updated_time" content="2019-02-23T15:58:16.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8 ThreadLocal源码阅读">
-<meta name="twitter:description" content="ThreadLocal 原理每个线程内部维护着一个 ThreadLocalMap，这个 Map 的底层是由数组 table 实现的，用于存储 Entry。ThreadLocalMap 中的 key 为弱引用类型，指向 ThreadLocal 本身，value 是实际存储的变量 Object。  概述ThreadLocal 的作用是提供线程内的局部变量，该变量在线程的生命周期内起作用，减少同一个线程">
+<meta name="twitter:description" content="ThreadLocal 原理每个线程内部维护着一个 ThreadLocalMap，这个 Map 的底层是由数组 table 实现的，用于存储 Entry。ThreadLocalMap 中的 key 为弱引用类型，指向 ThreadLocal 本身，value 是实际存储的变量 Object。  概述ThreadLocal 的作用在于提供了「线程内的局部变量」，该变量在线程的生命周期内起作用，减少同">
 <meta name="twitter:image" content="http://marticles.github.io/images/Java8-ThreadLocal源码阅读/ThreadLocal.jpg">
 
 
@@ -403,7 +403,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  5,507 字
+                  5,509 字
                 </span>
               
 
@@ -430,7 +430,7 @@
       
         <h2 id="ThreadLocal-原理"><a href="#ThreadLocal-原理" class="headerlink" title="ThreadLocal 原理"></a>ThreadLocal 原理</h2><p>每个线程内部维护着一个 ThreadLocalMap，这个 Map 的底层是由数组 table 实现的，用于存储 Entry。ThreadLocalMap 中的 key 为弱引用类型，指向 ThreadLocal 本身，value 是实际存储的变量 Object。</p>
 <p><img src="/images/Java8-ThreadLocal源码阅读/ThreadLocal.jpg" alt="ThreadLocal"></p>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>ThreadLocal 的作用是提供<strong>线程内的局部变量</strong>，该变量在线程的生命周期内起作用，减少同一个线程内多个函数或者组件之间一些公共变量的传递的复杂度。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>ThreadLocal 的作用在于提供了<strong>「线程内的局部变量」</strong>，该变量在线程的生命周期内起作用，减少同一个线程内多个函数或者组件之间一些公共变量的传递的复杂度。</p>
 <p>其他线程无法访问 ThreadLocal 内的变量，这样就隔离了多个线程间的资源，也不会出现线程安全问题。</p>
 <h2 id="Get-策略"><a href="#Get-策略" class="headerlink" title="Get 策略"></a>Get 策略</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> (T)e.value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> t.threadLocals;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> T <span class="title">setInitialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    T value = initialValue();</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">        map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        createMap(t, value);</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> T <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol>
@@ -642,7 +642,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -653,7 +653,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -741,7 +741,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">109.7k</span>
+    <span title="累计字数">111.0k</span>
   
 </div>
 
