@@ -81,7 +81,7 @@
 
 <meta name="description" content="前言虽然平时除了一些集合类以外很少会用到泛型，但深入了解泛型一直是以前的 Todo list 之一，拖了挺久了，这次就借这篇笔记来一次解决。 这篇笔记参考自 Oracle Java 官方文档中的 Generics 部分与 Baeldung 的 这篇文章，示例代码也来自于Oracle Java 官方文档。 重点：通配符、PECS 原则、类型擦除。 关于泛型 “In a nutshell, gener">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java 泛型总结">
+<meta property="og:title" content="Java泛型原理及总结">
 <meta property="og:url" content="http://marticles.github.io/2019/02/18/Java泛型总结/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
 <meta property="og:description" content="前言虽然平时除了一些集合类以外很少会用到泛型，但深入了解泛型一直是以前的 Todo list 之一，拖了挺久了，这次就借这篇笔记来一次解决。 这篇笔记参考自 Oracle Java 官方文档中的 Generics 部分与 Baeldung 的 这篇文章，示例代码也来自于Oracle Java 官方文档。 重点：通配符、PECS 原则、类型擦除。 关于泛型 “In a nutshell, gener">
@@ -89,9 +89,9 @@
 <meta property="og:image" content="http://marticles.github.io/images/Java泛型总结/generics-subtypeRelationship.gif">
 <meta property="og:image" content="http://marticles.github.io/images/Java泛型总结/generics-sampleHierarchy.gif">
 <meta property="og:image" content="http://marticles.github.io/images/Java泛型总结/generics-payloadListHierarchy.gif">
-<meta property="og:updated_time" content="2019-02-21T11:51:25.064Z">
+<meta property="og:updated_time" content="2019-02-24T09:05:50.731Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java 泛型总结">
+<meta name="twitter:title" content="Java泛型原理及总结">
 <meta name="twitter:description" content="前言虽然平时除了一些集合类以外很少会用到泛型，但深入了解泛型一直是以前的 Todo list 之一，拖了挺久了，这次就借这篇笔记来一次解决。 这篇笔记参考自 Oracle Java 官方文档中的 Generics 部分与 Baeldung 的 这篇文章，示例代码也来自于Oracle Java 官方文档。 重点：通配符、PECS 原则、类型擦除。 关于泛型 “In a nutshell, gener">
 <meta name="twitter:image" content="http://marticles.github.io/images/Java泛型总结/generics-subtypeRelationship.gif">
 
@@ -129,7 +129,7 @@
 
 
 
-  <title>Java 泛型总结 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>Java泛型原理及总结 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -317,7 +317,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java 泛型总结</h1>
+          <h1 class="post-title" itemprop="name headline">Java泛型原理及总结</h1>
         
 
         <div class="post-meta">
@@ -379,7 +379,7 @@
 
           
           
-             <span id="/2019/02/18/Java泛型总结/" class="leancloud_visitors" data-flag-title="Java 泛型总结">
+             <span id="/2019/02/18/Java泛型总结/" class="leancloud_visitors" data-flag-title="Java泛型原理及总结">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -665,7 +665,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -687,7 +687,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -764,7 +764,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">111.0k</span>
+    <span title="累计字数">115.3k</span>
   
 </div>
 

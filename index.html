@@ -293,6 +293,484 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/22/Raft算法与Gossip协议原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/22/Raft算法与Gossip协议原理/" itemprop="url">Raft算法与Gossip协议原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T20:48:41+08:00">
+                2019-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/分布式系统/" itemprop="url" rel="index">
+                    <span itemprop="name">分布式系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/22/Raft算法与Gossip协议原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/22/Raft算法与Gossip协议原理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/02/22/Raft算法与Gossip协议原理/" class="leancloud_visitors" data-flag-title="Raft算法与Gossip协议原理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,308 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Consul 中使用 Raft 算法解决一致性问题，使用 Gossip 协议来管理集群成员和广播消息，其中 Raft 属于强一致性模型，Gossip 属于弱一致性模型。不仅是 Consul，Redis Cluster 中也使用了 Gossip 协议。</p>
+<h2 id="Raft-算法"><a href="#Raft-算法" class="headerlink" title="Raft 算法"></a>Raft 算法</h2><p>Raft 算法中的 Server 有以下三种状态：Leader（领导者）、Follower（跟随者）和 Candidate（候选者）。</p>
+<p>Leader 负责处理所有的查询和事务，并向 follower 同步事务。Follower 会将所有的 RPC 查询和事务转发给 leader 处理，所有 follower 仅从 leader 接受数据同步，数据的一致性以 leader 中的数据为准实现。</p>
+<p><img src="/images/Raft算法与Gossip协议原理/1.jpg" alt="1"></p>
+<p>Raft 算法将一致性问题分解成为三个相对独立的子问题：</p>
+<ul>
+<li><p><strong>领导选取（Leader election）</strong>：在一个 leader 宕机之后必须要选取一个新的leader。</p>
+</li>
+<li><p><strong>日志复制（Log replication）</strong>：Leader 必须从 client 接收 log 然后复制到集群中的其他 follower，并且强制要求其他 follower 的 log 保持和自己相同。</p>
+</li>
+<li><p><strong>安全性（Safety）</strong>：Raft 的 Safety 指的是 State Machine Safety（状态机安全），其含义是如果一个 server 已经将给定索引位置的 log 应用到状态机中，则所有其他 server 不会在该索引位置应用不同的log（log 一致）。</p>
+</li>
+</ul>
+<h3 id="Leader-Election"><a href="#Leader-Election" class="headerlink" title="Leader Election"></a>Leader Election</h3><h4 id="情形1：选举成功"><a href="#情形1：选举成功" class="headerlink" title="情形1：选举成功"></a>情形1：选举成功</h4><p>Raft 算法采用 <strong>timeout</strong> 来控制选举过程，初始化的选举过程如下：</p>
+<ol>
+<li><p>在集群初始化启动时，节点的 Raft 状态机将处于follower 状态等待来自 leader 的心跳。</p>
+</li>
+<li><p>如果 follower 在 timeout 内没有接收到来自 leader 的心跳，则会将自己的状态切换为 candidate，然后向其他的 follower 发起选举请求，询问其是否将自己选为 leader。每次开启的一轮新的选举被称为一个”任期”，每个任期都有一个严格递增整数值 term 与其对应。</p>
+</li>
+<li><p>当某个 candidate 收到来自集群中超过 quorum （通常为半数）的投票后，即成为 leader，它将发送心跳消息给其他节点来宣告它的权威性以阻止其它节点再发起新的选举，并开始接收 client 的请求。此时一轮选举结束，集群内的每个节点的 term 都会加 1。每个 follower 在一个任期中只能投出一票，而且遵守”先到先服务”的原则。</p>
+</li>
+<li><p>新的 leader会继续向 follower发送心跳，心跳包里包含 client 的事务处理和查询请求，每次 follower接收到来自 leader 的心跳后，就会刷新自己的 timeout。</p>
+</li>
+</ol>
+<!--next-->
+<h4 id="情形2：选举中收到其他的-Leader-RPC"><a href="#情形2：选举中收到其他的-Leader-RPC" class="headerlink" title="情形2：选举中收到其他的 Leader RPC"></a>情形2：选举中收到其他的 Leader RPC</h4><p>当一个 candidate 等待选票时，可能会收到来自其他 candidate 发来的声明其为 leader 的 AppendEntries RPC。如果这个 leader 的任期比这个 candidate 的当前任期要大，则 candidate 认为该 leader 合法，并且转换自己的状态为 follower。如果在这个 RPC 中的任期小于 candidate 的当前任期，则 candidate 会拒绝此次 RPC， 继续保持 candidate 状态。</p>
+<h4 id="情形3：-选举平票"><a href="#情形3：-选举平票" class="headerlink" title="情形3： 选举平票"></a>情形3： 选举平票</h4><p>如果同时有多个 follwer 想要竞选 leader，且它们都收到了同样的票数，那么这些 follower 会在等待随机的 timeout 后再次发起选举，以保证总会有一个 follower 是最先达到法定人数票数的。</p>
+<p>即<strong>每个节点的 timeout 都是随机决定的</strong>，一般在 150 到 300 毫秒之间，这种机制使得在大多数情况下只有一个节点会率先到达 timeout，它会在其它节点 timeout 之前赢得选举并且向其它节点发送声明其选举成功的心跳。</p>
+<h4 id="网络分区问题"><a href="#网络分区问题" class="headerlink" title="网络分区问题"></a>网络分区问题</h4><p>当出现网络分区故障时，会出现多个 leader，如果网络通信恢复后，集群内的 leader 会按照较大的 term 来决定。</p>
+<p>在 Leader Election 阶段，由于旧的 leader 可能也还存活，可能会存在不只一个 leader 的情况，Raft 保证的是不存在 term 一样的两个 leader。</p>
+<h3 id="Log-Replication"><a href="#Log-Replication" class="headerlink" title="Log Replication"></a>Log Replication</h3><p>Log Replication 的步骤如下：</p>
+<ol>
+<li>每个客户端的请求都会被重定向给 leader，每一条请求都包含一条需要被复制状态机（replicated state machine）执行的命令。</li>
+<li>leader 把这条命令加入到新的 log 条目中，同时向其他服务器发起 AppendEntries RPC ，要求其他 follower 同步这条 log。</li>
+<li>follower 同步成功后返回给 leader 一条消息，如果 leader 收到超过 quorum 的 follower 的同步成功消息，leader 将会将这条 log 输入到状态机中，然后响应 client 成功。</li>
+<li>如果 follower 宕机或是网络中断，leader 会无限重发 AppendEntries RPC（甚至在它向 client响应之后），直到所有的 follower 最终同步了 log。leader 通过强制 followers 复制它的 log 来处理不一致问题，follower 上的不一致的 log 会被 leader 的 log 所覆盖。</li>
+</ol>
+<p>其中，每个 log 条目包含：</p>
+<ul>
+<li>log index：log 的索引，即图片最上方的数字，是严格递增的，用来表示在 log 中的位置。</li>
+<li>term：log 任期号，即方块中的数字</li>
+<li>command：log 对应的数据修改操作。</li>
+</ul>
+<p><img src="/images/Raft算法与Gossip协议原理/2.jpg" alt="2"></p>
+<p>以上同步操作中的最重要一点就是只有在 leader 接收到超过半数法定人数的 follower 都同步成功消息后，leader 才会真正执行 commit，此时一条 log 才算真正被写入到集群中（committed）。</p>
+<p>Raft 保证以下 Log Matching Property（日志匹配原则）：</p>
+<ul>
+<li>如果在不同 log 中的两个条目有着相同的 index 和 term，则它们所存储的 command是相同的。</li>
+<li>如果在不同 log 中的两个条目有着相同的 index 和 term，则它们之间的所有条目都是完全一样的。</li>
+</ul>
+<h3 id="Safety"><a href="#Safety" class="headerlink" title="Safety"></a>Safety</h3><p>然而，Leader Election 和 Log Replication 还不能保证每一个状态机能按照相同的顺序执行同样的指令。例如，当 leader 提交了若干 log 条目的同时一个 follower 可能宕机了，之后它又被选为了 leader 然后用新的 log 条目覆盖掉了旧的条目，最后，不同的状态机可能执行不同的命令序列。</p>
+<h4 id="Leader-限制"><a href="#Leader-限制" class="headerlink" title="Leader 限制"></a>Leader 限制</h4><p>Raft 引入了 Leader Completeness（领导人完全原则）：<strong>任何 leader 都必须拥有之前已提交的全部 log 条目</strong>，来解决这个问题。</p>
+<p>Raft 使用投票的方式来阻止没有包含全部 log 条目的节点赢得选举。<strong>只有 candidate 的 log 比被请求投票的节点 log 要新，这个节点才会同意投票</strong>。之所以要求这个条件，是为了保证每个当选的 leader 都有当前最新的数据。为了达到这个检查 log 的目的，RequestVote RPC 请求中需要带上 candidate 的 log，如果节点发现 candidate 的 log 并不比自己更新，就会拒绝给这个节点投票。</p>
+<p>Raft 通过比较两份 log 中最后一条 log 条目的 index 和 iterm 来判断谁的 log 比较新。如果两份 log 最后的条目的 iterm 不同，那么 iterm 大的 log 更加新。如果两份 log 的 iterm 相同，那么 log 比较长的那个就更加新。</p>
+<h4 id="提交之前任期的-log"><a href="#提交之前任期的-log" class="headerlink" title="提交之前任期的 log"></a>提交之前任期的 log</h4><p>如果 leader 在提交 log 之前崩溃，那么后续的 leader 该如何提交这条没有提交的 log ？有以下几种情况需要考虑。</p>
+<p><img src="/images/Raft算法与Gossip协议原理/3.jpg" alt="3"></p>
+<ol>
+<li><p>在 (a) 中，S1 是 leader，index = 2 的位置写入了数据 2，但只写入了 S1 与 S2 中，由于未达到法定人数，这条 log 并未被 commit。</p>
+</li>
+<li><p>在 (b) 中，假设 S1 崩溃，S5 成为了新的 leader，此时 S5 在任期 3 中写入了数据 3 放入 index = 2 的位置，这条 log 也未被提交。</p>
+</li>
+<li><p>在 (c) 中，假设 S5 也崩溃，S1 恢复并成为 leader，开始同步 log，此时数据 2 已被同步到多数节点中，可以 commit。此时 S1 又接受了一条在 index = 3 的位置上写入数据 4 的 log。</p>
+</li>
+</ol>
+<p>这时，可能会导致以下两种情况：</p>
+<ul>
+<li>情况 (d)：S1 再次崩溃，S5 成为 leader，开始同步 log ，此时 index =2 的位置上的数据 2 会被覆盖成 S5 上的数据 3。</li>
+<li>情况 (e)：S1 不崩溃，成功将自己的当前任期前的数据 4 都同步到其他节点上，这些 log 就会被 commit。</li>
+</ul>
+<p>从情况 (d) 与情况 (e) 可以看出，index  = 2 的数据 2 即使处于写入超过半数节点的情况下，仍有可能会被覆盖。</p>
+<p>此时的解决办法是：对于当前任期之前任期提交的 log，并不通过判断是否已经在半数以上节点写入成功来作为能否提交的依据，而是<strong>通过比较当前 leader 任期内的 log 写入数量是否超过半数来决定</strong>。</p>
+<blockquote>
+<p>其他 Raft 参考资料：<br><a href="http://thesecretlivesofdata.com/raft" target="_blank" rel="noopener">Raft 可视化</a><br><a href="https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md" target="_blank" rel="noopener">Raft 论文中文翻译</a><br><a href="https://raft.github.io/" target="_blank" rel="noopener">Raft 官网</a></p>
+</blockquote>
+<h2 id="Gossip-协议"><a href="#Gossip-协议" class="headerlink" title="Gossip 协议"></a>Gossip 协议</h2><p>　Gossip 协议适用于去中心化，容忍时延，读多写少的分布式集群场景。Gossip 过程由种子节点发起，当一个种子节点有状态需要更新到网络中的其他节点时，它会随机的选择周围几个节点散播消息，收到消息的节点也会重复该过程，直至最终网络中所有的节点都收到了消息。这个过程可能需要一定的时间，由于不能保证某个时刻所有节点都收到消息，但是理论上最终所有节点都会收到消息，因此它是一个最终一致性协议。</p>
+<p>Gossip 协议 是为了解决分布式环境下监控和事件通知的瓶颈。Gossip 协议中的每个 Agent 会利用 Gossip 协议互相检查在线状态，分担了服务器节点的心跳压力，通过Gossip 广播的方式发送消息。</p>
+<p>Gossip 协议的最大的好处在于即使集群节点的数量增加，每个节点的负载也不会增加很多，几乎是恒定的。这就允许Consul管理的集群规模能横向扩展到数千个节点。</p>
+<p>基于 Raft 算法，Consul 提供强一致性的注册中心服务，但是由于 Leader 节点承担了所有的处理工作，势必加大了注册和发现的代价，降低了服务的可用性。通过 Gossip 协议，Consul 可以很好地监控 Consul 集群的运行，同时可以方便通知各类事件，如 leader 选择发生、server 地址变更等。</p>
+<h3 id="Gossip-的特点"><a href="#Gossip-的特点" class="headerlink" title="Gossip 的特点"></a>Gossip 的特点</h3><ol>
+<li><p><strong>扩展性</strong>：网络可以允许节点的任意增加和减少，新增加的节点的状态最终会与其他节点一致。</p>
+</li>
+<li><p><strong>容错</strong>：网络中任何节点的宕机和重启都不会影响 Gossip 消息的传播，Gossip 协议具有天然的分布式系统容错特性。</p>
+</li>
+<li><p><strong>去中心化</strong>：Gossip 协议不要求任何中心节点，所有节点都可以是对等的，任何一个节点无需知道整个网络状况，只要网络是连通的，任意一个节点就可以把消息散播到全网。</p>
+</li>
+<li><p><strong>一致性收敛</strong>：Gossip 协议中的消息会以一传十、十传百一样的指数级速度在网络中快速传播，因此系统状态的不一致可以在很快的时间内收敛到一致。消息传播速度达到了 logN。</p>
+</li>
+<li><p><strong>简单</strong>：Gossip 协议的过程极其简单，实现起来几乎没有太多复杂性。</p>
+</li>
+</ol>
+<h3 id="Gossip-中的通信模式"><a href="#Gossip-中的通信模式" class="headerlink" title="Gossip 中的通信模式"></a>Gossip 中的通信模式</h3><p>Gossip 协议中的两个节点（A、B）之间存在三种通信方式：</p>
+<ul>
+<li><p>Push（A 最新）: A 将数据 (key,value,version) 及对应的版本号 Push 给 B，B 更新本地数据。</p>
+</li>
+<li><p>Pull（B 最新）：A 仅将数据 key, version 推送给 B，B 将本地比 A 新的数据（key, value, version）Push  back 给 A，A 更新本地。</p>
+</li>
+<li><p>Push/Pull（A/B 一样新）：比 Pull 多一步，A 更新本地后，再将数据 Push back B，B更新本地。</p>
+</li>
+</ul>
+<p>如果把两个节点数据同步一次定义为一个周期，则在一个周期内，Push 需通信 1 次，Pull 需 2 次，Push/Pull 则需 3 次。虽然消息数增加了，但从效果上来讲，Push/Pull 最好，理论上一个周期内可以使两个节点完全一致。</p>
+<h3 id="Gossip-的缺点"><a href="#Gossip-的缺点" class="headerlink" title="Gossip 的缺点"></a>Gossip 的缺点</h3><ul>
+<li><p>消息延迟：由于 Gossip 协议中，节点只会随机向少数几个节点发送消息，消息最终是通过多个轮次的散播而到达全网的，因此使用 Gossip 协议会造成不可避免的消息延迟。不适合用在对实时性要求较高的场景下。</p>
+</li>
+<li><p>消息冗余：Gossip 协议规定，节点会定期随机选择周围节点发送消息，而收到消息的节点也会重复该步骤，因此就不可避免的存在消息重复发送给同一节点的情况，造成了消息的冗余，同时也增加了收到消息的节点的处理压力。而且，由于是定期发送，因此，即使收到了消息的节点还会反复收到重复消息，加重了消息的冗余。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/21/深入理解Redis-SDS原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/21/深入理解Redis-SDS原理/" itemprop="url">深入理解Redis SDS原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-21T13:29:21+08:00">
+                2019-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/21/深入理解Redis-SDS原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/21/深入理解Redis-SDS原理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/02/21/深入理解Redis-SDS原理/" class="leancloud_visitors" data-flag-title="深入理解Redis SDS原理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  879 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="SDS"><a href="#SDS" class="headerlink" title="SDS"></a>SDS</h2><p>在 Redis 并没有直接使用 C 中的字符串，而是用一种称为 SDS（Simple Dynamic String）的结构体来保存字符串。</p>
+<p>例如：执行命令 set key value，key 和 value 都是一个 SDS 类型的结构存储在内存中。</p>
+<p>除了用作默认的字符串表示外，SDS 还被用作缓冲区（buffer），比如 AOF 缓冲区和客户端中的输入缓冲区。</p>
+<h2 id="SDS-的结构"><a href="#SDS-的结构" class="headerlink" title="SDS 的结构"></a>SDS 的结构</h2><p><img src="/images/深入理解Redis-SDS原理/sds.png" alt="sds"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// buf数组中已使用字节数</span></span><br><span class="line">    <span class="comment">// 等于SDS中保存字符串的长度</span></span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="comment">// buf数组中未使用字节数</span></span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">free</span>;</span><br><span class="line">    <span class="comment">// 字节数组，用于保存字符串</span></span><br><span class="line">    <span class="keyword">char</span> buf[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>SDS 遵循 C 字符串以<code>&quot;\0&quot;</code> 结尾的惯例，最后一个保存空字符串的 1 字节空间不计算在 len 中。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/02/21/深入理解Redis-SDS原理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/20/一致性哈希算法原理及Java实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -504,7 +982,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/18/Java泛型总结/" itemprop="url">Java 泛型总结</a></h1>
+                <a class="post-title-link" href="/2019/02/18/Java泛型总结/" itemprop="url">Java泛型原理及总结</a></h1>
         
 
         <div class="post-meta">
@@ -566,7 +1044,7 @@
 
           
           
-             <span id="/2019/02/18/Java泛型总结/" class="leancloud_visitors" data-flag-title="Java 泛型总结">
+             <span id="/2019/02/18/Java泛型总结/" class="leancloud_visitors" data-flag-title="Java泛型原理及总结">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1802,7 +2280,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,463 字
+                  1,645 字
                 </span>
               
 
@@ -1849,7 +2327,7 @@
 <td style="text-align:center">一致性算法</td>
 <td style="text-align:center">/</td>
 <td style="text-align:center">Raft</td>
-<td style="text-align:center">Paxos</td>
+<td style="text-align:center">ZAB</td>
 </tr>
 <tr>
 <td style="text-align:center">服务健康检查</td>
@@ -1893,388 +2371,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/02/04/服务发现比较Eurka-Consul-ZooKeeper/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/" itemprop="url">分布式Session一致性问题与JWT的强制失效方案</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-30T14:27:23+08:00">
-                2019-01-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/" class="leancloud_visitors" data-flag-title="分布式Session一致性问题与JWT的强制失效方案">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  461 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Session一致性解决方案"><a href="#Session一致性解决方案" class="headerlink" title="Session一致性解决方案"></a>Session一致性解决方案</h2><h3 id="利用-Cookie-记录-Session"><a href="#利用-Cookie-记录-Session" class="headerlink" title="利用 Cookie 记录 Session"></a>利用 Cookie 记录 Session</h3><p>将session存储到浏览器cookie中。</p>
-<p>缺点：</p>
-<ul>
-<li>极其容易被窃取，不安全</li>
-<li>受Cookie的大小限制</li>
-</ul>
-<h3 id="Session-复制"><a href="#Session-复制" class="headerlink" title="Session 复制"></a>Session 复制</h3><p>多台服务器间相互同步 session，这样每台服务器都包含全部的session。</p>
-<p>优点：</p>
-<ul>
-<li>任何一台服务器宕机都不会丢失session</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>session同步需要数据传输，有延迟</li>
-<li>浪费内存</li>
-</ul>
-<h3 id="Session-绑定"><a href="#Session-绑定" class="headerlink" title="Session 绑定"></a>Session 绑定</h3><p>对客户端 IP地址做 hash（如 nginx 的 ip_hash），将 Session 与某一服务器绑定，保证该客户端的每次请求都落在同一服务器上。</p>
-<p>优点：</p>
-<ul>
-<li>负载均衡，只要hash够平均</li>
-<li>不需要修改服务器代码，只需要修改nginx配置</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>某个服务器宕机后，对应的session就会丢失</li>
-<li>水平扩展服务器后，session会被rehash，客户端可能拿不到正确的session</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/01/11/从源码中浅析Java反射原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/11/从源码中浅析Java反射原理/" itemprop="url">从源码中浅析Java反射原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-11T12:02:30+08:00">
-                2019-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/01/11/从源码中浅析Java反射原理/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/11/从源码中浅析Java反射原理/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/01/11/从源码中浅析Java反射原理/" class="leancloud_visitors" data-flag-title="从源码中浅析Java反射原理">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,791 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="何为反射"><a href="#何为反射" class="headerlink" title="何为反射"></a>何为反射</h2><p>Oracle 的官方文档中是这么解释反射的：</p>
-<blockquote>
-<p>“Reflection enables Java code to discover information about the fields, methods and constructors of loaded classes, and to use reflected fields, methods, and constructors to operate on their underlying counterparts, within security restrictions. The API accommodates applications that need access to either the public members of a target object (based on its runtime class) or the members declared by a given class. It also allows programs to suppress default reflective access control.”</p>
-</blockquote>
-<p>具体而言，反射 (Reflection) 提供了一种在程序运行时动态获取 Class 方法、属性、接口等内部信息的机制。通过反射可以让在程序运行期实例化对象、调用方法、获取属性，即使方法或属性是 private 的也可以通过反射机制调用。</p>
-<h2 id="反射原理"><a href="#反射原理" class="headerlink" title="反射原理"></a>反射原理</h2><p>篇幅和精力有限，只看了获取 Class 、获取与调用 Method 和获取 Field 的源码。</p>
-<h3 id="反射获取-Class-原理-Class-forName-方法"><a href="#反射获取-Class-原理-Class-forName-方法" class="headerlink" title="反射获取 Class 原理(Class.forName()方法)"></a>反射获取 Class 原理(Class.forName()方法)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CallerSensitive</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Class&lt;?&gt; forName(String className) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">    <span class="comment">// 通过反射获取调用forName()方法的类caller</span></span><br><span class="line">    Class&lt;?&gt; caller = Reflection.getCallerClass();</span><br><span class="line">    <span class="comment">// 根据caller获取当前的classLoader，继续调用forName0()方法</span></span><br><span class="line">    <span class="keyword">return</span> forName0(className, <span class="keyword">true</span>, ClassLoader.getClassLoader(caller), caller);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// forName0()是一个native方法，可以获取指定的class信息</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">native</span> Class&lt;?&gt; forName0(String name, <span class="keyword">boolean</span> initialize,</span><br><span class="line">                                        ClassLoader loader,</span><br><span class="line">                                        Class&lt;?&gt; caller)</span><br><span class="line">    <span class="keyword">throws</span> ClassNotFoundException;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/01/11/从源码中浅析Java反射原理/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -2366,7 +2462,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2388,7 +2484,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2449,7 +2545,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">111.0k</span>
+    <span title="累计字数">115.3k</span>
   
 </div>
 

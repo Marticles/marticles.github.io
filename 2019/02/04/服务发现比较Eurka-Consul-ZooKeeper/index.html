@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="总结     Eureka Consul ZooKeeper     CAP AP CP CP   一致性算法 / Raft Paxos   服务健康检查 需配置 服务状态、内存、硬盘 长连接，KeepAlive   K-V 存储 / 支持 支持   自身监控 Metrics Metrics /   开发语言 Java Go Java     ConsulConsul 为服务发现、健康检查、K-V">
+<meta name="description" content="总结     Eureka Consul ZooKeeper     CAP AP CP CP   一致性算法 / Raft ZAB   服务健康检查 需配置 服务状态、内存、硬盘 长连接，KeepAlive   K-V 存储 / 支持 支持   自身监控 Metrics Metrics /   开发语言 Java Go Java     ConsulConsul 为服务发现、健康检查、K-V存储">
 <meta name="keywords" content="微服务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="服务发现比较:Eureka vs Consul vs ZooKeeper">
 <meta property="og:url" content="http://marticles.github.io/2019/02/04/服务发现比较Eurka-Consul-ZooKeeper/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="总结     Eureka Consul ZooKeeper     CAP AP CP CP   一致性算法 / Raft Paxos   服务健康检查 需配置 服务状态、内存、硬盘 长连接，KeepAlive   K-V 存储 / 支持 支持   自身监控 Metrics Metrics /   开发语言 Java Go Java     ConsulConsul 为服务发现、健康检查、K-V">
+<meta property="og:description" content="总结     Eureka Consul ZooKeeper     CAP AP CP CP   一致性算法 / Raft ZAB   服务健康检查 需配置 服务状态、内存、硬盘 长连接，KeepAlive   K-V 存储 / 支持 支持   自身监控 Metrics Metrics /   开发语言 Java Go Java     ConsulConsul 为服务发现、健康检查、K-V存储">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://marticles.github.io/images/服务发现比较Eurka-Consul-ZooKeeper/consul.png">
 <meta property="og:image" content="http://marticles.github.io/images/服务发现比较Eurka-Consul-ZooKeeper/eureka.png">
 <meta property="og:image" content="http://marticles.github.io/images/服务发现比较Eurka-Consul-ZooKeeper/1.png">
 <meta property="og:image" content="http://marticles.github.io/images/服务发现比较Eurka-Consul-ZooKeeper/2.png">
-<meta property="og:updated_time" content="2019-02-23T13:29:07.457Z">
+<meta property="og:updated_time" content="2019-02-24T16:04:16.940Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="服务发现比较:Eureka vs Consul vs ZooKeeper">
-<meta name="twitter:description" content="总结     Eureka Consul ZooKeeper     CAP AP CP CP   一致性算法 / Raft Paxos   服务健康检查 需配置 服务状态、内存、硬盘 长连接，KeepAlive   K-V 存储 / 支持 支持   自身监控 Metrics Metrics /   开发语言 Java Go Java     ConsulConsul 为服务发现、健康检查、K-V">
+<meta name="twitter:description" content="总结     Eureka Consul ZooKeeper     CAP AP CP CP   一致性算法 / Raft ZAB   服务健康检查 需配置 服务状态、内存、硬盘 长连接，KeepAlive   K-V 存储 / 支持 支持   自身监控 Metrics Metrics /   开发语言 Java Go Java     ConsulConsul 为服务发现、健康检查、K-V存储">
 <meta name="twitter:image" content="http://marticles.github.io/images/服务发现比较Eurka-Consul-ZooKeeper/consul.png">
 
 
@@ -406,7 +406,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,463 字
+                  1,645 字
                 </span>
               
 
@@ -452,7 +452,7 @@
 <td style="text-align:center">一致性算法</td>
 <td style="text-align:center">/</td>
 <td style="text-align:center">Raft</td>
-<td style="text-align:center">Paxos</td>
+<td style="text-align:center">ZAB</td>
 </tr>
 <tr>
 <td style="text-align:center">服务健康检查</td>
@@ -531,9 +531,16 @@
 </blockquote>
 <p>可以看出，服务发现只是 ZooKeeper 中的其中一个功能而已。</p>
 <p>ZooKeeper 只提供了原始的 K-V 存储，要想实现服务发现需要自己编写相关代码或借助其他工具。</p>
-<h2 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h2><p>当向服务注册中心查询服务列表时，返回过时的的服务列表是可以接受，但不能接受服务注册中心不可用。即服务发现对可用性(A)的追求是高于一致性(P)的，即服务注册中心应该是 AP 的。</p>
-<p>在 ZooKeeper 中，如果 master 节点失效，剩余节点便会触发 Leader 选举，但在选举期间，整个 ZK 集群都是不可用的。尽管 Dubbo 中为了解决这个问题而引入了本地缓存，但也是部分解决问题，例如在一个网络分区中节点数量达不到选举 Leader 的半数法定人数情况下，这个分区中的所有节点将从 ZK 中断开，不再提供服务，即使这些节点都是健康的。即 ZooKeeper 是无法保证可用性(A)的。服务注册的过程也是一样的，需要超过半数的法定人数节点数量都写入成功才能注册服务。Consul 中的过程与 上述 ZK 的类似。</p>
-<p>而在 Eureka 中，如果某个服务注册中心挂了，Eureka 不会有类似于 ZooKeeper 与 Consul 中的重新选举 Leader 过程，客户端的请求会自动切换到新的节点。当挂掉的节点恢复健康，Eureka 又会将它加入回集群中。</p>
+<h2 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h2><p>CAP原则指的是在一个分布式系统中，Consistency(一致性)、Availability(可用性)、Partition Tolerance(分区容错性)不能同时成立，最多只能同时实现以上两点。</p>
+<ul>
+<li>一致性(C)：要求在同一时刻，分布式系统中的所有数据都处于同一状态。</li>
+<li>可用性(A)：在系统集群的一部分节点宕机后，系统依然能够响应用户的请求。</li>
+<li>分区容错性(P)：在网络区间通信出现失败，系统能够容忍。</li>
+</ul>
+<p>由于网络的不稳定性，网络分区是不可避免的，所以分区容错性通常来说是必须需要实现的。</p>
+<h3 id="服务发现中的-CAP"><a href="#服务发现中的-CAP" class="headerlink" title="服务发现中的 CAP"></a>服务发现中的 CAP</h3><p>当向服务注册中心查询服务列表时，返回过时的的服务列表是可以接受，但不能接受服务注册中心不可用。即服务发现对可用性(A)的追求是高于一致性(P)的，即服务注册中心应该是 AP 的。</p>
+<p>在 ZooKeeper 中，如果 master 节点失效，剩余节点便会触发 Leader 选举，但在选举期间，整个 ZK 集群都是不可用的。尽管 Dubbo 中为了解决这个问题而引入了本地缓存，但也是部分解决问题，例如在一个网络分区中节点数量达不到选举 Leader 的半数法定人数情况下，这个分区中的所有节点将从 ZK 中断开，不再提供服务，即使这些节点都是健康的。即 ZooKeeper 是无法保证可用性的。服务注册的过程也是一样的，需要超过半数的法定人数节点数量都写入成功才能注册服务。Consul 中的过程与 上述 ZK 的类似。</p>
+<p>而在 Eureka 中，如果某个服务注册中心挂了，Eureka 不会有类似于 ZooKeeper 与 Consul 中的重新选举 Leader 过程，客户端的请求会自动切换到新的节点（满足了可用性A）。当挂掉的节点恢复健康，Eureka 又会将它加入回集群中。</p>
 <h2 id="Watch"><a href="#Watch" class="headerlink" title="Watch"></a>Watch</h2><p>Watch 即客户端观察到服务提供者变化，Zookeeper 支持服务器端推送变化， Eureka 1 和 Consul 则是通过长轮询的方式来实现感知服务变化，无法实时获取服务信息的变化。</p>
 <h2 id="三者的使用情况"><a href="#三者的使用情况" class="headerlink" title="三者的使用情况"></a>三者的使用情况</h2><p><img src="/images/服务发现比较Eurka-Consul-ZooKeeper/1.png" alt="1"></p>
 <p><img src="/images/服务发现比较Eurka-Consul-ZooKeeper/2.png" alt="2"></p>
@@ -678,7 +685,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -700,7 +707,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -743,7 +750,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Consul"><span class="nav-number">2.</span> <span class="nav-text">Consul</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Consul-的架构"><span class="nav-number">2.1.</span> <span class="nav-text">Consul 的架构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Eureka"><span class="nav-number">3.</span> <span class="nav-text">Eureka</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka-的架构"><span class="nav-number">3.1.</span> <span class="nav-text">Eureka 的架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka-的自我保护模式"><span class="nav-number">3.2.</span> <span class="nav-text">Eureka 的自我保护模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZooKeeper"><span class="nav-number">4.</span> <span class="nav-text">ZooKeeper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAP"><span class="nav-number">5.</span> <span class="nav-text">CAP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Watch"><span class="nav-number">6.</span> <span class="nav-text">Watch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三者的使用情况"><span class="nav-number">7.</span> <span class="nav-text">三者的使用情况</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Consul"><span class="nav-number">2.</span> <span class="nav-text">Consul</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Consul-的架构"><span class="nav-number">2.1.</span> <span class="nav-text">Consul 的架构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Eureka"><span class="nav-number">3.</span> <span class="nav-text">Eureka</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka-的架构"><span class="nav-number">3.1.</span> <span class="nav-text">Eureka 的架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka-的自我保护模式"><span class="nav-number">3.2.</span> <span class="nav-text">Eureka 的自我保护模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZooKeeper"><span class="nav-number">4.</span> <span class="nav-text">ZooKeeper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAP"><span class="nav-number">5.</span> <span class="nav-text">CAP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务发现中的-CAP"><span class="nav-number">5.1.</span> <span class="nav-text">服务发现中的 CAP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Watch"><span class="nav-number">6.</span> <span class="nav-text">Watch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三者的使用情况"><span class="nav-number">7.</span> <span class="nav-text">三者的使用情况</span></a></li></ol></div>
             
 
           </div>
@@ -777,7 +784,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">111.0k</span>
+    <span title="累计字数">115.3k</span>
   
 </div>
 

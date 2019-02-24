@@ -293,6 +293,388 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/" itemprop="url">分布式Session一致性问题与JWT的强制失效方案</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-30T14:27:23+08:00">
+                2019-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/" class="leancloud_visitors" data-flag-title="分布式Session一致性问题与JWT的强制失效方案">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  461 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Session一致性解决方案"><a href="#Session一致性解决方案" class="headerlink" title="Session一致性解决方案"></a>Session一致性解决方案</h2><h3 id="利用-Cookie-记录-Session"><a href="#利用-Cookie-记录-Session" class="headerlink" title="利用 Cookie 记录 Session"></a>利用 Cookie 记录 Session</h3><p>将session存储到浏览器cookie中。</p>
+<p>缺点：</p>
+<ul>
+<li>极其容易被窃取，不安全</li>
+<li>受Cookie的大小限制</li>
+</ul>
+<h3 id="Session-复制"><a href="#Session-复制" class="headerlink" title="Session 复制"></a>Session 复制</h3><p>多台服务器间相互同步 session，这样每台服务器都包含全部的session。</p>
+<p>优点：</p>
+<ul>
+<li>任何一台服务器宕机都不会丢失session</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>session同步需要数据传输，有延迟</li>
+<li>浪费内存</li>
+</ul>
+<h3 id="Session-绑定"><a href="#Session-绑定" class="headerlink" title="Session 绑定"></a>Session 绑定</h3><p>对客户端 IP地址做 hash（如 nginx 的 ip_hash），将 Session 与某一服务器绑定，保证该客户端的每次请求都落在同一服务器上。</p>
+<p>优点：</p>
+<ul>
+<li>负载均衡，只要hash够平均</li>
+<li>不需要修改服务器代码，只需要修改nginx配置</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>某个服务器宕机后，对应的session就会丢失</li>
+<li>水平扩展服务器后，session会被rehash，客户端可能拿不到正确的session</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/30/分布式Session一致性问题与JWT的强制失效方案/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/01/11/从源码中浅析Java反射原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/11/从源码中浅析Java反射原理/" itemprop="url">从源码中浅析Java反射原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-11T12:02:30+08:00">
+                2019-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/11/从源码中浅析Java反射原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/11/从源码中浅析Java反射原理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/11/从源码中浅析Java反射原理/" class="leancloud_visitors" data-flag-title="从源码中浅析Java反射原理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,791 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="何为反射"><a href="#何为反射" class="headerlink" title="何为反射"></a>何为反射</h2><p>Oracle 的官方文档中是这么解释反射的：</p>
+<blockquote>
+<p>“Reflection enables Java code to discover information about the fields, methods and constructors of loaded classes, and to use reflected fields, methods, and constructors to operate on their underlying counterparts, within security restrictions. The API accommodates applications that need access to either the public members of a target object (based on its runtime class) or the members declared by a given class. It also allows programs to suppress default reflective access control.”</p>
+</blockquote>
+<p>具体而言，反射 (Reflection) 提供了一种在程序运行时动态获取 Class 方法、属性、接口等内部信息的机制。通过反射可以让在程序运行期实例化对象、调用方法、获取属性，即使方法或属性是 private 的也可以通过反射机制调用。</p>
+<h2 id="反射原理"><a href="#反射原理" class="headerlink" title="反射原理"></a>反射原理</h2><p>篇幅和精力有限，只看了获取 Class 、获取与调用 Method 和获取 Field 的源码。</p>
+<h3 id="反射获取-Class-原理-Class-forName-方法"><a href="#反射获取-Class-原理-Class-forName-方法" class="headerlink" title="反射获取 Class 原理(Class.forName()方法)"></a>反射获取 Class 原理(Class.forName()方法)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CallerSensitive</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Class&lt;?&gt; forName(String className) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">    <span class="comment">// 通过反射获取调用forName()方法的类caller</span></span><br><span class="line">    Class&lt;?&gt; caller = Reflection.getCallerClass();</span><br><span class="line">    <span class="comment">// 根据caller获取当前的classLoader，继续调用forName0()方法</span></span><br><span class="line">    <span class="keyword">return</span> forName0(className, <span class="keyword">true</span>, ClassLoader.getClassLoader(caller), caller);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// forName0()是一个native方法，可以获取指定的class信息</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">native</span> Class&lt;?&gt; forName0(String name, <span class="keyword">boolean</span> initialize,</span><br><span class="line">                                        ClassLoader loader,</span><br><span class="line">                                        Class&lt;?&gt; caller)</span><br><span class="line">    <span class="keyword">throws</span> ClassNotFoundException;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/11/从源码中浅析Java反射原理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/01/09/《Spring实战》阅读笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1852,387 +2234,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/11/17/决策树算法之ID3-C4.5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/17/决策树算法之ID3-C4.5/" itemprop="url">决策树算法之ID3/C4.5</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-17T15:37:35+08:00">
-                2018-11-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/17/决策树算法之ID3-C4.5/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/17/决策树算法之ID3-C4.5/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/11/17/决策树算法之ID3-C4.5/" class="leancloud_visitors" data-flag-title="决策树算法之ID3/C4.5">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,633 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>决策树由结点(node)和有向边(directed edge)组成。结点有两种类型：内部结点(internal node)和叶结点(leaf node)。内部结点表示一个特征或属性(features)，叶结点表示一个类(labels)。</p>
-<p>决策树学习通常包括 3 个步骤：特征选择、决策树的生成和决策树的修剪。</p>
-<p>参考：周志华-《机器学习》&amp;Peter Harrington-《机器学习实战》&amp;李航-《统计学习方法》</p>
-<h2 id="信息量与信息熵"><a href="#信息量与信息熵" class="headerlink" title="信息量与信息熵"></a>信息量与信息熵</h2><p>信息量是对信息的度量，可以由下式表示，其中$p(x)$为事件发生概率，信息量是对信息的度量。</p>
-<script type="math/tex; mode=display">
-h(x)=-log_2{p(x)}</script><p>信息熵(Information entropy)刻画了样本的纯度(purity)，取值范围为0到1。其中0表示样本完全同质，即所有样本都是一类，越接近1代表样本越混乱。信息熵可以由下式表示。</p>
-<script type="math/tex; mode=display">
-H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/17/决策树算法之ID3-C4.5/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/11/15/Python并发编程之concurrent.futures/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/15/Python并发编程之concurrent.futures/" itemprop="url">Python并发编程之concurrent.futures</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-15T19:23:12+08:00">
-                2018-11-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/15/Python并发编程之concurrent.futures/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/15/Python并发编程之concurrent.futures/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/11/15/Python并发编程之concurrent.futures/" class="leancloud_visitors" data-flag-title="Python并发编程之concurrent.futures">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,957 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="一次请求超时问题所引申出的笔记"><a href="#一次请求超时问题所引申出的笔记" class="headerlink" title="一次请求超时问题所引申出的笔记"></a>一次请求超时问题所引申出的笔记</h2><p>最近项目中遇到了一个问题，一个模块中的任务是计算密集型的，服务器的响应要十几到几十分钟不等（VPS是单核1G的学生机，没办法呀´･_･`），用户过来的请求自然会出现连接超时的问题。</p>
-<p>初步想到的解决办法是把这个任务挂到后台去异步处理，然后先返回给用户一个任务已提交的提示就OK了。一开始用的是线程池 <code>ThreadPoolExecutor</code>，后来了解到 <code>GIL</code> 全局解释器锁这个神奇的存在，对于这种计算密集型任务必然会引起十分频繁的上下文切换，大大降低效率，所以最后的解决办法又换成了进程池 <code>ProcessPoolExecutor</code>。</p>
-<p>本文使用的是 Python3 中自带的 <code>concurrent.futures</code> 并发模块。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/15/Python并发编程之concurrent.futures/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2287,7 +2288,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2309,7 +2310,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2370,7 +2371,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">111.0k</span>
+    <span title="累计字数">115.3k</span>
   
 </div>
 
