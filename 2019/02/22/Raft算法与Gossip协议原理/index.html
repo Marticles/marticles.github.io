@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://marticles.github.io/images/Raft算法与Gossip协议原理/1.jpg">
 <meta property="og:image" content="http://marticles.github.io/images/Raft算法与Gossip协议原理/2.jpg">
 <meta property="og:image" content="http://marticles.github.io/images/Raft算法与Gossip协议原理/3.jpg">
-<meta property="og:updated_time" content="2019-02-24T16:30:32.599Z">
+<meta property="og:updated_time" content="2019-02-27T11:41:17.833Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Raft算法与Gossip协议原理">
 <meta name="twitter:description" content="前言Consul 中使用 Raft 算法解决一致性问题，使用 Gossip 协议来管理集群成员和广播消息，其中 Raft 属于强一致性模型，Gossip 属于弱一致性模型。不仅是 Consul，Redis Cluster 中也使用了 Gossip 协议。 Raft 算法Raft 算法中的 Server 有以下三种状态：Leader（领导者）、Follower（跟随者）和 Candidate（候选者">
@@ -454,7 +454,7 @@
 <li><p>新的 leader会继续向 follower发送心跳，心跳包里包含 client 的事务处理和查询请求，每次 follower接收到来自 leader 的心跳后，就会刷新自己的 timeout。</p>
 </li>
 </ol>
-<!--next-->
+<a id="more"></a>
 <h4 id="情形2：选举中收到其他的-Leader-RPC"><a href="#情形2：选举中收到其他的-Leader-RPC" class="headerlink" title="情形2：选举中收到其他的 Leader RPC"></a>情形2：选举中收到其他的 Leader RPC</h4><p>当一个 candidate 等待选票时，可能会收到来自其他 candidate 发来的声明其为 leader 的 AppendEntries RPC。如果这个 leader 的任期比这个 candidate 的当前任期要大，则 candidate 认为该 leader 合法，并且转换自己的状态为 follower。如果在这个 RPC 中的任期小于 candidate 的当前任期，则 candidate 会拒绝此次 RPC， 继续保持 candidate 状态。</p>
 <h4 id="情形3：-选举平票"><a href="#情形3：-选举平票" class="headerlink" title="情形3： 选举平票"></a>情形3： 选举平票</h4><p>如果同时有多个 follwer 想要竞选 leader，且它们都收到了同样的票数，那么这些 follower 会在等待随机的 timeout 后再次发起选举，以保证总会有一个 follower 是最先达到法定人数票数的。</p>
 <p>即<strong>每个节点的 timeout 都是随机决定的</strong>，一般在 150 到 300 毫秒之间，这种机制使得在大多数情况下只有一个节点会率先到达 timeout，它会在其它节点 timeout 之前赢得选举并且向其它节点发送声明其选举成功的心跳。</p>
@@ -504,9 +504,9 @@
 <blockquote>
 <p>其他 Raft 参考资料：<br><a href="http://thesecretlivesofdata.com/raft" target="_blank" rel="noopener">Raft 可视化</a><br><a href="https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md" target="_blank" rel="noopener">Raft 论文中文翻译</a><br><a href="https://raft.github.io/" target="_blank" rel="noopener">Raft 官网</a></p>
 </blockquote>
-<h2 id="Gossip-协议"><a href="#Gossip-协议" class="headerlink" title="Gossip 协议"></a>Gossip 协议</h2><p>　Gossip 协议适用于去中心化，容忍时延，读多写少的分布式集群场景。Gossip 过程由种子节点发起，当一个种子节点有状态需要更新到网络中的其他节点时，它会随机的选择周围几个节点散播消息，收到消息的节点也会重复该过程，直至最终网络中所有的节点都收到了消息。这个过程可能需要一定的时间，由于不能保证某个时刻所有节点都收到消息，但是理论上最终所有节点都会收到消息，因此它是一个最终一致性协议。</p>
-<p>Gossip 协议 是为了解决分布式环境下监控和事件通知的瓶颈。Gossip 协议中的每个 Agent 会利用 Gossip 协议互相检查在线状态，分担了服务器节点的心跳压力，通过Gossip 广播的方式发送消息。</p>
-<p>Gossip 协议的最大的好处在于即使集群节点的数量增加，每个节点的负载也不会增加很多，几乎是恒定的。这就允许Consul管理的集群规模能横向扩展到数千个节点。</p>
+<h2 id="Gossip-协议"><a href="#Gossip-协议" class="headerlink" title="Gossip 协议"></a>Gossip 协议</h2><p>Gossip 协议适用于去中心化、容忍时延、读多写少的分布式集群场景。Gossip 过程由种子节点发起，当一个种子节点有状态需要更新到网络中的其他节点时，它会随机的选择周围几个节点散播消息，收到消息的节点也会重复该过程，直至最终网络中所有的节点都收到了消息。这个过程可能需要一定的时间，由于不能保证某个时刻所有节点都收到消息，但是理论上最终所有节点都会收到消息，因此它是一个最终一致性协议。</p>
+<p>Gossip 协议是为了解决分布式环境下监控和事件通知的瓶颈。Gossip 协议中的每个 Agent 会利用 Gossip 协议互相检查在线状态，分担了服务器节点的心跳压力，通过 Gossip 广播的方式发送消息。</p>
+<p>Gossip 协议的最大的好处在于即使集群节点的数量增加，每个节点的负载也不会增加很多，几乎是恒定的。这就允许 Consul 管理的集群规模能横向扩展到数千个节点。</p>
 <p>基于 Raft 算法，Consul 提供强一致性的注册中心服务，但是由于 Leader 节点承担了所有的处理工作，势必加大了注册和发现的代价，降低了服务的可用性。通过 Gossip 协议，Consul 可以很好地监控 Consul 集群的运行，同时可以方便通知各类事件，如 leader 选择发生、server 地址变更等。</p>
 <h3 id="Gossip-的特点"><a href="#Gossip-的特点" class="headerlink" title="Gossip 的特点"></a>Gossip 的特点</h3><ol>
 <li><p><strong>扩展性</strong>：网络可以允许节点的任意增加和减少，新增加的节点的状态最终会与其他节点一致。</p>
@@ -591,6 +591,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/02/26/SpringAOP的两种实现-JDK-CGLib动态代理/" rel="prev" title="Spring AOP的两种实现:JDK/CGLib动态代理">
+                Spring AOP的两种实现:JDK/CGLib动态代理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -673,7 +677,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -708,16 +712,28 @@
           
             <div class="links-of-author motion-element">
                 
-                  <span class="links-of-author-item">
+                  <span class="links-of-author-item" >
                     <a href="https://github.com/Marticles" target="_blank" title="GitHub">
                       
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                        <i class="fa fa-fw fa-github" ></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item" >
+                    <a href="marticles.reg@hotmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope" ></i>E-Mail</a>
                   </span>
                 
             </div>
           
 
           
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
           
 
           
@@ -772,7 +788,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">115.3k</span>
+    <span title="累计字数">118.4k</span>
   
 </div>
 
