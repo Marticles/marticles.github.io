@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="推荐系统," />
+  <meta name="keywords" content="Marticles" />
 
 
 
@@ -79,22 +79,17 @@
 
 
 
-<meta name="description" content="前言实现简单而有效的推荐系统其实并不复杂，本文介绍了几种常见的推荐系统技术，包括基于用户/物品的协同过滤、基于内容与基于知识的推荐系统，以及这几种技术的优缺点，并使用MovieLens数据集构造了一个十分简单的基于物品的推荐系统。文章为个人兴趣译制，原文链接请点击这里。译文已投稿至伯乐在线，感谢原作者的奉献，感谢”小米云豆粥”的校对。 推荐系统概述 “Many receive advice, on">
-<meta name="keywords" content="推荐系统">
+<meta name="description" content="第1章 整洁代码What is clean codeRon Jeffries 对 Clean Code 的排序：  能通过所有测试 没有重复代码 体现系统中的全部设计理念 包括尽量少的实体，比如类、方法、函数等  We are the authorJavadoc 中的 @author 字段告诉了我们是什么人，我们是作者，写代码时，应记得自己作为一个作者，要为评判你工作的的读者写代码。使代码易读，自">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[个人翻译]推荐系统概述">
-<meta property="og:url" content="http://marticles.github.io/2018/07/29/个人翻译-推荐系统概述/index.html">
+<meta property="og:title" content="《代码整洁之道》阅读笔记">
+<meta property="og:url" content="http://marticles.github.io/2019/03/02/《代码整洁之道》阅读笔记/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="前言实现简单而有效的推荐系统其实并不复杂，本文介绍了几种常见的推荐系统技术，包括基于用户/物品的协同过滤、基于内容与基于知识的推荐系统，以及这几种技术的优缺点，并使用MovieLens数据集构造了一个十分简单的基于物品的推荐系统。文章为个人兴趣译制，原文链接请点击这里。译文已投稿至伯乐在线，感谢原作者的奉献，感谢”小米云豆粥”的校对。 推荐系统概述 “Many receive advice, on">
+<meta property="og:description" content="第1章 整洁代码What is clean codeRon Jeffries 对 Clean Code 的排序：  能通过所有测试 没有重复代码 体现系统中的全部设计理念 包括尽量少的实体，比如类、方法、函数等  We are the authorJavadoc 中的 @author 字段告诉了我们是什么人，我们是作者，写代码时，应记得自己作为一个作者，要为评判你工作的的读者写代码。使代码易读，自">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://marticles.github.io/images/个人翻译-推荐系统概述/1.png">
-<meta property="og:image" content="http://marticles.github.io/images/个人翻译-推荐系统概述/2.png">
-<meta property="og:image" content="http://marticles.github.io/images/个人翻译-推荐系统概述/3.png">
-<meta property="og:updated_time" content="2019-02-28T08:39:24.273Z">
+<meta property="og:updated_time" content="2019-03-07T13:20:36.916Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[个人翻译]推荐系统概述">
-<meta name="twitter:description" content="前言实现简单而有效的推荐系统其实并不复杂，本文介绍了几种常见的推荐系统技术，包括基于用户/物品的协同过滤、基于内容与基于知识的推荐系统，以及这几种技术的优缺点，并使用MovieLens数据集构造了一个十分简单的基于物品的推荐系统。文章为个人兴趣译制，原文链接请点击这里。译文已投稿至伯乐在线，感谢原作者的奉献，感谢”小米云豆粥”的校对。 推荐系统概述 “Many receive advice, on">
-<meta name="twitter:image" content="http://marticles.github.io/images/个人翻译-推荐系统概述/1.png">
+<meta name="twitter:title" content="《代码整洁之道》阅读笔记">
+<meta name="twitter:description" content="第1章 整洁代码What is clean codeRon Jeffries 对 Clean Code 的排序：  能通过所有测试 没有重复代码 体现系统中的全部设计理念 包括尽量少的实体，比如类、方法、函数等  We are the authorJavadoc 中的 @author 字段告诉了我们是什么人，我们是作者，写代码时，应记得自己作为一个作者，要为评判你工作的的读者写代码。使代码易读，自">
 
 
 
@@ -124,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://marticles.github.io/2018/07/29/个人翻译-推荐系统概述/"/>
+  <link rel="canonical" href="http://marticles.github.io/2019/03/02/《代码整洁之道》阅读笔记/"/>
 
 
 
 
 
-  <title>[个人翻译]推荐系统概述 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>《代码整洁之道》阅读笔记 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -301,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/07/29/个人翻译-推荐系统概述/">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/03/02/《代码整洁之道》阅读笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Marticles">
@@ -318,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">[个人翻译]推荐系统概述</h1>
+          <h1 class="post-title" itemprop="name headline">《代码整洁之道》阅读笔记</h1>
         
 
         <div class="post-meta">
@@ -330,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T22:21:35+08:00">
-                2018-07-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-02T20:34:26+08:00">
+                2019-03-02
               </time>
             
 
@@ -353,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/个人翻译/" itemprop="url" rel="index">
-                    <span itemprop="name">个人翻译</span>
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
                   </a>
                 </span>
 
@@ -371,8 +366,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/07/29/个人翻译-推荐系统概述/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/07/29/个人翻译-推荐系统概述/" itemprop="commentCount"></span>
+                <a href="/2019/03/02/《代码整洁之道》阅读笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/02/《代码整洁之道》阅读笔记/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -380,7 +375,7 @@
 
           
           
-             <span id="/2018/07/29/个人翻译-推荐系统概述/" class="leancloud_visitors" data-flag-title="[个人翻译]推荐系统概述">
+             <span id="/2019/03/02/《代码整洁之道》阅读笔记/" class="leancloud_visitors" data-flag-title="《代码整洁之道》阅读笔记">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -405,7 +400,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,461 字
+                  732 字
                 </span>
               
 
@@ -430,52 +425,35 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>实现简单而有效的推荐系统其实并不复杂，本文介绍了几种常见的推荐系统技术，包括基于用户/物品的协同过滤、基于内容与基于知识的推荐系统，以及这几种技术的优缺点，并使用MovieLens数据集构造了一个十分简单的基于物品的推荐系统。<br>文章为个人兴趣译制，原文链接<a href="https://dzone.com/articles/introduction-to-recommender-systems" target="_blank" rel="noopener"><strong>请点击这里</strong>。</a>译文已投稿至<a href="http://blog.jobbole.com/?p=114167" target="_blank" rel="noopener"><strong>伯乐在线</strong></a>，感谢原作者的奉献，感谢”小米云豆粥”的校对。</p>
-<h2 id="推荐系统概述"><a href="#推荐系统概述" class="headerlink" title="推荐系统概述"></a>推荐系统概述</h2><blockquote>
-<p>“Many receive advice, only the wise profit from it.” – Harper Lee<br>“聆忠言者众，惟智者受益。” — 哈珀·李</p>
-</blockquote>
-<p>我们中的许多人把推荐系统视为一种神秘的存在，因为他们觉得推荐系统似乎知道我们的想法是什么。想想看Netflix的推荐引擎，它向我们推荐电影，还有亚马逊，它向我们推荐该买什么样的商品。推荐系统从早期发展到现在，已经得到了很大的改进和完善，以不断地提高用户体验。尽管推荐系统中许多都是非常复杂的系统，但其背后的基本思想依然十分简单。</p>
-<h2 id="推荐系统是什么？"><a href="#推荐系统是什么？" class="headerlink" title="推荐系统是什么？"></a>推荐系统是什么？</h2><p>推荐系统是信息过滤系统的一个子类，它根据用户的偏好和行为，来向用户呈现他(或她)可能感兴趣的物品。推荐系统会尝试去预测你对一个物品的喜好，以此向你推荐一个你很有可能会喜欢的物品。</p>
-<h2 id="如何构建一个推荐系统？"><a href="#如何构建一个推荐系统？" class="headerlink" title="如何构建一个推荐系统？"></a>如何构建一个推荐系统？</h2><p>虽然现在已经有很多种技术来建立一个推荐系统了，但我选择向你们介绍其中最简单，也是最常用的三种。他们是：一，协同过滤；二，基于内容的推荐系统；三，基于知识的推荐系统。我会解释前面的每个系统相关的弱点，潜在的缺陷，以及如何去避免它们。最后，我在文章末尾为你们准备了一个推荐系统的完整实现。</p>
-<h3 id="协同过滤"><a href="#协同过滤" class="headerlink" title="协同过滤"></a>协同过滤</h3><p>协同过滤，作为第一种被用在推荐系统上的技术，至今仍是最简单且最有效的。协同过滤的过程分为这三步：一开始，收集用户信息，然后以此生成矩阵来计算用户关联，最后作出高可信度的推荐。这种技术分为两大类：一种基于用户，另一种则是基于组成环境的物品。</p>
-<h4 id="基于用户的协同过滤"><a href="#基于用户的协同过滤" class="headerlink" title="基于用户的协同过滤"></a>基于用户的协同过滤</h4><p>基于用户的协同过滤背后的思想是寻找与我们的目标用户具有相似品味的用户。如果Jean-Pierre和Jason曾对几部电影给出了相似的评分，那么我们认为他们就是相似的用户，接着我们就可以使用Jean Pierre的评分来预测Jason的未知评分。例如，如果Jean-Pierre喜欢星球大战3:绝地武士归来和星球大战5:帝国反击战，Jason也喜欢绝地武士归来，那么帝国反击战对Jason来说是就是一个很好的推荐。一般来说，你只需要一小部分与Jason相似的用户来预测他的评价。</p>
-<p><img src="/images/个人翻译-推荐系统概述/1.png" alt=""><br><a id="more"></a></p>
-<p>在下表中，每行代表一个用户，每列代表一部电影，只需简单地查找这个矩阵中行之间的相似度，就可以找到相似的用户了。  </p>
-<p><img src="/images/个人翻译-推荐系统概述/2.png" alt=""></p>
-<p>然而，基于用户的协同过滤在实现中存在一些以下问题：  </p>
-<ul>
-<li>用户偏好会随时间的推移而改变，推荐系统生成的许多推荐可能会随之变得过时。  </li>
-<li>用户的数量越多，生成推荐的时间就越长。  </li>
-<li>基于用户会导致对托攻击敏感，这种攻击方法是指恶意人员通过绕过推荐系统，使得特定物品的排名高于其他物品。<br>(托攻击即Shilling Attack,是一种针对协同过滤根据近邻偏好产生推荐的特点，恶意注入伪造的用户模型，推高或打压目标排名，从而达到改变推荐系统结果的攻击方式)   </li>
+        <h2 id="第1章-整洁代码"><a href="#第1章-整洁代码" class="headerlink" title="第1章 整洁代码"></a>第1章 整洁代码</h2><h3 id="What-is-clean-code"><a href="#What-is-clean-code" class="headerlink" title="What is clean code"></a>What is clean code</h3><p>Ron Jeffries 对 Clean Code 的排序：</p>
+<ol>
+<li>能通过所有测试</li>
+<li>没有重复代码</li>
+<li>体现系统中的全部设计理念</li>
+<li>包括尽量少的实体，比如类、方法、函数等</li>
+</ol>
+<h3 id="We-are-the-author"><a href="#We-are-the-author" class="headerlink" title="We are the author"></a>We are the author</h3><p>Javadoc 中的 @author 字段告诉了我们是什么人，我们是<strong>作者</strong>，写代码时，应记得自己作为一个<strong>作者</strong>，要为评判你工作的的读者写代码。使代码易读，自然也会使之易写。</p>
+<h2 id="第2章-有意义的命名"><a href="#第2章-有意义的命名" class="headerlink" title="第2章 有意义的命名"></a>第2章 有意义的命名</h2><ul>
+<li>名副其实：变量、函数和类的名称应该表达了所有的大问题，如果名称还需要注释来补充，那就不算名副其实。</li>
+<li>避免误导：避免使用系统的专用名称，避免在名称中带入注入List关键字等待有特殊意义的词(即使容器是个List，最好也不要直接写出类型名)，避免使用十分类似的名称（如XYZControllerForHandingOfStrings和XYZControllerForStorageOfStrings），避免使用误导性名称（如Ol和01）。</li>
+<li>做有意义的区分：像a1，a2，an的区分等同于废话，诸如getUser()、getUserInfo()、getUserData()的方法，如果没有明确的约定，也是很难一言看出区别的。要区别名称，必须要让以读者有鉴别不同之处的方式来区分。</li>
+<li>使用读得出来的名称：比如生成时间戳，不要用genymdhms这样的生造词，用genTimestamp会更像人话。</li>
+<li>使用可搜索的名称：单字母和数字常量是很难被一下搜出来的，单字母名称仅可用在短方法中的本地变量，<strong>名称的长短应与其作用域大小相对应</strong>。</li>
+<li>避免使用编码：不必使用成员前缀，<strong>对于接口和实现，不推荐使用“I”开头修饰，不如在实现类中直接添加后缀“Imp”</strong>。</li>
+<li>避免思维映射：专业的程序员和聪明的程序员之间的区别在于，专业的程序员知道，<strong>明确是王道，他们写的是其他人能理解的代码</strong>（过于”聪明“的程序员写的代码只有自己能看懂）。</li>
+<li>类名：<strong>类名和对象名应该是名词或名词短语</strong>，类名不应当是动词</li>
+<li>方法名：<strong>方法名应当是动词或动词短语</strong>，访问、修改和断言应该加上前缀”get”、”set”、”is”。</li>
+<li>每个概念对应一个词：给每个抽象概念（fetch、retrieve、get这些相近词就很糟糕）选一个词，并一以贯之。</li>
+<li>添加有意义的语境，但不要添加没用的语境，精确才是命名的要点。</li>
 </ul>
-<h4 id="基于物品的协同过滤"><a href="#基于物品的协同过滤" class="headerlink" title="基于物品的协同过滤"></a>基于物品的协同过滤</h4><p>基于物品的协同过滤过程很简单。两个物品的相似性基于用户给出的评分来算出。让我们回到Jean-Pierre与Jason的例子，他们两人都喜欢“绝地武士归来”和“帝国反击战”。 因此，我们可以推断，喜欢第一部电影的大多数用户也可能会喜欢第二部电影。所以，对于喜欢“绝地武士归来”的第三个人Larry来说，”帝国反击战“的推荐将是有意义的。  </p>
-<p><img src="/images/个人翻译-推荐系统概述/3.png" alt=""></p>
-<p>所以，这里的相似度是根据列而不是行来计算的(与上面的用户-电影矩阵中所见的不同)。基于物品的协同过滤常常受到青睐，因为它没有任何基于用户的协同过滤的缺点。首先，系统中的物品(在这个例子中物品就是电影)不会随着时间的推移而改变，所以推荐会越来越具有关联性。此外，通常推荐系统中的物品都会比用户少，这减少了推荐的处理时间。最后，考虑到没有用户能够改变系统中的物品，这种系统要更难于被欺骗或攻击。</p>
-<h3 id="基于内容的推荐系统"><a href="#基于内容的推荐系统" class="headerlink" title="基于内容的推荐系统"></a>基于内容的推荐系统</h3><p>在基于内容的推荐系统中，元素的描述性属性被用来构成推荐。“内容Content”一词指的就是这些描述。举个例子，根据Sophie的听歌历史，推荐系统注意到她似乎喜欢乡村音乐。因此，系统可以推荐相同或相似类型的歌曲。更复杂的推荐系统能够发现多个属性之间的关系，从而产生更高质量的推荐。例如，音乐基因组计划(Music Genome Project)根据450个不同的属性将数据库中的每支歌曲进行分类。该项目为Pandor的歌曲推荐提供技术支持。(Pandor提供在线音乐流媒体服务，类似Spolify)  </p>
-<h3 id="基于知识的推荐系统"><a href="#基于知识的推荐系统" class="headerlink" title="基于知识的推荐系统"></a>基于知识的推荐系统</h3><p>基于知识的推荐系统在物品购买频率很低的情况下特别适用。例如房屋、汽车、金融服务甚至是昂贵的奢侈品。在这种情况下，推荐的过程中常常缺乏商品的评价。基于知识的推荐系统不使用评价来作出推荐。相反，推荐过程是基于顾客的需求和商品描述之间的相似度，或是对特定用户的需求使用约束来进行的。这使得这种类型的系统是独一无二的，因为它允许顾客明确地指定他们想要什么。关于约束，当应用时，它们大多是由该领域的专家实施的，这些专家从一开始就知道该如何实施这些约束。例如，当用户明确指出在一个特定的价格范围内寻找一个家庭住宅时，系统必须考虑到这个用户规定的约束。</p>
-<h2 id="推荐系统中的冷启动问题"><a href="#推荐系统中的冷启动问题" class="headerlink" title="推荐系统中的冷启动问题"></a>推荐系统中的冷启动问题</h2><p>推荐系统中的主要问题之一是最初可用的评价数量相对较小。当新用户还没有给电影打分，或者一部新的电影被添加到系统中时，我们该怎么做呢？在这种情况下，应用传统的协同过滤模型会更加困难。尽管基于内容和基于知识的推荐算法在面临冷启动问题时比协同过滤更具有鲁棒性，但基于内容和基于知识并不总是可用的。因此，一些新方法，比如混合系统，已经被设计出用来解决这个问题了。</p>
-<h2 id="混合推荐系统"><a href="#混合推荐系统" class="headerlink" title="混合推荐系统"></a>混合推荐系统</h2><p>注意，文章到目前为止所介绍的不同类型的推荐系统都互有优劣，他们根据不同的数据给出推荐。 一些推荐系统，如基于知识的推荐系统，在数据量有限的冷启动环境下最为有效。其他系统，如协同过滤，在有大量数据可用时则更加有效。在多数情况下，数据都是多样化的，我们可以为同一任务灵活采用多种方法。 因此，我们可以结合多种不同技术的推荐来提高整个系统的推荐质量。许多的组合性技术已经被探索出来了，包括：</p>
-<ul>
-<li>加权：为推荐系统中的每种算法都赋予不同的权重，使得推荐偏向某种算法  </li>
-<li>交叉：将所有的推荐结果合在一起展现，没有偏重  </li>
-<li>增强：一个系统的推荐将作为下一个系统的输入，循环直至最后一个系统为止  </li>
-<li>切换：随机选择一种推荐方法  </li>
+<a id="more"></a>
+<h2 id="第3章-函数"><a href="#第3章-函数" class="headerlink" title="第3章 函数"></a>第3章 函数</h2><ul>
+<li>短小</li>
+<li>只做一件事：函数应该做一件事。做好这件事。只做这一件事。</li>
+<li>每个函数一个抽象层级：让代码拥有自顶向下的阅读顺序、</li>
+<li>使用描述性名称</li>
+<li></li>
 </ul>
-<p>混合推荐系统中的一个最有名的例子是于2006至2009年举行的Netflix Price算法竞赛。这个竞赛的目标是将Netflix的电影推荐系统Cinematch的算法准确率提高至少10%。Bellkor’s Pragmatix Chaos团队用一种融合了107种不同算法的方案将Cinematch系统的推荐准确率提高了10.06%，并最终获得了100万美元奖金。你可能会对这个例子中的准确率感到好奇，准确率其实就是对电影的预测评分与实际评分接近程度的度量。</p>
-<h2 id="推荐系统与AI？"><a href="#推荐系统与AI？" class="headerlink" title="推荐系统与AI？"></a>推荐系统与AI？</h2><p>推荐系统常用于人工智能领域。推荐系统的能力 - 洞察力，预测事件的能力和突出关联的能力常被用于人工智能中。另一方面，机器学习技术常被用于实现推荐系统。例如，在Arcbees，我们使用了神经网络和来自IMdB的数据成功建立了一个电影评分预测系统。神经网络可以快速地执行复杂的任务并轻松地处理大量数据。通过使用电影列表作为神经网络的输入，并将神经网络的输出与用户评分进行比较，神经网络可以自我学习规则以预测特定用户的未来评分。</p>
-<h2 id="专家建议"><a href="#专家建议" class="headerlink" title="专家建议"></a>专家建议</h2><p>在这篇文章中，我注意到有两个很重要的建议经常被推荐系统领域内的专家提及。第一，基于用户付费的物品进行推荐。当一个用户有购买意愿时，你就可以断定他的评价一定是更具有相关性与准确的。第二，使用多种算法总是比改进一种算法要好。Netflix Prize竞赛就是一个很好的例子。</p>
-<h2 id="实现一个基于物品的推荐系统"><a href="#实现一个基于物品的推荐系统" class="headerlink" title="实现一个基于物品的推荐系统"></a>实现一个基于物品的推荐系统</h2><p>下面的代码演示了实现一个基于物品的推荐系统是多么的简单与快速。所使用的语言是Python，并使用了Pandas与Numpy这两个在推荐系统领域中最流行的库。所使用的数据是电影评分，数据集来自MovieLens。  </p>
-<h3 id="第一步：寻找相似的电影"><a href="#第一步：寻找相似的电影" class="headerlink" title="第一步：寻找相似的电影"></a>第一步：寻找相似的电影</h3><p>1.读取数据<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">ratings_cols = [<span class="string">'user_id'</span>, <span class="string">'movie_id'</span>, <span class="string">'rating'</span>]</span><br><span class="line">ratings = pd.read_csv(<span class="string">'u.data'</span>, sep=<span class="string">'\t'</span>, names=ratings_cols, usecols=range(<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">movies_cols = [<span class="string">'movie_id'</span>, <span class="string">'title'</span>]</span><br><span class="line">movies = pd.read_csv(<span class="string">'u.item'</span>, sep=<span class="string">'|'</span>, names=movies_cols, usecols=range(<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">ratings = pd.merge(ratings, movies)</span><br></pre></td></tr></table></figure></p>
-<p>2.构造用户的电影矩阵<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">movieRatings = ratings.pivot_table(index=[<span class="string">'user_id'</span>],columns=[<span class="string">'title'</span>],values=<span class="string">'rating'</span>)</span><br></pre></td></tr></table></figure></p>
-<p>3.选择一部电影并生成这部电影与其他所有电影的相似度<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">starWarsRatings = movieRatings[<span class="string">'Star Wars (1977)'</span>]</span><br><span class="line"></span><br><span class="line">similarMovies = movieRatings.corrwith(starWarsRatings)</span><br><span class="line">similarMovies = similarMovies.dropna()</span><br><span class="line">df = pd.DataFrame(similarMovies)</span><br></pre></td></tr></table></figure></p>
-<p>4.去除不流行的电影以避免生成不合适的推荐<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ratingsCount = <span class="number">100</span></span><br><span class="line">movieStats = ratings.groupby(<span class="string">'title'</span>).agg(&#123;<span class="string">'rating'</span>: [np.size, np.mean]&#125;)</span><br><span class="line">popularMovies = movieStats[<span class="string">'rating'</span>][<span class="string">'size'</span>] &gt;= ratingsCount</span><br><span class="line">movieStats[popularMovies].sort_values([(<span class="string">'rating'</span>, <span class="string">'mean'</span>)], ascending=<span class="keyword">False</span>)[:<span class="number">15</span>]</span><br></pre></td></tr></table></figure></p>
-<p>5.提取与目标电影相类似的流行电影<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df = movieStats[popularMovies].join(pd.DataFrame(similarMovies, columns=[<span class="string">'similarity'</span>]))</span><br><span class="line">df.sort_values([<span class="string">'similarity'</span>], ascending=<span class="keyword">False</span>)[:<span class="number">15</span>]</span><br></pre></td></tr></table></figure></p>
-<h3 id="第二步：基于用户的所有评分做出推荐"><a href="#第二步：基于用户的所有评分做出推荐" class="headerlink" title="第二步：基于用户的所有评分做出推荐"></a>第二步：基于用户的所有评分做出推荐</h3><p>1.生成每两部电影之间的相似度，并只保留流行电影的相似度<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">userRatings = ratings.pivot_table(index=[<span class="string">'user_id'</span>],columns=[<span class="string">'title'</span>],values=<span class="string">'rating'</span>)</span><br><span class="line">corrMatrix = userRatings.corr(method=<span class="string">'pearson'</span>, min_periods=<span class="number">100</span>)</span><br></pre></td></tr></table></figure></p>
-<p>2.对于每部用户看过并评分过的电影，生成推荐（这里我们选择用户0）<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">myRatings = userRatings.loc[<span class="number">0</span>].dropna()</span><br><span class="line">simCandidates = pd.Series()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(myRatings.index)):</span><br><span class="line">    <span class="comment"># Retrieve similar movies to this one that I rated</span></span><br><span class="line">    <span class="comment"># 取出与评分过电影相似的电影</span></span><br><span class="line">    sims = corrMatrix[myRatings.index[i]].dropna()</span><br><span class="line">    <span class="comment"># Now scale its similarity by how well I rated this movie</span></span><br><span class="line">    <span class="comment"># 以用户对这部电影的评分高低来衡量它的相似性</span></span><br><span class="line">    sims = sims.map(<span class="keyword">lambda</span> x: x * myRatings[i])</span><br><span class="line">    <span class="comment"># Add the score to the list of similarity candidates</span></span><br><span class="line">    <span class="comment"># 将结果放入相似性候选列表中</span></span><br><span class="line">    simCandidates = simCandidates.append(sims)</span><br><span class="line">simCandidates.sort_values(inplace = <span class="keyword">True</span>, ascending = <span class="keyword">False</span>)</span><br></pre></td></tr></table></figure></p>
-<p>3.将所有相同电影的相似度加和<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">simCandidates = simCandidates.groupby(simCandidates.index).sum()</span><br><span class="line">simCandidates.sort_values(inplace = <span class="keyword">True</span>, ascending = <span class="keyword">False</span>)</span><br></pre></td></tr></table></figure></p>
-<p>4.只保留用户没有看过的电影<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filteredSims = simCandidates.drop(myRatings.index)</span><br></pre></td></tr></table></figure></p>
-<h2 id="如何更进一步？"><a href="#如何更进一步？" class="headerlink" title="如何更进一步？"></a>如何更进一步？</h2><p>在上面的实例中，Pandas与我们的CPU足以处理MovieLens的数据集。然而，当数据集变得更庞大时，处理的时间也会变得更加漫长。因此，你应该转为使用具有更强大处理能力的解决方案，如Spark或MapReduce。</p>
-<p>我希望我已经成功让你看到，实现一个简单而有效的推荐系统中并没有什么复杂之处。如果你有任何问题，不要犹豫，直接评论就好了。</p>
 
       
     </div>
@@ -506,12 +484,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/推荐系统/" rel="tag"><i class="fa fa-tag"></i> 推荐系统</a>
-          
-        </div>
-      
 
       
       
@@ -521,8 +493,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/21/Logistic回归/" rel="next" title="Logistic回归">
-                <i class="fa fa-chevron-left"></i> Logistic回归
+              <a href="/2019/02/26/SpringAOP的两种实现-JDK-CGLib动态代理/" rel="next" title="Spring AOP的两种实现:JDK/CGLib动态代理">
+                <i class="fa fa-chevron-left"></i> Spring AOP的两种实现:JDK/CGLib动态代理
               </a>
             
           </div>
@@ -530,10 +502,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/01/k-近邻算法/" rel="prev" title="k-近邻算法">
-                k-近邻算法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -694,7 +662,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐系统概述"><span class="nav-number">2.</span> <span class="nav-text">推荐系统概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐系统是什么？"><span class="nav-number">3.</span> <span class="nav-text">推荐系统是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何构建一个推荐系统？"><span class="nav-number">4.</span> <span class="nav-text">如何构建一个推荐系统？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#协同过滤"><span class="nav-number">4.1.</span> <span class="nav-text">协同过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基于用户的协同过滤"><span class="nav-number">4.1.1.</span> <span class="nav-text">基于用户的协同过滤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于物品的协同过滤"><span class="nav-number">4.1.2.</span> <span class="nav-text">基于物品的协同过滤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于内容的推荐系统"><span class="nav-number">4.2.</span> <span class="nav-text">基于内容的推荐系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于知识的推荐系统"><span class="nav-number">4.3.</span> <span class="nav-text">基于知识的推荐系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐系统中的冷启动问题"><span class="nav-number">5.</span> <span class="nav-text">推荐系统中的冷启动问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混合推荐系统"><span class="nav-number">6.</span> <span class="nav-text">混合推荐系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐系统与AI？"><span class="nav-number">7.</span> <span class="nav-text">推荐系统与AI？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#专家建议"><span class="nav-number">8.</span> <span class="nav-text">专家建议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现一个基于物品的推荐系统"><span class="nav-number">9.</span> <span class="nav-text">实现一个基于物品的推荐系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步：寻找相似的电影"><span class="nav-number">9.1.</span> <span class="nav-text">第一步：寻找相似的电影</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步：基于用户的所有评分做出推荐"><span class="nav-number">9.2.</span> <span class="nav-text">第二步：基于用户的所有评分做出推荐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何更进一步？"><span class="nav-number">10.</span> <span class="nav-text">如何更进一步？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第1章-整洁代码"><span class="nav-number">1.</span> <span class="nav-text">第1章 整洁代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#What-is-clean-code"><span class="nav-number">1.1.</span> <span class="nav-text">What is clean code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#We-are-the-author"><span class="nav-number">1.2.</span> <span class="nav-text">We are the author</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第2章-有意义的命名"><span class="nav-number">2.</span> <span class="nav-text">第2章 有意义的命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第3章-函数"><span class="nav-number">3.</span> <span class="nav-text">第3章 函数</span></a></li></ol></div>
             
 
           </div>

@@ -293,6 +293,212 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/03/02/《代码整洁之道》阅读笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/02/《代码整洁之道》阅读笔记/" itemprop="url">《代码整洁之道》阅读笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-02T20:34:26+08:00">
+                2019-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/02/《代码整洁之道》阅读笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/02/《代码整洁之道》阅读笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/02/《代码整洁之道》阅读笔记/" class="leancloud_visitors" data-flag-title="《代码整洁之道》阅读笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  732 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="第1章-整洁代码"><a href="#第1章-整洁代码" class="headerlink" title="第1章 整洁代码"></a>第1章 整洁代码</h2><h3 id="What-is-clean-code"><a href="#What-is-clean-code" class="headerlink" title="What is clean code"></a>What is clean code</h3><p>Ron Jeffries 对 Clean Code 的排序：</p>
+<ol>
+<li>能通过所有测试</li>
+<li>没有重复代码</li>
+<li>体现系统中的全部设计理念</li>
+<li>包括尽量少的实体，比如类、方法、函数等</li>
+</ol>
+<h3 id="We-are-the-author"><a href="#We-are-the-author" class="headerlink" title="We are the author"></a>We are the author</h3><p>Javadoc 中的 @author 字段告诉了我们是什么人，我们是<strong>作者</strong>，写代码时，应记得自己作为一个<strong>作者</strong>，要为评判你工作的的读者写代码。使代码易读，自然也会使之易写。</p>
+<h2 id="第2章-有意义的命名"><a href="#第2章-有意义的命名" class="headerlink" title="第2章 有意义的命名"></a>第2章 有意义的命名</h2><ul>
+<li>名副其实：变量、函数和类的名称应该表达了所有的大问题，如果名称还需要注释来补充，那就不算名副其实。</li>
+<li>避免误导：避免使用系统的专用名称，避免在名称中带入注入List关键字等待有特殊意义的词(即使容器是个List，最好也不要直接写出类型名)，避免使用十分类似的名称（如XYZControllerForHandingOfStrings和XYZControllerForStorageOfStrings），避免使用误导性名称（如Ol和01）。</li>
+<li>做有意义的区分：像a1，a2，an的区分等同于废话，诸如getUser()、getUserInfo()、getUserData()的方法，如果没有明确的约定，也是很难一言看出区别的。要区别名称，必须要让以读者有鉴别不同之处的方式来区分。</li>
+<li>使用读得出来的名称：比如生成时间戳，不要用genymdhms这样的生造词，用genTimestamp会更像人话。</li>
+<li>使用可搜索的名称：单字母和数字常量是很难被一下搜出来的，单字母名称仅可用在短方法中的本地变量，<strong>名称的长短应与其作用域大小相对应</strong>。</li>
+<li>避免使用编码：不必使用成员前缀，<strong>对于接口和实现，不推荐使用“I”开头修饰，不如在实现类中直接添加后缀“Imp”</strong>。</li>
+<li>避免思维映射：专业的程序员和聪明的程序员之间的区别在于，专业的程序员知道，<strong>明确是王道，他们写的是其他人能理解的代码</strong>（过于”聪明“的程序员写的代码只有自己能看懂）。</li>
+<li>类名：<strong>类名和对象名应该是名词或名词短语</strong>，类名不应当是动词</li>
+<li>方法名：<strong>方法名应当是动词或动词短语</strong>，访问、修改和断言应该加上前缀”get”、”set”、”is”。</li>
+<li>每个概念对应一个词：给每个抽象概念（fetch、retrieve、get这些相近词就很糟糕）选一个词，并一以贯之。</li>
+<li>添加有意义的语境，但不要添加没用的语境，精确才是命名的要点。</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/02/《代码整洁之道》阅读笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/26/SpringAOP的两种实现-JDK-CGLib动态代理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2098,203 +2304,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/07/Java8-ThreadLocal源码阅读/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/07/Java8-ThreadLocal源码阅读/" itemprop="url">Java8 ThreadLocal源码阅读</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-07T22:23:12+08:00">
-                2019-02-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/02/07/Java8-ThreadLocal源码阅读/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/07/Java8-ThreadLocal源码阅读/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/02/07/Java8-ThreadLocal源码阅读/" class="leancloud_visitors" data-flag-title="Java8 ThreadLocal源码阅读">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  5,509 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="ThreadLocal-原理"><a href="#ThreadLocal-原理" class="headerlink" title="ThreadLocal 原理"></a>ThreadLocal 原理</h2><p>每个线程内部维护着一个 ThreadLocalMap，这个 Map 的底层是由数组 table 实现的，用于存储 Entry。ThreadLocalMap 中的 key 为弱引用类型，指向 ThreadLocal 本身，value 是实际存储的变量 Object。</p>
-<p><img src="/images/Java8-ThreadLocal源码阅读/ThreadLocal.jpg" alt="ThreadLocal"></p>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>ThreadLocal 的作用在于提供了<strong>「线程内的局部变量」</strong>，该变量在线程的生命周期内起作用，减少同一个线程内多个函数或者组件之间一些公共变量的传递的复杂度。</p>
-<p>其他线程无法访问 ThreadLocal 内的变量，这样就隔离了多个线程间的资源，也不会出现线程安全问题。</p>
-<h2 id="Get-策略"><a href="#Get-策略" class="headerlink" title="Get 策略"></a>Get 策略</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> (T)e.value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> t.threadLocals;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> T <span class="title">setInitialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    T value = initialValue();</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">        map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        createMap(t, value);</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> T <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>获取当前线程。</li>
-<li>获取当前线程的 ThreadLocalMap。</li>
-<li>如果 ThreadLocalMap 不为空，以 ThreadLocal 的引用作为 key 来在 ThreadLocalMap 中获取对应的value e。</li>
-<li>if (e != null &amp;&amp; e.get() == key)，返回 e。</li>
-<li>ThreadLocalMap 为 null 或 value 为 null，则调用 setInitialValue() 方法返回初始值。</li>
-</ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/07/Java8-ThreadLocal源码阅读/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2349,7 +2358,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2444,7 +2453,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">118.4k</span>
+    <span title="累计字数">119.1k</span>
   
 </div>
 
