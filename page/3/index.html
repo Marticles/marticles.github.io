@@ -293,6 +293,204 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/12/02/Java8-Object源码阅读/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/02/Java8-Object源码阅读/" itemprop="url">Java8 Object源码阅读</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-02T14:12:56+08:00">
+                2018-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/02/Java8-Object源码阅读/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/02/Java8-Object源码阅读/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/12/02/Java8-Object源码阅读/" class="leancloud_visitors" data-flag-title="Java8 Object源码阅读">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,483 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Object类是类层次结构的根类，是每个Class的超类，Java中的所有类都默认继承自Object类，可以直接调用Object的成员方法。</p>
+<p>方法摘要：</p>
+<ul>
+<li>clone()：创建并返回此对象的一个副本</li>
+<li>equals(Object obj) ：判断两个对象是否相等</li>
+<li>hashCode()：返回该对象的哈希码值</li>
+<li>getClass()：返回该对象的运行时类</li>
+<li>toString()：返回该对象的字符串表示</li>
+<li>notify()：唤醒在此对象monitor上等待的单个线程</li>
+<li>notifyAll()：唤醒在此对象monitor上等待的所有线程</li>
+<li>wai()：在其他线程调用此对象的notify()方法或notifyAll()方法前，导致当前线程等待，这个方法有三个重载</li>
+<li>finalize()：当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/02/Java8-Object源码阅读/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/11/20/StrongFriends开发笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2026,204 +2224,11 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/09/01/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/01/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/" itemprop="url">GeoMAN:基于多层注意力机制网络的地理传感器时间序列预测模型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-01T12:22:25+08:00">
-                2018-09-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/读论文/" itemprop="url" rel="index">
-                    <span itemprop="name">读论文</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/01/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/01/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/09/01/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/" class="leancloud_visitors" data-flag-title="GeoMAN:基于多层注意力机制网络的地理传感器时间序列预测模型">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,458 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="原论文"><a href="#原论文" class="headerlink" title="原论文"></a>原论文</h2><p>Yuxuan Liang, Songyu Ke, Junbo Zhang, Xiuwen Yi, Yu Zheng, “GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction”, In International Joint Conference on Artificial Intelligence (IJCAI), 2018.</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前都没关注过城市计算这个领域的问题，在搜索基于LSTM的PM2.5预测相关工作的时候偶然发现这篇来自AI顶会之一的paper，觉得这领域的一些内容也是十分具有前沿性与挑战性的，做的工作也非常有现实价值，此文作者是原微软亚洲研究院研究员、现京东金融集团副总裁、首席数据科学家郑宇。</p>
-<p>据了解，京东的城市计算业务部已经部署了基于这个模型的自来水质预测系统，以期能够指导自来水工厂更科学地进行投氯消毒，保证居民饮用水质。还可以及时发现水管健康状态，并在第一时间进行维护、修理，为政府的城市建设决策提供参考。</p>
-<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>城市中的传感器每天都源源不断不断地产生大量随着时间变化的数据，这些有着独立地理位置的传感器产生的时间序列数据之间往往存在着空间上的联系，论文将这些数据称为“地理传感器时间序列”(Geosensory Time Series)。如何对这些具有时空关联性的地理传感器时间序列数据进行预测是一个十分具有挑战性的问题。</p>
-<p>这篇paper提出了一种GeoMAN(Multi-level Attention Network)结构的预测模型，该模型基于Encoder-Decoder结构，在时空数据预测问题上首次引入了多层注意力机制，对各传感器之间的动态时空关联性进行建模，并通过在Decoder阶段融合传感器对应的兴趣点(POI)信息、传感器ID和天气预报数据等外部因素显著提升了模型的性能。</p>
-<p>该模型不仅在PM2.5预测上取得了成功，在自来水质预测上也有着同样的出色表现，是一个在地理传感器时间序列预测问题上通用的模型。</p>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>预测时空序列数据的挑战性主要体现在以下两方面：一、动态的时空关联性；二、外部因素。</p>
-<p><img src="/images/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/1.png" alt=""></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/01/GeoMAN-基于多层注意力机制的地理传感器时间序列预测模型/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2273,7 +2278,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2284,7 +2289,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2368,7 +2373,7 @@ H(X) = -\sum\limits_{i=1}^{n}p_i log_2{p_i}</script>
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">119.1k</span>
+    <span title="累计字数">121.9k</span>
   
 </div>
 
