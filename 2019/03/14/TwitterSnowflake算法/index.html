@@ -87,7 +87,7 @@
 <meta property="og:description" content="前言在毕设的 API 模块中，考虑到分布式环境下采用 UUID 直接生成 Key 可能会导致 Key 重复的问题，最终的 Key 生成策略采用 Twitter Snowflake 算法生成唯一 ID， 再使用 HmacMD5 算法对 ID 加密生成 API Key。 其他常见的分布式唯一 ID 生成策略还有：  数据库自增字段  UUID  Mongdb objectID  Redis 原子命令">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://marticles.github.io/images/TwitterSnowflake算法/snowflake.jpg">
-<meta property="og:updated_time" content="2019-04-05T07:30:07.186Z">
+<meta property="og:updated_time" content="2019-04-05T15:26:10.824Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式唯一ID生成算法:Twitter Snowflake">
 <meta name="twitter:description" content="前言在毕设的 API 模块中，考虑到分布式环境下采用 UUID 直接生成 Key 可能会导致 Key 重复的问题，最终的 Key 生成策略采用 Twitter Snowflake 算法生成唯一 ID， 再使用 HmacMD5 算法对 ID 加密生成 API Key。 其他常见的分布式唯一 ID 生成策略还有：  数据库自增字段  UUID  Mongdb objectID  Redis 原子命令">
@@ -521,8 +521,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/" rel="prev" title="记一次MySQL的Lock Wait Timeout exceeded异常">
-                记一次MySQL的Lock Wait Timeout exceeded异常 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/22/深入理解Redis-Zset原理/" rel="prev" title="深入理解Redis Zset原理">
+                深入理解Redis Zset原理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -607,7 +607,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -718,7 +718,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">125.3k</span>
+    <span title="累计字数">127.4k</span>
   
 </div>
 
@@ -1370,7 +1370,7 @@ setInterval("createtime()",250);
         showTime(Counter);
       }
     });
-  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </script>
 
 
 
@@ -1382,6 +1382,26 @@ setInterval("createtime()",250);
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
