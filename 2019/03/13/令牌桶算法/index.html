@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="前言毕设的 API 模块中使用了 Guava RateLimter 进行限流，实质限制的是单位时间窗口（1s）内的平均速率。常见的限流算法有：令牌桶、漏桶、计数器，Guava RateLimter 使用的是令牌桶算法。 漏桶算法(Leaky Bucket)漏桶算法（Leaky Bucket）是计算机网络中流量整形（Traffic Shaping）或速率限制（Rate Limiting）时经常使用的">
+<meta name="description" content="前言毕设的 API 模块中使用了 Guava RateLimter 进行 QPS 限流，顺便了解下常见的限流算法，主要包括令牌桶、漏桶、计数器。 漏桶算法(Leaky Bucket)漏桶算法（Leaky Bucket）是计算机网络中流量整形（Traffic Shaping）或速率限制（Rate Limiting）时经常使用的一种算法，主要目的是控制数据注入到网络的速率，平滑网络上的突发流量。  漏">
 <meta property="og:type" content="article">
 <meta property="og:title" content="限流算法之令牌桶与漏桶算法">
 <meta property="og:url" content="http://marticles.github.io/2019/03/13/令牌桶算法/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="前言毕设的 API 模块中使用了 Guava RateLimter 进行限流，实质限制的是单位时间窗口（1s）内的平均速率。常见的限流算法有：令牌桶、漏桶、计数器，Guava RateLimter 使用的是令牌桶算法。 漏桶算法(Leaky Bucket)漏桶算法（Leaky Bucket）是计算机网络中流量整形（Traffic Shaping）或速率限制（Rate Limiting）时经常使用的">
+<meta property="og:description" content="前言毕设的 API 模块中使用了 Guava RateLimter 进行 QPS 限流，顺便了解下常见的限流算法，主要包括令牌桶、漏桶、计数器。 漏桶算法(Leaky Bucket)漏桶算法（Leaky Bucket）是计算机网络中流量整形（Traffic Shaping）或速率限制（Rate Limiting）时经常使用的一种算法，主要目的是控制数据注入到网络的速率，平滑网络上的突发流量。  漏">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://marticles.github.io/images/限流算法之令牌桶与漏桶算法/leakybucket.png">
 <meta property="og:image" content="http://marticles.github.io/images/限流算法之令牌桶与漏桶算法/tokenbucket.png">
 <meta property="og:image" content="http://marticles.github.io/images/限流算法之令牌桶与漏桶算法/counter.jpg">
-<meta property="og:updated_time" content="2019-03-21T06:09:14.251Z">
+<meta property="og:updated_time" content="2019-03-22T02:32:56.907Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="限流算法之令牌桶与漏桶算法">
-<meta name="twitter:description" content="前言毕设的 API 模块中使用了 Guava RateLimter 进行限流，实质限制的是单位时间窗口（1s）内的平均速率。常见的限流算法有：令牌桶、漏桶、计数器，Guava RateLimter 使用的是令牌桶算法。 漏桶算法(Leaky Bucket)漏桶算法（Leaky Bucket）是计算机网络中流量整形（Traffic Shaping）或速率限制（Rate Limiting）时经常使用的">
+<meta name="twitter:description" content="前言毕设的 API 模块中使用了 Guava RateLimter 进行 QPS 限流，顺便了解下常见的限流算法，主要包括令牌桶、漏桶、计数器。 漏桶算法(Leaky Bucket)漏桶算法（Leaky Bucket）是计算机网络中流量整形（Traffic Shaping）或速率限制（Rate Limiting）时经常使用的一种算法，主要目的是控制数据注入到网络的速率，平滑网络上的突发流量。  漏">
 <meta name="twitter:image" content="http://marticles.github.io/images/限流算法之令牌桶与漏桶算法/leakybucket.png">
 
 
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,139 字
+                  1,118 字
                 </span>
               
 
@@ -429,7 +429,7 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>毕设的 API 模块中使用了 Guava RateLimter 进行限流，实质限制的是单位时间窗口（1s）内的平均速率。常见的限流算法有：令牌桶、漏桶、计数器，Guava RateLimter 使用的是令牌桶算法。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>毕设的 API 模块中使用了 Guava RateLimter 进行 QPS 限流，顺便了解下常见的限流算法，主要包括令牌桶、漏桶、计数器。</p>
 <h2 id="漏桶算法-Leaky-Bucket"><a href="#漏桶算法-Leaky-Bucket" class="headerlink" title="漏桶算法(Leaky Bucket)"></a>漏桶算法(Leaky Bucket)</h2><p>漏桶算法（Leaky Bucket）是计算机网络中流量整形（Traffic Shaping）或速率限制（Rate Limiting）时经常使用的一种算法，主要目的是控制数据注入到网络的速率，平滑网络上的突发流量。</p>
 <p><img src="/images/限流算法之令牌桶与漏桶算法/leakybucket.png" alt="Leaky Bucket"></p>
 <p>漏桶算法描述如下：</p>
@@ -541,6 +541,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/03/14/TwitterSnowflake算法/" rel="prev" title="分布式唯一ID生成算法:Twitter Snowflake">
+                分布式唯一ID生成算法:Twitter Snowflake <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -623,7 +627,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -734,7 +738,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">123.0k</span>
+    <span title="累计字数">125.3k</span>
   
 </div>
 

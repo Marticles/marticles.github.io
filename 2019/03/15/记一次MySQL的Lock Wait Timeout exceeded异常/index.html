@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="0xCAFEBABE">
-<meta property="og:url" content="http://marticles.github.io/archives/2018/index.html">
+<meta name="description" content="前言一次由于间隙锁导致的 Lock wait timeout，记录一下解决过程。 异常描述前端反映端口返回 504 Gateway Timeout，到服务器上查看对应的服务实例日志发现了以下异常：123456### Cause: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次MySQL的Lock Wait Timeout exceeded异常">
+<meta property="og:url" content="http://marticles.github.io/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
+<meta property="og:description" content="前言一次由于间隙锁导致的 Lock wait timeout，记录一下解决过程。 异常描述前端反映端口返回 504 Gateway Timeout，到服务器上查看对应的服务实例日志发现了以下异常：123456### Cause: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exc">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-05T06:10:59.082Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="0xCAFEBABE">
+<meta name="twitter:title" content="记一次MySQL的Lock Wait Timeout exceeded异常">
+<meta name="twitter:description" content="前言一次由于间隙锁导致的 Lock wait timeout，记录一下解决过程。 异常描述前端反映端口返回 504 Gateway Timeout，到服务器上查看对应的服务实例日志发现了以下异常：123456### Cause: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exc">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://marticles.github.io/archives/2018/"/>
+  <link rel="canonical" href="http://marticles.github.io/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/"/>
 
 
 
 
 
-  <title>归档 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>记一次MySQL的Lock Wait Timeout exceeded异常 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -140,7 +144,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-archive">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -278,410 +282,234 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      <span class="archive-page-counter">
-        
-        
-         
-        
-        OK! 目前共计 44 篇日志。 继续努力。
-      </span>
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/">
 
-      
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
 
         
         
+          <h1 class="post-title" itemprop="name headline">记一次MySQL的Lock Wait Timeout exceeded异常</h1>
         
 
-        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-15T12:14:06+08:00">
+                2019-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/25/Redis知识点总结/" itemprop="url">
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
               
-                <span itemprop="name">Redis知识点总结</span>
+                <span class="post-meta-item-text">分类于</span>
               
-            </a>
-        
-      </h2>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-12-25T23:12:36+08:00"
-              content="2018-12-25" >
-          12-25
-        </time>
-      </div>
+                
+                
+              
+            </span>
+          
 
-    </header>
-  </article>
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
 
+          
+          
+             <span id="/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/" class="leancloud_visitors" data-flag-title="记一次MySQL的Lock Wait Timeout exceeded异常">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  562 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/17/Java8-HashMap源码阅读/" itemprop="url">
-              
-                <span itemprop="name">Java8 HashMap源码阅读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-12-17T00:47:45+08:00"
-              content="2018-12-17" >
-          12-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/13/《Spring微服务实战》阅读笔记/" itemprop="url">
-              
-                <span itemprop="name">《Spring微服务实战》阅读笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-12-13T23:34:26+08:00"
-              content="2018-12-13" >
-          12-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一次由于间隙锁导致的 Lock wait timeout，记录一下解决过程。</p>
+<h2 id="异常描述"><a href="#异常描述" class="headerlink" title="异常描述"></a>异常描述</h2><p>前端反映端口返回 504 Gateway Timeout，到服务器上查看对应的服务实例日志发现了以下异常：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### Cause: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction</span></span><br><span class="line">; Lock <span class="built_in">wait</span> timeout exceeded; try restarting transaction; nested exception is com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock <span class="built_in">wait</span> timeout exceeded; try restarting transaction] with root cause</span><br><span class="line"></span><br><span class="line">com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock <span class="built_in">wait</span> timeout exceeded; try restarting transaction</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h2><p>根据 log 定位异常的原因在于一个加了 @Transactional 注解的方法中先 Select 了一条不存在的数据，产生了间隙锁，然后调用了另一个同样加了 @Transactional 注解的方法在该表中 Insert 了一条数据，从而导致锁等待超时。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># a_id与b_id都加了普通索引，实际该条记录已被逻辑删</span><br><span class="line"># Session A:</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> test_table <span class="keyword">where</span> a_id = <span class="number">23</span> <span class="keyword">and</span> b_id = <span class="number">63</span> <span class="keyword">and</span> del_flag = <span class="number">0</span> <span class="keyword">for</span> <span class="keyword">UPDATE</span>;</span><br><span class="line"></span><br><span class="line"># 此时b_id=66处于间隙锁范围内</span><br><span class="line"># Session B:</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> test_table(a_id,b_id,del_flag) <span class="keyword">value</span>(<span class="number">23</span>,<span class="number">66</span>,<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>MySQL 默认参数 innodb_lock_wait_timeout 锁等待时间为 50s，一旦锁超过这个时间就会报 Lock wait timeout。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>Select 前进行判空，如果不存在该条数据则不进行后续的业务逻辑。</p>
+<p>另外，对于加了 @Transactional 注解的方法，最好加上超时时间，或自动提交，同时也不要把执行时间较长的方法放到事务中。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过 <code>show processlist</code> 可以查看正在进行的查询和花费时间。</p>
+<p>通过 information_schema 中的以下三张表可以快速查找导致死锁的SQL语句：</p>
+<ul>
+<li>innodb_trx：当前运行的所有事务。</li>
+<li>innodb_locks：当前出现的锁。</li>
+<li>innodb_lock_waits：锁等待的对应关系。</li>
+</ul>
+<h2 id="关于间隙锁"><a href="#关于间隙锁" class="headerlink" title="关于间隙锁"></a>关于间隙锁</h2><p>间隙锁的目的是为了防止幻读，主要通过以下两个方法实现：<br>（1）防止间隙内有新数据被插入<br>（2）防止已存在的数据，更新成间隙内的数据</p>
+<p>Innodb 自动使用间隙锁的条件：<br>（1）必须在RR级别下<br>（2）检索条件必须有索引，PS：若Where条件中的是主键索引或唯一索引，此时为行锁不会产生间隙锁。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/10/记一次随机验证码生成的优化过程/" itemprop="url">
-              
-                <span itemprop="name">记一次随机验证码生成的优化过程</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-12-10T23:48:12+08:00"
-              content="2018-12-10" >
-          12-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/02/Java8-Object源码阅读/" itemprop="url">
-              
-                <span itemprop="name">Java8 Object源码阅读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-12-02T14:12:56+08:00"
-              content="2018-12-02" >
-          12-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/20/StrongFriends开发笔记/" itemprop="url">
-              
-                <span itemprop="name">StrongFriends开发笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-20T12:38:26+08:00"
-              content="2018-11-20" >
-          11-20
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/17/Nginx流量控制配合Fail2ban抵御流量攻击/" itemprop="url">
-              
-                <span itemprop="name">Nginx流量控制配合Fail2ban抵御流量攻击</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-17T22:48:12+08:00"
-              content="2018-11-17" >
-          11-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/17/决策树算法之ID3-C4.5/" itemprop="url">
-              
-                <span itemprop="name">决策树算法之ID3/C4.5</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-17T15:37:35+08:00"
-              content="2018-11-17" >
-          11-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/15/Python并发编程之concurrent.futures/" itemprop="url">
-              
-                <span itemprop="name">Python并发编程之concurrent.futures</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-15T19:23:12+08:00"
-              content="2018-11-15" >
-          11-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/09/设计模式学习/" itemprop="url">
-              
-                <span itemprop="name">设计模式学习</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-09T18:57:20+08:00"
-              content="2018-11-09" >
-          11-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Marticles
+  </li>
+
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/14/TwitterSnowflake算法/" rel="next" title="分布式唯一ID生成算法:Twitter Snowflake">
+                <i class="fa fa-chevron-left"></i> 分布式唯一ID生成算法:Twitter Snowflake
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2018/page/2/">2</a><a class="page-number" href="/archives/2018/page/3/">3</a><a class="extend next" rel="next" href="/archives/2018/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -689,6 +517,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -709,8 +544,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -796,6 +640,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常描述"><span class="nav-number">2.</span> <span class="nav-text">异常描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题排查"><span class="nav-number">3.</span> <span class="nav-text">问题排查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">4.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于间隙锁"><span class="nav-number">6.</span> <span class="nav-text">关于间隙锁</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -981,6 +841,10 @@ setInterval("createtime()",250);
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -1472,7 +1336,7 @@ setInterval("createtime()",250);
         showTime(Counter);
       }
     });
-  </script>
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
@@ -1484,26 +1348,6 @@ setInterval("createtime()",250);
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 

@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="Redis(Remote Dictionary Server)的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis 的数据结构与应用场景 String：缓存、计数器、分布式锁等 List：链表、队列、微博关注人时间轴列表等 Hash：用户信息、Has">
+<meta name="description" content="Redis(Remote Dictionary Server)的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis ObjectRedis 中的每个键值对的键和值都由redisObject结构体表示。 123456789101112131415161">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis知识点总结">
 <meta property="og:url" content="http://marticles.github.io/2018/12/25/Redis知识点总结/index.html">
 <meta property="og:site_name" content="0xCAFEBABE">
-<meta property="og:description" content="Redis(Remote Dictionary Server)的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis 的数据结构与应用场景 String：缓存、计数器、分布式锁等 List：链表、队列、微博关注人时间轴列表等 Hash：用户信息、Has">
+<meta property="og:description" content="Redis(Remote Dictionary Server)的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis ObjectRedis 中的每个键值对的键和值都由redisObject结构体表示。 123456789101112131415161">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-24T08:55:51.960Z">
+<meta property="og:updated_time" content="2019-04-05T07:36:10.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis知识点总结">
-<meta name="twitter:description" content="Redis(Remote Dictionary Server)的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis 的数据结构与应用场景 String：缓存、计数器、分布式锁等 List：链表、队列、微博关注人时间轴列表等 Hash：用户信息、Has">
+<meta name="twitter:description" content="Redis(Remote Dictionary Server)的特点 纯内存操作 采用单线程，避免了不必要的上下文切换和竞争条件，不用考虑各种锁的问题 使用多路 I/O 复用模型，非阻塞型IO 高效优化的数据结构(如 SDS，Zset 中的跳表等等)  Redis ObjectRedis 中的每个键值对的键和值都由redisObject结构体表示。 123456789101112131415161">
 
 
 
@@ -400,7 +400,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,106 字
+                  2,361 字
                 </span>
               
 
@@ -431,14 +431,16 @@
 <li>使用多路 I/O 复用模型，非阻塞型IO</li>
 <li>高效优化的数据结构(如 SDS，Zset 中的跳表等等)</li>
 </ul>
-<h2 id="Redis-的数据结构与应用场景"><a href="#Redis-的数据结构与应用场景" class="headerlink" title="Redis 的数据结构与应用场景"></a>Redis 的数据结构与应用场景</h2><ul>
-<li>String：缓存、计数器、分布式锁等</li>
-<li>List：链表、队列、微博关注人时间轴列表等</li>
-<li>Hash：用户信息、Hash 表等</li>
-<li>Set：去重、赞、踩、共同好友等</li>
-<li>Zset：访问量排行榜、点击量排行榜等</li>
-</ul>
+<h2 id="Redis-Object"><a href="#Redis-Object" class="headerlink" title="Redis Object"></a>Redis Object</h2><p>Redis 中的每个键值对的键和值都由redisObject结构体表示。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">    <span class="keyword">unsigned</span> type:<span class="number">4</span>;            <span class="comment">// 对象的类型</span></span><br><span class="line">    <span class="keyword">unsigned</span> encoding:<span class="number">4</span>;        <span class="comment">// 为了节省空间，同个type的数据可以采用不同的编码方式，如Zset中的同时使用了ziplist和skipset</span></span><br><span class="line">    <span class="keyword">unsigned</span> lru:REDIS_LRU_BITS; <span class="comment">/* lru time (relative to server.lruclock) */</span></span><br><span class="line">    <span class="keyword">int</span> refcount;         <span class="comment">// 引用计数</span></span><br><span class="line">    <span class="keyword">void</span> *ptr;</span><br><span class="line">&#125; robj;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* type类型如下 */</span></span><br><span class="line"><span class="comment">/* The actual Redis Object */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_STRING 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_LIST 1 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_SET 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_ZSET 3</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_HASH 4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* encoding类型如下 */</span></span><br><span class="line"><span class="comment">/* Objects encoding. Some kind of objects like Strings and Hashes can be</span></span><br><span class="line"><span class="comment"> * internally represented in multiple ways. The 'encoding' field of the object</span></span><br><span class="line"><span class="comment"> * is set to one of this fields for this object. </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_ENCODING_RAW     <span class="comment">/* Raw representation */</span> 简单动态字符串</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_ENCODING_INT      <span class="comment">/* Encoded as integer */</span> 整数</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_ENCODING_HT       <span class="comment">/* Encoded as hash table */</span> 字典</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_ENCODING_ZIPLIST  <span class="comment">/* Encoded as ziplist */</span> 压缩列表</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_ENCODING_INTSET   <span class="comment">/* Encoded as intset */</span> 整数集合</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_ENCODING_SKIPLIST   <span class="comment">/* Encoded as skiplist */</span> 跳跃表</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_ENCODING_EMBSTR  <span class="comment">/* Embedded sds string encoding */</span> embstr编码的简单动态字符串</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OBJ_ENCODING_QUICKLIST  <span class="comment">/* Encoded as linked list of ziplists */</span></span></span><br></pre></td></tr></table></figure>
 <a id="more"></a>
+<h2 id="Redis-的数据结构与应用场景"><a href="#Redis-的数据结构与应用场景" class="headerlink" title="Redis 的数据结构与应用场景"></a>Redis 的数据结构与应用场景</h2><ul>
+<li>String：缓存、计数器、分布式锁等。</li>
+<li>List：链表、队列、微博关注人时间轴列表等。</li>
+<li>Hash：用户信息、Hash 表等。</li>
+<li>Set：去重、赞、踩、共同好友等。</li>
+<li>Zset：访问量排行榜、点击量排行榜等。</li>
+</ul>
 <h2 id="Redis-的两种持久化方式-RDB与AOF"><a href="#Redis-的两种持久化方式-RDB与AOF" class="headerlink" title="Redis 的两种持久化方式(RDB与AOF)"></a>Redis 的两种持久化方式(RDB与AOF)</h2><h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><p>RDB (Redis DataBase) 持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。</p>
 <p>优势：</p>
 <ul>
@@ -649,7 +651,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -726,7 +728,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-Remote-Dictionary-Server-的特点"><span class="nav-number">1.</span> <span class="nav-text">Redis(Remote Dictionary Server)的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的数据结构与应用场景"><span class="nav-number">2.</span> <span class="nav-text">Redis 的数据结构与应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的两种持久化方式-RDB与AOF"><span class="nav-number">3.</span> <span class="nav-text">Redis 的两种持久化方式(RDB与AOF)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB"><span class="nav-number">3.1.</span> <span class="nav-text">RDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF"><span class="nav-number">3.2.</span> <span class="nav-text">AOF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的过期策略以及内存回收机制"><span class="nav-number">4.</span> <span class="nav-text">Redis 的过期策略以及内存回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过期策略"><span class="nav-number">4.1.</span> <span class="nav-text">过期策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存回收机制"><span class="nav-number">4.2.</span> <span class="nav-text">内存回收机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存穿透"><span class="nav-number">5.</span> <span class="nav-text">缓存穿透</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存击穿"><span class="nav-number">6.</span> <span class="nav-text">缓存击穿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存雪崩"><span class="nav-number">7.</span> <span class="nav-text">缓存雪崩</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-Remote-Dictionary-Server-的特点"><span class="nav-number">1.</span> <span class="nav-text">Redis(Remote Dictionary Server)的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-Object"><span class="nav-number">2.</span> <span class="nav-text">Redis Object</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的数据结构与应用场景"><span class="nav-number">3.</span> <span class="nav-text">Redis 的数据结构与应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的两种持久化方式-RDB与AOF"><span class="nav-number">4.</span> <span class="nav-text">Redis 的两种持久化方式(RDB与AOF)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB"><span class="nav-number">4.1.</span> <span class="nav-text">RDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF"><span class="nav-number">4.2.</span> <span class="nav-text">AOF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的过期策略以及内存回收机制"><span class="nav-number">5.</span> <span class="nav-text">Redis 的过期策略以及内存回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过期策略"><span class="nav-number">5.1.</span> <span class="nav-text">过期策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存回收机制"><span class="nav-number">5.2.</span> <span class="nav-text">内存回收机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存穿透"><span class="nav-number">6.</span> <span class="nav-text">缓存穿透</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存击穿"><span class="nav-number">7.</span> <span class="nav-text">缓存击穿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存雪崩"><span class="nav-number">8.</span> <span class="nav-text">缓存雪崩</span></a></li></ol></div>
             
 
           </div>
@@ -760,7 +762,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">123.0k</span>
+    <span title="累计字数">125.3k</span>
   
 </div>
 

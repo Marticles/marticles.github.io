@@ -293,6 +293,404 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/" itemprop="url">记一次MySQL的Lock Wait Timeout exceeded异常</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-15T12:14:06+08:00">
+                2019-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/" class="leancloud_visitors" data-flag-title="记一次MySQL的Lock Wait Timeout exceeded异常">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  562 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一次由于间隙锁导致的 Lock wait timeout，记录一下解决过程。</p>
+<h2 id="异常描述"><a href="#异常描述" class="headerlink" title="异常描述"></a>异常描述</h2><p>前端反映端口返回 504 Gateway Timeout，到服务器上查看对应的服务实例日志发现了以下异常：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### Cause: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction</span></span><br><span class="line">; Lock <span class="built_in">wait</span> timeout exceeded; try restarting transaction; nested exception is com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock <span class="built_in">wait</span> timeout exceeded; try restarting transaction] with root cause</span><br><span class="line"></span><br><span class="line">com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock <span class="built_in">wait</span> timeout exceeded; try restarting transaction</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/15/记一次MySQL的Lock Wait Timeout exceeded异常/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/03/14/TwitterSnowflake算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/14/TwitterSnowflake算法/" itemprop="url">分布式唯一ID生成算法:Twitter Snowflake</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T22:38:21+08:00">
+                2019-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/分布式系统/" itemprop="url" rel="index">
+                    <span itemprop="name">分布式系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/14/TwitterSnowflake算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/14/TwitterSnowflake算法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/14/TwitterSnowflake算法/" class="leancloud_visitors" data-flag-title="分布式唯一ID生成算法:Twitter Snowflake">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,462 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在毕设的 API 模块中，考虑到分布式环境下采用 UUID 直接生成 Key 可能会导致 Key 重复的问题，最终的 Key 生成策略采用 Twitter Snowflake 算法生成唯一 ID， 再使用 HmacMD5 算法对 ID 加密生成 API Key。</p>
+<p>其他常见的分布式唯一 ID 生成策略还有：</p>
+<ul>
+<li><p>数据库自增字段</p>
+</li>
+<li><p>UUID</p>
+</li>
+<li><p>Mongdb objectID</p>
+</li>
+<li><p>Redis 原子命令 INCR</p>
+</li>
+<li><p>ZooKeeper  的 ZNode 数据版本生成序列号，可以生成 32 位和 64 位的数据版本号</p>
+</li>
+<li><p>美团的 Leaf 系统 (类似 Twitter Snowflake 但通过 ZooKeeper 解决了时钟回拨问题)</p>
+</li>
+</ul>
+<h2 id="Twitter-Snowflake-算法"><a href="#Twitter-Snowflake-算法" class="headerlink" title="Twitter Snowflake 算法"></a>Twitter Snowflake 算法</h2><p>Snowflake 是 Twitter 开源的分布式 ID 生成算法，目的是在分布式系统中生成全局唯一且趋势递增的 ID，属于划分命名空间并行生成的一种算法，其生成结果为 64bit 的 long 型 ID。Snowflake 算法可以保证每秒至少生成约 409.6万个不重复的 ID，具有极高的性能。</p>
+<p><img src="/images/TwitterSnowflake算法/snowflake.jpg" alt="snowflake-64bit"></p>
+<p>其中：</p>
+<ul>
+<li><strong>符号位</strong>：占 <strong>1</strong> 位，其值始终是 0，无实际作用。</li>
+<li><strong>时间表示位</strong>：占 <strong>41</strong> 位，用来记录时间戳（毫秒），可以表示 $0$ 至 $2^{41}-1​$ 毫秒约等于 69 年的时间。</li>
+<li><strong>数据中心位</strong>：占 <strong>5</strong> 位，可表示 $0$ 至 $2^{5}-1$ 共 32 个数据中心。</li>
+<li><strong>机器编号位</strong>：占 <strong>5</strong> 位，每个数据中心内可表示 $0$ 至 $2^{5}-1$ 共 32 个机器。</li>
+<li><strong>序列编号位</strong>：占 <strong>12</strong> 位，用来记录同毫秒内产生的不同 ID，可表示 $0$ 至 $2^{12}-1$ 共 4096 个序列号。</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/14/TwitterSnowflake算法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/03/13/令牌桶算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -399,7 +797,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,139 字
+                  1,118 字
                 </span>
               
 
@@ -425,7 +823,7 @@
 
       
         
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>毕设的 API 模块中使用了 Guava RateLimter 进行限流，实质限制的是单位时间窗口（1s）内的平均速率。常见的限流算法有：令牌桶、漏桶、计数器，Guava RateLimter 使用的是令牌桶算法。</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>毕设的 API 模块中使用了 Guava RateLimter 进行 QPS 限流，顺便了解下常见的限流算法，主要包括令牌桶、漏桶、计数器。</p>
 <h2 id="漏桶算法-Leaky-Bucket"><a href="#漏桶算法-Leaky-Bucket" class="headerlink" title="漏桶算法(Leaky Bucket)"></a>漏桶算法(Leaky Bucket)</h2><p>漏桶算法（Leaky Bucket）是计算机网络中流量整形（Traffic Shaping）或速率限制（Rate Limiting）时经常使用的一种算法，主要目的是控制数据注入到网络的速率，平滑网络上的突发流量。</p>
 <p><img src="/images/限流算法之令牌桶与漏桶算法/leakybucket.png" alt="Leaky Bucket"></p>
 <p>漏桶算法描述如下：</p>
@@ -1908,424 +2306,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/15/Docker网络模式踩坑/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/15/Docker网络模式踩坑/" itemprop="url">Docker网络模式踩坑</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-15T21:13:11+08:00">
-                2019-02-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Docker/" itemprop="url" rel="index">
-                    <span itemprop="name">Docker</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/02/15/Docker网络模式踩坑/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/15/Docker网络模式踩坑/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/02/15/Docker网络模式踩坑/" class="leancloud_visitors" data-flag-title="Docker网络模式踩坑">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,115 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇笔记源自上次 Docker 下搭建 Redis 哨兵集群所踩的坑，主要原因是 Docker 默认的网络模式是 Bridge，而在设置哨兵的 matser IP 时用的是容器的内网地址，在 Spring Boot 中使用 Redis 时哨兵返回的仍是 Docker 的内网地址。</p>
-<p>解决办法是加入 docker 启动参数 <code>--network=host</code>，改为 host 模式启动，并将 master 节点 IP 改为 host 的外网地址，此时的 Redis 集群是直接暴露在公网的，一定要设置 <code>requirepass</code>。</p>
-<p>借此机会，顺便学习一下 Docker 的网络模式。</p>
-<h2 id="Docker-的网络模式"><a href="#Docker-的网络模式" class="headerlink" title="Docker 的网络模式"></a>Docker 的网络模式</h2><p>Dcoker 网络隔离基于 Network namespace，创建 Docker 容器时会为每一个容器分配 Network namespace。</p>
-<p>创建 Docker 容器时有以下几种网络模式：</p>
-<ul>
-<li><strong>Bridge</strong></li>
-<li><strong>Host</strong></li>
-<li><strong>None</strong></li>
-<li><strong>Overlay</strong></li>
-<li><strong>Macvlan</strong></li>
-<li><strong>Container</strong></li>
-</ul>
-<p>Docker 容器默认为 bridge 模式，其他模式需要在创建容器时使用 <code>–-net</code> 手动指定。</p>
-<h3 id="Bridge-模式"><a href="#Bridge-模式" class="headerlink" title="Bridge 模式"></a>Bridge 模式</h3><p>Bridge 模式下会在 host 上创建一个 名为 docker0 的虚拟网桥，此模式下的容器会桥接到这个虚拟网桥上，虚拟网桥会与 host 进行 IP 转换，端口映射等通信。 </p>
-<p>Docker 官方文档中这样说明 Bridge 的使用场景：</p>
-<blockquote>
-<p>“ Bridge networks are usually used when your applications run in standalone containers that need to communicate. “<br> Bridge 网络通常用于应用程序在需要通信的独立容器中运行时的场景下。</p>
-</blockquote>
-<h3 id="Host-模式"><a href="#Host-模式" class="headerlink" title="Host 模式"></a>Host 模式</h3><p>指定方法：<code>--net=&quot;host&quot;</code></p>
-<p>Host 模式删除了容器与 host 之间的网络隔离(“remove network isolation between the container and the Docker host”)，此模式下创建的容器没有自己独立的 Network namespace，而是和 host 共享一个 Network namespace 并且共享 host 的所有端口与 IP。</p>
-<p>通过这种模式创建的容器可以访问看到 host 上所有的网络设备，由于这种方式创建的容器有极高的访问权限，所以被认为是不安全的。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/15/Docker网络模式踩坑/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Marticles">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xCAFEBABE">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" itemprop="url">深入理解Redis Master-Slaver/Sentinel/Cluster原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-14T16:49:51+08:00">
-                2019-02-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Redis/" itemprop="url" rel="index">
-                    <span itemprop="name">Redis</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/" class="leancloud_visitors" data-flag-title="深入理解Redis Master-Slaver/Sentinel/Cluster原理">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  5,905 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇总结参考自 Redis 的官方文档与《Redis设计与实现》。</p>
-<p>Redis中的多实例架构主要分为三种：主从(Master-Slaver)、哨兵(Sentinel) 和集群(Cluster)，其中 Sentinel 和 Cluster 都是以 Master-Slaver 为基础的。</p>
-<h2 id="主从-Master-Slaver"><a href="#主从-Master-Slaver" class="headerlink" title="主从(Master-Slaver)"></a>主从(Master-Slaver)</h2><p>注：由于某些政治正确原因，Redis 官方现在已经将 Master-Slaver 改为 Master-Replica，一些相关的命令诸如 <code>slaverof &lt;Matser-IP&gt;</code> 也改成了 <code>replicaof &lt;Matser-IP&gt;</code>，但原有的命令暂时还是可用并存的。</p>
-<p>个人理解，主从模式的作用有以下两点：</p>
-<ul>
-<li><strong>容灾备份</strong>：当一个节点损坏时由于有备份，可以十分容易地恢复数据。</li>
-<li><strong>负载均衡</strong>：通过读写分离，所有写请求将由 master完成，读请求则可以通过其他 slave 来完成且 slave 是可以无限扩展的，从而可以支持更高的并发量。</li>
-</ul>
-<p>主从模式下，一个 master 可以有多个 slave，但一个 slave 只能有一个master，slave 也可以有自己的 slave，其中的数据流向是单向的，由 master 到 slave。</p>
-<p>注意，出于保证主和各个从之间数据一致性的考虑，slave 默认是无法提供写服务的，除非将配置文件中的 <code>replica-read-only</code> 改为 <code>no</code>，但这样的话就要自己实现主从一致性。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Since Redis 2.6 by default replicas are read-only.</span><br><span class="line">replica-read-only yes</span><br></pre></td></tr></table></figure>
-<h3 id="旧版复制-SYNC"><a href="#旧版复制-SYNC" class="headerlink" title="旧版复制(SYNC)"></a>旧版复制(SYNC)</h3><p>旧版复制功能可以分为<strong>同步</strong>与<strong>命令传播</strong>两个操作：</p>
-<ul>
-<li>同步：用于将 slave 更新至与 master 数据一致的状态。</li>
-<li>命令传播：用于 master 数据被更改，导致主从不一致的情况，让 master 与 slave 重新回到数据一致的在状态。</li>
-</ul>
-<h4 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h4><p>同步操作需要 <code>SYNC</code> 命令来完成，具体步骤如下：</p>
-<ol>
-<li>从节点向 master 发送 <code>PSYNC</code> 命令。</li>
-<li>Master 执行 <code>BGSAVE</code>，开启一个后台进程生成 RDB 文件。</li>
-<li>Master 开始缓冲所有新的写命令。</li>
-<li>当后台保存任务完成时， master 将 RDB 文件读取至内存中并传输给 slave， slave 将其保存在磁盘上，然后加载 RDB 文件到内存进行同步。</li>
-<li>Master 将缓冲区内缓存的所有写命令发送给 slave，slave 执行这些写命令完成全量复制。</li>
-</ol>
-<h4 id="命令传播"><a href="#命令传播" class="headerlink" title="命令传播"></a>命令传播</h4><p>经过同步操作后，主从之间的数据将达到一致状态，但当 master 数据又被改变时，为了让主从再次回到数据一致状态，master 还需要对 slave 进行命令传播。</p>
-<p>即 master 会将新的造成数据不一致的命令都发送给 slave，这样当 slave执行完这些命令后，主从将恢复数据一致状态。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/14/深入理解Redis-Master-Slaver-Sentinel与Cluster原理/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2380,7 +2360,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2475,7 +2455,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">123.0k</span>
+    <span title="累计字数">125.3k</span>
   
 </div>
 
