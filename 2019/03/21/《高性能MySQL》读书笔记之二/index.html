@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Marticles" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="关键词数据类型、范式与反范式、B-Tree索引、Hash索引。 Scheme 与数据类型优化在 MySQL 中，Scheme 与 Database 是等价的，可视为表的集合。 选择优化的数据类型选择数据类型的原则：  更小的通常更好：使用可以正确使用存储数据的最小数据类型。 简单就好：简单数据类型的操作意味着更少的 CPU 开销，例如整形和字符操作代价更低。这里的例子是一使用 MySQL 自建的类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《高性能MySQL》阅读笔记之二">
+<meta property="og:url" content="http://marticles.github.io/2019/03/21/《高性能MySQL》读书笔记之二/index.html">
+<meta property="og:site_name" content="0xCAFEBABE">
+<meta property="og:description" content="关键词数据类型、范式与反范式、B-Tree索引、Hash索引。 Scheme 与数据类型优化在 MySQL 中，Scheme 与 Database 是等价的，可视为表的集合。 选择优化的数据类型选择数据类型的原则：  更小的通常更好：使用可以正确使用存储数据的最小数据类型。 简单就好：简单数据类型的操作意味着更少的 CPU 开销，例如整形和字符操作代价更低。这里的例子是一使用 MySQL 自建的类">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://marticles.github.io/images/高性能MySQL阅读笔记之二/1.png">
+<meta property="og:image" content="http://marticles.github.io/images/高性能MySQL阅读笔记之二/2.png">
+<meta property="og:image" content="http://marticles.github.io/images/高性能MySQL阅读笔记之二/3nfgif.gif">
+<meta property="og:image" content="http://marticles.github.io/images/高性能MySQL阅读笔记之二/B-Tree.png">
+<meta property="og:image" content="http://marticles.github.io/images/高性能MySQL阅读笔记之二/查询流程.png">
+<meta property="og:updated_time" content="2019-04-14T13:01:21.034Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《高性能MySQL》阅读笔记之二">
+<meta name="twitter:description" content="关键词数据类型、范式与反范式、B-Tree索引、Hash索引。 Scheme 与数据类型优化在 MySQL 中，Scheme 与 Database 是等价的，可视为表的集合。 选择优化的数据类型选择数据类型的原则：  更小的通常更好：使用可以正确使用存储数据的最小数据类型。 简单就好：简单数据类型的操作意味着更少的 CPU 开销，例如整形和字符操作代价更低。这里的例子是一使用 MySQL 自建的类">
+<meta name="twitter:image" content="http://marticles.github.io/images/高性能MySQL阅读笔记之二/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://marticles.github.io/2019/03/21/《高性能MySQL》读书笔记之二/"/>
+
+
+
+
+
+  <title>《高性能MySQL》阅读笔记之二 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xCAFEBABE</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Just for fun</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/03/21/《高性能MySQL》读书笔记之二/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《高性能MySQL》阅读笔记之二</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-21T18:05:11+08:00">
+                2019-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/21/《高性能MySQL》读书笔记之二/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/21/《高性能MySQL》读书笔记之二/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/21/《高性能MySQL》读书笔记之二/" class="leancloud_visitors" data-flag-title="《高性能MySQL》阅读笔记之二">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,557 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h2><p>数据类型、范式与反范式、B-Tree索引、Hash索引。</p>
+<h2 id="Scheme-与数据类型优化"><a href="#Scheme-与数据类型优化" class="headerlink" title="Scheme 与数据类型优化"></a>Scheme 与数据类型优化</h2><p>在 MySQL 中，Scheme 与 Database 是等价的，可视为表的集合。</p>
+<h3 id="选择优化的数据类型"><a href="#选择优化的数据类型" class="headerlink" title="选择优化的数据类型"></a>选择优化的数据类型</h3><p>选择数据类型的原则：</p>
+<ul>
+<li>更小的通常更好：使用可以正确使用存储数据的最小数据类型。</li>
+<li>简单就好：简单数据类型的操作意味着更少的 CPU 开销，例如整形和字符操作代价更低。这里的例子是一使用 MySQL 自建的类型而不是字符串来存储日期和时间，二是用整形存储 IP 地址。</li>
+<li>尽量避免NULL：可为 NULL 的列使得索引、索引统计和值比较都更复杂，且会使用更多的存储空间。当可为 NULL 的列被索引时，每个索引记录需要一个额外的字节。</li>
+</ul>
+<p>例如，DATETIME 和 TIMESTAMP 都可以存储日期和时间，精确到秒，然而 TIMESTAMP 只使用 DATETIME 一半的存储空间，且会根据时区自动变化。另一方面，TIMESTAMP 允许的时间范围要更小，且时区自动更新有时反而会成为障碍。</p>
+<h3 id="整数类型"><a href="#整数类型" class="headerlink" title="整数类型"></a>整数类型</h3><p>整数类型包括：<strong>TINYINT（8位），SMALLINT（16位），MEDIUMINT（24位），INT（32位），BIGINT（64位）</strong>。它们可以存储从$-2^{N-1}$ 到 $2^{N-1}-1$ 范围的整数，其中 $N$ 为位数。</p>
+<p>整数类型有可选的属性 UNSIGNED，表示不允许负值，可以使正数的表示范围提高一倍，例如 TINYINT.UNSIGNED 可以存储 0~255，而 TINYINT 是 -128~127。</p>
+<p>虽然 MySQL 可以为整数类型指定宽度，但实际并不会限制值得合法范围，只是规定了一些 GUI 的显示位数。对于存储和计算来说，INT(1) 和 INT(10) 是相同的。</p>
+<a id="more"></a>
+<h3 id="实数类型"><a href="#实数类型" class="headerlink" title="实数类型"></a>实数类型</h3><p>实数是带有小数部分的数字，但是实数类型不只是用于存储小数，例如可以使用 DECIMAL 存储比 BIGINT 还大的整数。MySQL 支持精确类型和不精确类型。</p>
+<p>FLOAT 使用 4 个字节，DOUBLE 使用 8 个字节，DECIMAL 允许最多 65 个数字（例如 DECIMAIL()）。</p>
+<h3 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h3><ul>
+<li>VARCHAR：用于存储可变长字符串，越短的字符串使用越少的空间，比 CHAR 更省空间，但需要使用额外的 1 个或 2 个额外字节记录字符串的长度。</li>
+<li>CHAR：用于存储定长的字符串，当存储 CHAR 值时，MySQL 会删除所有的末尾空格。(最好的策略是只分配真正需要的空间。)</li>
+<li>BLOB 和 TEXT：二者都是为了存储很大的数据而设计的字符串数据类型，分别采用二进制和字符方式存储。在对这两种字符串类型排序时，MySQL 只对在最前的 max_sort_length 字节进行排序。 </li>
+</ul>
+<p>有时候可以使用枚举列代替常用的字符串类型。枚举列可以把一些不重复的字符串存储成一个预定义的集合。MySQL 在存储枚举时非常紧凑，会根据列表值的数量压缩到一个或者两个字节中。MySQL在内部会将每个值在列表中的位置保存为整数，并且在表的.frm文件中保存“数字-字符串”映射关系的“查找表”。</p>
+<p><img src="/images/高性能MySQL阅读笔记之二/1.png" alt="1"></p>
+<p>这三行数据实际存储为整数，而不是字符串。如果使用数字作为ENUM枚举常量，这种双重性很容易导致混乱，应该尽量避免这么做。 另外值得注意的是，枚举字段是按照内部存储的整数而不是定义的字符串进行排序的。</p>
+<p><img src="/images/高性能MySQL阅读笔记之二/2.png" alt="2"></p>
+<h3 id="日期和时间类型"><a href="#日期和时间类型" class="headerlink" title="日期和时间类型"></a>日期和时间类型</h3><p>MySQL 能存储的最小时间粒度为秒(MariaDB 支持微秒)，如果需要更小粒度的时间，可以使用 BIGINT 存储微秒级别的时间戳，或用 DOUBLE 存储秒之后的小数部分。</p>
+<ul>
+<li>DATETIME：能存储 1001 年到 9999 年范围的时间，精度为秒，使用 8 个字节的存储空间。</li>
+<li>TIMESTAMP：保存了从格林威治时间 1970 年 01 月 01 日 00 时 00 分 00 秒以来的秒数，与 UNIX 时间戳相同，使用 4 个字节的存储空间。</li>
+</ul>
+<h3 id="位数据类型"><a href="#位数据类型" class="headerlink" title="位数据类型"></a>位数据类型</h3><p>位数据类型底层都为字符串类型。</p>
+<ul>
+<li>BIT：最大长度为 64 个位，MySQL 将 BIT 当作字符串类型，而不是数字类型。</li>
+<li>SET：以一系列打包的位的集合表示。</li>
+</ul>
+<h3 id="选择标识符"><a href="#选择标识符" class="headerlink" title="选择标识符"></a>选择标识符</h3><p>完全随机的字符串，如 UUID、MD5 等，由于索引的原因，会导致 INSERT 和 SELECT 语句变得很慢。 对于 UUID ，应该移除 “-”符号，或者用 UNHEX() 函数转换为 16 字节的数字，并存储在 BINARY(16) 的列中，查找时可以通过 HEX() 函数来格式化为 16 进制格式。</p>
+<h3 id="特殊类型数据"><a href="#特殊类型数据" class="headerlink" title="特殊类型数据"></a>特殊类型数据</h3><p>如 IPv4 地址，一般会使用 VARCHAR(15) 来存储 IP 地址，但 IP 地址实际上是 32 位的无符号整数，不是字符串，所以应该用 UNSIGNINT 来存储 IP 地址。MySQL 提供了 INET_ATON() 和 INET_NTOA() 函数在这两种表示方法之间进行转换。</p>
+<h3 id="范式"><a href="#范式" class="headerlink" title="范式"></a>范式</h3><p><img src="/images/高性能MySQL阅读笔记之二/3nfgif.gif" alt="3nfgif"></p>
+<p><strong>1NF</strong>：无重复的列，表中的每一列都是不可分割的基本数据项，任何关系型数据库都满足 1NF。<br><strong>2NF</strong>：在 1NF 基础上，除了主键之外的其他列，都依赖于该主键，则满足 2NF。（消除部分子函数依赖 ）<br><strong>3NF</strong>：在 2NF 基础上，表中的列都和主键直接相关，而不能传递依赖，即不能是：非主键 A 依赖于非主键 B，非主键 B 依赖于主键。（消除传递依赖）<br><strong>BCNF</strong>：在 3NF 基础上，表中不存在任何字段对任一候选关键字段的传递函数。</p>
+<p>优点：</p>
+<ul>
+<li>范式化的 UPDATE 操作通常比反范式化要快。</li>
+<li>当数据较好地范式化时，就只有很少或者没有重复数据，修改的数据量更少。</li>
+<li>范式化的表通常更小，执行操作会更快。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>范式化的 schema 通常需要关联，稍微复杂一些的查询语句在符合范式的 schema 上都可能需要至少一次会更多的关联，会影响查询性能。</li>
+</ul>
+<h3 id="反范式"><a href="#反范式" class="headerlink" title="反范式"></a>反范式</h3><p>反范式化指的是通过增加冗余或重复的数据来提高数据库的读性能，例如将所有数据都存在一张表中，可以很好地避免关联。</p>
+<p>优点：</p>
+<ul>
+<li>减少表的关联。</li>
+<li>可以更好地进行索引优化，查询性能更高。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>表内冗余数据较多。</li>
+<li>修改数据需要更多成本。</li>
+</ul>
+<p>综上，在设计数据库时，要注意混用范式化和反范式化。</p>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>索引在 MySQL 中也叫做键(Key)，是存储引擎用于快速找到记录的一种数据结构，这是索引的基本功能。</p>
+<h3 id="索引基础"><a href="#索引基础" class="headerlink" title="索引基础"></a>索引基础</h3><p>索引可以包含一个或多个列的值，如果索引包含多个列，那么列的顺序也十分重要，因为 MySQL 只能高效地使用索引的<strong>最左前缀列</strong>。</p>
+<h3 id="B-Tree-索引"><a href="#B-Tree-索引" class="headerlink" title="B-Tree 索引"></a>B-Tree 索引</h3><p>B-Tree 索引使用 B-Tree 作为底层的数据结构，<strong>InnoDB 使用的是 B+Tree</strong>。</p>
+<p>不同的存储引擎会以不同的方式使用 B-Tree 索引，性能也各有不同。例如 MyISAM 使用前缀压缩技术使索引更小，并通过数据的物理位置引用被索引的行，但 InnoDB 则按照原数据格式进行存储，并根据主键引用被索引的行。</p>
+<p>B-Tree 意味着所有的值都是按顺序存储的，且每个叶子到根的距离相同。</p>
+<p><img src="/images/高性能MySQL阅读笔记之二/B-Tree.png" alt="B-Tree"></p>
+<p>B-Tree 索引的键前缀查找只适用于最左前缀查找。</p>
+<h3 id="Hash-索引"><a href="#Hash-索引" class="headerlink" title="Hash 索引"></a>Hash 索引</h3><p>Hash 索引基于哈希表实现，对于每一行数据，存储引擎会对所有的索引列计算 hash code。Hash 索引将所有的哈希码都存储在索引中，同时在哈希表中保存指向每个数据行的指针。</p>
+<h3 id="索引优点"><a href="#索引优点" class="headerlink" title="索引优点"></a>索引优点</h3><ul>
+<li>索引大大减少了服务器需要扫描的数据量。</li>
+<li>索引可以帮助服务器避免排序和临时表。</li>
+<li>索引可以将随机 I/O 变为顺序 I/O。</li>
+</ul>
+<h3 id="MySQL-索引类型"><a href="#MySQL-索引类型" class="headerlink" title="MySQL 索引类型"></a>MySQL 索引类型</h3><p>INDEX：最基本的索引，没有任何限制。</p>
+<p>UNIQUE：唯一索引，不允许重复，可以为 null。</p>
+<p>PRIMARY：主键索引，是一种特殊的唯一索引，不允许为 null。</p>
+<p>FULLTEXT: 表示全文搜索的索引。</p>
+<h3 id="高效的索引策略"><a href="#高效的索引策略" class="headerlink" title="高效的索引策略"></a>高效的索引策略</h3><ul>
+<li>使用独立的列，“独立的列”指的是索引列不能是表达式的一部分，也不能是函数的参数。</li>
+<li>对于 TEXT 或很长的 VARHCAR 类型列，必须使用前缀索引，MySQL 不允许索引这些列的完整长度。</li>
+<li>不要为每个列都创建索引。</li>
+<li>在多列索引中选择合适的顺序。</li>
+<li>使用覆盖索引，覆盖索引指的是包含所有需要查询字段的值得索引。</li>
+</ul>
+<h2 id="查询性能优化"><a href="#查询性能优化" class="headerlink" title="查询性能优化"></a>查询性能优化</h2><p>当用户向 MySQL 发送一个查询请求时，具体的执行过程如下：</p>
+<ul>
+<li>客户端发送一条查询给 MySQL 服务器。</li>
+<li>服务器检查缓存，如果缓存命中则立即返回缓存结果，否则进入下一步。</li>
+<li>服务器端进行 SQL 解析、预处理，再由优化器生成对应的执行计划。</li>
+<li>MySQL 根据优化器生成的执行计划，调用存储引擎的 API 来执行查询。</li>
+<li>将查询结果返回给客户端。</li>
+</ul>
+<p><img src="/images/高性能MySQL阅读笔记之二/查询流程.png" alt="查询流程"></p>
+<p>对于低效的查询，往往可以由以下两个原因导致：</p>
+<ul>
+<li>应用程序请求了大量超过需要的数据。</li>
+<li>MySQL 服务器层正在分析大量超过需要的数据行。 </li>
+</ul>
+<p>对于 MySQL ，最简单的衡量查询开销的三个指标如下：</p>
+<ul>
+<li>响应时间</li>
+<li>扫描的行数</li>
+<li>返回的行数</li>
+</ul>
+<h3 id="重构查询的方式"><a href="#重构查询的方式" class="headerlink" title="重构查询的方式"></a>重构查询的方式</h3><ul>
+<li>考虑是采用一个复杂查询还是多个简单查询。</li>
+<li>用分治的思想进行分切查询，例如在删除大量数据时，分批量操作就是一个很好的例子。</li>
+<li>分解关联查询。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Marticles
+  </li>
+
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/19/深入理解Redis-Zset原理/" rel="next" title="深入理解Redis Zset原理">
+                <i class="fa fa-chevron-left"></i> 深入理解Redis Zset原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/23/记一次MySQL的Lock Wait Timeout exceeded异常/" rel="prev" title="记一次MySQL的Lock Wait Timeout exceeded异常">
+                记一次MySQL的Lock Wait Timeout exceeded异常 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Marticles" />
+            
+              <p class="site-author-name" itemprop="name">Marticles</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item" >
+                    <a href="https://github.com/Marticles" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github" ></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item" >
+                    <a href="marticles.reg@hotmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope" ></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关键词"><span class="nav-number">1.</span> <span class="nav-text">关键词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheme-与数据类型优化"><span class="nav-number">2.</span> <span class="nav-text">Scheme 与数据类型优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选择优化的数据类型"><span class="nav-number">2.1.</span> <span class="nav-text">选择优化的数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整数类型"><span class="nav-number">2.2.</span> <span class="nav-text">整数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实数类型"><span class="nav-number">2.3.</span> <span class="nav-text">实数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串类型"><span class="nav-number">2.4.</span> <span class="nav-text">字符串类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日期和时间类型"><span class="nav-number">2.5.</span> <span class="nav-text">日期和时间类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位数据类型"><span class="nav-number">2.6.</span> <span class="nav-text">位数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择标识符"><span class="nav-number">2.7.</span> <span class="nav-text">选择标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊类型数据"><span class="nav-number">2.8.</span> <span class="nav-text">特殊类型数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#范式"><span class="nav-number">2.9.</span> <span class="nav-text">范式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反范式"><span class="nav-number">2.10.</span> <span class="nav-text">反范式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">3.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引基础"><span class="nav-number">3.1.</span> <span class="nav-text">索引基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-Tree-索引"><span class="nav-number">3.2.</span> <span class="nav-text">B-Tree 索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash-索引"><span class="nav-number">3.3.</span> <span class="nav-text">Hash 索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引优点"><span class="nav-number">3.4.</span> <span class="nav-text">索引优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL-索引类型"><span class="nav-number">3.5.</span> <span class="nav-text">MySQL 索引类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高效的索引策略"><span class="nav-number">3.6.</span> <span class="nav-text">高效的索引策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询性能优化"><span class="nav-number">4.</span> <span class="nav-text">查询性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重构查询的方式"><span class="nav-number">4.1.</span> <span class="nav-text">重构查询的方式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-code -user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LJH's Blog</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-pencil"></i>
+    </span>
+    
+      <span class="post-meta-item-text">累计字数 </span>
+    
+    <span title="累计字数">134.8k</span>
+  
+</div>
+
+
+
+
+
+
+
+<div>
+<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("05/01/2018 00:00:00");
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-heart"></i> 访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'tX35P74MzjHmbgXpVmfVXiNw-gzGzoHsz',
+        appKey: '5duYsnA8GwkNJm18sfPzfvV9',
+        placeholder: '在此分享你的想法!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("tX35P74MzjHmbgXpVmfVXiNw-gzGzoHsz", "5duYsnA8GwkNJm18sfPzfvV9");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

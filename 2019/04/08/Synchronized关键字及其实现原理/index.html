@@ -88,7 +88,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://marticles.github.io/images/Synchronized关键字及其实现原理/对象头.jpg">
 <meta property="og:image" content="http://marticles.github.io/images/Synchronized关键字及其实现原理/ObjectMonitor.png">
-<meta property="og:updated_time" content="2019-04-14T09:31:26.230Z">
+<meta property="og:updated_time" content="2019-04-14T10:17:02.407Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Synchronized关键字及其实现原理">
 <meta name="twitter:description" content="前言Java 中的 synchronized 有偏向锁、轻量级锁、重量级锁三种形式，分别对应了锁只被一个线程持有、不同线程交替持有锁、多线程竞争锁三种情况，锁会按偏向锁 -&amp;gt; 轻量级锁 -&amp;gt; 重量级锁的顺序升级。 synchronized 代码块对于被 synchronized 关键字修饰的代码块而言，在编译成字节码时会生成对应的 monitorenter 和 monitorexit">
@@ -403,7 +403,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,170 字
+                  3,166 字
                 </span>
               
 
@@ -432,7 +432,7 @@
 <h3 id="synchronized-代码块"><a href="#synchronized-代码块" class="headerlink" title="synchronized 代码块"></a>synchronized 代码块</h3><p>对于被 synchronized 关键字修饰的代码块而言，在编译成字节码时会生成对应的 <strong>monitorenter</strong> 和 <strong>monitorexit</strong> 指令分别对应synchronized 同步块的进入和退出。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">syncBlock</span><span class="params">()</span></span>;</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">2</span>, locals=<span class="number">3</span>, args_size=<span class="number">1</span></span><br><span class="line">         <span class="number">1</span>: monitorenter  <span class="comment">//进入synchronized方法</span></span><br><span class="line">         <span class="comment">//...省略  </span></span><br><span class="line">         <span class="number">10</span>: monitorexit   <span class="comment">//退出synchronized方法</span></span><br><span class="line">         <span class="comment">//...省略</span></span><br><span class="line">         <span class="number">20</span>: monitorexit <span class="comment">//退出synchronized方法</span></span><br><span class="line">         <span class="number">22</span>: <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
 <p>有两个 monitorexit 指令的原因是为了保证抛出异常下也能释放锁，所以 javac 为同步代码块添加了一个隐式的 try-finally，在 finally 中会调用 monitorexit 命令释放锁。</p>
-<h3 id="synchronized-方法"><a href="#synchronized-方法" class="headerlink" title="synchronized 方法"></a>synchronized 方法</h3><p>从以下字节码中可以看出，synchronized 方法并没有 monitorenter 和 monitorexit 指令，取得代之的确实是 <strong>ACC_SYNCHRONIZED标识</strong>，该标识指明了该方法是一个同步方法，JVM通过该 ACC_SYNCHRONIZED 标志来辨别一个方法是否为同步方法，从而执行相应的获取锁操作。</p>
+<h3 id="synchronized-方法"><a href="#synchronized-方法" class="headerlink" title="synchronized 方法"></a>synchronized 方法</h3><p>从以下字节码中可以看出，synchronized 方法并没有 monitorenter 和 monitorexit 指令，而是一个 <strong>ACC_SYNCHRONIZED</strong> 标识，该标识指明了该方法是一个同步方法，JVM通过该 ACC_SYNCHRONIZED 标识来辨别一个方法是否为同步方法，从而执行相应的获取锁操作。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">syncMethod</span><span class="params">()</span></span>;</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    <span class="comment">// 方法标识ACC_PUBLIC代表public修饰，ACC_SYNCHRONIZED指明该方法为同步方法</span></span><br><span class="line">    flags: ACC_PUBLIC, ACC_SYNCHRONIZED</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">2</span>, locals=<span class="number">1</span>, args_size=<span class="number">1</span></span><br><span class="line">         0: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">         3: ldc           #5                  // String hello method</span><br><span class="line">         5: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">         <span class="number">8</span>: <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
 <p>在 Java 6 之前，monitor 的实现完全是依靠操作系统内部的互斥锁 Mutex Lock，因为需要进行用户态到内核态的切换，所以同步操作是一个无差别的重量级操作，性能也很低。但在 Java 6 开始，提供了三种不同的 monitor 实现：<strong>偏向锁</strong>、<strong>轻量级锁</strong>和<strong>重量级锁</strong>，大大改进了其性能。</p>
 <a id="more"></a>
@@ -567,8 +567,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/30/Docker部署Spring Boot应用/" rel="next" title="Docker部署Spring Boot应用">
-                <i class="fa fa-chevron-left"></i> Docker部署Spring Boot应用
+              <a href="/2019/03/30/MySQL索引原理/" rel="next" title="MySQL索引原理">
+                <i class="fa fa-chevron-left"></i> MySQL索引原理
               </a>
             
           </div>
@@ -659,7 +659,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -770,7 +770,7 @@
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">130.8k</span>
+    <span title="累计字数">134.8k</span>
   
 </div>
 
