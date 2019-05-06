@@ -293,6 +293,202 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/08/01/k-近邻算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/01/k-近邻算法/" itemprop="url">k-近邻算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T15:37:35+08:00">
+                2018-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/01/k-近邻算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/08/01/k-近邻算法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/08/01/k-近邻算法/" class="leancloud_visitors" data-flag-title="k-近邻算法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,804 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>k-近邻(kNN,k-NearestNeighbor)是最简单有效的一种用于分类与回归的算法之一。所谓k最近邻，就是k个最近的邻居的意思，即每个样本都可以用它最接近的k个邻居来代表。<br><strong>k值选择</strong>、<strong>距离度量</strong>、<strong>决策规则</strong>是k近邻算法的三个基本要素。<br>k-近邻做回归和分类的主要区别在于最后做预测时候的决策方式不同。当做分类预测时，一般是选择多数表决法，即训练集里和预测的样本特征最近的k个样本，预测为里面有最多类别数的类别。而做回归时，一般是选择平均法，即最近的k个样本的样本输出的平均值作为回归预测值。<br>对于原始kNN计算量大的缺点，主要有<strong>KD</strong>树与<strong>球树</strong>两种改进算法。</p>
+<p>参考：周志华-《机器学习》&amp;Peter Harrington-《机器学习实战》<br>Mohamad Dolatshah, Ali Hadian, Behrouz Minaei-Bidgoli, “Ball-tree: Efficient spatial indexing for constrained nearest-neighbor search in metric spaces”, <em>ArXiv e-prints</em>, Nov 2015.</p>
+<h2 id="k值选择"><a href="#k值选择" class="headerlink" title="k值选择"></a>k值选择</h2><p>k值越小，偏差越小、方差越大，容易过拟合，不抗噪声。<br>k值越大，偏差越大、方差越小，容易欠拟合。<br>通常采用经验值或交叉验证选取合适的k值。</p>
+<h2 id="计算距离"><a href="#计算距离" class="headerlink" title="计算距离"></a>计算距离</h2><p>欧式距离：</p>
+<script type="math/tex; mode=display">
+D(x,y) = \sqrt{(x_1-y_1)^2 + (x_2-y_2)^2 + ... + (x_n-y_n)^2} = \sqrt{\sum\limits_{i=1}^{n}(x_i-y_i)^2}</script><p>曼哈顿距离：</p>
+<script type="math/tex; mode=display">
+D(x,y) =|x_1-y_1| + |x_2-y_2| + ... + |x_n-y_n| =\sum\limits_{i=1}^{n}|x_i-y_i|</script><p>闵可夫斯基距离：</p>
+<script type="math/tex; mode=display">
+D(x,y) =\sqrt[p]{(|x_1-y_1|)^p + (|x_2-y_2|)^p + ... + (|x_n-y_n|)^p} =\sqrt[p]{\sum\limits_{i=1}^{n}(|x_i-y_i|)^p}</script><p>当$p=1$时，就是曼哈顿距离；当$p=2$时，就是欧氏距离。</p>
+<h2 id="原始kNN-Brute-Force"><a href="#原始kNN-Brute-Force" class="headerlink" title="原始kNN(Brute Force)"></a>原始kNN(Brute Force)</h2><p>原始的kNN算法在找近邻时采取的是Brute Force算法，暴力对所有训练集样本进行搜索，有两个明显的缺点：<br>1.需要存储全部训练集<br>2.计算量太大<br>一种有效的改进方法是事先将训练集按近邻关系分解成组，算出每组质心的位置，以质心作为代表点，和未知样本计算距离，选出距离最近的一个或若干个组，再在组的范围内应用原始的kNN算法。由于并不是将未知样本与所有样本计算距离，故该改进算法可以减少计算量，但并不能减少存储量。<br>实现k-近邻法时，主要考虑的问题是如何对训练数据进行快速k近邻搜索，为了减少计算量，可以考虑使用特殊的结构存储训练数据，以减小计算距离的次数，比如引入树结构。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/01/k-近邻算法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2018/07/29/个人翻译-推荐系统概述/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1806,7 +2002,7 @@ y=\frac{1}{1+e^{-z}}</script><p>下图给出了Sigmoid函数在不同坐标尺�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1901,7 +2097,7 @@ y=\frac{1}{1+e^{-z}}</script><p>下图给出了Sigmoid函数在不同坐标尺�
     
       <span class="post-meta-item-text">累计字数 </span>
     
-    <span title="累计字数">133.4k</span>
+    <span title="累计字数">137.2k</span>
   
 </div>
 

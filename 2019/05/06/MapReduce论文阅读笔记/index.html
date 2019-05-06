@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Marticles" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="原论文Dean, Jeffrey, and Sanjay Ghemawat. “MapReduce: simplified data processing on large clusters.” Communications of the ACM 51.1 (2008): 107-113. 前言Google 三驾马车之一，MIT 6.824 first day 的 preparation task">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google MapReduce 论文阅读笔记">
+<meta property="og:url" content="http://marticles.github.io/2019/05/06/MapReduce论文阅读笔记/index.html">
+<meta property="og:site_name" content="0xCAFEBABE">
+<meta property="og:description" content="原论文Dean, Jeffrey, and Sanjay Ghemawat. “MapReduce: simplified data processing on large clusters.” Communications of the ACM 51.1 (2008): 107-113. 前言Google 三驾马车之一，MIT 6.824 first day 的 preparation task">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://marticles.github.io/images/MapReduce论文阅读笔记/ExecutionOverview.png">
+<meta property="og:image" content="http://marticles.github.io/images/MapReduce论文阅读笔记/grep.png">
+<meta property="og:image" content="http://marticles.github.io/images/MapReduce论文阅读笔记/sort.png">
+<meta property="og:image" content="http://marticles.github.io/images/MapReduce论文阅读笔记/jobs.png">
+<meta property="og:updated_time" content="2019-05-06T10:23:12.699Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Google MapReduce 论文阅读笔记">
+<meta name="twitter:description" content="原论文Dean, Jeffrey, and Sanjay Ghemawat. “MapReduce: simplified data processing on large clusters.” Communications of the ACM 51.1 (2008): 107-113. 前言Google 三驾马车之一，MIT 6.824 first day 的 preparation task">
+<meta name="twitter:image" content="http://marticles.github.io/images/MapReduce论文阅读笔记/ExecutionOverview.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://marticles.github.io/2019/05/06/MapReduce论文阅读笔记/"/>
+
+
+
+
+
+  <title>Google MapReduce 论文阅读笔记 | 0xCAFEBABE</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xCAFEBABE</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Just for fun</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://marticles.github.io/2019/05/06/MapReduce论文阅读笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Marticles">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xCAFEBABE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Google MapReduce 论文阅读笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-06T18:22:25+08:00">
+                2019-05-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读论文/" itemprop="url" rel="index">
+                    <span itemprop="name">读论文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/06/MapReduce论文阅读笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/06/MapReduce论文阅读笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/05/06/MapReduce论文阅读笔记/" class="leancloud_visitors" data-flag-title="Google MapReduce 论文阅读笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,833 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="原论文"><a href="#原论文" class="headerlink" title="原论文"></a>原论文</h2><p>Dean, Jeffrey, and Sanjay Ghemawat. “MapReduce: simplified data processing on large clusters.” Communications of the ACM 51.1 (2008): 107-113.</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Google 三驾马车之一，MIT 6.824 first day 的 preparation task。</p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><blockquote>
+<p>MapReduce is a programming model and an associated implementation for <strong>processing and generating large data sets.</strong> Users specify <strong>a map function that processes a key/value pair to generate a set of intermediate key/value pairs</strong>, and <strong>a reduce function that merges all intermediate values associated with the same intermediate key</strong>. </p>
+</blockquote>
+<p>MapReduce 通过 Map 函数对一个基于 k-v 对的数据集进行处理，生成对应的中间数据集，再通过 Reduce 函数对这些中间数据集中具有相同的 key 的 value 进行合并。</p>
+<h2 id="关注点"><a href="#关注点" class="headerlink" title="关注点"></a>关注点</h2><blockquote>
+<p>The run-time system takes care of the details of <strong>partitioning the input data</strong>, <strong>scheduling the program’s execution across a set of machines</strong>, <strong>handling machine failures</strong>, and <strong>managing the required inter-machine communication</strong>. </p>
+</blockquote>
+<ul>
+<li>如何分割输入数据。</li>
+<li>分布式集群的调度。</li>
+<li>机器的错误处理。</li>
+<li>集群机器间的通信。</li>
+</ul>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><blockquote>
+<p>The input data is usually large and the computations have to be distributed across hundreds or thousands of machines in order to finish in a reasonable amount of time. The issues of how to parallelize the computation, distribute the data, and handlefailures conspire to obscure the original simple computation with large amounts of complex code to deal with these issues.</p>
+</blockquote>
+<p>输入的数据量巨大，难以在单机下完成，如果想在可接受的时间内完成，需要将计算分给成百上千的机器上。</p>
+<a id="more"></a>
+<h2 id="Programming-Model"><a href="#Programming-Model" class="headerlink" title="Programming Model"></a>Programming Model</h2><p>MapReduce 的模型原理是：对 input key/value pairs 对进行处理，生成对应的 output key/value pairs，这两步通过 Map 函数和 Reduce 函数来完成。</p>
+<ul>
+<li><strong>Map</strong>：由用户编写，接受一个 input key/value pair ，生成一个 intermediate key/value pairs 的集合，MapReduce Libray 将所有具有相同 intermediate key 的 value 集合一起后传递给 Reduce 函数。</li>
+<li><strong>Reduce</strong>：由用户编写，接受一个 intermediate key 和一个对应这个 key 的 value 集合，Reduce 函数会合并这些 value，生成一个较小的 value 集合。一般而言每次 Reduce 只产生 0 个或 1 个 output value。通常会使用迭代器将 intermediate value 传递给 Reduce 函数，这样就可以处理一些大到无法全部放入内存的 value 集合了。</li>
+</ul>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>例如，统计一个很大的文档集合中每个单词的出现次数，伪代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">map(String key, String value):</span><br><span class="line">    <span class="comment">// key: document name</span></span><br><span class="line">    <span class="comment">// value: document contents</span></span><br><span class="line">    <span class="keyword">for</span> each word w in value:</span><br><span class="line">        EmitIntermediate(w, <span class="string">"1"</span>);</span><br><span class="line"></span><br><span class="line">reduce(String key, Iterator values):</span><br><span class="line">    <span class="comment">// key: a word</span></span><br><span class="line">    <span class="comment">// values: a list of counts</span></span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> each v in values:</span><br><span class="line">        result += ParseInt(v);</span><br><span class="line">    Emit(AsString(result));</span><br></pre></td></tr></table></figure>
+<p>map( ) 会输出文档中的每个词以及这个词的出现次数，在上面的例子中出现次数就是 1 。</p>
+<p>reduce( ) 则把 map( ) 生成的每个词的出现次数进行累加。</p>
+<h3 id="Type"><a href="#Type" class="headerlink" title="Type"></a>Type</h3><p>尽上述伪代码中的输入与输出都是 String，但是 map() 和 reduce()  的输入属于是有具体类型的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">map (k1,v1) → list(k2,v2)</span><br><span class="line">reduce (k2,list(v2)) → list(v2)</span><br></pre></td></tr></table></figure>
+<h3 id="More-Examples"><a href="#More-Examples" class="headerlink" title="More Examples"></a>More Examples</h3><p>更多 MapReduce 的例子如下：</p>
+<ul>
+<li><strong>Distributed Grep</strong>：Map 函数输出符合匹配规则的一行，Reduce 函数将中间数据复制到输出中。</li>
+<li><strong>Count of URL Access Frequency</strong>：Map 函数处理网页的访问日志，输出 (URL,1)，Reduce 函数将相同 URL 的 value 进行累加，得到 (URL,total count)。</li>
+<li><strong>Reverse Web-Link Graph</strong></li>
+<li><strong>Term-Vector per Host</strong></li>
+<li><strong>Inverted Index</strong></li>
+<li><strong>Distributed Sort</strong></li>
+</ul>
+<h2 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h2><p><img src="/images/MapReduce论文阅读笔记/ExecutionOverview.png" alt="ExecutionOverview"></p>
+<p>执行流程如下：</p>
+<ol>
+<li>将 input files 分割成 M 片，每个数据片一般为 16MB ~ 64MB，接着会在集群中创建多个程序副本。</li>
+<li>这些程序副本中有一个特殊的 master，其他的为 worker，master 会将任务分配给 worker。一共有 M 个 map 任务或 R 个 reduce 任务，master 会将一个 map 或 reduce 任务分配给一个闲置的 worker。</li>
+<li>被分配了 map 任务的 worker 会读入对应的 input files split 内容，解析出 key/value paris ，然后将其传给用户定义的 Map 函数，由 map 函数生成的  intermediate key/value pairs  会被缓存至内存中。</li>
+<li>内存中缓存的 key/value pairs 会被 partitioning function 分成 R 个 regions ，并被周期性地写入到本地磁盘上。这些 key/value pairs 在磁盘上的存储位置会被回传给 master，然后由 master 负责将存储位置传给 reduce worker。</li>
+<li>Reduce worker 收到 master 发来的数据存储位置后，通过 RPC 从 map worker 所在主机的磁盘上读取这些缓存数据。当 reduce worker 读取了所有的 intermediate key/value pairs 后，会对 key 进行排序令所有具有相同 key  的数据聚集在一起。要进行排序的原因是，通常而言许多不同 key 的数据会被映射到同一 reduce 任务上。如果数据过大无法在内存中完成排序，则需要进行外部排序。</li>
+<li>Reduce worker 会遍历排序后的中间数据，对于每一个唯一的 intermediate key，redcuer worker 会将这个 key 和对应的 value 集合传给用户定义的 Reduce 函数。Reduce 函数的输出结果会被追加到这个 reduce 分区中的一个最终 output file。</li>
+<li>当所有的 map 和 reduce 任务都完成后，master 会唤醒用户程序，此时，用户程序对 MapReduce 的调用才会返回。</li>
+</ol>
+<p>当成功完成调用后，MapReduce 的输出结果会被存放至 R 个 output files 中（每个 Reduce 对应一个 files）。通常而言，用户不需要将这 R 个 output files 进行合并，因为用户经常会将这些文件再作为其他 MapReduce 的输入。</p>
+<h3 id="Master-Data-Structures"><a href="#Master-Data-Structures" class="headerlink" title="Master Data Structures"></a>Master Data Structures</h3><p>存储了每个 Map 和 Reduce 任务的状态（idle, in-progress, completed），以及 woker 机器的标识。</p>
+<p>Master 就像一个 conduit，将 intermediate file 的存储位置从 Map 传递给 Reduce。对于每一个完成的 Map 任务，master 存储了其产生的 R 个 intermediate file 的大小与位置。当 Map 任务完成时，master 会接收到代大小和位置的更新信息，这些信息会被以增量推送的形式 push 给处于 in-progress 状态的 worker。</p>
+<h3 id="Fault-Tolerance"><a href="#Fault-Tolerance" class="headerlink" title="Fault Tolerance"></a>Fault Tolerance</h3><h4 id="Worker-Failure"><a href="#Worker-Failure" class="headerlink" title="Worker Failure"></a>Worker Failure</h4><p>Master 会周期性地对每个 worker 发送 ping 命令。如果在一个时间范围内 master 没有收到来自 worker 的回复，master 就会将这个 worker 标记为失效状态（failed）。这个失效的 worker 的完成的所有 Map 任务都将被重设为初始的 idle 状态，然后这些任务就可以被分配给其他的 worker，Reduce 任务也是同样的。</p>
+<p>注意，当 worker 故障时，由于 Map 的输出存储在机器的本地磁盘上，所以必须重新执行，而 Reduce 的输出则存储在一个 global file system 中， 不必重新执行。</p>
+<h4 id="Master-Failure"><a href="#Master-Failure" class="headerlink" title="Master Failure"></a>Master Failure</h4><p>应对 master 故障的一个简单有效的方法是将 Master Data Structures 定期写入到磁盘上，即在磁盘上写入一个 checkpoint。如果 master 任务失效了，就可以从最后一个 checkpoint 上启动另一个 master。</p>
+<p>作者的实现如果 master 失效，就会中止所有 MapReduce 计算，用户可以检查到这个失效状态，并根据需要来决定是否需要重新执行 MapReduce。</p>
+<h4 id="Semantics-in-the-Presence-of-Failures"><a href="#Semantics-in-the-Presence-of-Failures" class="headerlink" title="Semantics in the Presence of Failures"></a>Semantics in the Presence of Failures</h4><p>主要是解决多次 Map 或 Reduce 任务提交的幂等性问题，通过以下方式来保证原子性：</p>
+<ul>
+<li><strong>Map</strong>：如果 master 再次接受到同个 Map 任务的完成消息，则会忽略。</li>
+<li><strong>Reduce</strong>：Redcue 任务则通过原子方式将临时文件重命名为最终输出文件。</li>
+</ul>
+<h3 id="Locality"><a href="#Locality" class="headerlink" title="Locality"></a>Locality</h3><p>尽量将输入数据存储在本地磁盘上，避免通过网络传输，且 Map 任务通常在包含了输入数据的机器或就近的机器上执行。这样可以保证大部分的输入数据都能从本地机器读取，节省网络传输消耗。</p>
+<h3 id="Task-Granularity"><a href="#Task-Granularity" class="headerlink" title="Task Granularity"></a>Task Granularity</h3><p>理想中情况下，M 和 R 应该比集群中 worker 数量要多得多，即保证任务粒度越小越好。</p>
+<p>但是 master 中因为要执行 <strong>O(M+R)</strong> 次调度，从而内存中需要保存 <strong>O(M*R)</strong>  个状态，因此对 M 和 R 的实际取值是有一定限制的。</p>
+<p>R 通常由用户指定，M 则需要取一个合适值，使得每一个 Map 任务都是处理大约 16MB ~ 64MB 的输入数据。</p>
+<p>作者推荐的示例是，2000 台 worker 时，M = 200000，R = 5000。</p>
+<h3 id="Backup-Tasks"><a href="#Backup-Tasks" class="headerlink" title="Backup Tasks"></a>Backup Tasks</h3><p>有时候 MapReduce 中会出现这么一种情况：某台机器需要花费很长的时间才能完成最后的几个 Map 和 Reduce任务，从而拖累了整个 MapReduce 的执行时间，这种机器被称为 straggler 。通常 straggler 的出现原因是由于机器磁盘出现问题，或集群调度系统在这台机器上又分配了其他任务等等。</p>
+<p>作者使用了一个通用机制来解决  straggler 问题，具体实现是通过在 MapReduce 快完成时，master 会把处于 in-progress，即仍在处理中的任务进行备份，通过 backup 进程执行。无论是原始进程还是 backup 进程执行完成，都视做整体的 MapReduce 完成。</p>
+<p>这种备份处理机制只会占用比正常情况多几个百分点的计算资源，在处理某些任务，比如后文的排序任务时，关闭了备份处理机制的情况要比正常情况多花费 44% 时间完成。</p>
+<h2 id="Refinements"><a href="#Refinements" class="headerlink" title="Refinements"></a>Refinements</h2><h3 id="Partitioning-Function"><a href="#Partitioning-Function" class="headerlink" title="Partitioning Function"></a>Partitioning Function</h3><p>一个默认的分区函数是 <strong>hash(key) mod R</strong> ，然而在某些情况下，其他一些分区函数会有奇效。</p>
+<p>比如，输出的 key 为URLs，我们希望所有同个主机的 entries 都存放在同个 output file 中，此时可以使用 <strong>hash(Hostname(urlkey)) mod R</strong> 作为分区函数，这样就可以保证所有来自同个主机的 URLs 都保存在至同个 output file 中。</p>
+<h3 id="Ordering-Guarantees"><a href="#Ordering-Guarantees" class="headerlink" title="Ordering Guarantees"></a>Ordering Guarantees</h3><p>作者确保在一个给定的 partition 内，intermediate key/value pairs 是按照 key 的递增顺序处理的。</p>
+<h3 id="Combiner-Function"><a href="#Combiner-Function" class="headerlink" title="Combiner Function"></a>Combiner Function</h3><h3 id="Input-and-Output-Types"><a href="#Input-and-Output-Types" class="headerlink" title="Input and Output Types"></a>Input and Output Types</h3><p>MapReduce Library 支持多种不同的输入数据形式，例如，”text” mode 的输入的每一行为一个 key/value pair，其中 key 为文件的 offset，value 为行的内容。</p>
+<h3 id="Side-effects"><a href="#Side-effects" class="headerlink" title="Side-effects"></a>Side-effects</h3><h3 id="Skipping-Bad-Records"><a href="#Skipping-Bad-Records" class="headerlink" title="Skipping Bad Records"></a>Skipping Bad Records</h3><h3 id="Local-Execution"><a href="#Local-Execution" class="headerlink" title="Local Execution"></a>Local Execution</h3><h3 id="Status-Information"><a href="#Status-Information" class="headerlink" title="Status Information"></a>Status Information</h3><h3 id="Counters"><a href="#Counters" class="headerlink" title="Counters"></a>Counters</h3><p>MapReduce Library 提供了一种 Counter Facility 来统计不同事件发生的次数，比如用户可能想统计已经处理了多少个单词、已经索引了多少篇文档等。</p>
+<p>为了使用 Counter Facility ，用户需要在程序中创建一个具名的 counter 对象，并在 Map 和 Reduce 函数中进行自增：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Counter* uppercase;</span><br><span class="line">uppercase = GetCounter(<span class="string">"uppercase"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">map</span>(String name, String contents):</span><br><span class="line">    <span class="keyword">for</span> each word w in contents:</span><br><span class="line">        <span class="keyword">if</span> (IsCapitalized(w)):</span><br><span class="line">          uppercase-&gt;Increment();</span><br><span class="line">        EmitIntermediate(w, <span class="string">"1"</span>);</span><br></pre></td></tr></table></figure>
+<p>这些 counter 的值会周期性地从各个 worker 中传给 master （在 ping 包中），master 对这些执行成功的 Map 和 Reduce 任务的 counter 值进行累加，当一个 MapReduce 完成后，再返回给用户。</p>
+<p>Counter 的当前值也会显示在 master 的状态页上，这样用户就能看到当前的计算进度。当对 counter 值进行累加时，master 需要检查重复执行的 Map 和 Reduce 任务，避免重复累加。</p>
+<p>Counter Facility 对于 MapReduce 的完整性检查十分有用，例如有时候用户需要确保 output key/value pairs 的数量精确等于 input key/value paris。</p>
+<h2 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h2><p>作者通过两个计算任务来衡量 MapReduce 的性能，一个是在大约 1TB 的数据中进行特定的模式匹配，另一个是对大约 1TB 的数据进行排序。</p>
+<h3 id="Cluster-Configuration"><a href="#Cluster-Configuration" class="headerlink" title="Cluster Configuration"></a>Cluster Configuration</h3><p>1800 台机器组成的集群，每台机器配置 2 个 2Ghz 的 Intel Xeon CPU，4GB 内存，两个 160GB 硬盘和一个千兆网卡。</p>
+<h3 id="GREP"><a href="#GREP" class="headerlink" title="GREP"></a>GREP</h3><p>grep 任务需要扫描大概 10^10 个 100-byte 大小的记录，从中查找出现概率较小的 3 个字符（出现 92337 次）。输入数据以大约 64MB 的大小进行分割（M = 15000），输出数据保存至一个文件中（R = 1）。</p>
+<p>下图显示了 grep 的计算过程，Y 轴为输入数据的处理速度，处理速度随着参与计算的机器数量而增加，当有 1764 台 worker 参与计算时，计算速度达到了峰值 30GB/s。当 Map 任务结束时，即在约 80 秒后，处理速度降为 0。</p>
+<p>整个计算过程大约耗费了 150 秒，包括了大约 60 秒的启动阶段。</p>
+<p><img src="/images/MapReduce论文阅读笔记/grep.png" alt="grep"></p>
+<h3 id="Sort"><a href="#Sort" class="headerlink" title="Sort"></a>Sort</h3><p>sort 任务也需要处理 10^10 个 100-byte 大小的记录，Map 函数先从文本行中解析出 100-byte 大小的 key 作为排序的依据，再把这个 key 与对应的文本行作为 intermediate key/value pair 输出。Reduce 函数则不对  intermediate key/value pair 进行任何改变，直接输出。最终的排序结果会输出到一个 2-way replicated GFS files 中，即输出的数据为 2TB。</p>
+<p>输入数据以大约 64MB 的大小进行分割（M = 15000），排序后的输出数据则保存至 4000 个文件中（R = 4000）。</p>
+<p>下图 (a) 显示了正常的执行过程， (b) 显示了没有备份处理机制的执行过程，(c) 显示了模拟部分 worker 故障的执行过程。</p>
+<p><strong>可以看出，(b) 的耗时比 (a) 增加了许多（约 44%）， (c) 的图中显示了一些为负的处理速度，这是由于执行 Map 任务的 worker 被 kill 了，Map 任务丢失而导致的，(c) 的耗时比 (a) 大约多了 5%。</strong></p>
+<p><img src="/images/MapReduce论文阅读笔记/sort.png" alt="sort"></p>
+<h2 id="Experience"><a href="#Experience" class="headerlink" title="Experience"></a>Experience</h2><p>MapReduce Library 从 2003 年 1 月完成了第一个版本，之后在 Google 内部各个领域得到了广泛应用，包括：</p>
+<ul>
+<li>大规模的机器学习问题。</li>
+<li>Google News 和 Froogle 的集群问题</li>
+<li>从用户查询产品的报告中抽取数据，例如 Google Zeitgeist</li>
+<li>从大量应用和新产品的网页中提取信息</li>
+<li>大规模的图形计算</li>
+</ul>
+<p>上图： MapReduce 实例的增长情况。</p>
+<p>下图：2004 年 8 月的 MapReduce Library 使用资源情况。</p>
+<p><img src="/images/MapReduce论文阅读笔记/jobs.png" alt="jobs"></p>
+<h3 id="Large-Scale-Indexing"><a href="#Large-Scale-Indexing" class="headerlink" title="Large-Scale Indexing"></a>Large-Scale Indexing</h3><p>目前为止，MapReduce 在 Google 内部最有意义的应用就是重写了 Google web search service 使用的 Index system。</p>
+<p>Index system 的输入是爬虫爬取的海量文档，这些文档保存在 GFS 中，超过 20TB，Index system 通过一系列的 MapReduce 来建立索引（大约 5 到 10 次）。</p>
+<h2 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h2><p>MapReduce programming model 在 Google 内部得到了广泛的成功应用，作者将这些成功归为以下几个方面：</p>
+<ul>
+<li>高度封装，没有分布式经验的程序员也能十分容易地使用。</li>
+<li>可处理大量不同类型问题，例如可以生成用于  Google web search service 使用的数据、用于排序、用于数据挖掘、用于机器学习的数据等等。</li>
+<li>在数千台机器组成的大型集群上部署了 MapReduce 实现，这样能更有效地利用这些计算资源，且能在处理其他需要大量计算的问题上用到。</li>
+</ul>
+<p>作者在 MapReduce 的开发过程中学到了以下几点：</p>
+<ul>
+<li>Restricting 编程模型使得并行和分布式计算变得容易，也易于构建具有容错性的计算环境。</li>
+<li>网络带宽是稀有资源，MapReduce 中的许多优化都是为了减少网络传输，例如本地化读取策略，中间文件写入本地磁盘、只写入一份中间文件等。</li>
+<li>多次执行相同任务可以减少性能缓慢的机器带来的影响，同时还能解决由于机器故障导致的数据丢失问题。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Marticles
+  </li>
+
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/08/Synchronized关键字及其实现原理/" rel="next" title="Synchronized关键字及其实现原理">
+                <i class="fa fa-chevron-left"></i> Synchronized关键字及其实现原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Marticles" />
+            
+              <p class="site-author-name" itemprop="name">Marticles</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item" >
+                    <a href="https://github.com/Marticles" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github" ></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item" >
+                    <a href="marticles.reg@hotmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope" ></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原论文"><span class="nav-number">1.</span> <span class="nav-text">原论文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">3.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关注点"><span class="nav-number">4.</span> <span class="nav-text">关注点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决问题"><span class="nav-number">5.</span> <span class="nav-text">解决问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Programming-Model"><span class="nav-number">6.</span> <span class="nav-text">Programming Model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example"><span class="nav-number">6.1.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Type"><span class="nav-number">6.2.</span> <span class="nav-text">Type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#More-Examples"><span class="nav-number">6.3.</span> <span class="nav-text">More Examples</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Implementation"><span class="nav-number">7.</span> <span class="nav-text">Implementation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Master-Data-Structures"><span class="nav-number">7.1.</span> <span class="nav-text">Master Data Structures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fault-Tolerance"><span class="nav-number">7.2.</span> <span class="nav-text">Fault Tolerance</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Worker-Failure"><span class="nav-number">7.2.1.</span> <span class="nav-text">Worker Failure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Master-Failure"><span class="nav-number">7.2.2.</span> <span class="nav-text">Master Failure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Semantics-in-the-Presence-of-Failures"><span class="nav-number">7.2.3.</span> <span class="nav-text">Semantics in the Presence of Failures</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Locality"><span class="nav-number">7.3.</span> <span class="nav-text">Locality</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task-Granularity"><span class="nav-number">7.4.</span> <span class="nav-text">Task Granularity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Backup-Tasks"><span class="nav-number">7.5.</span> <span class="nav-text">Backup Tasks</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Refinements"><span class="nav-number">8.</span> <span class="nav-text">Refinements</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Partitioning-Function"><span class="nav-number">8.1.</span> <span class="nav-text">Partitioning Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ordering-Guarantees"><span class="nav-number">8.2.</span> <span class="nav-text">Ordering Guarantees</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combiner-Function"><span class="nav-number">8.3.</span> <span class="nav-text">Combiner Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Input-and-Output-Types"><span class="nav-number">8.4.</span> <span class="nav-text">Input and Output Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Side-effects"><span class="nav-number">8.5.</span> <span class="nav-text">Side-effects</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Skipping-Bad-Records"><span class="nav-number">8.6.</span> <span class="nav-text">Skipping Bad Records</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Local-Execution"><span class="nav-number">8.7.</span> <span class="nav-text">Local Execution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Status-Information"><span class="nav-number">8.8.</span> <span class="nav-text">Status Information</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Counters"><span class="nav-number">8.9.</span> <span class="nav-text">Counters</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Performance"><span class="nav-number">9.</span> <span class="nav-text">Performance</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster-Configuration"><span class="nav-number">9.1.</span> <span class="nav-text">Cluster Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GREP"><span class="nav-number">9.2.</span> <span class="nav-text">GREP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sort"><span class="nav-number">9.3.</span> <span class="nav-text">Sort</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Experience"><span class="nav-number">10.</span> <span class="nav-text">Experience</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Large-Scale-Indexing"><span class="nav-number">10.1.</span> <span class="nav-text">Large-Scale Indexing</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusions"><span class="nav-number">11.</span> <span class="nav-text">Conclusions</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-code -user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LJH's Blog</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-pencil"></i>
+    </span>
+    
+      <span class="post-meta-item-text">累计字数 </span>
+    
+    <span title="累计字数">137.2k</span>
+  
+</div>
+
+
+
+
+
+
+
+<div>
+<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("05/01/2018 00:00:00");
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-heart"></i> 访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'tX35P74MzjHmbgXpVmfVXiNw-gzGzoHsz',
+        appKey: '5duYsnA8GwkNJm18sfPzfvV9',
+        placeholder: '在此分享你的想法!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("tX35P74MzjHmbgXpVmfVXiNw-gzGzoHsz", "5duYsnA8GwkNJm18sfPzfvV9");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
